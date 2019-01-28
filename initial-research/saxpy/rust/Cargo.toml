@@ -1,0 +1,8 @@
+[package]
+name = "rust"
+version = "0.1.0"
+authors = ["andrewpsuedonym <j.m.walker@live.co.uk>"]
+edition = "2018"
+
+[dependencies]
+rand = "0.3.14"
