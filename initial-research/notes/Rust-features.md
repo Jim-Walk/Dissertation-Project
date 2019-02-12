@@ -78,7 +78,7 @@ If the function h returns something that matches, do something. Compare to while
 ## iters
 
 `array.iter().for\_each(|f| f.foo());`
-An iterator is a *trait* which is similar to an interface. Most iterators are lazy.
+An iterator is a *trait* which is similar to an interface. Most iterators are lazy. The Rust book claims that this is a [zero cost abstraction](https://doc.rust-lang.org/book/ch13-04-performance.html).
 ```
 vec.iter()
     .map(|x| x+1)
@@ -91,3 +91,6 @@ A vec is just dynamic array in Rust. You can choose to iterate over references o
 
 ## Error Handling
 Rust approaches error handling from the perspective of an architectual decision
+
+## Memory Management
+Rust simply drops allocated memory when a variable passes out of scope, so there is no dangerous mallocing or freeing.
