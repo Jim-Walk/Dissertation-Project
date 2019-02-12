@@ -21,6 +21,7 @@ fn main() {
     let f = 2.0;
 
     saxpy(size, f, x, y);
+    println!("Done!");
 }
 
 fn saxpy(n: usize, a: f32, x: Vec<f32>, mut y: Vec<f32>){

@@ -1,10 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/time.h>
 
 void saxpy(int n, float a, float * restrict x, float * restrict y);
 
 int main(int argc, char* argv[]){
-    int size;
+    long size;
     if (argc == 2){
         size = atoi(argv[1]);
     } else {
@@ -13,11 +14,17 @@ int main(int argc, char* argv[]){
     float f = 2.0;
     float* x = malloc(sizeof(float)*size);
     float* y = malloc(sizeof(float)*size);
+    struct timeval start, end;
     printf("Running saxpy on arrays of size %d...\n", size);
 
-    
+    gettimeofday(&start, NULL);
     saxpy(size, f, x, y);
-    printf("Finished saxpy\n");
+    gettimeofday(&end, NULL);
+
+    int delta = end.tv_sec-start.tv_sec;
+    int milli = end.tv_usec - start.tv_usec;
+
+    printf("Finished saxpy. Time taken: %d, %d\n", delta, milli);
     return 1;
 }
 
