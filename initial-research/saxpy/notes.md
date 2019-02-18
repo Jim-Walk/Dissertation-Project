@@ -1,0 +1,1 @@
+It seems as though you cannot compare Rust to C's saxpy implementation. C is happy to write over the same memory address space again and and again, but in Rust we have to explicitly move values back after being used in the loop. Look into how this could be done in a C like way, or how the C code could be implented in a Rustic way
