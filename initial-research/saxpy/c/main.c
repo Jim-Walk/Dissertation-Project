@@ -39,7 +39,7 @@ int main(int argc, char* argv[]){
 // This saxpy implentation uses the restrict keyword, which should mean that the 
 // generated assembly code is optimised, as x and y must be pointers, the compiler
 // will not reload the value in their addresses
-void saxpy(int n, float a, float * x, float * y){
+void saxpy(int n, float a, float * restrict x, float * restrict y){
     
     for (int i=0; i<n; i++){
         y[i] = a*x[i] + y[i];   
