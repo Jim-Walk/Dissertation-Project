@@ -16,7 +16,7 @@ fn main() {
         y.push(rng.gen_range(1.0, 21.0));
     }
 
-    let index = rng.gen_range(1, 21);
+    let index = rng.gen_range(1, size);
     println!("y[{}] is {}", index, y[index]);
     println!("Running saxpy on arrays of size {}", size);
 

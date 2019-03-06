@@ -1,0 +1,14 @@
+\documentclass{article}
+\begin{document}
+\section{Dissertation Review}
+The two disseratations I have chosesn to review are \textit{Assessing the Performance of Optimised Primality Tests} (2016) by Cameron Curry, and \textit{Extending ePython to support parallel Python interpreting across multiple interconnected Epiphany processors} (2017) by Dongyu Liang. I have chosen these disserations because they are relavent to my own project. Liang's \textit{Extending ePython} is focused on a programming language that is not typical in the HPC space, just my project will. Curry's \textit{Optimised Primality Tests} compared implemenations of a core HPC function. My project will compare my rust implementation of some HPC code, with its original C implemenation. In this review, I will summarise both dissertations, and then discuss what features of the disseratation I should emulate or avoid.
+
+Liang's \textit{Extending ePython} chiefly aims to extend ePython, a python interpreter for the Epiphany processor, to "support parallel progragramming on multiple interconnected Epiphanies". Liang first presents the technologies which they will be using: the parallela board, which hosts the ephipany and is novel for it's exceptionally high GFlops per watt rat, and the ePython architecute, including its seperate interpreters and its communication mechanisms.
+
+Liang goes on to descirbe the construction of their Epiphany cluster, using Parallella boards and SSHFS, which processes take place on the host, (the ARM CPU) and which processes take place on the device (the Ephiphany cores, or e-cores), and how communication between processes occurs. Communications between cores have been extended so that they are node agnostic, and include \texttt{send()}, \texttt{recv()} and \texttt{reduce()}. These ePythons methods sit upon the author's code, and MPI.
+
+In their results section, Liang provides proof of the effectiveness of their implementation, through listings, tables and graphs. Figure 4.5 is of particular note, as it shows ePython has a very good parallel efficiency, although it is very strongly impacted by communicating with nodes on other devices.
+
+ Liang's dissertation shows that they have made a novel, and valid contribution to the territory. Their technical achievement in extending ePython's parallelism to cover many nodes should be applauded. 
+%opens with a very general introduction to the foundational concepts of parallel programming, before moving onto the Epiphany processor and ePython, which their work focuses on. They then describe their dissertation structur
+\end{document}
