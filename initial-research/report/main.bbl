@@ -1,0 +1,43 @@
+\begin{thebibliography}{1}
+
+\bibitem{Jargon}
+The jargon file: The story of mel.
+\newblock \url{http://catb.org/jargon/html/story-of-mel.html}.
+\newblock Posted: 1983-05-21 Accessed: 2019-02-20.
+
+\bibitem{blanco-cuaresma_bolmont_2016}
+Sergi Blanco-Cuaresma and Emeline Bolmont.
+\newblock What can the programming language rust do for astrophysics?
+\newblock {\em Proceedings of the International Astronomical Union},
+  12(S325):341–344, 2016.
+
+\bibitem{Curry2016}
+Cameron Curry.
+\newblock Assessing the performance of optimised primality tests.
+\newblock Master's thesis, EPCC, 2016.
+
+\bibitem{bioinformatics}
+Johannes Köster.
+\newblock {Rust-Bio: a fast and safe bioinformatics library}.
+\newblock {\em Bioinformatics}, 32(3):444--446, 10 2015.
+
+\bibitem{Liang2017}
+Dongyu Liang.
+\newblock Extending epython to support parallel python interpreting acrosss
+  multiple interconnected epiphany processors.
+\newblock Master's thesis, EPCC, 2017.
+
+\bibitem{Matsakis:2014}
+Nicholas~D. Matsakis and Felix~S. Klock, II.
+\newblock The rust language.
+\newblock In {\em Proceedings of the 2014 ACM SIGAda Annual Conference on High
+  Integrity Language Technology}, HILT '14, pages 103--104, New York, NY, USA,
+  2014. ACM.
+
+\bibitem{Turner2015}
+Andy Turner.
+\newblock Parallel software usage on uk national hpc facilities 2009-2015: How
+  well have applications kept up with increasingly parallel hardware?
+\newblock {\em EPCC}, 2015.
+
+\end{thebibliography}

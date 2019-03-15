@@ -1,14 +1,121 @@
-\documentclass{article}
+\documentclass{article}[a4]
+\usepackage{url}
+\usepackage{epcc}
+\usepackage{graphics}
+\usepackage[nottoc,numbib]{tocbibind}
+
 \begin{document}
+\title{Project Preparation Report}
+\author{Jim Walker}
+\date{\today}
+
+\makeEPCCtitle
+
+\thispagestyle{empty}
+
+\pagebreak
+\tableofcontents
+\pagebreak
+
+\section{Introduction}
+This Project Preparation report first provides a review of previous dissertations. It then presents the necessary background and literature for the project, and details a project proposal. A workplan for the project is sketched out, wherein we present chapter summaries and headings for the final dissertation alongside a Gantt chart. We identify risks and provide mitigations for them, before explaining our preliminary findings.
 \section{Dissertation Review}
-The two disseratations I have chosesn to review are \textit{Assessing the Performance of Optimised Primality Tests} (2016) by Cameron Curry, and \textit{Extending ePython to support parallel Python interpreting across multiple interconnected Epiphany processors} (2017) by Dongyu Liang. I have chosen these disserations because they are relavent to my own project. Liang's \textit{Extending ePython} is focused on a programming language that is not typical in the HPC space, just my project will. Curry's \textit{Optimised Primality Tests} compared implemenations of a core HPC function. My project will compare my rust implementation of some HPC code, with its original C implemenation. In this review, I will summarise both dissertations, and then discuss what features of the disseratation I should emulate or avoid.
+The two dissertations I have chosen to review are \textit{Assessing the Performance of Optimised Primality Tests}~\cite{Curry2016} by Cameron Curry, and \textit{Extending ePython to support ePython interpreting across multiple interconnected Epiphany processors}~\cite{Liang2017} by Dongyu Liang. I have chosen these dissertations because they are relevant to my own project. Liang's \textit{Extending ePython} is focused on a programming language that is not typical in the HPC space, just my project will. Curry's \textit{Optimised Primality Tests} compared implementations of a core HPC function. My project will compare my Rust implementation of some HPC code, with its original C implementation. In this review, I will summarise both dissertations, and then discuss what features of the dissertation I should emulate or avoid.
 
-Liang's \textit{Extending ePython} chiefly aims to extend ePython, a python interpreter for the Epiphany processor, to "support parallel progragramming on multiple interconnected Epiphanies". Liang first presents the technologies which they will be using: the parallela board, which hosts the ephipany and is novel for it's exceptionally high GFlops per watt rat, and the ePython architecute, including its seperate interpreters and its communication mechanisms.
+\subsection{Extending ePython}
 
-Liang goes on to descirbe the construction of their Epiphany cluster, using Parallella boards and SSHFS, which processes take place on the host, (the ARM CPU) and which processes take place on the device (the Ephiphany cores, or e-cores), and how communication between processes occurs. Communications between cores have been extended so that they are node agnostic, and include \texttt{send()}, \texttt{recv()} and \texttt{reduce()}. These ePythons methods sit upon the author's code, and MPI.
+Liang's \textit{Extending ePython} chiefly aims to extend ePython, a python interpreter for the Epiphany processor, to `support parallel programming on multiple interconnected Epiphanies'~\cite{Liang2017}. An Epiphany processor has 16 cores, which makes it a useful platform for highly parallel codes. Liang first presents the technologies and paradigms which will they will use in their work. They go on to briefly describe the construction of their Epiphany cluster, before discussing at length their non trivial extension of ePython. Lastly, Liang closes with a results section which proves his achievements.
 
-In their results section, Liang provides proof of the effectiveness of their implementation, through listings, tables and graphs. Figure 4.5 is of particular note, as it shows ePython has a very good parallel efficiency, although it is very strongly impacted by communicating with nodes on other devices.
+ \textit{Extending ePython} shows that Liang has made a novel, and valid contribution to the territory. Their technical achievement in extending ePython's parallelism to cover many nodes is notable, especially as Liang claims he to make this change without compromising or altering the ePython programmer's view. However, we can unfortunately only take his word for this, as his appendices only provide his modified ePython, and do not include a listing of the form the original ePython would have taken.
 
- Liang's dissertation shows that they have made a novel, and valid contribution to the territory. Their technical achievement in extending ePython's parallelism to cover many nodes should be applauded. 
-%opens with a very general introduction to the foundational concepts of parallel programming, before moving onto the Epiphany processor and ePython, which their work focuses on. They then describe their dissertation structur
+ We also question Liang's claims on the stability of their extension to ePython. Firstly, does not precisly define what he means by stability, if he means his system is numerically stable or if it simply does not crash. Secondly, Liang presents their code running on 32 cores across two nodes, presumbly because they only had access to two nodes. Liang goes on to make the claim that their extension `could have become a cornerstone of the Supercomputer.io project'~\cite{Liang2017}, and saved it from its early end. The Supercomputer.io project was an attempt to collect multiple volunter ephiphany based nodes across the internet to build an extremely large, extremely distributed cluster. Whilst Liang's extension to ePython would certainly have been a valuable contribution to the problems faced by Supercomputer.io, it is somewhat spurious for them to claim that their work could have been a `cornerstone' for this project. The high latency and large scale of the Supercomputer.io project is not really comparable to running a small cluster of two nodes, connected through a LAN.
+
+\subsection{Optimised Primality Tests}
+
+In \textit{Optimised Primality Tests} Curry seeks to compare three different implementations of the Fermat Tests, to assess which one PrimeGrid, a large distributed HPC project, should use. He argues that this is an important problem due to the use of extensive use of primes in computing. Curry also hopes to modify the Genefer implementation of the Fermat Test so that its residue calculation is consistent with other Fermat Test implementations.
+
+After detailing the necessary theoretical and practical background to his work, Curry presents his performance analysis.  where he does some computer science. Curry finds Genefer to be the fastest implementation, THAN WHAT,  grounding his tests in the context of the hardware's limitations WELL ACCECPTED (lots of citations here) hardware . He goes onto document his modification of Genefer's residue calculation, and validates its correctness against other implementations of Fermat tests.
+
+Curry's work is well structured and presented. His inclusion of many listings, equations, tables and graphs provide the reader with a strong grounding for the dissertation. The role of the extra maths is not made clear, is it just filler?
+
+I need to write some more stuff here but I don't know what
+
+%Liang goes on to descirbe the construction of their Epiphany cluster, using Parallella boards and SSHFS, which processes take place on the host, (the ARM CPU) and which processes take place on the device (the Ephiphany cores, or e-cores), and how communication between processes occurs. Communications between cores have been extended so that they are node agnostic, and include \texttt{send()}, \texttt{recv()} and \texttt{reduce()}. These ePythons methods sit upon the author's code, and MPI.
+
+%In their results section, Liang provides proof of the effectiveness of their implementation, through listings, tables and graphs. Figure 4.5 is of particular note, as it shows ePython has a very good parallel efficiency, although it is very strongly impacted by communicating with nodes on other devices.
+
+%opens with a very general introduction to the foundational concepts of parallel programming, before moving onto the Epiphany processor and ePython, which their work focuses on. They then describe their dissertation structure
+
+\section{Background and Literature Review} %Why
+Programming was once incredibly hard. The very first electronic computers were programmed in hexadecimal by people intimately familiar with their machines. These programs were brittle and often illegible to anyone but the author. However, when compilers were introduced it was argued by some that compilers produced machine code that was slow and not as precise as continuing to write in hexadecimal~\cite{Jargon}.
+
+Technology has vastly improved since the first compilers were written, and so too has the ease and accessibility of programming. These days programming in Python, one of the most accessible languages, is taught to secondary school children, who require little to no knowledge of the machine they are programming on.
+
+\begin{table}
+  \centering
+  \caption{Programming Language Usage on some HPC Machines~\cite{Turner2015}}
+  \label{tab:langs}
+  \begin{tabular}{|c|c|c|c|c|}
+    \hline
+    & \textbf{HECToR Phase 2a} & \textbf{HECToR Phase 2b} & \textbf{HECToR Phase 3} & \textbf{Archer} \\
+    \hline
+    Fortran & 66.3\% & 65.2\% & 66.8\% & 69.3\% \\
+    \hline
+    C++ & 8.9\% & 2.7\% & 4.4\% & 7.4\% \\
+    \hline
+    C & 0.4\% & 3.6\% & 5.4\% & 6.3\% \\
+    \hline
+    Unidentified & 29.1\% &  30.0\% & 24.2\% & 19.4\% \\
+    \hline
+  \end{tabular}
+
+\end{table}
+
+High Performance Computing (HPC) is often seen to be lagging behind these language advances. Programming large, extremely fast programs to run on many cores on many nodes is still hard. Whilst these programs are now less brittle and are easier to read, they are still difficult to program to a high standard. This difficulty arises in part because the two most common languages in HPC, C and FORTRAN,\footnote{Archer has Stats on this, can def find something on google scholar} are not memory safe. Consider the program in the listing below, which shows how a programmer might lose track of which thread is writing to which value at which time.
+\newline\newline
+\indent\textbf{Listing to go here}
+\newline\newline
+Until now, languages which can offer memory safety, or other useful types of safety such as type safety, have been thought to be unsuitable for HPC due to the speed cost of using them. The Rust programming language has began to challange this paradigm.
+
+Rust is a programming language, released in 2014 that uses an ownership model of memory to offer strong safety guarantees. `[P]ure Rust programs are guaranteed to be free of memory errors (dangling pointers, doublefrees) as well as data races'~\cite{Matsakis:2014}. Alongside this, Rust's lack of a garbage collector and fine grained memory control allow the language to achieve speeds comparable to C and FORTRAN. These features of Rust make it a plausible contender to become an accepted HPC language.
+
+Some work has been done to investigate the applicability of Rust in scientific programming for bio-informatics~\cite{bioinformatics} and astro-physics~\cite{blanco-cuaresma_bolmont_2016}. Scientific kernels and apps such as the ones featured in these papers are common in HPC. The results of these investigations have been promising, and show that Rust is as fast, if not faster than implementations written in C or FORTRAN.
+
+\section{Project Proposal} % What
+Port a HPC mini app or benchmark into Rust. Document process and learning curve. Compare performance. Go into technical detail about how it works like it does.
+
+Mini app criteria, longlist, how will i shortlist or choose from this
+\section{Workplan} % How
+
+Work item - thing that you get
+Stretch goal - Rust MPI
+\begin{description}
+  \item[Introduction] Map the territory, justify choice of benchmark/miniapp
+  \item[Background] Rust, HPC, Other languages
+  \item[Implementation] What was programming like
+  \item[Performance Analysis] How does performance compare to original app? How close do we get to hardware limit?
+  \item[Conclusion] Is Rust any good? efficiency/performance how could this affect message passing
+\end{description}
+
+Gantt Chart to go here
+
+\section{Risk Analysis}
+We present our risk register.
+\begin{table}[h]
+  \centering
+  \begin{tabular}{p{4cm} c c p{4cm}}
+    Risk & Probability & Severity & Mitigation \\
+    \hline
+    Poor port selection & Medium & Medium & Confirm selection with advisers \\ \hline
+    No knowledge of Rust amongst EPCC staff & High & Low & Rely on Rust community for language issues \\
+  \end{tabular}
+  \caption{Risk Register}
+  \label{tab:risk}
+\end{table}
+\section{Preliminary Findings}
+Rust is capable of very aggressive optimisation. It is being used more and more frequently. Parallel iterator from the rayon crate is comparable to OpenMP.
+\section{Conclusion}
+\pagebreak
+\bibliographystyle{plain}
+\bibliography{bib}
 \end{document}
