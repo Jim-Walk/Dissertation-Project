@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.1.8)  15 MAR 2019 16:28
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.1.8)  18 MAR 2019 12:28
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -78,6 +78,16 @@ File: pdftex.def 2018/01/08 v1.0l Graphics/color driver for pdftex
 \mm=\count91
 RCSident: $Id: epcc.sty,v 3.6 1998/01/09 09:32:33 st Exp $
 )
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphicx.sty
+Package: graphicx 2017/06/01 v1.1a Enhanced LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/keyval.sty
+Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
+\KV@toks@=\toks14
+)
+\Gin@req@height=\dimen113
+\Gin@req@width=\dimen114
+)
 (/usr/share/texlive/texmf-dist/tex/latex/tocbibind/tocbibind.sty
 Package: tocbibind 2010/10/13 v1.5k extra ToC listings
 Package tocbibind Info: The document has section divisions on input line 50.
@@ -107,16 +117,16 @@ File: t1ptm.fd 2001/06/04 font definitions for T1/ptm.
 (/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count92
-\scratchdimen=\dimen113
+\scratchdimen=\dimen115
 \scratchbox=\box26
 \nofMPsegments=\count93
 \nofMParguments=\count94
-\everyMPshowfont=\toks14
+\everyMPshowfont=\toks15
 \MPscratchCnt=\count95
-\MPscratchDim=\dimen114
+\MPscratchDim=\dimen116
 \MPnumerator=\count96
 \makeMPintoPDFobject=\count97
-\everyMPtoPDFconversion=\toks15
+\everyMPtoPDFconversion=\toks16
 ) (/usr/share/texlive/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
 Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
 
@@ -135,10 +145,6 @@ Package: ltxcmds 2016/05/16 v1.23 LaTeX kernel commands for general use (HO)
 (/usr/share/texlive/texmf-dist/tex/latex/oberdiek/kvoptions.sty
 Package: kvoptions 2016/05/16 v3.12 Key value format for package options (HO)
 
-(/usr/share/texlive/texmf-dist/tex/latex/graphics/keyval.sty
-Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
-\KV@toks@=\toks16
-)
 (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/kvsetkeys.sty
 Package: kvsetkeys 2016/05/16 v1.17 Key value parser (HO)
 
@@ -216,43 +222,54 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <12> not available
 (Font)              Font shape `T1/ptm/b/n' tried instead on input line 25.
  [3]
-Underfull \hbox (badness 10000) in paragraph at lines 74--79
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 74--79
-
+Overfull \hbox (2.63298pt too wide) in paragraph at lines 51--52
+[]\T1/ptm/m/n/10 Curry is mo-ti-vated to mod-ify Gene-fer's residue cal-cu-la-t
+ion due to it's lack of con-sis-tency with OpenPFGW
  []
 
 [4]
-Underfull \hbox (badness 10000) in paragraph at lines 110--110
+<figures/memory-safety.png, id=22, 2210.2575pt x 372.39125pt>
+File: figures/memory-safety.png Graphic file (type png)
+<use figures/memory-safety.png>
+Package pdftex.def Info: figures/memory-safety.png  used on input line 82.
+(pdftex.def)             Requested size: 416.83289pt x 70.22662pt.
+ [5 <./figures/memory-safety.png>]
+LaTeX Font Info:    Try loading font information for OMS+ptm on input line 99.
+
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/omsptm.fd
+File: omsptm.fd 
+)
+LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <10> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 99.
+
+Underfull \hbox (badness 10000) in paragraph at lines 155--155
 []\T1/ptm/m/n/10 No knowl-edge of Rust
  []
 
-[5] (./main.bbl
+[6] [7] (./main.bbl
 LaTeX Font Info:    Try loading font information for T1+pcr on input line 5.
  (/usr/share/texlive/texmf-dist/tex/latex/psnfss/t1pcr.fd
 File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
 ))
-[6] (./main.aux) ) 
+[8] (./main.aux) ) 
 Here is how much of TeX's memory you used:
- 2003 strings out of 492982
- 26731 string characters out of 6134897
- 92890 words of memory out of 5000000
- 5535 multiletter control sequences out of 15000+600000
- 36993 words of font info for 47 fonts, out of 8000000 for 9000
+ 2090 strings out of 492982
+ 28178 string characters out of 6134897
+ 94067 words of memory out of 5000000
+ 5616 multiletter control sequences out of 15000+600000
+ 28827 words of font info for 41 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 41i,12n,39p,1107b,271s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 41i,12n,41p,1115b,273s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</
-usr/share/texlive/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/share/tex
-live/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist
-/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/ur
-w/times/utmri8a.pfb>
-Output written on main.pdf (6 pages, 94597 bytes).
+usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/sh
+are/texlive/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/share/texlive/t
+exmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts
+/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/time
+s/utmri8a.pfb>
+Output written on main.pdf (8 pages, 611943 bytes).
 PDF statistics:
- 44 PDF objects out of 1000 (max. 8388607)
- 29 compressed objects within 1 object stream
+ 57 PDF objects out of 1000 (max. 8388607)
+ 38 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 11 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 16 words of extra memory for PDF output out of 10000 (max. 10000000)
 
