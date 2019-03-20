@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.1.8)  18 MAR 2019 12:28
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.1.8)  19 MAR 2019 21:23
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -6,19 +6,20 @@ entering extended mode
 (./main.tex
 LaTeX2e <2017-04-15>
 Babel <3.18> and hyphenation patterns for 84 language(s) loaded.
-(/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
-Document Class: article 2014/09/29 v1.4h Standard LaTeX document class
+(/usr/share/texlive/texmf-dist/tex/latex/base/report.cls
+Document Class: report 2014/09/29 v1.4h Standard LaTeX document class
 (/usr/share/texlive/texmf-dist/tex/latex/base/size10.clo
 File: size10.clo 2014/09/29 v1.4h Standard LaTeX file (size option)
 )
 \c@part=\count79
-\c@section=\count80
-\c@subsection=\count81
-\c@subsubsection=\count82
-\c@paragraph=\count83
-\c@subparagraph=\count84
-\c@figure=\count85
-\c@table=\count86
+\c@chapter=\count80
+\c@section=\count81
+\c@subsection=\count82
+\c@subsubsection=\count83
+\c@paragraph=\count84
+\c@subparagraph=\count85
+\c@figure=\count86
+\c@table=\count87
 \abovecaptionskip=\skip41
 \belowcaptionskip=\skip42
 \bibindent=\dimen102
@@ -53,10 +54,10 @@ Package: t1enc 1994/06/01 Standard LaTeX package
 \footruleskip=\dimen108
 )
 \pagerulewidth=\dimen109
-\@pcclines=\count87
-\@pcclinemax=\count88
+\@pcclines=\count88
+\@pcclinemax=\count89
 \headexcess=\dimen110
-\c@codeseg=\count89
+\c@codeseg=\count90
 
 (/usr/share/texlive/texmf-dist/tex/latex/graphics/graphics.sty
 Package: graphics 2017/06/25 v1.2c Standard LaTeX Graphics (DPC,SPQR)
@@ -74,8 +75,8 @@ File: pdftex.def 2018/01/08 v1.0l Graphics/color driver for pdftex
 ))
 \t@bSkip=\dimen111
 \reverseT@bSkip=\dimen112
-\hh=\count90
-\mm=\count91
+\hh=\count91
+\mm=\count92
 RCSident: $Id: epcc.sty,v 3.6 1998/01/09 09:32:33 st Exp $
 )
 (/usr/share/texlive/texmf-dist/tex/latex/graphics/graphicx.sty
@@ -90,43 +91,78 @@ Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
 )
 (/usr/share/texlive/texmf-dist/tex/latex/tocbibind/tocbibind.sty
 Package: tocbibind 2010/10/13 v1.5k extra ToC listings
-Package tocbibind Info: The document has section divisions on input line 50.
+Package tocbibind Info: The document has chapter divisions on input line 50.
 
 
-Package tocbibind Note: Using section or other style headings.
+Package tocbibind Note: Using chapter style headings, unless overridden.
 
-) (./main.aux)
+) (/usr/share/texlive/texmf-dist/tex/latex/listings/listings.sty
+\lst@mode=\count93
+\lst@gtempboxa=\box26
+\lst@token=\toks15
+\lst@length=\count94
+\lst@currlwidth=\dimen115
+\lst@column=\count95
+\lst@pos=\count96
+\lst@lostspace=\dimen116
+\lst@width=\dimen117
+\lst@newlines=\count97
+\lst@lineno=\count98
+\lst@maxwidth=\dimen118
+
+(/usr/share/texlive/texmf-dist/tex/latex/listings/lstmisc.sty
+File: lstmisc.sty 2015/06/04 1.6 (Carsten Heinz)
+\c@lstnumber=\count99
+\lst@skipnumbers=\count100
+\lst@framebox=\box27
+)
+(/usr/share/texlive/texmf-dist/tex/latex/listings/listings.cfg
+File: listings.cfg 2015/06/04 1.6 listings configuration
+))
+Package: listings 2015/06/04 1.6 (Carsten Heinz)
+
+(./listings-rust.sty
+Package: listings-rust 2018/01/23 Custom Package
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/color.sty
+Package: color 2016/07/10 v1.1e Standard LaTeX Color (DPC)
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/color.cfg
+File: color.cfg 2016/01/02 v1.6 sample color configuration
+)
+Package color Info: Driver file: pdftex.def on input line 147.
+)) (./main.aux)
 \openout1 = `main.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 7.
-LaTeX Font Info:    ... okay on input line 7.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 7.
-LaTeX Font Info:    ... okay on input line 7.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 7.
-LaTeX Font Info:    ... okay on input line 7.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 7.
-LaTeX Font Info:    ... okay on input line 7.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 7.
-LaTeX Font Info:    ... okay on input line 7.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 7.
-LaTeX Font Info:    ... okay on input line 7.
-LaTeX Font Info:    Try loading font information for T1+ptm on input line 7.
- (/usr/share/texlive/texmf-dist/tex/latex/psnfss/t1ptm.fd
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 8.
+LaTeX Font Info:    ... okay on input line 8.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 8.
+LaTeX Font Info:    ... okay on input line 8.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 8.
+LaTeX Font Info:    ... okay on input line 8.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 8.
+LaTeX Font Info:    ... okay on input line 8.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 8.
+LaTeX Font Info:    ... okay on input line 8.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 8.
+LaTeX Font Info:    ... okay on input line 8.
+LaTeX Font Info:    Try loading font information for T1+ptm on input line 8.
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/t1ptm.fd
 File: t1ptm.fd 2001/06/04 font definitions for T1/ptm.
 )
 (/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count92
-\scratchdimen=\dimen115
-\scratchbox=\box26
-\nofMPsegments=\count93
-\nofMParguments=\count94
-\everyMPshowfont=\toks15
-\MPscratchCnt=\count95
-\MPscratchDim=\dimen116
-\MPnumerator=\count96
-\makeMPintoPDFobject=\count97
-\everyMPtoPDFconversion=\toks16
+\scratchcounter=\count101
+\scratchdimen=\dimen119
+\scratchbox=\box28
+\nofMPsegments=\count102
+\nofMParguments=\count103
+\everyMPshowfont=\toks16
+\MPscratchCnt=\count104
+\MPscratchDim=\dimen120
+\MPnumerator=\count105
+\makeMPintoPDFobject=\count106
+\everyMPtoPDFconversion=\toks17
 ) (/usr/share/texlive/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
 Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
 
@@ -183,30 +219,31 @@ G,.JBIG2,.JB2,.eps]
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
+\c@lstlisting=\count107
 <logos/logo_black.pdf, id=1, 662.475pt x 191.71625pt>
 File: logos/logo_black.pdf Graphic file (type pdf)
 <use logos/logo_black.pdf>
-Package pdftex.def Info: logos/logo_black.pdf  used on input line 13.
+Package pdftex.def Info: logos/logo_black.pdf  used on input line 14.
 (pdftex.def)             Requested size: 662.47339pt x 191.71577pt.
 <logos/crest_bw.pdf, id=2, 363.3575pt x 367.3725pt>
 File: logos/crest_bw.pdf Graphic file (type pdf)
 <use logos/crest_bw.pdf>
-Package pdftex.def Info: logos/crest_bw.pdf  used on input line 13.
+Package pdftex.def Info: logos/crest_bw.pdf  used on input line 14.
 (pdftex.def)             Requested size: 363.3566pt x 367.37158pt.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 13.
+(Font)              <12> on input line 14.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 13.
+(Font)              <8> on input line 14.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 13.
+(Font)              <6> on input line 14.
 
 [1
 
 
 Non-PDF special ignored!{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map} <./
 logos/logo_black.pdf> <./logos/crest_bw.pdf>]
-LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <14.4> not available
-(Font)              Font shape `T1/ptm/b/n' tried instead on input line 17.
+LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <24.88> not available
+(Font)              Font shape `T1/ptm/b/n' tried instead on input line 18.
  (./main.toc
 LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <10> not available
 (Font)              Font shape `T1/ptm/b/n' tried instead on input line 1.
@@ -218,22 +255,44 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 \tf@toc=\write3
 \openout3 = `main.toc'.
 
- [2]
-LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <12> not available
+ [2
+
+]
+Chapter 1.
+LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <20.74> not available
+(Font)              Font shape `T1/ptm/b/n' tried instead on input line 21.
+[3
+
+]
+Chapter 2.
+LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <14.4> not available
 (Font)              Font shape `T1/ptm/b/n' tried instead on input line 25.
- [3]
-Overfull \hbox (2.63298pt too wide) in paragraph at lines 51--52
+[4
+
+]
+Overfull \hbox (2.63298pt too wide) in paragraph at lines 50--51
 []\T1/ptm/m/n/10 Curry is mo-ti-vated to mod-ify Gene-fer's residue cal-cu-la-t
 ion due to it's lack of con-sis-tency with OpenPFGW
  []
 
-[4]
-<figures/memory-safety.png, id=22, 2210.2575pt x 372.39125pt>
+[5] [6]
+Chapter 3.
+<figures/memory-safety.png, id=28, 2210.2575pt x 372.39125pt>
 File: figures/memory-safety.png Graphic file (type png)
 <use figures/memory-safety.png>
-Package pdftex.def Info: figures/memory-safety.png  used on input line 82.
+Package pdftex.def Info: figures/memory-safety.png  used on input line 85.
 (pdftex.def)             Requested size: 416.83289pt x 70.22662pt.
- [5 <./figures/memory-safety.png>]
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[7
+
+] (/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty
+File: lstlang1.sty 2015/06/04 1.6 listings language file
+)
+(/usr/share/texlive/texmf-dist/tex/latex/listings/lstmisc.sty
+File: lstmisc.sty 2015/06/04 1.6 (Carsten Heinz)
+)
 LaTeX Font Info:    Try loading font information for OMS+ptm on input line 99.
 
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/omsptm.fd
@@ -241,35 +300,58 @@ File: omsptm.fd
 )
 LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <10> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 99.
+LaTeX Font Info:    Try loading font information for T1+pcr on input line 111.
 
-Underfull \hbox (badness 10000) in paragraph at lines 155--155
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/t1pcr.fd
+File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
+) [8 <./figures/memory-safety.png>] [9]
+Chapter 4.
+[10
+
+]
+Chapter 5.
+[11
+
+]
+Chapter 6.
+
+Underfull \hbox (badness 10000) in paragraph at lines 188--188
 []\T1/ptm/m/n/10 No knowl-edge of Rust
  []
 
-[6] [7] (./main.bbl
-LaTeX Font Info:    Try loading font information for T1+pcr on input line 5.
- (/usr/share/texlive/texmf-dist/tex/latex/psnfss/t1pcr.fd
-File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
-))
-[8] (./main.aux) ) 
+[12
+
+]
+Chapter 7.
+[13
+
+]
+Chapter 8.
+(./main.bbl [14
+
+]
+Chapter 9.
+[15
+
+]) [16] (./main.aux) ) 
 Here is how much of TeX's memory you used:
- 2090 strings out of 492982
- 28178 string characters out of 6134897
- 94067 words of memory out of 5000000
- 5616 multiletter control sequences out of 15000+600000
- 28827 words of font info for 41 fonts, out of 8000000 for 9000
+ 4555 strings out of 492982
+ 62357 string characters out of 6134897
+ 207944 words of memory out of 5000000
+ 8055 multiletter control sequences out of 15000+600000
+ 34918 words of font info for 45 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 41i,12n,41p,1115b,273s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</
-usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/sh
-are/texlive/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/share/texlive/t
-exmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts
-/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/time
-s/utmri8a.pfb>
-Output written on main.pdf (8 pages, 611943 bytes).
+ 41i,12n,51p,7864b,2016s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.en
+c}</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></us
+r/share/texlive/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/share/texli
+ve/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/f
+onts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/
+times/utmri8a.pfb>
+Output written on main.pdf (16 pages, 624907 bytes).
 PDF statistics:
- 57 PDF objects out of 1000 (max. 8388607)
- 38 compressed objects within 1 object stream
+ 82 PDF objects out of 1000 (max. 8388607)
+ 55 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  16 words of extra memory for PDF output out of 10000 (max. 10000000)
 

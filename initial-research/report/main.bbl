@@ -12,6 +12,15 @@ Krste Asanovic, Rastislav Bodik, James Demmel, Tony Keaveny, Kurt Keutzer, John
 \newblock A view of the parallel computing landscape.
 \newblock {\em Communications of the ACM}, 52(10):56--67, 2009.
 
+\bibitem{Backus:1957:FAC:1455567.1455599}
+J.~W. Backus, R.~J. Beeber, S.~Best, R.~Goldberg, L.~M. Haibt, H.~L. Herrick,
+  R.~A. Nelson, D.~Sayre, P.~B. Sheridan, H.~Stern, I.~Ziller, R.~A. Hughes,
+  and R.~Nutt.
+\newblock The fortran automatic coding system.
+\newblock In {\em Papers Presented at the February 26-28, 1957, Western Joint
+  Computer Conference: Techniques for Reliability}, IRE-AIEE-ACM '57 (Western),
+  pages 188--198, New York, NY, USA, 1957. ACM.
+
 \bibitem{blanco-cuaresma_bolmont_2016}
 Sergi Blanco-Cuaresma and Emeline Bolmont.
 \newblock What can the programming language rust do for astrophysics?
@@ -23,10 +32,20 @@ Cameron Curry.
 \newblock Assessing the performance of optimised primality tests.
 \newblock Master's thesis, EPCC, 2016.
 
+\bibitem{pygc}
+Python~Software Foundation.
+\newblock Python 3 documentation: gc — garbage collector interface.
+\newblock \url{https://docs.python.org/3/library/gc.html}.
+
 \bibitem{hennessy2011computer}
 John~L Hennessy and David~A Patterson.
 \newblock {\em Computer architecture: a quantitative approach}.
 \newblock Elsevier, 2011.
+
+\bibitem{jones1996concurrent}
+Simon~Peyton Jones, Andrew Gordon, and Sigbjorn Finne.
+\newblock Concurrent haskell.
+\newblock In {\em POPL}, volume~96, pages 295--308, 1996.
 
 \bibitem{bioinformatics}
 Johannes Köster.
@@ -39,12 +58,22 @@ Dongyu Liang.
   multiple interconnected epiphany processors.
 \newblock Master's thesis, EPCC, 2017.
 
+\bibitem{Manson:2005:JMM:1047659.1040336}
+Jeremy Manson, William Pugh, and Sarita~V. Adve.
+\newblock The java memory model.
+\newblock {\em SIGPLAN Not.}, 40(1):378--391, January 2005.
+
 \bibitem{Matsakis:2014}
 Nicholas~D. Matsakis and Felix~S. Klock, II.
 \newblock The rust language.
 \newblock In {\em Proceedings of the 2014 ACM SIGAda Annual Conference on High
   Integrity Language Technology}, HILT '14, pages 103--104, New York, NY, USA,
   2014. ACM.
+
+\bibitem{metcalf2011seven}
+Michael Metcalf.
+\newblock The seven ages of fortran.
+\newblock {\em Journal of Computer Science \& Technology}, 11, 2011.
 
 \bibitem{Turner2015}
 Andy Turner.

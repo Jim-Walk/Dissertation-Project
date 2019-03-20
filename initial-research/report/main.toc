@@ -1,12 +1,12 @@
-\contentsline {section}{\numberline {1}Introduction}{3}
-\contentsline {section}{\numberline {2}Dissertation Review}{3}
-\contentsline {subsection}{\numberline {2.1}Extending ePython}{3}
-\contentsline {subsection}{\numberline {2.2}Optimised Primality Tests}{4}
-\contentsline {section}{\numberline {3}Background and Literature Review}{5}
-\contentsline {section}{\numberline {4}Project Proposal}{6}
-\contentsline {subsection}{\numberline {4.1}Project Goals}{6}
-\contentsline {section}{\numberline {5}Workplan}{6}
-\contentsline {section}{\numberline {6}Risk Analysis}{7}
-\contentsline {section}{\numberline {7}Preliminary Findings}{7}
-\contentsline {section}{\numberline {8}Conclusion}{7}
-\contentsline {section}{\numberline {9}References}{8}
+\contentsline {chapter}{\numberline {1}Introduction}{3}
+\contentsline {chapter}{\numberline {2}Dissertation Review}{4}
+\contentsline {section}{\numberline {2.1}Extending ePython}{4}
+\contentsline {section}{\numberline {2.2}Optimised Primality Tests}{5}
+\contentsline {chapter}{\numberline {3}Background and Literature Review}{7}
+\contentsline {chapter}{\numberline {4}Project Proposal}{10}
+\contentsline {section}{\numberline {4.1}Project Goals}{10}
+\contentsline {chapter}{\numberline {5}Workplan}{11}
+\contentsline {chapter}{\numberline {6}Risk Analysis}{12}
+\contentsline {chapter}{\numberline {7}Preliminary Findings}{13}
+\contentsline {chapter}{\numberline {8}Conclusion}{14}
+\contentsline {chapter}{\numberline {9}Bibliography}{15}
