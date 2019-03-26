@@ -5,8 +5,9 @@
 \contentsline {chapter}{\numberline {3}Background and Literature Review}{7}
 \contentsline {chapter}{\numberline {4}Project Proposal}{10}
 \contentsline {section}{\numberline {4.1}Project Goals}{10}
-\contentsline {chapter}{\numberline {5}Workplan}{11}
+\contentsline {chapter}{\numberline {5}Work plan}{11}
 \contentsline {chapter}{\numberline {6}Risk Analysis}{12}
+\contentsline {section}{\numberline {6.1}Risk Register}{12}
 \contentsline {chapter}{\numberline {7}Preliminary Findings}{13}
 \contentsline {chapter}{\numberline {8}Conclusion}{14}
 \contentsline {chapter}{\numberline {9}Bibliography}{15}

@@ -1,10 +1,5 @@
 \begin{thebibliography}{10}
 
-\bibitem{Jargon}
-The jargon file: The story of mel.
-\newblock \url{http://catb.org/jargon/html/story-of-mel.html}.
-\newblock Posted: 1983-05-21 Accessed: 2019-02-20.
-
 \bibitem{asanovic2009view}
 Krste Asanovic, Rastislav Bodik, James Demmel, Tony Keaveny, Kurt Keutzer, John
   Kubiatowicz, Nelson Morgan, David Patterson, Koushik Sen, John Wawrzynek,
@@ -16,20 +11,20 @@ Krste Asanovic, Rastislav Bodik, James Demmel, Tony Keaveny, Kurt Keutzer, John
 J.~W. Backus, R.~J. Beeber, S.~Best, R.~Goldberg, L.~M. Haibt, H.~L. Herrick,
   R.~A. Nelson, D.~Sayre, P.~B. Sheridan, H.~Stern, I.~Ziller, R.~A. Hughes,
   and R.~Nutt.
-\newblock The fortran automatic coding system.
+\newblock The {FORTRAN} {A}utomatic {C}oding {S}ystem.
 \newblock In {\em Papers Presented at the February 26-28, 1957, Western Joint
   Computer Conference: Techniques for Reliability}, IRE-AIEE-ACM '57 (Western),
   pages 188--198, New York, NY, USA, 1957. ACM.
 
 \bibitem{blanco-cuaresma_bolmont_2016}
 Sergi Blanco-Cuaresma and Emeline Bolmont.
-\newblock What can the programming language rust do for astrophysics?
+\newblock What can the programming language {R}ust do for astrophysics?
 \newblock {\em Proceedings of the International Astronomical Union},
   12(S325):341–344, 2016.
 
 \bibitem{Curry2016}
 Cameron Curry.
-\newblock Assessing the performance of optimised primality tests.
+\newblock Assessing the {P}erformance of {O}ptimised {P}rimality {T}ests.
 \newblock Master's thesis, EPCC, 2016.
 
 \bibitem{pygc}
@@ -39,51 +34,91 @@ Python~Software Foundation.
 
 \bibitem{hennessy2011computer}
 John~L Hennessy and David~A Patterson.
-\newblock {\em Computer architecture: a quantitative approach}.
+\newblock {\em Computer {A}rchitecture: {A} {Q}uantitative {A}pproach}.
 \newblock Elsevier, 2011.
+
+\bibitem{heroux2009improving}
+Michael~A Heroux, Douglas~W Doerfler, Paul~S Crozier, James~M Willenbring,
+  H~Carter Edwards, Alan Williams, Mahesh Rajan, Eric~R Keiter, Heidi~K
+  Thornquist, and Robert~W Numrich.
+\newblock Improving performance via mini-applications.
+\newblock {\em Sandia National Laboratories, Tech. Rep. SAND2009-5574}, 3,
+  2009.
 
 \bibitem{jones1996concurrent}
 Simon~Peyton Jones, Andrew Gordon, and Sigbjorn Finne.
-\newblock Concurrent haskell.
+\newblock Concurrent {H}askell.
 \newblock In {\em POPL}, volume~96, pages 295--308, 1996.
 
 \bibitem{bioinformatics}
 Johannes Köster.
-\newblock {Rust-Bio: a fast and safe bioinformatics library}.
+\newblock {Rust-{B}io: a fast and safe bioinformatics library}.
 \newblock {\em Bioinformatics}, 32(3):444--446, 10 2015.
 
 \bibitem{Liang2017}
 Dongyu Liang.
-\newblock Extending epython to support parallel python interpreting acrosss
-  multiple interconnected epiphany processors.
+\newblock Extending epython to support parallel {P}ython interpreting acrosss
+  multiple interconnected {E}piphany processors.
 \newblock Master's thesis, EPCC, 2017.
+
+\bibitem{Mallinson:2014}
+A.~C. Mallinson, S.~A. Jarvis, W.~P. Gaudin, and J.~A. Herdman.
+\newblock {E}xperiences at {S}cale with {PGAS} versions of a {H}ydrodynamics
+  {A}pplication.
+\newblock In {\em Proceedings of the 8th International Conference on
+  Partitioned Global Address Space Programming Models}, PGAS '14, pages
+  9:1--9:11, New York, NY, USA, 2014. ACM.
 
 \bibitem{Manson:2005:JMM:1047659.1040336}
 Jeremy Manson, William Pugh, and Sarita~V. Adve.
-\newblock The java memory model.
+\newblock The {J}ava {M}emory {M}odel.
 \newblock {\em SIGPLAN Not.}, 40(1):378--391, January 2005.
 
 \bibitem{Matsakis:2014}
 Nicholas~D. Matsakis and Felix~S. Klock, II.
-\newblock The rust language.
+\newblock The {R}ust {L}anguage.
 \newblock In {\em Proceedings of the 2014 ACM SIGAda Annual Conference on High
   Integrity Language Technology}, HILT '14, pages 103--104, New York, NY, USA,
   2014. ACM.
 
 \bibitem{metcalf2011seven}
 Michael Metcalf.
-\newblock The seven ages of fortran.
+\newblock {T}he seven ages of {F}ortran.
 \newblock {\em Journal of Computer Science \& Technology}, 11, 2011.
+
+\bibitem{Exa}
+"ogham".
+\newblock "exa".
+\newblock \url{https://github.com/ogham/exa}.
+
+\bibitem{Bat}
+"sharkdp".
+\newblock "exa".
+\newblock \url{https://github.com/sharkdp/bat}.
+
+\bibitem{Slaughter:2015}
+Elliott Slaughter, Wonchan Lee, Sean Treichler, Michael Bauer, and Alex Aiken.
+\newblock Regent: A {H}igh-productivity {P}rogramming language for {HPC} with
+  {L}ogical {R}egions.
+\newblock In {\em Proceedings of the International Conference for High
+  Performance Computing, Networking, Storage and Analysis}, SC '15, pages
+  81:1--81:12, New York, NY, USA, 2015. ACM.
+
+\bibitem{top500}
+"TOP500".
+\newblock "{L}ists - {N}ovember 2018 ".
+\newblock \url{https://www.top500.org/lists/2018/11/}.
 
 \bibitem{Turner2015}
 Andy Turner.
-\newblock Parallel software usage on uk national hpc facilities 2009-2015: How
-  well have applications kept up with increasingly parallel hardware?
+\newblock Parallel {S}oftware usage on {UK N}ational {HPC F}acilities
+  2009-2015: How well have applications kept up with increasingly parallel
+  hardware?
 \newblock {\em EPCC}, 2015.
 
 \bibitem{williams2009}
 Samuel Williams, Andrew Waterman, and David Patterson.
-\newblock Roofline: An insightful visual performance model for floating-point
+\newblock Roofline: {A}n insightful visual performance model for floating-point
   programs and multicore architectures.
 \newblock Technical report, Lawrence Berkeley National Lab.(LBNL), Berkeley, CA
   (United States), 2009.

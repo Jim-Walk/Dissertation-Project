@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.1.8)  19 MAR 2019 21:23
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.1.8)  26 MAR 2019 13:54
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -280,7 +280,7 @@ Chapter 3.
 <figures/memory-safety.png, id=28, 2210.2575pt x 372.39125pt>
 File: figures/memory-safety.png Graphic file (type png)
 <use figures/memory-safety.png>
-Package pdftex.def Info: figures/memory-safety.png  used on input line 85.
+Package pdftex.def Info: figures/memory-safety.png  used on input line 92.
 (pdftex.def)             Requested size: 416.83289pt x 70.22662pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
@@ -293,14 +293,15 @@ File: lstlang1.sty 2015/06/04 1.6 listings language file
 (/usr/share/texlive/texmf-dist/tex/latex/listings/lstmisc.sty
 File: lstmisc.sty 2015/06/04 1.6 (Carsten Heinz)
 )
-LaTeX Font Info:    Try loading font information for OMS+ptm on input line 99.
+LaTeX Font Info:    Try loading font information for OMS+ptm on input line 108.
+
 
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/omsptm.fd
 File: omsptm.fd 
 )
 LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 99.
-LaTeX Font Info:    Try loading font information for T1+pcr on input line 111.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 108.
+LaTeX Font Info:    Try loading font information for T1+pcr on input line 120.
 
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/t1pcr.fd
 File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
@@ -315,7 +316,7 @@ Chapter 5.
 ]
 Chapter 6.
 
-Underfull \hbox (badness 10000) in paragraph at lines 188--188
+Underfull \hbox (badness 10000) in paragraph at lines 218--218
 []\T1/ptm/m/n/10 No knowl-edge of Rust
  []
 
@@ -335,20 +336,20 @@ Chapter 9.
 
 ]) [16] (./main.aux) ) 
 Here is how much of TeX's memory you used:
- 4555 strings out of 492982
- 62357 string characters out of 6134897
- 207944 words of memory out of 5000000
- 8055 multiletter control sequences out of 15000+600000
+ 4559 strings out of 492982
+ 62409 string characters out of 6134897
+ 208368 words of memory out of 5000000
+ 8059 multiletter control sequences out of 15000+600000
  34918 words of font info for 45 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 41i,12n,51p,7864b,2016s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 41i,12n,51p,7864b,2633s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.en
 c}</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/share/texli
 ve/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/f
 onts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/
 times/utmri8a.pfb>
-Output written on main.pdf (16 pages, 624907 bytes).
+Output written on main.pdf (16 pages, 632750 bytes).
 PDF statistics:
  82 PDF objects out of 1000 (max. 8388607)
  55 compressed objects within 1 object stream
