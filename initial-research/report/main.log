@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.1.8)  26 MAR 2019 13:54
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.1.8)  29 MAR 2019 10:16
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -266,21 +266,21 @@ LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <20.74> not available
 ]
 Chapter 2.
 LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <14.4> not available
-(Font)              Font shape `T1/ptm/b/n' tried instead on input line 25.
-[4
+(Font)              Font shape `T1/ptm/b/n' tried instead on input line 27.
 
-]
-Overfull \hbox (2.63298pt too wide) in paragraph at lines 50--51
-[]\T1/ptm/m/n/10 Curry is mo-ti-vated to mod-ify Gene-fer's residue cal-cu-la-t
-ion due to it's lack of con-sis-tency with OpenPFGW
+Overfull \hbox (3.12337pt too wide) in paragraph at lines 28--29
+\T1/ptm/m/n/10 Liang's dis-ser-ta-tion chiefly re-ports on their ef-forts to ex
+-tend ePython, a Python in-ter-preter for the Epiphany
  []
 
-[5] [6]
+[4
+
+] [5] [6]
 Chapter 3.
 <figures/memory-safety.png, id=28, 2210.2575pt x 372.39125pt>
 File: figures/memory-safety.png Graphic file (type png)
 <use figures/memory-safety.png>
-Package pdftex.def Info: figures/memory-safety.png  used on input line 92.
+Package pdftex.def Info: figures/memory-safety.png  used on input line 89.
 (pdftex.def)             Requested size: 416.83289pt x 70.22662pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
@@ -293,19 +293,20 @@ File: lstlang1.sty 2015/06/04 1.6 listings language file
 (/usr/share/texlive/texmf-dist/tex/latex/listings/lstmisc.sty
 File: lstmisc.sty 2015/06/04 1.6 (Carsten Heinz)
 )
-LaTeX Font Info:    Try loading font information for OMS+ptm on input line 108.
+LaTeX Font Info:    Try loading font information for OMS+ptm on input line 111.
 
 
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/omsptm.fd
 File: omsptm.fd 
 )
 LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 108.
-LaTeX Font Info:    Try loading font information for T1+pcr on input line 120.
-
-(/usr/share/texlive/texmf-dist/tex/latex/psnfss/t1pcr.fd
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 111.
+ [8 <./figures/memory-safety.png>]
+LaTeX Font Info:    Try loading font information for T1+pcr on input line 126.
+ (/usr/share/texlive/texmf-dist/tex/latex/psnfss/t1pcr.fd
 File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
-) [8 <./figures/memory-safety.png>] [9]
+)
+[9]
 Chapter 4.
 [10
 
@@ -314,45 +315,59 @@ Chapter 5.
 [11
 
 ]
+<figures/dis_gantt.pdf, id=47, 1071.04132pt x 391.4625pt>
+File: figures/dis_gantt.pdf Graphic file (type pdf)
+<use figures/dis_gantt.pdf>
+Package pdftex.def Info: figures/dis_gantt.pdf  used on input line 227.
+(pdftex.def)             Requested size: 1071.03871pt x 391.46153pt.
+
+
+LaTeX Warning: Float too large for page by 7.06154pt on input line 230.
+
+[12] [13 <./figures/dis_gantt.pdf
+
+pdfTeX warning: pdflatex (file ./figures/dis_gantt.pdf): PDF inclusion: invalid
+ other resource which is no dict (key 'ProcSets', type <array>); ignored.
+>]
 Chapter 6.
 
-Underfull \hbox (badness 10000) in paragraph at lines 218--218
+Underfull \hbox (badness 10000) in paragraph at lines 246--246
 []\T1/ptm/m/n/10 No knowl-edge of Rust
  []
 
-[12
+[14
 
 ]
 Chapter 7.
-[13
+[15
 
-]
+] [16]
 Chapter 8.
-(./main.bbl [14
+(./main.bbl [17
 
 ]
 Chapter 9.
-[15
+[18
 
-]) [16] (./main.aux) ) 
+]) [19] (./main.aux) ) 
 Here is how much of TeX's memory you used:
- 4559 strings out of 492982
- 62409 string characters out of 6134897
- 208368 words of memory out of 5000000
- 8059 multiletter control sequences out of 15000+600000
+ 4586 strings out of 492982
+ 62824 string characters out of 6134897
+ 216074 words of memory out of 5000000
+ 8085 multiletter control sequences out of 15000+600000
  34918 words of font info for 45 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 41i,12n,51p,7864b,2633s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 41i,12n,51p,7864b,2016s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.en
 c}</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/share/texli
 ve/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/f
 onts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/
 times/utmri8a.pfb>
-Output written on main.pdf (16 pages, 632750 bytes).
+Output written on main.pdf (19 pages, 688495 bytes).
 PDF statistics:
- 82 PDF objects out of 1000 (max. 8388607)
- 55 compressed objects within 1 object stream
+ 109 PDF objects out of 1000 (max. 8388607)
+ 74 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 16 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 21 words of extra memory for PDF output out of 10000 (max. 10000000)
 

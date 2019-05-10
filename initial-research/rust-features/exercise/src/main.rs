@@ -36,8 +36,8 @@ fn bar2(input: Option<i32>) -> Result<i32, String>{
     foo(input).ok_or("whoops".to_string())
 }
 
-fn add_four(foo: i32) -> i32{
-    foo + 4
+fn add_four(foo: &mut i32) {
+    *foo = *foo + 4;
 }
 
 fn main() {
@@ -50,6 +50,9 @@ fn main() {
         println!("{}: {}", i,v); 
    }
    */
-   let bar = Some(3);
-   bar.map(add_four);
+//   let bar = Some(Box::new(3i32));
+    let mut baz = 3;
+    let bar = Some(&mut baz);
+    bar.map(add_four);
+
 }

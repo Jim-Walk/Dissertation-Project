@@ -1,16 +1,28 @@
 \begin{thebibliography}{10}
 
+\bibitem{MAC}
+Uk mini-app consortium.
+\newblock \url{http://uk-mac.github.io/}.
+\newblock Accessed: 2019-03-27.
+
+\bibitem{UCAM-CL-TR-798}
+Periklis Akritidis.
+\newblock {Practical memory safety for C}.
+\newblock Technical Report UCAM-CL-TR-798, University of Cambridge, Computer
+  Laboratory, June 2011.
+
+\bibitem{amedro}
+Brian Amedro, Vladimir Bodnartchouk, and Denis et~al. Caromel.
+\newblock {Current State of Java for HPC}.
+\newblock Technical Report RT-0353, {INRIA}, 2008.
+
 \bibitem{asanovic2009view}
-Krste Asanovic, Rastislav Bodik, James Demmel, Tony Keaveny, Kurt Keutzer, John
-  Kubiatowicz, Nelson Morgan, David Patterson, Koushik Sen, John Wawrzynek,
-  et~al.
+Krste Asanovic, Rastislav Bodik, et~al.
 \newblock A view of the parallel computing landscape.
 \newblock {\em Communications of the ACM}, 52(10):56--67, 2009.
 
 \bibitem{Backus:1957:FAC:1455567.1455599}
-J.~W. Backus, R.~J. Beeber, S.~Best, R.~Goldberg, L.~M. Haibt, H.~L. Herrick,
-  R.~A. Nelson, D.~Sayre, P.~B. Sheridan, H.~Stern, I.~Ziller, R.~A. Hughes,
-  and R.~Nutt.
+J.~W. Backus and R.~J. et.~al Beeber.
 \newblock The {FORTRAN} {A}utomatic {C}oding {S}ystem.
 \newblock In {\em Papers Presented at the February 26-28, 1957, Western Joint
   Computer Conference: Techniques for Reliability}, IRE-AIEE-ACM '57 (Western),
@@ -20,7 +32,7 @@ J.~W. Backus, R.~J. Beeber, S.~Best, R.~Goldberg, L.~M. Haibt, H.~L. Herrick,
 Sergi Blanco-Cuaresma and Emeline Bolmont.
 \newblock What can the programming language {R}ust do for astrophysics?
 \newblock {\em Proceedings of the International Astronomical Union},
-  12(S325):341–344, 2016.
+  12(S325):341--344, 2016.
 
 \bibitem{Curry2016}
 Cameron Curry.
@@ -29,8 +41,9 @@ Cameron Curry.
 
 \bibitem{pygc}
 Python~Software Foundation.
-\newblock Python 3 documentation: gc — garbage collector interface.
+\newblock Python 3 {D}ocumentation: gc - {G}arbage {C}ollector interface.
 \newblock \url{https://docs.python.org/3/library/gc.html}.
+\newblock Accessed: 2019-03-27.
 
 \bibitem{hennessy2011computer}
 John~L Hennessy and David~A Patterson.
@@ -51,7 +64,7 @@ Simon~Peyton Jones, Andrew Gordon, and Sigbjorn Finne.
 \newblock In {\em POPL}, volume~96, pages 295--308, 1996.
 
 \bibitem{bioinformatics}
-Johannes Köster.
+Johannes Koster.
 \newblock {Rust-{B}io: a fast and safe bioinformatics library}.
 \newblock {\em Bioinformatics}, 32(3):444--446, 10 2015.
 
@@ -74,6 +87,20 @@ Jeremy Manson, William Pugh, and Sarita~V. Adve.
 \newblock The {J}ava {M}emory {M}odel.
 \newblock {\em SIGPLAN Not.}, 40(1):378--391, January 2005.
 
+\bibitem{martineau2017arch}
+Matthew Martineau and Simon McIntosh-Smith.
+\newblock The arch project: physics mini-apps for algorithmic exploration and
+  evaluating programming environments on hpc architectures.
+\newblock In {\em 2017 IEEE International Conference on Cluster Computing
+  (CLUSTER)}, pages 850--857. IEEE, 2017.
+
+\bibitem{rayon}
+Nicholas~D. Matsakis.
+\newblock Rayon: data parallelism in {R}ust.
+\newblock
+  \url{http://smallcultfollowing.com/babysteps/blog/2015/12/18/rayon-data-parallelism-in-rust/}.
+\newblock Accessed: 2019-03-27.
+
 \bibitem{Matsakis:2014}
 Nicholas~D. Matsakis and Felix~S. Klock, II.
 \newblock The {R}ust {L}anguage.
@@ -87,14 +114,41 @@ Michael Metcalf.
 \newblock {\em Journal of Computer Science \& Technology}, 11, 2011.
 
 \bibitem{Exa}
-"ogham".
-\newblock "exa".
+ogham.
+\newblock \textit{Exa}.
 \newblock \url{https://github.com/ogham/exa}.
+\newblock Accessed: 2019-03-27. GitHub repository.
+
+\bibitem{philippsen2000javagrande}
+Michael Philippsen, Ronald~F Boisvert, and et.~al Getov.
+\newblock Java{G}rande - high performance computing with {J}ava.
+\newblock In {\em International Workshop on Applied Parallel Computing}, pages
+  20--36. Springer, 2000.
+
+\bibitem{raman2017improving}
+Karthik Raman, Tom Deakin, et~al.
+\newblock Improving achieved memory bandwidth from c++ codes on intel xeon phi
+  processor (knights landing).
+\newblock In {\em Presentation at International Xeon Phi User Group Spring
+  Meeting, Cambridge, UK}, 2017.
+
+\bibitem{rustgit}
+rust lang.
+\newblock \textit{Rust}.
+\newblock \url{https://github.com/rust-lang/rust}.
+\newblock Accessed: 2019-03-27. GitHub repository.
+
+\bibitem{rustbyexample}
+rust lang.org.
+\newblock Rust by {E}xample.
+\newblock \url{https://doc.rust-lang.org/rust-by-example/index.html}.
+\newblock Accessed: 2019-03-27.
 
 \bibitem{Bat}
-"sharkdp".
-\newblock "exa".
+sharkdp.
+\newblock \textit{Bat}.
 \newblock \url{https://github.com/sharkdp/bat}.
+\newblock Accessed: 2019-03-27. GitHub repository.
 
 \bibitem{Slaughter:2015}
 Elliott Slaughter, Wonchan Lee, Sean Treichler, Michael Bauer, and Alex Aiken.
@@ -104,10 +158,17 @@ Elliott Slaughter, Wonchan Lee, Sean Treichler, Michael Bauer, and Alex Aiken.
   Performance Computing, Networking, Storage and Analysis}, SC '15, pages
   81:1--81:12, New York, NY, USA, 2015. ACM.
 
+\bibitem{TiobeMarch2019}
+"TIOBE".
+\newblock "{TIOBE I}ndex for {M}arch 2019".
+\newblock \url{https://www.tiobe.com/tiobe-index/}.
+\newblock Accessed: 2019-03-27.
+
 \bibitem{top500}
 "TOP500".
 \newblock "{L}ists - {N}ovember 2018 ".
 \newblock \url{https://www.top500.org/lists/2018/11/}.
+\newblock Accessed: 2019-03-27.
 
 \bibitem{Turner2015}
 Andy Turner.
@@ -115,6 +176,7 @@ Andy Turner.
   2009-2015: How well have applications kept up with increasingly parallel
   hardware?
 \newblock {\em EPCC}, 2015.
+\newblock Archer White Paper.
 
 \bibitem{williams2009}
 Samuel Williams, Andrew Waterman, and David Patterson.
