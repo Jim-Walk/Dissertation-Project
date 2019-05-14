@@ -22,28 +22,72 @@ fn main() {
                             .arg(Arg::with_name("numtimes")
                                  .short("n")
                                  .long("numtimes")
+                                 .value_name("NUM")
+                                 .help("Run the test NUM times")
+                                 .takes_value(true))
+                            .arg(Arg::with_name("arraysize")
+                                 .short("s")
+                                 .long("arraysize")
                                  .value_name("SIZE")
                                  .help("Use SIZE elements in the array")
                                  .takes_value(true))
                             .get_matches();
 
-    let num_times = matches.value_of("numtimes").unwrap_or("100").parse::<i32>().unwrap();
+    // Set up cmd line variables
+    let num_times = matches.value_of("numtimes")
+                        .unwrap_or("100")
+                        .parse::<i32>()
+                        .unwrap();
     let use_float = matches.is_present("float");
-    let array_size = 10;
+    let array_size = matches.value_of("arraysize")
+                        .unwrap_or("33554432")
+                        .parse::<f32>()
+                        .unwrap();
+
+    // Set up initial variables
+    let start_a = 0.1f32;
+    let start_b = 0.2f32;
+    let start_c = 0.0f32;
+    let sscalar = 0.4f32;
+    // Print info 
     println!("BabelStream");
     println!("Version: 0.1");
     println!("Implmentation: Rust");
     println!("Running kernels {} times", num_times);
-    println!("Precision: single");
-    let mut stream_data = stream::RustStream {
-        a: vec![0.1, 10.0],
-        b: vec![0.2, 10.0],
-        c: vec![0.0, 10.0]
-    };
-    println!("Array size: ???");
-    println!("Total size: ???");
+    if use_float {
+        println!("Precision: float");
+        println!("Array size: {:.1} MB (={:.1} GB)",
+                    array_size*4.0*1.0E-6,
+                    array_size*4.0*1.0E-9);
+        println!("Total size: {:.1} MB (={:.1} GB)",
+                    3.0*array_size*4.0*1.0E-6,
+                    3.0*array_size*4.0*1.0E-9);
+    } else {
+        println!("Precision: double");
+        println!("Array size: {:.1} MB (={:.1} GB)",
+                    array_size*8.0*1.0E-6,
+                    array_size*8.0*1.0E-9);
 
-    stream_data.triad();
+        println!("Total size: {:.1} MB (={:.1} GB)",
+                    3.0*array_size*8.0*1.0E-6,
+                    3.0*array_size*8.0*1.0E-9);
+        let array_size = array_size as f64;
+        let start_a = start_a as f64;
+        let start_b = start_b as f64;
+        let start_b = start_b as f64;
+        let sscalar = sscalar as f64;
+    }
+
+
+
+    let mut stream_data = stream::RustStream {
+        a: vec![start_a, array_size],
+        b: vec![start_b, array_size],
+        c: vec![start_c, array_size],
+        scalar: sscalar
+    };
+
+    stream_data.run(num_times);
 
 }
 
