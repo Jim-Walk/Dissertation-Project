@@ -6,7 +6,7 @@ This repository holds all the material relavent to my High Performance Computing
 
 ## Folder Structure
 * initial\_research - Holds the initial work for this project, and the proposal document for the masters project.
-* babel\_stream - My port of (Babel Stream)[https://github.com/UoB-HPC/BabelStream].
+* babel\_stream - My port of [Babel Stream](https://github.com/UoB-HPC/BabelStream)
 * diss\_doc - All documentation necessary for the dissertation itself.
 
 
