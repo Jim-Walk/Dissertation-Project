@@ -1,0 +1,11 @@
+error[E0596]: cannot borrow `self.c` as mutable, as it is behind a `&` reference
+  --> src/stream.rs:20:9
+   |
+18 |     pub fn triad(&self){
+   |                  ----- help: consider changing this to be a mutable reference: `&mut self`
+19 |         println!("entered triad!");
+20 |         self.c[0] = self.a[0] + self.b[0];
+   |         ^^^^^^ `self` is a `&` reference, so the data it refers to cannot be borrowed as mutable
+
+error: aborting due to previous error
+

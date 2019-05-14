@@ -2,6 +2,9 @@
 // to Rust
 extern crate clap;
 use clap::{Arg, App};
+mod stream;
+
+//use crate::stream;
 
 fn main() {
 
@@ -24,20 +27,23 @@ fn main() {
                                  .takes_value(true))
                             .get_matches();
 
-//    let ARRAY_SIZE = args.0;
     let num_times = matches.value_of("numtimes").unwrap_or("100").parse::<i32>().unwrap();
     let use_float = matches.is_present("float");
-//    let triad_only = args.3;
+    let array_size = 10;
     println!("BabelStream");
     println!("Version: 0.1");
     println!("Implmentation: Rust");
     println!("Running kernels {} times", num_times);
-    if (use_float){
-        println!("Precision: single");
-    } else {
-        println!("Precision: double");
-    }
+    println!("Precision: single");
+    let mut stream_data = stream::RustStream {
+        a: vec![0.1, 10.0],
+        b: vec![0.2, 10.0],
+        c: vec![0.0, 10.0]
+    };
     println!("Array size: ???");
     println!("Total size: ???");
+
+    stream_data.triad();
+
 }
 
