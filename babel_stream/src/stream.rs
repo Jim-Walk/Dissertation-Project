@@ -1,5 +1,6 @@
 extern crate num;
 use num::traits;
+use std::ops::AddAssign;
 
 pub struct RustStream<T: traits::Float>{
     pub a: Vec<T>,
@@ -9,7 +10,7 @@ pub struct RustStream<T: traits::Float>{
 }
 
 
-impl <T: traits::Float> RustStream <T>{
+impl <T> RustStream<T> where T: traits::Float + AddAssign<T> {
 
     pub fn run(&mut self, num_times: i32){
         let mut sum: T;
@@ -20,10 +21,9 @@ impl <T: traits::Float> RustStream <T>{
     }
 
     pub fn dot(&mut self)->T{
-        let mut sum: T;
-        sum = 0 as T;
+        let mut sum: T = T::from(0).unwrap();
         for i in 0..100{
-            sum = self.a[i] * self.b[i]; 
+            sum += self.a[i] * self.b[i]; 
         }
         sum
     }
