@@ -84,10 +84,9 @@ fn main() {
         a: vec![start_a, array_size],
         b: vec![start_b, array_size],
         c: vec![start_c, array_size],
-        scalar: sscalar
+        scalar: sscalar,
     };
 
     stream_data.run(num_times);
 
 }
-
