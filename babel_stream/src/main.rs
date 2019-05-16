@@ -148,8 +148,8 @@ where T: traits::Float + AddAssign<T> + num::Signed + DivAssign<T> + std::fmt::D
     for i in 0..5{
         let label = labels[i];
         let Mbs = 0;
-        let min = timings[0].iter().min().unwrap();
-        let max = timings[0].iter().max().unwrap();
+        let min = timings[i].iter().min().unwrap();
+        let max = timings[i].iter().max().unwrap();
         println!("{}\t{}\t{}\t{}\t???", label, Mbs, min, max)
     }
  }
