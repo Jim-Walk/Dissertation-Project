@@ -2,6 +2,7 @@
 // to Rust
 extern crate clap;
 use clap::{Arg, App};
+use std::time::Instant;
 mod stream;
 
 //use crate::stream;
@@ -49,6 +50,7 @@ fn main() {
     let start_b = 0.2f32;
     let start_c = 0.0f32;
     let sscalar = 0.4f32;
+    let mut sum = 0.0f32;
     // Print info 
     println!("BabelStream");
     println!("Version: 0.1");
@@ -74,19 +76,69 @@ fn main() {
         let array_size = array_size as f64;
         let start_a = start_a as f64;
         let start_b = start_b as f64;
-        let start_b = start_b as f64;
+        let start_c = start_c as f64;
         let sscalar = sscalar as f64;
+        let sum = sum as f64;
     }
 
 
 
-    let mut stream_data = stream::RustStream {
+    let mut stream = stream::RustStream {
         a: vec![start_a, array_size],
         b: vec![start_b, array_size],
         c: vec![start_c, array_size],
         scalar: sscalar,
     };
 
-    stream_data.run(num_times);
+    // List of times
+    let mut timings: [Vec<u128>; 5] = Default::default();
+
+    for _i in 0..num_times{
+            // Execute copy
+            let t1 = Instant::now();
+            stream.copy();
+            let t2 = t1.elapsed();
+            timings[0].push(t2.as_micros());
+            
+            // Execute mul
+            let t1 = Instant::now();
+            stream.mul();
+            let t2 = t1.elapsed();
+            timings[1].push(t2.as_micros());
+
+            // Execute add
+            let t1 = Instant::now();
+            stream.add();
+            let t2 = t1.elapsed();
+            timings[2].push(t2.as_micros());
+
+            // Execute triad
+            let t1 = Instant::now();
+            stream.triad();
+            let t2 = t1.elapsed();
+            timings[3].push(t2.as_micros());
+
+            // Execute dot
+            let t1 = Instant::now();
+            sum = stream.dot();
+            let t2 = t1.elapsed();
+            timings[4].push(t2.as_micros());
+    }
+
+    // Check results
+    let start_vals = [start_a, start_b, start_c];
+    stream.check_solution(num_times, start_vals, array_size, sscalar, sum);
+
+    // Print timings
+    
+    let labels = vec!["Copy", "Mul", "Add", "Triad", "Dot"];
+    println!("Function\tMbytes/sec\tMin (sec)\tMax\tAverage");
+    for i in 0..5{
+        let label = labels[i];
+        let Mbs = 0;
+        let min = timings[0].iter().min().unwrap();
+        let max = timings[0].iter().max().unwrap();
+        println!("{}\t{}\t{}\t{}\t???", label, Mbs, min, max)
+    }
 
 }
