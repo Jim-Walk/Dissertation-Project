@@ -108,7 +108,7 @@ where T: traits::Float + AddAssign<T> + num::Signed + DivAssign<T> + std::fmt::D
     let mut timings: [Vec<u128>; 5] = Default::default();
 
     let mut sum: T = T::from(0).unwrap();
-    println!("--- STREAM START ---\na[0]: {}", my_stream.a[0]);
+    //println!("--- STREAM START ---\na[0]: {}", my_stream.a[0]);
     for _i in 0..num_times{
             // Execute copy
             let t1 = Instant::now();
@@ -144,7 +144,7 @@ where T: traits::Float + AddAssign<T> + num::Signed + DivAssign<T> + std::fmt::D
     // Check results
     my_stream.check_solution(num_times, start_vals, array_size, sum);
 
-    println!("--- STREAM END ---\na[0]: {}", my_stream.a[0]);
+    //println!("--- STREAM END ---\na[0]: {}", my_stream.a[0]);
     // Print timings
     
     let labels = vec!["Copy", "Mul", "Add", "Triad", "Dot"];

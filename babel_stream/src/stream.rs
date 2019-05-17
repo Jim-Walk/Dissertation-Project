@@ -34,8 +34,7 @@ impl <T> RustStream<T> where T: traits::Float + AddAssign<T> + num::Signed + Div
 
     pub fn triad(&mut self){
         for i in 0..self.a.len(){
-            self.a[i] = self.b[i] + self.scalar + self.c[i];
-            println!("Last value of a[{}] is {}", i, self.a[i]);
+            self.a[i] = self.b[i] + self.scalar * self.c[i];
         }
     }
 
@@ -61,10 +60,8 @@ impl <T> RustStream<T> where T: traits::Float + AddAssign<T> + num::Signed + Div
         }
         // Do the reduction
         let gold_sum = gold_a * gold_b * arr_size;
-        println!("gold_a is {}, and a[0] is {}, scalar is {}", gold_a, self.a[0], self.scalar);
 
         // Calculate the average error
-        //self.a.iter().fold(T::from(0).unwrap(), |sum, val| sum + val; println!("{}", val));
         let mut err_a = self.a.iter().fold(T::from(0).unwrap(), |sum, val| sum + num::abs(*val - gold_a));
         err_a /= T::from(self.a.len()).unwrap();
 
@@ -80,7 +77,6 @@ impl <T> RustStream<T> where T: traits::Float + AddAssign<T> + num::Signed + Div
         if Any::is::<f32>(&sum){
             epsi = T::from(std::f32::EPSILON).unwrap();
         }
-        println!("epsi is {}", epsi);
         if err_a > epsi {
             println!("Error on a[]: {}", err_a)
         }
@@ -91,7 +87,7 @@ impl <T> RustStream<T> where T: traits::Float + AddAssign<T> + num::Signed + Div
             println!("Error on c[]: {}", err_c)
         }
         if err_sum > T::from(1.0E-8).unwrap(){
-            println!("error on sum")
+            println!("error on sum: {} Expected {} found {}", err_sum, gold_sum, sum)
         }
     }
 }
