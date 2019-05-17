@@ -21,27 +21,27 @@ impl <T> RustStream<T> where T: traits::Float + AddAssign<T> + num::Signed + Div
     }
 
     pub fn mul(&mut self){
-        for i in 0..self.b.len(){
-            self.b[i] = self.scalar * self.c[i];
+        for (b_i, c_i) in self.b.iter_mut().zip(self.c.iter()){
+            *b_i = self.scalar * *c_i;
         }
     }
 
     pub fn add(&mut self){
-        for i in 0..self.a.len(){
-            self.c[i] = self.a[i]+self.b[i];
+        for ((c_i, a_i), b_i) in self.c.iter_mut().zip(self.a.iter()).zip(self.b.iter()){
+            *c_i = *a_i + *b_i;
         }
     }
 
     pub fn triad(&mut self){
-        for i in 0..self.a.len(){
-            self.a[i] = self.b[i] + self.scalar * self.c[i];
+        for ((a_i, c_i), b_i) in self.a.iter_mut().zip(self.c.iter()).zip(self.b.iter()){
+            *a_i = *b_i + self.scalar * *c_i;
         }
     }
 
     pub fn dot(&mut self)->T{
         let mut sum: T = T::from(0).unwrap();
-        for i in 0..self.a.len(){
-            sum += self.a[i] * self.b[i]; 
+        for (a_i, b_i) in self.a.iter().zip(self.b.iter()){
+            sum += *a_i * *b_i;
         }
         sum
     }

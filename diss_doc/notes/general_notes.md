@@ -6,3 +6,7 @@ Code in question which has annoyed me is below, from stream.rs
 ```
  let errA = self.a.iter().fold(T::from(0).unwrap(), |sum, val| sum + num::abs(*val - goldA));
 ```
+
+Changing babel stream's add to rusty `a.iter().zip(b.iter())` made the function faster. average speed in the C++ way was about 0.09501 seconds, and was 0.09079 the rusty way. I think this might have something to do with `vec.iter_mut` 
+
+Triad also showed a similar decrease in time when rewritten this way.

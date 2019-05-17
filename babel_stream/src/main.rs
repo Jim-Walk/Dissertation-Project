@@ -146,7 +146,7 @@ where T: traits::Float + AddAssign<T> + num::Signed + DivAssign<T> + std::fmt::D
     // Print timings
     let labels = vec!["Copy", "Mul", "Add", "Triad", "Dot"];
     println!("Function\tMbytes/sec\tMin (sec)\tMax\t\tAverage");
-    let mut mem_size: f64;
+    let mem_size: f64;
 
     // Get size of T in bytes. There is probably a more rusty way to do this
     if Any::is::<f32>(&array_size){
