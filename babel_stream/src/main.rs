@@ -15,7 +15,7 @@ fn main() {
     // Default size is 2^25
     
     let matches = App::new("babel_stream")
-                            .version("0.1")
+                            .version("0.3")
                             .author("Jim Walker j.m.walker@live.co.uk")
                             .arg(Arg::with_name("float")
                                  .short("f")
@@ -50,7 +50,7 @@ fn main() {
     // Set up initial variables
     // Print info 
     println!("BabelStream");
-    println!("Version: 0.1");
+    println!("Version: 0.3");
     println!("Implmentation: Rust");
     println!("Running kernels {} times", num_times);
     if use_float {
@@ -108,7 +108,6 @@ where T: traits::Float + AddAssign<T> + num::Signed + DivAssign<T> + std::fmt::D
     let mut timings: [Vec<u128>; 5] = Default::default();
 
     let mut sum: T = T::from(0).unwrap();
-    //println!("--- STREAM START ---\na[0]: {}", my_stream.a[0]);
     for _i in 0..num_times{
             // Execute copy
             let t1 = Instant::now();
@@ -144,9 +143,7 @@ where T: traits::Float + AddAssign<T> + num::Signed + DivAssign<T> + std::fmt::D
     // Check results
     my_stream.check_solution(num_times, start_vals, array_size, sum);
 
-    //println!("--- STREAM END ---\na[0]: {}", my_stream.a[0]);
     // Print timings
-    
     let labels = vec!["Copy", "Mul", "Add", "Triad", "Dot"];
     println!("Function\tMbytes/sec Min (sec)\tMax\tAverage");
     for i in 0..5{
