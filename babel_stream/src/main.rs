@@ -15,7 +15,7 @@ fn main() {
     // Default size is 2^25
     
     let matches = App::new("babel_stream")
-                            .version("0.3")
+                            .version("0.5")
                             .author("Jim Walker j.m.walker@live.co.uk")
                             .arg(Arg::with_name("float")
                                  .short("f")
@@ -50,7 +50,7 @@ fn main() {
     // Set up initial variables
     // Print info 
     println!("BabelStream");
-    println!("Version: 0.3");
+    println!("Version: 0.5");
     println!("Implmentation: Rust");
     println!("Running kernels {} times", num_times);
     if use_float {
@@ -101,7 +101,7 @@ fn main() {
 }
 
 pub fn run<T>(mut my_stream: stream::RustStream<T>, start_vals: [T;3], array_size: T, num_times: i32) 
-where T: traits::Float + AddAssign<T> + num::Signed + DivAssign<T> + std::fmt::Display + Any
+where T: traits::Float + AddAssign<T> + num::Signed + DivAssign<T> + std::fmt::Display + Any 
 {
 
     // List of times
@@ -113,31 +113,31 @@ where T: traits::Float + AddAssign<T> + num::Signed + DivAssign<T> + std::fmt::D
             let t1 = Instant::now();
             my_stream.copy();
             let t2 = t1.elapsed();
-            timings[0].push(t2.as_nanos());
+            timings[0].push(t2.as_micros());
             
             // Execute mul
             let t1 = Instant::now();
             my_stream.mul();
             let t2 = t1.elapsed();
-            timings[1].push(t2.as_nanos());
+            timings[1].push(t2.as_micros());
 
             // Execute add
             let t1 = Instant::now();
             my_stream.add();
             let t2 = t1.elapsed();
-            timings[2].push(t2.as_nanos());
+            timings[2].push(t2.as_micros());
 
             // Execute triad
             let t1 = Instant::now();
             my_stream.triad();
             let t2 = t1.elapsed();
-            timings[3].push(t2.as_nanos());
+            timings[3].push(t2.as_micros());
 
             // Execute dot
             let t1 = Instant::now();
             sum = my_stream.dot();
             let t2 = t1.elapsed();
-            timings[4].push(t2.as_nanos());
+            timings[4].push(t2.as_micros());
     }
 
     // Check results
@@ -145,12 +145,28 @@ where T: traits::Float + AddAssign<T> + num::Signed + DivAssign<T> + std::fmt::D
 
     // Print timings
     let labels = vec!["Copy", "Mul", "Add", "Triad", "Dot"];
-    println!("Function\tMbytes/sec Min (sec)\tMax\tAverage");
+    println!("Function\tMbytes/sec\tMin (sec)\tMax\t\tAverage");
+    let mut mem_size: f64;
+
+    // Get size of T in bytes. There is probably a more rusty way to do this
+    if Any::is::<f32>(&array_size){
+        mem_size = 4.0;
+    } else {
+        mem_size = 8.0;
+    }
+    let size_a = 2.0 * mem_size * my_stream.a.len() as f64;
+    let size_b = 3.0 * mem_size * my_stream.a.len() as f64;
+
+    let sizes = [size_a, size_a, size_b, size_b, size_a];
+
     for i in 0..5{
         let label = labels[i];
-        let Mbs = 0;
-        let min = timings[i].iter().min().unwrap();
-        let max = timings[i].iter().max().unwrap();
-        println!("{}\t\t{}\t{}\t{}\t???", label, Mbs, min, max)
+        let min = *timings[i].iter().min().unwrap() as f64 / 1.0E6;
+        let max = *timings[i].iter().max().unwrap() as f64 / 1.0E6; 
+        let m_bs = 1.0E-6 * (sizes[i] as f64) / min;
+        let mut avg = timings[i].iter().fold(0u128, | acc, val | acc + val) as f64;
+        avg /= timings[i].len() as f64; 
+        avg /= 1.0E6;
+        println!("{}\t\t{:.3}\t{:.5}\t\t{:.5}\t\t{:.5}", label, m_bs, min, max, avg)
     }
  }

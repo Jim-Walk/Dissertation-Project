@@ -15,8 +15,8 @@ impl <T> RustStream<T> where T: traits::Float + AddAssign<T> + num::Signed + Div
 
 
     pub fn copy(&mut self){
-        for i in 0..self.a.len(){
-            self.c[i] = self.a[i];
+        for (c_i, a_i) in self.c.iter_mut().zip(self.a.iter()){
+            *c_i = *a_i;
         }
     }
 
@@ -87,7 +87,7 @@ impl <T> RustStream<T> where T: traits::Float + AddAssign<T> + num::Signed + Div
             println!("Error on c[]: {}", err_c)
         }
         if err_sum > T::from(1.0E-8).unwrap(){
-            println!("error on sum: {} Expected {} found {}", err_sum, gold_sum, sum)
+            println!("error on sum: {} \nExpected {} found {}", err_sum, gold_sum, sum)
         }
     }
 }
