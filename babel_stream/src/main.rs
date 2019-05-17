@@ -101,7 +101,8 @@ fn main() {
 }
 
 pub fn run<T>(mut my_stream: stream::RustStream<T>, start_vals: [T;3], array_size: T, num_times: i32) 
-where T: traits::Float + AddAssign<T> + num::Signed + DivAssign<T> + std::fmt::Display + Any 
+where T: traits::Float + AddAssign<T> + num::Signed + DivAssign<T> + std::fmt::Display + Any, 
+[T] : rayon::iter::IntoParallelRefMutIterator, std::vec::Vec<T> : stream::rayon::iter::IntoParallelRefMutIterator
 {
 
     // List of times

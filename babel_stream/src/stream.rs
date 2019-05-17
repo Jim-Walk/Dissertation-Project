@@ -1,7 +1,10 @@
 extern crate num;
+extern crate rayon;
 use num::traits;
 use std::ops::{AddAssign, DivAssign};
 use std::any::Any;
+use rayon::prelude::*;
+//use stream;
 
 pub struct RustStream<T: traits::Float>{
     pub a: Vec<T>,
@@ -11,11 +14,14 @@ pub struct RustStream<T: traits::Float>{
 }
 
 
-impl <T> RustStream<T> where T: traits::Float + AddAssign<T> + num::Signed + DivAssign<T> + std::fmt::Display + Any{
+impl <T> RustStream<T> 
+where T: traits::Float + AddAssign<T> + num::Signed + DivAssign<T> + std::fmt::Display + Any,
+[T] : rayon::iter::IntoParallelRefMutIterator, std::vec::Vec<T> : rayon::iter::IntoParallelRefMutIterator
+{
 
 
     pub fn copy(&mut self){
-        for (c_i, a_i) in self.c.iter_mut().zip(self.a.iter()){
+        for (c_i, a_i) in self.c.par_iter_mut().zip(self.a.iter()){
             *c_i = *a_i;
         }
     }
