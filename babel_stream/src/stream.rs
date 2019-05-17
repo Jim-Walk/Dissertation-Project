@@ -50,7 +50,6 @@ impl <T> RustStream<T> where T: traits::Float + AddAssign<T> + num::Signed + Div
         let mut gold_a = start_vals[0];
         let mut gold_b = start_vals[1];
         let mut gold_c = start_vals[2];
-        let mut gold_sum;
 
         // Do stream
         for _i in 0..ntimes{
@@ -60,10 +59,14 @@ impl <T> RustStream<T> where T: traits::Float + AddAssign<T> + num::Signed + Div
             gold_a = gold_b + self.scalar * gold_c;
         }
         // Do the reduction
-        gold_sum = gold_a * gold_b * arr_size;
+        let gold_sum = gold_a * gold_b * arr_size;
+        println!("gold_a is {}", gold_a);
 
         // Calculate the average error
+        //self.a.iter().fold(T::from(0).unwrap(), |sum, val| sum + val; println!("{}", val));
         let mut err_a = self.a.iter().fold(T::from(0).unwrap(), |sum, val| sum + num::abs(*val - gold_a));
+        println!("sum error is {}", err_a);
+        println!("len of a is {}",T::from(self.a.len()).unwrap());
         err_a /= T::from(self.a.len()).unwrap();
 
         let mut err_b = self.b.iter().fold(T::from(0).unwrap(), |sum, val| sum + num::abs(*val - gold_b));
@@ -78,6 +81,7 @@ impl <T> RustStream<T> where T: traits::Float + AddAssign<T> + num::Signed + Div
         if Any::is::<f32>(&sum){
             epsi = T::from(std::f32::EPSILON).unwrap();
         }
+        println!("epsi is {}", epsi);
         if err_a > epsi {
             println!("Error on a[]: {}", err_a)
         }
