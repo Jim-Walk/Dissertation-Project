@@ -32,18 +32,19 @@ impl <T> RustStream<T> where T: traits::Float + AddAssign<T> + num::Signed + Div
         }
     }
 
+    pub fn triad(&mut self){
+        for i in 0..self.a.len(){
+            self.a[i] = self.b[i] + self.scalar + self.c[i];
+            println!("Last value of a[{}] is {}", i, self.a[i]);
+        }
+    }
+
     pub fn dot(&mut self)->T{
         let mut sum: T = T::from(0).unwrap();
         for i in 0..self.a.len(){
             sum += self.a[i] * self.b[i]; 
         }
         sum
-    }
-
-    pub fn triad(&mut self){
-        for i in 0..self.a.len(){
-            self.a[i] = self.b[i] + self.scalar + self.c[i];
-        }
     }
 
     pub fn check_solution(&self, ntimes: i32, start_vals: [T; 3], arr_size: T, sum: T){
@@ -60,13 +61,11 @@ impl <T> RustStream<T> where T: traits::Float + AddAssign<T> + num::Signed + Div
         }
         // Do the reduction
         let gold_sum = gold_a * gold_b * arr_size;
-        println!("gold_a is {}", gold_a);
+        println!("gold_a is {}, and a[0] is {}, scalar is {}", gold_a, self.a[0], self.scalar);
 
         // Calculate the average error
         //self.a.iter().fold(T::from(0).unwrap(), |sum, val| sum + val; println!("{}", val));
         let mut err_a = self.a.iter().fold(T::from(0).unwrap(), |sum, val| sum + num::abs(*val - gold_a));
-        println!("sum error is {}", err_a);
-        println!("len of a is {}",T::from(self.a.len()).unwrap());
         err_a /= T::from(self.a.len()).unwrap();
 
         let mut err_b = self.b.iter().fold(T::from(0).unwrap(), |sum, val| sum + num::abs(*val - gold_b));

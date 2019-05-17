@@ -96,7 +96,6 @@ fn main() {
             scalar: sscalar,
         };
         let start_vals = [start_a, start_b, start_c];
-        println!("a[0]: {}", stream.a[0]);
         run(stream, start_vals, print_size, num_times);
     }
 }
