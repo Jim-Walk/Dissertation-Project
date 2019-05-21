@@ -7,4 +7,4 @@ edition = "2018"
 [dependencies]
 clap = "~2.33"
 num = "0.2"
-rayon = "1.0"
+rayon = "1.0.3"

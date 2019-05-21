@@ -1,12 +1,12 @@
 extern crate num;
 extern crate rayon;
-use num::traits;
+use num::traits::Float;
 use std::ops::{AddAssign, DivAssign};
 use std::any::Any;
 use rayon::prelude::*;
 //use stream;
 
-pub struct RustStream<T: traits::Float>{
+pub struct RustStream<T: Float>{
     pub a: Vec<T>,
     pub b: Vec<T>,
     pub c: Vec<T>,
@@ -14,16 +14,18 @@ pub struct RustStream<T: traits::Float>{
 }
 
 
-impl <T> RustStream<T> 
-where T: traits::Float + AddAssign<T> + num::Signed + DivAssign<T> + std::fmt::Display + Any,
-[T] : rayon::iter::IntoParallelRefMutIterator, std::vec::Vec<T> : rayon::iter::IntoParallelRefMutIterator
+impl <'a, T> RustStream<T> 
+where T: Float + AddAssign<T> + num::Signed + DivAssign<T> + std::fmt::Display + Any,
+Vec<T> : rayon::iter::IntoParallelIterator, &'a mut [T]: rayon::iter::IntoParallelIterator
+//,&'a mut <& 'a mut [T] as rayon::iter::IntoParallelIterator>::Iter : std::iter::Iterator
 {
 
 
     pub fn copy(&mut self){
-        for (c_i, a_i) in self.c.par_iter_mut().zip(self.a.iter()){
-            *c_i = *a_i;
-        }
+       // for (c_i, a_i) in self.c.par_iter().zip(self.a.iter()){
+       //     *c_i = *a_i;
+       // }
+       self.c.par_iter_mut().zip(self.a.par_iter()).for_each(|(a, b)| { *a = *b; })
     }
 
     pub fn mul(&mut self){

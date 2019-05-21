@@ -7,7 +7,7 @@ mod stream;
 use num::traits;
 use std::ops::{AddAssign, DivAssign};
 use std::any::Any;
-//use crate::stream;
+use rayon::prelude::*;
 
 fn main() {
 
@@ -100,9 +100,10 @@ fn main() {
     }
 }
 
-pub fn run<T>(mut my_stream: stream::RustStream<T>, start_vals: [T;3], array_size: T, num_times: i32) 
+pub fn run<'a,T>(mut my_stream: stream::RustStream<T>, start_vals: [T;3], array_size: T, num_times: i32) 
 where T: traits::Float + AddAssign<T> + num::Signed + DivAssign<T> + std::fmt::Display + Any, 
-[T] : rayon::iter::IntoParallelRefMutIterator, std::vec::Vec<T> : stream::rayon::iter::IntoParallelRefMutIterator
+Vec<T> : rayon::iter::IntoParallelIterator,  &'a mut [T]: rayon::iter::IntoParallelIterator
+//,&'a mut <& 'a mut [T] as rayon::iter::IntoParallelIterator>::Iter : std::iter::Iterator
 {
 
     // List of times
