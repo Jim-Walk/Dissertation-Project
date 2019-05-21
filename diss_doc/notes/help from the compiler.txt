@@ -33,3 +33,5 @@ error[E0308]: mismatched types
               found type `T`
 
 
+After having a lot of trouble with the implementing rayon, it seems that the compiler struggles with giving good hints. In these circumstances, it is best to take a step back and consult the docs
+

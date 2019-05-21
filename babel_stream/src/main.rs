@@ -100,9 +100,9 @@ fn main() {
     }
 }
 
-pub fn run<'a,T>(mut my_stream: stream::RustStream<T>, start_vals: [T;3], array_size: T, num_times: i32) 
-where T: traits::Float + AddAssign<T> + num::Signed + DivAssign<T> + std::fmt::Display + Any, 
-Vec<T> : rayon::iter::IntoParallelIterator,  &'a mut [T]: rayon::iter::IntoParallelIterator
+pub fn run<T>(mut my_stream: stream::RustStream<T>, start_vals: [T;3], array_size: T, num_times: i32) 
+where T: traits::Float + AddAssign<T> + num::Signed + DivAssign<T> + std::fmt::Display + Any + Send + Sync, 
+//Vec<T> : rayon::iter::IntoParallelIterator + rayon::iter::IndexedParallelIterator,  &'a mut [T]: rayon::iter::IntoParallelIterator + rayon::iter::IndexedParallelIterator
 //,&'a mut <& 'a mut [T] as rayon::iter::IntoParallelIterator>::Iter : std::iter::Iterator
 {
 

@@ -6,7 +6,7 @@ use std::any::Any;
 use rayon::prelude::*;
 //use stream;
 
-pub struct RustStream<T: Float>{
+pub struct RustStream<T: Float + Send + Sync>{
     pub a: Vec<T>,
     pub b: Vec<T>,
     pub c: Vec<T>,
@@ -14,18 +14,16 @@ pub struct RustStream<T: Float>{
 }
 
 
-impl <'a, T> RustStream<T> 
-where T: Float + AddAssign<T> + num::Signed + DivAssign<T> + std::fmt::Display + Any,
-Vec<T> : rayon::iter::IntoParallelIterator, &'a mut [T]: rayon::iter::IntoParallelIterator
-//,&'a mut <& 'a mut [T] as rayon::iter::IntoParallelIterator>::Iter : std::iter::Iterator
+impl <T> RustStream<T> 
+where T: Float + AddAssign<T> + num::Signed + DivAssign<T> + std::fmt::Display + Any + Send + Sync,
 {
-
-
     pub fn copy(&mut self){
        // for (c_i, a_i) in self.c.par_iter().zip(self.a.iter()){
        //     *c_i = *a_i;
        // }
-       self.c.par_iter_mut().zip(self.a.par_iter()).for_each(|(a, b)| { *a = *b; })
+       self.c.par_iter_mut()
+            .zip(self.a.par_iter())
+            .for_each(|(c, a)| *c = *a);
     }
 
     pub fn mul(&mut self){
