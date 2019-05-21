@@ -1,12 +1,13 @@
-extern crate num;
+//extern crate num;
 extern crate rayon;
-use num::traits::Float;
+//use num::traits::Float;
 use std::ops::{AddAssign, DivAssign};
 use std::any::Any;
 use rayon::prelude::*;
 //use stream;
+use num::Float;
 
-pub struct RustStream<T: Float + Send + Sync>{
+pub struct RustStream<T: Float + Send + Sync + std::marker::Sized>{
     pub a: Vec<T>,
     pub b: Vec<T>,
     pub c: Vec<T>,
@@ -15,15 +16,19 @@ pub struct RustStream<T: Float + Send + Sync>{
 
 
 impl <T> RustStream<T> 
-where T: Float + AddAssign<T> + num::Signed + DivAssign<T> + std::fmt::Display + Any + Send + Sync,
+where T: Float + AddAssign<T> + num::Signed + DivAssign<T> + std::fmt::Display + Any + Send + Sync + std::marker::Sized,
+[T]: Send + Sync //+ std::marker::Sized
 {
     pub fn copy(&mut self){
        // for (c_i, a_i) in self.c.par_iter().zip(self.a.iter()){
        //     *c_i = *a_i;
        // }
-       self.c.par_iter_mut()
-            .zip(self.a.par_iter())
-            .for_each(|(c, a)| *c = *a);
+       //self.c.par_iter_mut()
+       //     .zip(self.a.par_iter())
+       //     .for_each(|(c, a)| *c = *a);
+       self.c.par_chunks_mut(8)
+            .zip(self.a.par_chunks(8))
+            .for_each(|(c, a)| c.copy_from_slice(a));
     }
 
     pub fn mul(&mut self){
