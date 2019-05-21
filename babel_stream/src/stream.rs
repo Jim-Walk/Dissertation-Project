@@ -26,35 +26,50 @@ where T: Float + AddAssign<T> + num::Signed + DivAssign<T> + std::fmt::Display +
        //self.c.par_iter_mut()
        //     .zip(self.a.par_iter())
        //     .for_each(|(c, a)| *c = *a);
-       self.c.par_chunks_mut(8)
-            .zip(self.a.par_chunks(8))
+       self.c.par_chunks_mut(1000)
+            .zip(self.a.par_chunks(1000))
             .for_each(|(c, a)| c.copy_from_slice(a));
     }
 
     pub fn mul(&mut self){
-        for (b_i, c_i) in self.b.iter_mut().zip(self.c.iter()){
-            *b_i = self.scalar * *c_i;
-        }
+        //for (b_i, c_i) in self.b.iter_mut().zip(self.c.iter()){
+        //    *b_i = self.scalar * *c_i;
+        //}
+        // This scalar variable is needed as self is mutably borrowd by function call
+        let scalar_imut = self.scalar;
+        self.b.par_iter_mut()
+            .zip(self.c.par_iter())
+            .for_each(|(b, c)| *b = scalar_imut * *c);
     }
 
     pub fn add(&mut self){
-        for ((c_i, a_i), b_i) in self.c.iter_mut().zip(self.a.iter()).zip(self.b.iter()){
-            *c_i = *a_i + *b_i;
-        }
+        //for ((c_i, a_i), b_i) in self.c.iter_mut().zip(self.a.iter()).zip(self.b.iter()){
+        //    *c_i = *a_i + *b_i;
+        //}
+        
     }
 
     pub fn triad(&mut self){
-        for ((a_i, c_i), b_i) in self.a.iter_mut().zip(self.c.iter()).zip(self.b.iter()){
-            *a_i = *b_i + self.scalar * *c_i;
-        }
+        //for ((a_i, c_i), b_i) in self.a.iter_mut().zip(self.c.iter()).zip(self.b.iter()){
+        //    *a_i = *b_i + self.scalar * *c_i;
+        //}
+        let scalar_imut = self.scalar;
+        self.a.par_iter_mut()
+            .zip(self.c.par_iter())
+            .zip(self.b.par_iter())
+            .for_each(|((a, c), b)| *a = *b + scalar_imut + *c);
     }
 
     pub fn dot(&mut self)->T{
-        let mut sum: T = T::from(0).unwrap();
-        for (a_i, b_i) in self.a.iter().zip(self.b.iter()){
-            sum += *a_i * *b_i;
-        }
-        sum
+        let mut sum1: T = T::from(0).unwrap();
+        let mut sum2: T = T::from(0).unwrap();
+        //for (a_i, b_i) in self.a.iter().zip(self.b.iter()){
+        //    sum += *a_i * *b_i;
+        //}
+        let ret_sum: T  = self.a.par_iter()
+                            .zip(self.b.par_iter())
+                            .reduce(|| (&sum1, &sum2), |a, b| (*a.0 * *a.1, *b.0 * *b.0));
+        ret_sum
     }
 
     pub fn check_solution(&self, ntimes: i32, start_vals: [T; 3], arr_size: T, sum: T){
