@@ -23,7 +23,7 @@ def parse_file(f):
 # Takes a list of times and calculates speedup
 # speedup = t1/tn
 def get_speedup(res):
-    i = 0
+    i = 1
     while i < len(res):
         res[i] = res[0]/res[i]
         i += 1
