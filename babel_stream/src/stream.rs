@@ -46,10 +46,14 @@ where T: Float + AddAssign<T> + num::Signed + DivAssign<T> + std::fmt::Display +
         //for ((c_i, a_i), b_i) in self.c.iter_mut().zip(self.a.iter()).zip(self.b.iter()){
         //    *c_i = *a_i + *b_i;
         //}
-        
+        self.c.par_iter_mut()
+            .zip(self.b.par_iter())
+            .zip(self.a.par_iter())
+            .for_each(|((c, b), a)| *c = *a + *b);
     }
 
     pub fn triad(&mut self){
+        //TODO serial works but parallel causes problems
         //for ((a_i, c_i), b_i) in self.a.iter_mut().zip(self.c.iter()).zip(self.b.iter()){
         //    *a_i = *b_i + self.scalar * *c_i;
         //}
@@ -61,8 +65,7 @@ where T: Float + AddAssign<T> + num::Signed + DivAssign<T> + std::fmt::Display +
     }
 
     pub fn dot(&mut self)->T{
-        let mut sum1: T = T::from(0).unwrap();
-        let mut sum2: T = T::from(0).unwrap();
+        let sum1: T = T::from(0).unwrap();
         //for (a_i, b_i) in self.a.iter().zip(self.b.iter()){
         //    sum += *a_i * *b_i;
         //}
