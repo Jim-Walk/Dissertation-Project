@@ -61,7 +61,7 @@ where T: Float + AddAssign<T> + num::Signed + DivAssign<T> + std::fmt::Display +
         self.a.par_iter_mut()
             .zip(self.c.par_iter())
             .zip(self.b.par_iter())
-            .for_each(|((a, c), b)| *a = *b + scalar_imut + *c);
+            .for_each(|((a, c), b)| *a = *b + scalar_imut * *c);
     }
 
     pub fn dot(&mut self)->T{
