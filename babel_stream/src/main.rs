@@ -7,7 +7,6 @@ mod stream;
 //use num::traits;
 use std::ops::{AddAssign, DivAssign};
 use std::any::Any;
-use rayon::prelude::*;
 use num::Float;
 
 fn main() {
@@ -102,7 +101,7 @@ fn main() {
 }
 
 pub fn run<T>(mut my_stream: stream::RustStream<T>, start_vals: [T;3], array_size: T, num_times: i32) 
-where T: Float + AddAssign<T> + num::Signed + DivAssign<T> + std::fmt::Display + Any + Send + Sync + std::marker::Sized, 
+where T: Float + AddAssign<T> + num::Signed + DivAssign<T> + std::fmt::Display + Any + Send + Sync + std::iter::Sum,
 [T]: Send + Sync //+ std::marker::Sized
 {
 

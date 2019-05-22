@@ -7,7 +7,7 @@ use rayon::prelude::*;
 //use stream;
 use num::Float;
 
-pub struct RustStream<T: Float + Send + Sync + std::marker::Sized>{
+pub struct RustStream<T: Float + Send + Sync + std::iter::Sum>{
     pub a: Vec<T>,
     pub b: Vec<T>,
     pub c: Vec<T>,
@@ -16,7 +16,7 @@ pub struct RustStream<T: Float + Send + Sync + std::marker::Sized>{
 
 
 impl <T> RustStream<T> 
-where T: Float + AddAssign<T> + num::Signed + DivAssign<T> + std::fmt::Display + Any + Send + Sync + std::marker::Sized,
+where T: Float + AddAssign<T> + num::Signed + DivAssign<T> + std::fmt::Display + Any + Send + Sync + std::iter::Sum,
 [T]: Send + Sync //+ std::marker::Sized
 {
     pub fn copy(&mut self){
@@ -66,9 +66,10 @@ where T: Float + AddAssign<T> + num::Signed + DivAssign<T> + std::fmt::Display +
         //for (a_i, b_i) in self.a.iter().zip(self.b.iter()){
         //    sum += *a_i * *b_i;
         //}
-        let ret_sum: T  = self.a.par_iter()
+        let ret_sum  = self.a.par_iter()
                             .zip(self.b.par_iter())
-                            .reduce(|| (&sum1, &sum2), |a, b| (*a.0 * *a.1, *b.0 * *b.0));
+                            .fold(|| sum1, |acc, it| acc + *it.0 * *it.1).sum();
+                            //.reduce(|| (&sum1, &sum2), |a, b| (*a.0 * *a.1, *b.0 * *b.0));
         ret_sum
     }
 
