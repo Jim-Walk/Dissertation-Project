@@ -24,8 +24,9 @@ def parse_file(f):
 # speedup = t1/tn
 def get_speedup(res):
     i = 0
+    t1 = res[0]
     while i < len(res):
-        res[i] = res[0]/res[i]
+        res[i] = t1/res[i]
         i += 1
 
 if __name__ == '__main__':
@@ -49,6 +50,7 @@ if __name__ == '__main__':
         ax.plot( x_axis, res2[i], label=label2, marker='.')
         ax.set(xlabel='Number of threads', ylabel='Speedup (t1/tn)',
                title=functions[i])
+        ax.set_xticklabels(x_axis)
         ax.legend()
         fig.savefig(functions[i] + '.png')
         i += 1
