@@ -61,10 +61,11 @@ fn main() {
     println!("Total size: {:.1} MB (={:.1} GB)",
                 3.0*print_size*4.0*1.0E-6,
                 3.0*print_size*4.0*1.0E-9);
+    // We fully init the array later
     let mut stream = stream::RustStream {
-        a: vec![start_a; array_size],
-        b: vec![start_b; array_size],
-        c: vec![start_c; array_size],
+        a: vec![start_a; 4],
+        b: vec![start_b; 4],
+        c: vec![start_c; 4],
         scalar: sscalar,
     };
     let start_vals = [start_a, start_b, start_c];
@@ -74,7 +75,7 @@ fn main() {
 pub fn run(mut my_stream: stream::RustStream, start_vals: [i32;3], array_size: f32, num_times: i32) 
 {
 
-    //my_stream.init_arrays();
+    my_stream.init_arrays(array_size as i32);
     // List of times
     let mut timings: [Vec<u128>; 5] = Default::default();
 

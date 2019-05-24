@@ -13,16 +13,18 @@ pub struct RustStream{
 
 impl RustStream
 {
-    //pub fn init_arrays(&mut self, arr_size: T){
-    //    
-    //    if Any::is::<f32>(&arr_size){
-    //        let size = f64::from(arr_size) as f32;
-    //        let zero = 0f32;
-    //        let new_a: Vec<_> = (zero..size).into_par_iter()
-    //                                        .map(|mut foo| foo = 8.0) //T::from(0.1).unwrap())
-    //                                        .collect();
-    //    }
-    //}
+    pub fn init_arrays(&mut self, arr_size: i32){
+        (0i32..arr_size).into_par_iter()
+                        .map(|_| 1)
+                        .collect_into_vec(&mut self.a);
+        (0i32..arr_size).into_par_iter()
+                        .map(|_| 1)
+                        .collect_into_vec(&mut self.b);
+        (0i32..arr_size).into_par_iter()
+                        .map(|_| 1)
+                        .collect_into_vec(&mut self.c);
+        
+    }
     pub fn copy(&mut self){
        self.c.par_chunks_mut(1000)
             .zip(self.a.par_chunks(1000))
@@ -62,11 +64,10 @@ impl RustStream
         //for (a_i, b_i) in self.a.iter().zip(self.b.iter()){
         //    sum += *a_i * *b_i;
         //}
-        let ret_sum  = self.a.par_iter()
-                            .zip(self.b.par_iter())
-                            .fold(|| 0, |acc, it| acc + *it.0 * *it.1).sum();
-                            //.reduce(|| (&sum1, &sum2), |a, b| (*a.0 * *a.1, *b.0 * *b.0));
-        ret_sum
+        self.a.par_iter()
+             .zip(self.b.par_iter())
+             .fold(|| 0, |acc, it| acc + *it.0 * *it.1).sum()
+        
     }
 
     pub fn check_solution(&self, ntimes: i32, start_vals: [i32; 3], arr_size: f32, sum: i32){
