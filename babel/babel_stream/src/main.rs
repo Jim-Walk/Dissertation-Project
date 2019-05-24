@@ -102,9 +102,11 @@ fn main() {
 
 pub fn run<T>(mut my_stream: stream::RustStream<T>, start_vals: [T;3], array_size: T, num_times: i32) 
 where T: Float + AddAssign<T> + num::Signed + DivAssign<T> + std::fmt::Display + Send + Sync + std::iter::Sum + Any,
-[T]: Send + Sync //+ std::marker::Sized
+[T]: Send + Sync, f64: std::convert::From<T>
+
 {
 
+    //my_stream.init_arrays();
     // List of times
     let mut timings: [Vec<u128>; 5] = Default::default();
 
@@ -148,12 +150,6 @@ where T: Float + AddAssign<T> + num::Signed + DivAssign<T> + std::fmt::Display +
     let labels = vec!["Copy", "Mul", "Add", "Triad", "Dot"];
     println!("Function\tMbytes/sec\tMin (sec)\tMax\t\tAverage");
 
-    // Get size of T in bytes. There is probably a more rusty way to do this
-    //if Any::is::<f32>(&array_size){
-    //    mem_size = 4.0;
-    //} else {
-    //    mem_size = 8.0;
-    //}
     let mem_size = std::mem::size_of::<T>() as f64;
 
     let size_a = 2.0 * mem_size * my_stream.a.len() as f64;

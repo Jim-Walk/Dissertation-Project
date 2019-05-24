@@ -17,24 +17,25 @@ pub struct RustStream<T: Float + Send + Sync + std::iter::Sum>{
 
 impl <T> RustStream<T> 
 where T: Float + AddAssign<T> + num::Signed + DivAssign<T> + std::fmt::Display + Any + Send + Sync + std::iter::Sum,
-[T]: Send + Sync //+ std::marker::Sized
+[T]: Send + Sync, f64: std::convert::From<T>
 {
+    pub fn init_arrays(&mut self, arr_size: T){
+        
+        if Any::is::<f32>(&arr_size){
+            let size = f64::from(arr_size) as f32;
+            let zero = 0f32;
+            let new_a: Vec<_> = (zero..size).into_par_iter()
+                                            .map(|mut foo| foo = 8.0) //T::from(0.1).unwrap())
+                                            .collect();
+        }
+    }
     pub fn copy(&mut self){
-       // for (c_i, a_i) in self.c.par_iter().zip(self.a.iter()){
-       //     *c_i = *a_i;
-       // }
-       //self.c.par_iter_mut()
-       //     .zip(self.a.par_iter())
-       //     .for_each(|(c, a)| *c = *a);
        self.c.par_chunks_mut(1000)
             .zip(self.a.par_chunks(1000))
             .for_each(|(c, a)| c.copy_from_slice(a));
     }
 
     pub fn mul(&mut self){
-        //for (b_i, c_i) in self.b.iter_mut().zip(self.c.iter()){
-        //    *b_i = self.scalar * *c_i;
-        //}
         // This scalar variable is needed as self is mutably borrowd by function call
         let scalar_imut = self.scalar;
         self.b.par_iter_mut()
@@ -53,7 +54,6 @@ where T: Float + AddAssign<T> + num::Signed + DivAssign<T> + std::fmt::Display +
     }
 
     pub fn triad(&mut self){
-        //TODO serial works but parallel causes problems
         //for ((a_i, c_i), b_i) in self.a.iter_mut().zip(self.c.iter()).zip(self.b.iter()){
         //    *a_i = *b_i + self.scalar * *c_i;
         //}
