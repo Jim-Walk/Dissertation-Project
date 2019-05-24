@@ -1,34 +1,28 @@
 //extern crate num;
 extern crate rayon;
-//use num::traits::Float;
-use std::ops::{AddAssign, DivAssign};
-use std::any::Any;
 use rayon::prelude::*;
 //use stream;
-use num::Float;
 
-pub struct RustStream<T: Float + Send + Sync + std::iter::Sum>{
-    pub a: Vec<T>,
-    pub b: Vec<T>,
-    pub c: Vec<T>,
-    pub scalar: T,
+pub struct RustStream{
+    pub a: Vec<i32>,
+    pub b: Vec<i32>,
+    pub c: Vec<i32>,
+    pub scalar: i32,
 }
 
 
-impl <T> RustStream<T> 
-where T: Float + AddAssign<T> + num::Signed + DivAssign<T> + std::fmt::Display + Any + Send + Sync + std::iter::Sum,
-[T]: Send + Sync, f64: std::convert::From<T>
+impl RustStream
 {
-    pub fn init_arrays(&mut self, arr_size: T){
-        
-        if Any::is::<f32>(&arr_size){
-            let size = f64::from(arr_size) as f32;
-            let zero = 0f32;
-            let new_a: Vec<_> = (zero..size).into_par_iter()
-                                            .map(|mut foo| foo = 8.0) //T::from(0.1).unwrap())
-                                            .collect();
-        }
-    }
+    //pub fn init_arrays(&mut self, arr_size: T){
+    //    
+    //    if Any::is::<f32>(&arr_size){
+    //        let size = f64::from(arr_size) as f32;
+    //        let zero = 0f32;
+    //        let new_a: Vec<_> = (zero..size).into_par_iter()
+    //                                        .map(|mut foo| foo = 8.0) //T::from(0.1).unwrap())
+    //                                        .collect();
+    //    }
+    //}
     pub fn copy(&mut self){
        self.c.par_chunks_mut(1000)
             .zip(self.a.par_chunks(1000))
@@ -64,19 +58,18 @@ where T: Float + AddAssign<T> + num::Signed + DivAssign<T> + std::fmt::Display +
             .for_each(|((a, c), b)| *a = *b + scalar_imut * *c);
     }
 
-    pub fn dot(&mut self)->T{
-        let sum1: T = T::from(0).unwrap();
+    pub fn dot(&mut self)->i32{
         //for (a_i, b_i) in self.a.iter().zip(self.b.iter()){
         //    sum += *a_i * *b_i;
         //}
         let ret_sum  = self.a.par_iter()
                             .zip(self.b.par_iter())
-                            .fold(|| sum1, |acc, it| acc + *it.0 * *it.1).sum();
+                            .fold(|| 0, |acc, it| acc + *it.0 * *it.1).sum();
                             //.reduce(|| (&sum1, &sum2), |a, b| (*a.0 * *a.1, *b.0 * *b.0));
         ret_sum
     }
 
-    pub fn check_solution(&self, ntimes: i32, start_vals: [T; 3], arr_size: T, sum: T){
+    pub fn check_solution(&self, ntimes: i32, start_vals: [i32; 3], arr_size: f32, sum: i32){
         let mut gold_a = start_vals[0];
         let mut gold_b = start_vals[1];
         let mut gold_c = start_vals[2];
@@ -89,24 +82,21 @@ where T: Float + AddAssign<T> + num::Signed + DivAssign<T> + std::fmt::Display +
             gold_a = gold_b + self.scalar * gold_c;
         }
         // Do the reduction
-        let gold_sum = gold_a * gold_b * arr_size;
+        let gold_sum = gold_a * gold_b * arr_size as i32;
 
         // Calculate the average error
-        let mut err_a = self.a.iter().fold(T::from(0).unwrap(), |sum, val| sum + num::abs(*val - gold_a));
-        err_a /= T::from(self.a.len()).unwrap();
+        let mut err_a = self.a.iter().fold(0, |sum, val| sum + num::abs(*val - gold_a));
+        err_a /= self.a.len() as i32;
 
-        let mut err_b = self.b.iter().fold(T::from(0).unwrap(), |sum, val| sum + num::abs(*val - gold_b));
-        err_b /= T::from(self.b.len()).unwrap();
+        let mut err_b = self.b.iter().fold(0, |sum, val| sum + num::abs(*val - gold_b));
+        err_b /= self.b.len() as i32;
 
-        let mut err_c = self.c.iter().fold(T::from(0).unwrap(), |sum, val| sum + num::abs(*val - gold_c));
-        err_c /= T::from(self.c.len()).unwrap();
+        let mut err_c = self.c.iter().fold(0, |sum, val| sum + num::abs(*val - gold_c));
+        err_c /= self.c.len() as i32;
 
         let err_sum = num::abs(sum - gold_sum);
 
-        let mut epsi = T::from(std::f64::EPSILON).unwrap();
-        if Any::is::<f32>(&sum){
-            epsi = T::from(std::f32::EPSILON).unwrap();
-        }
+        let mut epsi = 0;
         if err_a > epsi {
             println!("Error on a[]: {}", err_a)
         }
@@ -116,8 +106,8 @@ where T: Float + AddAssign<T> + num::Signed + DivAssign<T> + std::fmt::Display +
         if err_c > epsi {
             println!("Error on c[]: {}", err_c)
         }
-        if err_sum > T::from(1.0E-8).unwrap(){
-            println!("error on sum: {} \nExpected {} found {}", err_sum, gold_sum, sum)
-        }
+        //if err_sum > (1.0E-8).unwrap(){
+        //    println!("error on sum: {} \nExpected {} found {}", err_sum, gold_sum, sum)
+        //}
     }
 }

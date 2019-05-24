@@ -4,18 +4,14 @@ extern crate clap;
 use clap::{Arg, App};
 use std::time::Instant;
 mod stream;
-//use num::traits;
-use std::any::Any;
-use std::ops::{AddAssign, DivAssign};
-use num::Float;
 
 fn main() {
 
     // Configuration Variables declartion
     // Default size is 2^25
     
-    let matches = App::new("babel_stream")
-                            .version("0.5")
+    let matches = App::new("int_stream")
+                            .version("0.1")
                             .author("Jim Walker j.m.walker@live.co.uk")
                             .arg(Arg::with_name("float")
                                  .short("f")
@@ -49,68 +45,40 @@ fn main() {
 
     // Set up initial variables
     // Print info 
-    println!("BabelStream");
-    println!("Version: 0.5");
+    println!("Int Stream");
+    println!("Version: 0.1");
     println!("Implmentation: Rust");
     println!("Running kernels {} times", num_times);
-    if use_float {
-        let print_size = array_size as f32;
-        let start_a = 0.1f32;
-        let start_b = 0.2f32;
-        let start_c = 0.0f32;
-        let sscalar = 0.4f32;
-        println!("Precision: float");
-        println!("Array size: {:.1} MB (={:.1} GB)",
-                    print_size*4.0*1.0E-6,
-                    print_size*4.0*1.0E-9);
-        println!("Total size: {:.1} MB (={:.1} GB)",
-                    3.0*print_size*4.0*1.0E-6,
-                    3.0*print_size*4.0*1.0E-9);
-        let mut stream = stream::RustStream {
-            a: vec![start_a; array_size],
-            b: vec![start_b; array_size],
-            c: vec![start_c; array_size],
-            scalar: sscalar,
-        };
-        let start_vals = [start_a, start_b, start_c];
-        run(stream, start_vals, print_size, num_times);
-    } else {
-        let print_size = array_size as f64;
-        println!("Precision: double");
-        println!("Array size: {:.1} MB (={:.1} GB)",
-                    print_size*8.0*1.0E-6,
-                    print_size*8.0*1.0E-9);
-
-        println!("Total size: {:.1} MB (={:.1} GB)",
-                    3.0*print_size*8.0*1.0E-6,
-                    3.0*print_size*8.0*1.0E-9);
-        //let array_size = array_size as f64;
-        let start_a = 0.1f64;
-        let start_b = 0.2f64;
-        let start_c = 0.0f64;
-        let sscalar = 0.4f64;
-        let mut stream = stream::RustStream {
-            a: vec![start_a; array_size],
-            b: vec![start_b; array_size],
-            c: vec![start_c; array_size],
-            scalar: sscalar,
-        };
-        let start_vals = [start_a, start_b, start_c];
-        run(stream, start_vals, print_size, num_times);
-    }
+    let print_size = array_size as f32;
+    let start_a = 1i32;
+    let start_b = 2i32;
+    let start_c = 0i32;
+    let sscalar = 4i32;
+    println!("Precision: i32");
+    println!("Array size: {:.1} MB (={:.1} GB)",
+                print_size*4.0*1.0E-6,
+                print_size*4.0*1.0E-9);
+    println!("Total size: {:.1} MB (={:.1} GB)",
+                3.0*print_size*4.0*1.0E-6,
+                3.0*print_size*4.0*1.0E-9);
+    let mut stream = stream::RustStream {
+        a: vec![start_a; array_size],
+        b: vec![start_b; array_size],
+        c: vec![start_c; array_size],
+        scalar: sscalar,
+    };
+    let start_vals = [start_a, start_b, start_c];
+    run(stream, start_vals, print_size, num_times);
 }
 
-pub fn run<T>(mut my_stream: stream::RustStream<T>, start_vals: [T;3], array_size: T, num_times: i32) 
-where T: Float + AddAssign<T> + num::Signed + DivAssign<T> + std::fmt::Display + Send + Sync + std::iter::Sum + Any,
-[T]: Send + Sync, f64: std::convert::From<T>
-
+pub fn run(mut my_stream: stream::RustStream, start_vals: [i32;3], array_size: f32, num_times: i32) 
 {
 
     //my_stream.init_arrays();
     // List of times
     let mut timings: [Vec<u128>; 5] = Default::default();
 
-    let mut sum: T = T::from(0).unwrap();
+    let mut sum = 0;
     for _i in 0..num_times{
             // Execute copy
             let t1 = Instant::now();
@@ -150,7 +118,7 @@ where T: Float + AddAssign<T> + num::Signed + DivAssign<T> + std::fmt::Display +
     let labels = vec!["Copy", "Mul", "Add", "Triad", "Dot"];
     println!("Function\tMbytes/sec\tMin (sec)\tMax\t\tAverage");
 
-    let mem_size = std::mem::size_of::<T>() as f64;
+    let mem_size = std::mem::size_of::<i32>() as f64;
 
     let size_a = 2.0 * mem_size * my_stream.a.len() as f64;
     let size_b = 3.0 * mem_size * my_stream.a.len() as f64;
