@@ -69,11 +69,10 @@ where T: Float + AddAssign<T> + num::Signed + DivAssign<T> + std::fmt::Display +
         //for (a_i, b_i) in self.a.iter().zip(self.b.iter()){
         //    sum += *a_i * *b_i;
         //}
-        let ret_sum  = self.a.par_iter()
-                            .zip(self.b.par_iter())
-                            .fold(|| sum1, |acc, it| acc + *it.0 * *it.1).sum();
+        self.a.par_iter()
+            .zip(self.b.par_iter())
+            .fold(|| sum1, |acc, it| acc + *it.0 * *it.1).sum();
                             //.reduce(|| (&sum1, &sum2), |a, b| (*a.0 * *a.1, *b.0 * *b.0));
-        ret_sum
     }
 
     pub fn check_solution(&self, ntimes: i32, start_vals: [T; 3], arr_size: T, sum: T){
