@@ -1,0 +1,163 @@
+Running on 1 Thread
+Int Stream
+Version: 0.1
+Implmentation: Rust
+Running kernels 100 times
+Precision: i32
+Array size: 134.2 MB (=0.1 GB)
+Total size: 402.7 MB (=0.4 GB)
+Function	Mbytes/sec	Min (sec)	Max		Average
+Copy		7854.962	0.03417		0.10198		0.03497
+Mul		8575.117	0.03130		0.03233		0.03139
+Add		8750.287	0.04602		0.04633		0.04612
+Triad		8710.912	0.04622		0.04718		0.04634
+Dot		9125.181	0.02942		0.02964		0.02952
+Running on 2 Threads
+Int Stream
+Version: 0.1
+Implmentation: Rust
+Running kernels 100 times
+Precision: i32
+Array size: 134.2 MB (=0.1 GB)
+Total size: 402.7 MB (=0.4 GB)
+Function	Mbytes/sec	Min (sec)	Max		Average
+Copy		15273.710	0.01758		0.05847		0.01802
+Mul		16649.225	0.01612		0.01829		0.01617
+Add		16959.531	0.02374		0.02623		0.02381
+Triad		16900.448	0.02382		0.02513		0.02388
+Dot		17221.752	0.01559		0.01568		0.01562
+4
+Running on 4 Threads
+Int Stream
+Version: 0.1
+Implmentation: Rust
+Running kernels 100 times
+Precision: i32
+Array size: 134.2 MB (=0.1 GB)
+Total size: 402.7 MB (=0.4 GB)
+Function	Mbytes/sec	Min (sec)	Max		Average
+Copy		28957.439	0.00927		0.02700		0.00996
+Mul		31451.137	0.00853		0.00972		0.00910
+Add		32701.469	0.01231		0.01415		0.01315
+Triad		32524.490	0.01238		0.01392		0.01331
+Dot		32063.480	0.00837		0.00953		0.00905
+8
+Running on 8 Threads
+Int Stream
+Version: 0.1
+Implmentation: Rust
+Running kernels 100 times
+Precision: i32
+Array size: 134.2 MB (=0.1 GB)
+Total size: 402.7 MB (=0.4 GB)
+Function	Mbytes/sec	Min (sec)	Max		Average
+Copy		49490.313	0.00542		0.01910		0.00589
+Mul		45069.754	0.00596		0.00742		0.00662
+Add		44818.921	0.00898		0.01095		0.00971
+Triad		46490.380	0.00866		0.01128		0.00983
+Dot		39987.406	0.00671		0.00795		0.00744
+12
+Running on 12 Threads
+Int Stream
+Version: 0.1
+Implmentation: Rust
+Running kernels 100 times
+Precision: i32
+Array size: 134.2 MB (=0.1 GB)
+Total size: 402.7 MB (=0.4 GB)
+Function	Mbytes/sec	Min (sec)	Max		Average
+Copy		56572.277	0.00475		0.01530		0.00526
+Mul		44245.172	0.00607		0.00734		0.00670
+Add		44689.588	0.00901		0.01029		0.00956
+Triad		46080.703	0.00874		0.01107		0.00996
+Dot		40041.088	0.00670		0.00766		0.00712
+16
+Running on 16 Threads
+Int Stream
+Version: 0.1
+Implmentation: Rust
+Running kernels 100 times
+Precision: i32
+Array size: 134.2 MB (=0.1 GB)
+Total size: 402.7 MB (=0.4 GB)
+Function	Mbytes/sec	Min (sec)	Max		Average
+Copy		55703.560	0.00482		0.01719		0.00527
+Mul		42915.341	0.00626		0.00731		0.00682
+Add		46064.888	0.00874		0.01021		0.00943
+Triad		43747.630	0.00920		0.01138		0.00999
+Dot		40857.756	0.00657		0.00755		0.00698
+20
+Running on 20 Threads
+Int Stream
+Version: 0.1
+Implmentation: Rust
+Running kernels 100 times
+Precision: i32
+Array size: 134.2 MB (=0.1 GB)
+Total size: 402.7 MB (=0.4 GB)
+Function	Mbytes/sec	Min (sec)	Max		Average
+Copy		55703.560	0.00482		0.01422		0.00540
+Mul		41470.023	0.00647		0.00751		0.00694
+Add		44467.497	0.00906		0.01004		0.00956
+Triad		43742.877	0.00920		0.01108		0.00987
+Dot		41406.055	0.00648		0.00736		0.00682
+24
+Running on 24 Threads
+Int Stream
+Version: 0.1
+Implmentation: Rust
+Running kernels 100 times
+Precision: i32
+Array size: 134.2 MB (=0.1 GB)
+Total size: 402.7 MB (=0.4 GB)
+Function	Mbytes/sec	Min (sec)	Max		Average
+Copy		57174.751	0.00470		0.01579		0.00522
+Mul		42147.190	0.00637		0.00722		0.00681
+Add		45221.606	0.00890		0.00974		0.00937
+Triad		45226.686	0.00890		0.01090		0.00983
+Dot		41502.080	0.00647		0.00722		0.00681
+28
+Running on 28 Threads
+Int Stream
+Version: 0.1
+Implmentation: Rust
+Running kernels 100 times
+Precision: i32
+Array size: 134.2 MB (=0.1 GB)
+Total size: 402.7 MB (=0.4 GB)
+Function	Mbytes/sec	Min (sec)	Max		Average
+Copy		53956.876	0.00498		0.01602		0.00541
+Mul		41304.117	0.00650		0.00729		0.00696
+Add		44754.161	0.00900		0.01007		0.00954
+Triad		43952.973	0.00916		0.01072		0.00995
+Dot		41463.617	0.00647		0.00705		0.00676
+32
+Running on 32 Threads
+Int Stream
+Version: 0.1
+Implmentation: Rust
+Running kernels 100 times
+Precision: i32
+Array size: 134.2 MB (=0.1 GB)
+Total size: 402.7 MB (=0.4 GB)
+Function	Mbytes/sec	Min (sec)	Max		Average
+Copy		54317.170	0.00494		0.01767		0.00541
+Mul		39880.472	0.00673		0.00749		0.00713
+Add		44296.280	0.00909		0.00999		0.00955
+Triad		43142.953	0.00933		0.01075		0.01006
+Dot		41032.629	0.00654		0.00711		0.00682
+36
+Running on 36 Threads
+Int Stream
+Version: 0.1
+Implmentation: Rust
+Running kernels 100 times
+Precision: i32
+Array size: 134.2 MB (=0.1 GB)
+Total size: 402.7 MB (=0.4 GB)
+Function	Mbytes/sec	Min (sec)	Max		Average
+Copy		54185.599	0.00495		0.01607		0.00535
+Mul		40814.270	0.00658		0.00742		0.00702
+Add		44605.426	0.00903		0.00980		0.00944
+Triad		42730.891	0.00942		0.01079		0.00995
+Dot		40506.331	0.00663		0.00707		0.00681
