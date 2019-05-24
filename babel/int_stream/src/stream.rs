@@ -14,10 +14,15 @@ pub struct RustStream{
 impl RustStream
 {
     pub fn init_arrays(&mut self, arr_size: i32){
-        let mut v = vec![2.4]; 
         (0i32..arr_size).into_par_iter()
-                                    .map(|mut foo| foo = 1)
-                                    .collect_into_vec(&mut v);
+                        .map(|_| 1)
+                        .collect_into_vec(&mut self.a);
+        (0i32..arr_size).into_par_iter()
+                        .map(|_| 1)
+                        .collect_into_vec(&mut self.b);
+        (0i32..arr_size).into_par_iter()
+                        .map(|_| 1)
+                        .collect_into_vec(&mut self.c);
         
     }
     pub fn copy(&mut self){
@@ -59,11 +64,10 @@ impl RustStream
         //for (a_i, b_i) in self.a.iter().zip(self.b.iter()){
         //    sum += *a_i * *b_i;
         //}
-        let ret_sum  = self.a.par_iter()
-                            .zip(self.b.par_iter())
-                            .fold(|| 0, |acc, it| acc + *it.0 * *it.1).sum();
-                            //.reduce(|| (&sum1, &sum2), |a, b| (*a.0 * *a.1, *b.0 * *b.0));
-        ret_sum
+        self.a.par_iter()
+             .zip(self.b.par_iter())
+             .fold(|| 0, |acc, it| acc + *it.0 * *it.1).sum()
+        
     }
 
     pub fn check_solution(&self, ntimes: i32, start_vals: [i32; 3], arr_size: f32, sum: i32){
