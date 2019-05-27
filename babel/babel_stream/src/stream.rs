@@ -19,15 +19,16 @@ impl <T> RustStream<T>
 where T: Float + AddAssign<T> + num::Signed + DivAssign<T> + std::fmt::Display + Any + Send + Sync + std::iter::Sum,
 [T]: Send + Sync, f64: std::convert::From<T>
 {
-    pub fn init_arrays(&mut self, arr_size: T){
-        
-        if Any::is::<f32>(&arr_size){
-            let size = f64::from(arr_size) as f32;
-            let zero = 0f32;
-            let new_a: Vec<_> = (zero..size).into_par_iter()
-                                            .map(|mut foo| foo = 8.0) //T::from(0.1).unwrap())
-                                            .collect();
-        }
+    pub fn init_arrays(&mut self, arr_size: usize){
+        vec![0.0; arr_size].par_iter()
+                        .map(|_| T::from(0.1).unwrap())
+                        .collect_into_vec(&mut self.a);
+        vec![0.0; arr_size].par_iter()
+                        .map(|_| T::from(0.1).unwrap())
+                        .collect_into_vec(&mut self.b);
+        vec![0.0; arr_size].par_iter()
+                        .map(|_| T::from(0.1).unwrap())
+                        .collect_into_vec(&mut self.c);
     }
     pub fn copy(&mut self){
        self.c.par_chunks_mut(1000)
@@ -44,9 +45,6 @@ where T: Float + AddAssign<T> + num::Signed + DivAssign<T> + std::fmt::Display +
     }
 
     pub fn add(&mut self){
-        //for ((c_i, a_i), b_i) in self.c.iter_mut().zip(self.a.iter()).zip(self.b.iter()){
-        //    *c_i = *a_i + *b_i;
-        //}
         self.c.par_iter_mut()
             .zip(self.b.par_iter())
             .zip(self.a.par_iter())
@@ -54,9 +52,6 @@ where T: Float + AddAssign<T> + num::Signed + DivAssign<T> + std::fmt::Display +
     }
 
     pub fn triad(&mut self){
-        //for ((a_i, c_i), b_i) in self.a.iter_mut().zip(self.c.iter()).zip(self.b.iter()){
-        //    *a_i = *b_i + self.scalar * *c_i;
-        //}
         let scalar_imut = self.scalar;
         self.a.par_iter_mut()
             .zip(self.c.par_iter())
@@ -66,13 +61,9 @@ where T: Float + AddAssign<T> + num::Signed + DivAssign<T> + std::fmt::Display +
 
     pub fn dot(&mut self)->T{
         let sum1: T = T::from(0).unwrap();
-        //for (a_i, b_i) in self.a.iter().zip(self.b.iter()){
-        //    sum += *a_i * *b_i;
-        //}
         self.a.par_iter()
             .zip(self.b.par_iter())
-            .fold(|| sum1, |acc, it| acc + *it.0 * *it.1).sum();
-                            //.reduce(|| (&sum1, &sum2), |a, b| (*a.0 * *a.1, *b.0 * *b.0));
+            .fold(|| sum1, |acc, it| acc + *it.0 * *it.1).sum()
     }
 
     pub fn check_solution(&self, ntimes: i32, start_vals: [T; 3], arr_size: T, sum: T){

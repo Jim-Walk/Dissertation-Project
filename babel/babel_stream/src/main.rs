@@ -55,9 +55,6 @@ fn main() {
     println!("Running kernels {} times", num_times);
     if use_float {
         let print_size = array_size as f32;
-        let start_a = 0.1f32;
-        let start_b = 0.2f32;
-        let start_c = 0.0f32;
         let sscalar = 0.4f32;
         println!("Precision: float");
         println!("Array size: {:.1} MB (={:.1} GB)",
@@ -66,14 +63,16 @@ fn main() {
         println!("Total size: {:.1} MB (={:.1} GB)",
                     3.0*print_size*4.0*1.0E-6,
                     3.0*print_size*4.0*1.0E-9);
+        // We will properly initalise these arrays in parallel
+        // in main
         let mut stream = stream::RustStream {
-            a: vec![start_a; array_size],
-            b: vec![start_b; array_size],
-            c: vec![start_c; array_size],
-            scalar: sscalar,
+            a: vec![0.1f32; 2],
+            b: vec![0.2f32; 2],
+            c: vec![0.0f32; 2],
+            scalar: 0.4f32
         };
-        let start_vals = [start_a, start_b, start_c];
-        run(stream, start_vals, print_size, num_times);
+        let start_vals = [0.1f32, 0.2f32, 0.0f32];
+        run(stream, start_vals, array_size, num_times);
     } else {
         let print_size = array_size as f64;
         println!("Precision: double");
@@ -84,29 +83,26 @@ fn main() {
         println!("Total size: {:.1} MB (={:.1} GB)",
                     3.0*print_size*8.0*1.0E-6,
                     3.0*print_size*8.0*1.0E-9);
-        //let array_size = array_size as f64;
-        let start_a = 0.1f64;
-        let start_b = 0.2f64;
-        let start_c = 0.0f64;
-        let sscalar = 0.4f64;
+        // We will properly initalise these arrays in parallel
+        // in main
         let mut stream = stream::RustStream {
-            a: vec![start_a; array_size],
-            b: vec![start_b; array_size],
-            c: vec![start_c; array_size],
-            scalar: sscalar,
+            a: vec![0.1f64; 2],
+            b: vec![0.2f64; 2],
+            c: vec![0.0f64; 2],
+            scalar: 0.4f64
         };
-        let start_vals = [start_a, start_b, start_c];
-        run(stream, start_vals, print_size, num_times);
+        let start_vals = [0.1f64, 0.2f64, 0.0f64];
+        run(stream, start_vals, array_size, num_times);
     }
 }
 
-pub fn run<T>(mut my_stream: stream::RustStream<T>, start_vals: [T;3], array_size: T, num_times: i32) 
+pub fn run<T>(mut my_stream: stream::RustStream<T>, start_vals: [T;3], array_size: usize, num_times: i32) 
 where T: Float + AddAssign<T> + num::Signed + DivAssign<T> + std::fmt::Display + Send + Sync + std::iter::Sum + Any,
 [T]: Send + Sync, f64: std::convert::From<T>
 
 {
 
-    //my_stream.init_arrays();
+    my_stream.init_arrays(array_size);
     // List of times
     let mut timings: [Vec<u128>; 5] = Default::default();
 
@@ -142,7 +138,7 @@ where T: Float + AddAssign<T> + num::Signed + DivAssign<T> + std::fmt::Display +
             let t2 = t1.elapsed();
             timings[4].push(t2.as_micros());
     }
-
+    let array_size = T::from(array_size).unwrap();
     // Check results
     my_stream.check_solution(num_times, start_vals, array_size, sum);
 
