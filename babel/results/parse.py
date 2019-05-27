@@ -11,11 +11,11 @@ def parse_file(f):
     i = 0
     while i < len(data):
         if data[i].split()[0] == 'Copy':
-            res[0] += [float(data[i].split()[1])]
-            res[1] += [float(data[i+1].split()[1])]
-            res[2] += [float(data[i+2].split()[1])]
-            res[3] += [float(data[i+3].split()[1])]
-            res[4] += [float(data[i+4].split()[1])]
+            res[0] += [float(data[i].split()[4])]
+            res[1] += [float(data[i+1].split()[4])]
+            res[2] += [float(data[i+2].split()[4])]
+            res[3] += [float(data[i+3].split()[4])]
+            res[4] += [float(data[i+4].split()[4])]
         i+=1
 
     return res
@@ -42,22 +42,25 @@ if __name__ == '__main__':
     res2 = parse_file(sys.argv[2])
     print(res1[0][0])
     for res in res1:
-        get_Gb(res)
+        get_speedup(res)
     for res in res2:
-        get_Gb(res)
+        get_speedup(res)
     print(res1[0][0])
 
 
     functions = ['Copy', 'Mul', 'Add', 'Triad', 'Dot']
     x_axis = [1,2] + list(range(4,37,4))
     i = 0
+    #peak_mem = [153.6 for i in range(len(x_axis))]
     while i < len(functions):
         print('Graphing', functions[i])
         fig, ax = plt.subplots()
         ax.plot(x_axis, res1[i], label=label1, marker='.')
         ax.plot( x_axis, res2[i], label=label2, marker='.')
-        ax.set(xlabel='Number of threads', ylabel='Bandwidth GBytes/sec',
+        #ax.plot(x_axis, peak_mem, label='Theoretical Peak', ls='--')
+        ax.set(xlabel='Number of threads', ylabel='Speedup t1/tn',
                title=functions[i])
+        ax.set_xticks(x_axis)
         ax.set_xticklabels(x_axis)
         ax.legend()
         fig.savefig(functions[i] + '.png')

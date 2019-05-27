@@ -24,10 +24,10 @@ where T: Float + AddAssign<T> + num::Signed + DivAssign<T> + std::fmt::Display +
                         .map(|_| T::from(0.1).unwrap())
                         .collect_into_vec(&mut self.a);
         vec![0.0; arr_size].par_iter()
-                        .map(|_| T::from(0.1).unwrap())
+                        .map(|_| T::from(0.2).unwrap())
                         .collect_into_vec(&mut self.b);
         vec![0.0; arr_size].par_iter()
-                        .map(|_| T::from(0.1).unwrap())
+                        .map(|_| T::from(0.0).unwrap())
                         .collect_into_vec(&mut self.c);
     }
     pub fn copy(&mut self){

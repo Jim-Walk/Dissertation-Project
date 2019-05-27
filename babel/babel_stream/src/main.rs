@@ -55,7 +55,6 @@ fn main() {
     println!("Running kernels {} times", num_times);
     if use_float {
         let print_size = array_size as f32;
-        let sscalar = 0.4f32;
         println!("Precision: float");
         println!("Array size: {:.1} MB (={:.1} GB)",
                     print_size*4.0*1.0E-6,
