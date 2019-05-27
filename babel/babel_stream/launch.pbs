@@ -3,13 +3,13 @@
 # PBS job options (name, compute nodes, job time)
 #PBS -N run_OMP_Stream
 #PBS -l select=34
-#PBS -l walltime=00:50:00
+#PBS -l walltime=00:20:00
 #PBS -A d167-s1893750
 #PBS -l place=excl
 
 # Change to the directory that the job was submitted from
 # (remember this should be on the /work filesystem)
-cd /lustre/home/d167/s1893750/Dissertation-Project/babel_stream
+cd /lustre/home/d167/s1893750/Dissertation-Project/babel/babel_stream
 
 module load gcc
 
