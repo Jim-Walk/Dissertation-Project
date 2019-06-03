@@ -12,6 +12,7 @@ pub struct RustStream<T: Float + Send + Sync + std::iter::Sum>{
     pub b: Vec<T>,
     pub c: Vec<T>,
     pub scalar: T,
+    pub chunk_size: usize
 }
 
 
@@ -39,31 +40,47 @@ where T: Float + AddAssign<T> + num::Signed + DivAssign<T> + std::fmt::Display +
     pub fn mul(&mut self){
         // This scalar variable is needed as self is mutably borrowd by function call
         let scalar_imut = self.scalar;
-        self.b.par_iter_mut()
-            .zip(self.c.par_iter())
-            .for_each(|(b, c)| *b = scalar_imut * *c);
+        self.b.par_chunks_mut(self.chunk_size)
+            .zip(self.c.par_chunks_mut(self.chunk_size))
+            .for_each(|(b, c)| 
+                            for (b_i, c_i) in b.iter_mut()
+                                                .zip(c.iter()){
+                                                    *b_i = scalar_imut * *c_i 
+                            });
     }
 
     pub fn add(&mut self){
-        self.c.par_iter_mut()
-            .zip(self.b.par_iter())
-            .zip(self.a.par_iter())
-            .for_each(|((c, b), a)| *c = *a + *b);
+        self.c.par_chunks_mut(self.chunk_size)
+            .zip(self.b.par_chunks(self.chunk_size))
+            .zip(self.a.par_chunks(self.chunk_size))
+            .for_each(|((c, b), a)| 
+                            for ((c_i, b_i), a_i) in c.iter_mut()
+                                                        .zip(b.iter())
+                                                        .zip(a.iter()){
+                                                            *c_i = *a_i + *b_i
+                                                        });
     }
 
     pub fn triad(&mut self){
         let scalar_imut = self.scalar;
-        self.a.par_iter_mut()
-            .zip(self.c.par_iter())
-            .zip(self.b.par_iter())
-            .for_each(|((a, c), b)| *a = *b + scalar_imut * *c);
+        self.a.par_chunks_mut(self.chunk_size)
+            .zip(self.c.par_chunks(self.chunk_size))
+            .zip(self.b.par_chunks(self.chunk_size))
+            .for_each(|((a, c), b)|
+                            for (( a_i, c_i,), b_i) in a.iter_mut()
+                                                        .zip(c.iter())
+                                                        .zip(b.iter()){
+                                                            *a_i = *b_i + scalar_imut * *c_i
+                                                        });
     }
 
     pub fn dot(&mut self)->T{
-        let sum1: T = T::from(0).unwrap();
-        self.a.par_iter()
-            .zip(self.b.par_iter())
-            .fold(|| sum1, |acc, it| acc + *it.0 * *it.1).sum()
+        
+        self.a.par_chunks(self.chunk_size)
+            .zip(self.b.par_chunks(self.chunk_size))
+            .map(|(a,b)| a.iter().zip(b.iter())
+                      .fold(T::from(0).unwrap(), | acc, ele| acc + *ele.0 * *ele.1)
+                      ).sum()
     }
 
     pub fn check_solution(&self, ntimes: i32, start_vals: [T; 3], arr_size: T, sum: T){
