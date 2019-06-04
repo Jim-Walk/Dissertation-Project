@@ -69,7 +69,7 @@ fn main() {
             b: vec![0.2f32; 2],
             c: vec![0.0f32; 2],
             scalar: 0.4f32,
-            chunk_size: 1000
+            chunk_size: 625000
         };
         let start_vals = [0.1f32, 0.2f32, 0.0f32];
         run(stream, start_vals, array_size, num_times);
@@ -90,7 +90,7 @@ fn main() {
             b: vec![0.2f64; 2],
             c: vec![0.0f64; 2],
             scalar: 0.4f64,
-            chunk_size: 1000
+            chunk_size: 625000
         };
         let start_vals = [0.1f64, 0.2f64, 0.0f64];
         run(stream, start_vals, array_size, num_times);
