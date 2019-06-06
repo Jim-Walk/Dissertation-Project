@@ -1,0 +1,108 @@
+Running on 1 Thread
+Parallel Research Kernels version 2.16
+C++11/OpenMP TASKS pipeline execution on 2D grid
+Number of threads (max)   = 1
+Number of iterations = 50
+Grid sizes           = 500, 500
+Grid chunk sizes     = 500, 500
+Solution validates
+Rate (MFlops/s): 348.79 Avg time (s): 0.0014278
+Running on 2 Threads
+Parallel Research Kernels version 2.16
+C++11/OpenMP TASKS pipeline execution on 2D grid
+Number of threads (max)   = 2
+Number of iterations = 50
+Grid sizes           = 500, 500
+Grid chunk sizes     = 500, 500
+Solution validates
+Rate (MFlops/s): 415.568 Avg time (s): 0.00119836
+4
+Running on 4 Threads
+Parallel Research Kernels version 2.16
+C++11/OpenMP TASKS pipeline execution on 2D grid
+Number of threads (max)   = 4
+Number of iterations = 50
+Grid sizes           = 500, 500
+Grid chunk sizes     = 500, 500
+Solution validates
+Rate (MFlops/s): 450.077 Avg time (s): 0.00110648
+8
+Running on 8 Threads
+Parallel Research Kernels version 2.16
+C++11/OpenMP TASKS pipeline execution on 2D grid
+Number of threads (max)   = 8
+Number of iterations = 50
+Grid sizes           = 500, 500
+Grid chunk sizes     = 500, 500
+Solution validates
+Rate (MFlops/s): 437.282 Avg time (s): 0.00113886
+12
+Running on 12 Threads
+Parallel Research Kernels version 2.16
+C++11/OpenMP TASKS pipeline execution on 2D grid
+Number of threads (max)   = 12
+Number of iterations = 50
+Grid sizes           = 500, 500
+Grid chunk sizes     = 500, 500
+Solution validates
+Rate (MFlops/s): 497.057 Avg time (s): 0.0010019
+16
+Running on 16 Threads
+Parallel Research Kernels version 2.16
+C++11/OpenMP TASKS pipeline execution on 2D grid
+Number of threads (max)   = 16
+Number of iterations = 50
+Grid sizes           = 500, 500
+Grid chunk sizes     = 500, 500
+Solution validates
+Rate (MFlops/s): 501.21 Avg time (s): 0.0009936
+20
+Running on 20 Threads
+Parallel Research Kernels version 2.16
+C++11/OpenMP TASKS pipeline execution on 2D grid
+Number of threads (max)   = 20
+Number of iterations = 50
+Grid sizes           = 500, 500
+Grid chunk sizes     = 500, 500
+Solution validates
+Rate (MFlops/s): 527.255 Avg time (s): 0.000944519
+24
+Running on 24 Threads
+Parallel Research Kernels version 2.16
+C++11/OpenMP TASKS pipeline execution on 2D grid
+Number of threads (max)   = 24
+Number of iterations = 50
+Grid sizes           = 500, 500
+Grid chunk sizes     = 500, 500
+Solution validates
+Rate (MFlops/s): 539.266 Avg time (s): 0.000923481
+28
+Running on 28 Threads
+Parallel Research Kernels version 2.16
+C++11/OpenMP TASKS pipeline execution on 2D grid
+Number of threads (max)   = 28
+Number of iterations = 50
+Grid sizes           = 500, 500
+Grid chunk sizes     = 500, 500
+Solution validates
+Rate (MFlops/s): 549.272 Avg time (s): 0.000906658
+32
+Running on 32 Threads
+Parallel Research Kernels version 2.16
+C++11/OpenMP TASKS pipeline execution on 2D grid
+Number of threads (max)   = 32
+Number of iterations = 50
+Grid sizes           = 500, 500
+Grid chunk sizes     = 500, 500
+Solution validates
+Rate (MFlops/s): 569.222 Avg time (s): 0.000874882
+36
+Running on 36 Threads
+Parallel Research Kernels version 2.16
+C++11/OpenMP TASKS pipeline execution on 2D grid
+Number of threads (max)   = 36
+Number of iterations = 50
+Grid sizes           = 500, 500
+Grid chunk sizes     = 500, 500
+Solution validates
+Rate (MFlops/s): 542.521 Avg time (s): 0.00091794
