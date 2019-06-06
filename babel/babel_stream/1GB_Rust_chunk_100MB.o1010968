@@ -1,0 +1,185 @@
+Running on 1 Thread
+BabelStream
+Version: 0.5
+Implmentation: Rust
+Running kernels 100 times
+Precision: double
+Array size: 1000.0 MB (=1.0 GB)
+Total size: 3000.0 MB (=3.0 GB)
+error on sum: 0.000000012314075092945131 
+Expected 148.2331642029067 found 148.23316419059262
+Function	Mbytes/sec	Min (sec)	Max		Average
+Copy		9298.001	0.21510		0.22184		0.21527
+Mul		9648.970	0.20728		0.20810		0.20736
+Add		10370.181	0.28929		0.29038		0.28939
+Triad		10345.541	0.28998		0.29072		0.29008
+Dot		11448.459	0.17470		0.17553		0.17493
+Running on 2 Threads
+BabelStream
+Version: 0.5
+Implmentation: Rust
+Running kernels 100 times
+Precision: double
+Array size: 1000.0 MB (=1.0 GB)
+Total size: 3000.0 MB (=3.0 GB)
+error on sum: 0.000000012314075092945131 
+Expected 148.2331642029067 found 148.23316419059262
+Function	Mbytes/sec	Min (sec)	Max		Average
+Copy		17530.942	0.11408		0.14140		0.12319
+Mul		18151.785	0.11018		0.14008		0.12249
+Add		19389.991	0.15472		0.19711		0.17279
+Triad		19385.981	0.15475		0.19781		0.17303
+Dot		22411.475	0.08924		0.12278		0.10110
+4
+Running on 4 Threads
+BabelStream
+Version: 0.5
+Implmentation: Rust
+Running kernels 100 times
+Precision: double
+Array size: 1000.0 MB (=1.0 GB)
+Total size: 3000.0 MB (=3.0 GB)
+error on sum: 0.000000012314075092945131 
+Expected 148.2331642029067 found 148.23316419059262
+Function	Mbytes/sec	Min (sec)	Max		Average
+Copy		31084.862	0.06434		0.07214		0.06834
+Mul		28516.839	0.07013		0.07580		0.07310
+Add		29731.819	0.10090		0.10872		0.10458
+Triad		29935.340	0.10022		0.10857		0.10397
+Dot		35522.086	0.05630		0.06213		0.05944
+8
+Running on 8 Threads
+BabelStream
+Version: 0.5
+Implmentation: Rust
+Running kernels 100 times
+Precision: double
+Array size: 1000.0 MB (=1.0 GB)
+Total size: 3000.0 MB (=3.0 GB)
+error on sum: 0.000000012314075092945131 
+Expected 148.2331642029067 found 148.23316419059262
+Function	Mbytes/sec	Min (sec)	Max		Average
+Copy		44768.769	0.04467		0.05519		0.04993
+Mul		34616.450	0.05778		0.07341		0.06162
+Add		37534.720	0.07993		0.09542		0.08643
+Triad		39633.784	0.07569		0.10210		0.08466
+Dot		47291.386	0.04229		0.05919		0.04753
+12
+Running on 12 Threads
+BabelStream
+Version: 0.5
+Implmentation: Rust
+Running kernels 100 times
+Precision: double
+Array size: 1000.0 MB (=1.0 GB)
+Total size: 3000.0 MB (=3.0 GB)
+error on sum: 0.000000012314075092945131 
+Expected 148.2331642029067 found 148.23316419059262
+Function	Mbytes/sec	Min (sec)	Max		Average
+Copy		49631.486	0.04030		0.05259		0.04594
+Mul		49213.809	0.04064		0.05438		0.04854
+Add		52509.977	0.05713		0.07191		0.06429
+Triad		53102.044	0.05649		0.07554		0.06534
+Dot		64156.027	0.03117		0.03981		0.03634
+16
+Running on 16 Threads
+BabelStream
+Version: 0.5
+Implmentation: Rust
+Running kernels 100 times
+Precision: double
+Array size: 1000.0 MB (=1.0 GB)
+Total size: 3000.0 MB (=3.0 GB)
+error on sum: 0.000000012314075092945131 
+Expected 148.2331642029067 found 148.23316419059262
+Function	Mbytes/sec	Min (sec)	Max		Average
+Copy		60810.605	0.03289		0.04324		0.03806
+Mul		52823.411	0.03786		0.05886		0.04303
+Add		56149.282	0.05343		0.08194		0.05855
+Triad		58190.282	0.05155		0.08317		0.05812
+Dot		63842.692	0.03133		0.04632		0.03464
+20
+Running on 20 Threads
+BabelStream
+Version: 0.5
+Implmentation: Rust
+Running kernels 100 times
+Precision: double
+Array size: 1000.0 MB (=1.0 GB)
+Total size: 3000.0 MB (=3.0 GB)
+error on sum: 0.000000012314075092945131 
+Expected 148.2331642029067 found 148.23316419059262
+Function	Mbytes/sec	Min (sec)	Max		Average
+Copy		59470.711	0.03363		0.04437		0.03776
+Mul		53249.554	0.03756		0.04481		0.04126
+Add		55546.298	0.05401		0.06345		0.05829
+Triad		57405.281	0.05226		0.06506		0.05810
+Dot		62048.211	0.03223		0.04171		0.03513
+24
+Running on 24 Threads
+BabelStream
+Version: 0.5
+Implmentation: Rust
+Running kernels 100 times
+Precision: double
+Array size: 1000.0 MB (=1.0 GB)
+Total size: 3000.0 MB (=3.0 GB)
+error on sum: 0.000000012314075092945131 
+Expected 148.2331642029067 found 148.23316419059262
+Function	Mbytes/sec	Min (sec)	Max		Average
+Copy		58839.104	0.03399		0.04131		0.03756
+Mul		52102.329	0.03839		0.04768		0.04244
+Add		56679.703	0.05293		0.06478		0.05819
+Triad		57243.169	0.05241		0.06435		0.05763
+Dot		62788.434	0.03185		0.03880		0.03469
+28
+Running on 28 Threads
+BabelStream
+Version: 0.5
+Implmentation: Rust
+Running kernels 100 times
+Precision: double
+Array size: 1000.0 MB (=1.0 GB)
+Total size: 3000.0 MB (=3.0 GB)
+error on sum: 0.000000012314075092945131 
+Expected 148.2331642029067 found 148.23316419059262
+Function	Mbytes/sec	Min (sec)	Max		Average
+Copy		58924.047	0.03394		0.04246		0.03808
+Mul		53764.886	0.03720		0.04744		0.04299
+Add		54569.267	0.05498		0.07899		0.05898
+Triad		57836.900	0.05187		0.06513		0.05817
+Dot		61308.320	0.03262		0.05049		0.03507
+32
+Running on 32 Threads
+BabelStream
+Version: 0.5
+Implmentation: Rust
+Running kernels 100 times
+Precision: double
+Array size: 1000.0 MB (=1.0 GB)
+Total size: 3000.0 MB (=3.0 GB)
+error on sum: 0.000000012314075092945131 
+Expected 148.2331642029067 found 148.23316419059262
+Function	Mbytes/sec	Min (sec)	Max		Average
+Copy		57710.065	0.03466		0.04065		0.03724
+Mul		53177.346	0.03761		0.06304		0.04264
+Add		56054.859	0.05352		0.08960		0.06074
+Triad		56475.904	0.05312		0.09022		0.06051
+Dot		62699.856	0.03190		0.05223		0.03525
+36
+Running on 36 Threads
+BabelStream
+Version: 0.5
+Implmentation: Rust
+Running kernels 100 times
+Precision: double
+Array size: 1000.0 MB (=1.0 GB)
+Total size: 3000.0 MB (=3.0 GB)
+error on sum: 0.000000012314075092945131 
+Expected 148.2331642029067 found 148.23316419059262
+Function	Mbytes/sec	Min (sec)	Max		Average
+Copy		58188.589	0.03437		0.04120		0.03747
+Mul		50849.181	0.03933		0.06414		0.04474
+Add		54280.958	0.05527		0.09212		0.06166
+Triad		56162.947	0.05342		0.09083		0.05952
+Dot		61841.007	0.03234		0.05210		0.03577

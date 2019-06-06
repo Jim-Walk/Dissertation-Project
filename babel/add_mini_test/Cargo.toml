@@ -1,0 +1,10 @@
+[package]
+name = "babel_stream"
+version = "0.5.0"
+authors = ["andrewpsuedonym <j.m.walker@live.co.uk>"]
+edition = "2018"
+
+[dependencies]
+clap = "~2.33"
+num = "0.2"
+rayon = "1.0.3"

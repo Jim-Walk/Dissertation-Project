@@ -1,7 +1,7 @@
 #!/bin/bash --login
 
 # PBS job options (name, compute nodes, job time)
-#PBS -N 1GB_Rust_chunk_15MB
+#PBS -N 1GB_Rust_chunk_500MB
 #PBS -l select=34
 #PBS -l walltime=00:15:00
 #PBS -A d167-s1893750
