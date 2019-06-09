@@ -2,6 +2,6 @@
 name = "sparse"
 version = "0.1.0"
 authors = ["andrewpsuedonym <j.m.walker@live.co.uk>"]
-edition = "2018"
 
 [dependencies]
+clap = "~2.33"

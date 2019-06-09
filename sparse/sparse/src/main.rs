@@ -12,15 +12,15 @@ fn main() {
                             .author("Jim Walker j.m.walker@live.co.uk")
                             .arg(Arg::with_name("iterations")
                                  .short("n")
-                                 .long("numtimes")
-                                 .value_name("NUM")
-                                 .help("Run the test NUM times")
+                                 .long("iterations")
+                                 .value_name("ITER")
+                                 .help("Run the test ITER times")
                                  .takes_value(true))
-                            .arg(Arg::with_name("arraysize")
-                                 .short("s")
-                                 .long("arraysize")
-                                 .value_name("SIZE")
-                                 .help("Use SIZE elements in the array")
+                            .arg(Arg::with_name("Number of threads")
+                                 .short("t")
+                                 .long("num_threads")
+                                 .value_name("NUM_THREADS")
+                                 .help("Use NUM_THREADS")
                                  .takes_value(true))
                             .get_matches();
 
@@ -29,16 +29,15 @@ fn main() {
                         .unwrap_or("20")
                         .parse::<i32>()
                         .unwrap();
-    let use_float = matches.is_present("float");
-    let array_size = matches.value_of("arraysize")
-                        .unwrap_or("33554432")
-                        .parse::<usize>()
+    let num_threads = matches.value_of("Number of threads")
+                        .unwrap_or("20")
+                        .parse::<i32>()
                         .unwrap();
 
     // Set up initial variables
     // Print info 
-    println!("Sparse");
-    println!("Version: 0.1");
-    println!("Implmentation: Rust");
-    println!("Running kernels {} times", iterations);
+    println!("Parallel Research Kernels version 2.17");
+    println!("Rust Sparse matrix-vector multiplication");
+    println!("Number of threads\t=\t{}", num_threads);
+    println!("Number of iterations\t=\t {}", iterations);
 }
