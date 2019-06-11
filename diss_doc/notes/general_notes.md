@@ -12,3 +12,5 @@ Changing babel stream's add to rusty `a.iter().zip(b.iter())` made the function 
 Triad also showed a similar decrease in time when rewritten this way.
 
 It seems like rust stream's implementation suffers as we are unable to initalise float variables in parrallel. I will attempt a version of babel stream which uses ints, and see if parallel initialisation increases speed.
+
+Rust's bitwise shift operator panics rather than overflowing, which seems safer. Came to this realisation when working on sparse.c
