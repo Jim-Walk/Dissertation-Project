@@ -14,3 +14,12 @@ Triad also showed a similar decrease in time when rewritten this way.
 It seems like rust stream's implementation suffers as we are unable to initalise float variables in parrallel. I will attempt a version of babel stream which uses ints, and see if parallel initialisation increases speed.
 
 Rust's bitwise shift operator panics rather than overflowing, which seems safer. Came to this realisation when working on sparse.c
+
+Numeric casting seems irregular. Why is 
+```
+let sparsity  = (4.0 * radius as f64 + 1.0) / size2 as f64;
+```
+but this is illegal?
+```
+let sparsity: f64  = (4 * radius as i64 + 1)/ size2).into();
+```
