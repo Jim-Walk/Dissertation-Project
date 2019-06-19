@@ -76,7 +76,7 @@ fn main() {
     let size2: usize = size * size;
 
     /* emit error if (periodic) stencil overlaps with itself                        */
-    if size < (2 * radius + 1).into() {
+    if size < (2 * radius + 1) {
         println!("Error, grid extent {} smaller than stencil diameter 2*{}+1={}",
                  size, radius, 2 * radius + 1);
     }
@@ -113,27 +113,26 @@ fn main() {
     //    .collect_into_vec(&mut matrix);
 
     let mut matrix = vec![0.0f64; nent];
-    let mut colIndex = vec![0usize; nent];
+    let mut col_index = vec![0usize; nent];
 
     for row in 0..size2 {
         let j = row / size;
         let i = row % size;
         let mut elm = row * stencil_size;
-        colIndex[elm] = lin(i,j,lsize);
+        col_index[elm] = lin(i,j,lsize);
         
         for r in 1..=radius{
-            colIndex[elm + 1] = lin( (i+r)%size, j, lsize );
-            colIndex[elm + 2] = lin( (i-r+size)%size, j, lsize );
-            colIndex[elm + 3] = lin( i, (j+r)%size, lsize );
-            colIndex[elm + 4] = lin( i, (j-r+size)%size, lsize );
+            col_index[elm + 1] = lin( (i+r)%size, j, lsize );
+            col_index[elm + 2] = lin( (i-r+size)%size, j, lsize );
+            col_index[elm + 3] = lin( i, (j+r)%size, lsize );
+            col_index[elm + 4] = lin( i, (j-r+size)%size, lsize );
             elm += 4;
         }
-        let lo = row as usize * stencil_size;
+        let lo = row * stencil_size;
         let hi = lo + stencil_size;
-        &colIndex[lo..hi].sort_unstable_by(|a,b| a.cmp(b));
-        let ub = (row + 1) as usize * stencil_size; // upper bound
-        for e in lo..ub {
-            matrix[e] = 1.0/ (colIndex[e]+1) as f64;
+        col_index[lo..hi].sort_unstable_by(|a,b| a.cmp(b));
+        for e in lo..hi {
+            matrix[e] = 1.0/ (col_index[e]+1) as f64;
         }
     }
     
@@ -148,26 +147,24 @@ fn main() {
             .enumerate()
             .for_each(|(idx, e)| *e += idx as f64 + 1.0);
         
-        for row in 0..size2 as usize{
+        result.par_iter_mut().enumerate().for_each( |(row, item)| {
             let first = stencil_size * row;
             let last = first + stencil_size - 1;
             let mut temp = 0.0;
 
             for col in first..=last{
-                temp += matrix[col] * vector[colIndex[col]];
+                temp += matrix[col] * vector[col_index[col]];
             }
-            result[row] += temp;
-        }
+            *item += temp;
+        });
     }
     let end_time = sparse_time.elapsed();
 
-    
-
-    // Verisfication test
-    let reference_sum = 0.5 * nent as f64 * (iterations + 1) as f64 * (iterations + 2) as f64;
+    // Verification test
+    let reference_sum = 0.5 * nent as f64 * f64::from(iterations + 1) * f64::from(iterations + 2);
 
     let mut vector_sum = 0.0;
-    for row in 0..size2 as usize { 
+    for row in 0..size2 { 
         vector_sum += result[row]
     }
 
@@ -182,5 +179,5 @@ fn main() {
 
     // Print info 
     let rate = 1.0e-6 * (2.0 * nent as f64)/avgtime;
-    println!("Rate (MFLops/s = {}, Avg time (s): {}", rate, avgtime);
+    println!("Rate (MFLops/s) = {}, Avg time (s): {}", rate, avgtime);
 }
