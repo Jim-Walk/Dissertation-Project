@@ -9,26 +9,10 @@ use rayon::prelude::*;
 use std::time::Instant;
 
 
-fn lin(i: i64, j: i64, shift: i32) -> i64 {
+fn lin(i: usize, j: usize, shift: i32) -> usize {
     i + (j << shift)
 }
 
-fn init(row: i64, size: i64, stencil_size: i32, lsize: i32, lsize2: i32, nent: i64, radius: i32)->f64{
-    let j = row / size;
-    let i = row % size;
-    let elm = row as usize * stencil_size as usize;
-    let mut colIndex = vec![0i64; nent as usize];
-    colIndex[elm] = lin(i,j,lsize);
-    
-    for r in 1..radius as i64 + 1{
-        colIndex[elm + 1] = lin( (i+r)%size, j, lsize );
-        colIndex[elm + 2] = lin( (i-r+size)%size, j, lsize );
-        colIndex[elm + 3] = lin( i, (j+r)%size, lsize );
-        colIndex[elm + 4] = lin( i, (j-r+size)%size, lsize );
-    }
-    
-    0.3f64
-}
 
 fn main() {
 
@@ -78,7 +62,7 @@ fn main() {
                         .unwrap();
     let radius = matches.value_of("stencil radius")
                         .unwrap_or("3")
-                        .parse::<i32>()
+                        .parse::<usize>()
                         .unwrap();
     let size = 1<<lsize;
     rayon::ThreadPoolBuilder::new().num_threads(22).build_global().unwrap();
@@ -89,7 +73,7 @@ fn main() {
     }
     
     /* compute number of points in the grid                                         */
-    let size2: i64 = size * size;
+    let size2: usize = size * size;
 
     /* emit error if (periodic) stencil overlaps with itself                        */
     if size < (2 * radius + 1).into() {
@@ -129,20 +113,20 @@ fn main() {
     //    .collect_into_vec(&mut matrix);
 
     let mut matrix = vec![0.0f64; nent];
-    let mut colIndex = vec![0i64; nent];
+    let mut colIndex = vec![0usize; nent];
 
     for row in 0..size2 {
         let j = row / size;
         let i = row % size;
-        let elm = row as usize * stencil_size;
-        colIndex = vec![0i64; nent];
+        let mut elm = row * stencil_size;
         colIndex[elm] = lin(i,j,lsize);
         
-        for r in 1..=radius as i64 + 1{
+        for r in 1..=radius{
             colIndex[elm + 1] = lin( (i+r)%size, j, lsize );
             colIndex[elm + 2] = lin( (i-r+size)%size, j, lsize );
             colIndex[elm + 3] = lin( i, (j+r)%size, lsize );
             colIndex[elm + 4] = lin( i, (j-r+size)%size, lsize );
+            elm += 4;
         }
         let lo = row as usize * stencil_size;
         let hi = lo + stencil_size;
@@ -162,7 +146,7 @@ fn main() {
         // fill vector
         vector.par_iter_mut()
             .enumerate()
-            .for_each(|(idx, e)| *e += (idx + 1) as f64);
+            .for_each(|(idx, e)| *e += idx as f64 + 1.0);
         
         for row in 0..size2 as usize{
             let first = stencil_size * row;
@@ -170,7 +154,7 @@ fn main() {
             let mut temp = 0.0;
 
             for col in first..=last{
-                temp += matrix[col] * vector[colIndex[col] as usize];
+                temp += matrix[col] * vector[colIndex[col]];
             }
             result[row] += temp;
         }
@@ -197,6 +181,6 @@ fn main() {
 
 
     // Print info 
-    let rate = 1.0e-6 * (2.0 * nent)/avgtime;
+    let rate = 1.0e-6 * (2.0 * nent as f64)/avgtime;
     println!("Rate (MFLops/s = {}, Avg time (s): {}", rate, avgtime);
 }
