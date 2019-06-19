@@ -5,3 +5,5 @@ authors = ["andrewpsuedonym <j.m.walker@live.co.uk>"]
 
 [dependencies]
 clap = "~2.33"
+rayon = "1.0.3"
+par-array-init = "0.0.5"
