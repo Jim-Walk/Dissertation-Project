@@ -54,7 +54,7 @@ fn main() {
                         .unwrap();
     let num_threads = matches.value_of("Number of threads")
                         .unwrap_or("1")
-                        .parse::<i32>()
+                        .parse::<usize>()
                         .unwrap();
     let lsize = matches.value_of("2log grid size")
                         .unwrap_or("7")
@@ -65,7 +65,7 @@ fn main() {
                         .parse::<usize>()
                         .unwrap();
     let size = 1<<lsize;
-    rayon::ThreadPoolBuilder::new().num_threads(22).build_global().unwrap();
+    rayon::ThreadPoolBuilder::new().num_threads(num_threads).build_global().unwrap();
 
     if lsize < 0 {
         println!("ERROR, log of grid size must be greater than or equal to zero: {}", lsize);
@@ -88,7 +88,7 @@ fn main() {
     let sparsity  = (4.0 * radius as f64 + 1.0) / size2 as f64;
 
     /* compute total number of non-zeroes                                           */
-    let nent = size2 as usize * stencil_size;
+    let nent = size2 * stencil_size;
     println!("Jim's bootleg Research Kernels version 0.17");
     println!("Rust Sparse matrix-vector multiplication");
     println!("Number of threads     =\t{}", num_threads);
@@ -99,10 +99,10 @@ fn main() {
     
     let mut result = vec![0.0 as f64, 0.0 as f64];
     let mut vector = vec![0.0 as f64, 0.0 as f64];
-    vec![0.0; size2 as usize].par_iter()
+    vec![0.0; size2].par_iter()
         .map(|_| 0.0)
         .collect_into_vec(&mut vector);
-    vec![0.0; size2 as usize].par_iter()
+    vec![0.0; size2].par_iter()
         .map(|_| 0.0)
         .collect_into_vec(&mut result);
 
@@ -115,7 +115,7 @@ fn main() {
     let mut matrix = vec![0.0f64; nent];
     let mut col_index = vec![0usize; nent];
 
-    for row in 0..size2 {
+    for row in (0..size2).into_iter() {
         let j = row / size;
         let i = row % size;
         let mut elm = row * stencil_size;
@@ -123,18 +123,21 @@ fn main() {
         
         for r in 1..=radius{
             col_index[elm + 1] = lin( (i+r)%size, j, lsize );
-            col_index[elm + 2] = lin( (i-r+size)%size, j, lsize );
+            col_index[elm + 2] = lin( (i+size-r)%size, j, lsize );
             col_index[elm + 3] = lin( i, (j+r)%size, lsize );
-            col_index[elm + 4] = lin( i, (j-r+size)%size, lsize );
+            col_index[elm + 4] = lin( i, (j+size-r)%size, lsize );
             elm += 4;
         }
-        let lo = row * stencil_size;
-        let hi = lo + stencil_size;
-        col_index[lo..hi].sort_unstable_by(|a,b| a.cmp(b));
-        for e in lo..hi {
-            matrix[e] = 1.0/ (col_index[e]+1) as f64;
-        }
     }
+    col_index.par_iter().map(|e| 1.0/(e+1) as f64).collect_into_vec(&mut matrix);
+   // for row in (0..size2).into_iter() {
+   //     let lo = row * stencil_size;
+   //     let hi = lo + stencil_size;
+   //  //   col_index[lo..hi].sort_unstable_by(|a,b| a.cmp(b));
+   //     for e in lo..hi {
+   //         matrix[e] = 1.0/ (col_index[e]+1) as f64;
+   //     }
+   // }
     
     let mut sparse_time = Instant::now();
     for i in 0..=iterations {
@@ -152,6 +155,7 @@ fn main() {
             let last = first + stencil_size - 1;
             let mut temp = 0.0;
 
+            // Consider adding explicit SIMD here
             for col in first..=last{
                 temp += matrix[col] * vector[col_index[col]];
             }
@@ -175,7 +179,6 @@ fn main() {
         println!("Solution validates");
     }
     let avgtime = (end_time.as_micros() as f64 /iterations as f64) * 1.0e-6;
-
 
     // Print info 
     let rate = 1.0e-6 * (2.0 * nent as f64)/avgtime;
