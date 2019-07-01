@@ -2,11 +2,14 @@
 // to Rust
 extern crate clap;
 extern crate rayon;
-extern crate par_array_init;
 use clap::{Arg, App};
 use std::process::exit;
 use rayon::prelude::*;
 use std::time::Instant;
+use std::time;
+use std::sync::{Arc, Mutex};
+use std::thread;
+use std::sync::mpsc::channel;
 
 
 fn lin(i: usize, j: usize, shift: i32) -> usize {
@@ -112,32 +115,65 @@ fn main() {
     //    .map(|idx| init(idx as i64, size, stencil_size, lsize, lsize2, nent, radius))
     //    .collect_into_vec(&mut matrix);
 
-    let mut matrix = vec![0.0f64; nent];
-    let mut col_index = vec![0usize; nent];
+    let mut matrix = vec![0.0f64, 0.0f64];
+    let col_index = Arc::new(Mutex::new(vec![]));
 
-    for row in (0..size2).into_iter() {
-        let j = row / size;
-        let i = row % size;
-        let mut elm = row * stencil_size;
-        col_index[elm] = lin(i,j,lsize);
-        
-        for r in 1..=radius{
-            col_index[elm + 1] = lin( (i+r)%size, j, lsize );
-            col_index[elm + 2] = lin( (i+size-r)%size, j, lsize );
-            col_index[elm + 3] = lin( i, (j+r)%size, lsize );
-            col_index[elm + 4] = lin( i, (j+size-r)%size, lsize );
-            elm += 4;
-        }
+    let mut hds = vec![];
+    let (tx, rx) = channel();
+
+    for t_id in 0..num_threads {
+        let (col_index, tx) = (Arc::clone(&col_index), tx.clone());
+        hds.push(thread::spawn(move || {
+            
+            let interval = size2/num_threads;
+            let my_lo = t_id * interval;
+            let mut my_hi = my_lo + interval;
+            if (t_id + 1) == num_threads{
+                my_hi = size2;
+            }
+            let col_interval = nent/num_threads;
+            let col_lo = t_id * col_interval;
+            let mut my_col_index = vec![0usize; col_interval];
+            if (t_id + 1) == num_threads {
+                my_col_index = vec![0usize; nent - col_lo]
+            }
+            for row in my_lo..my_hi {
+                let j = row / size;
+                let i = row % size;
+                let mut elm = (row - my_lo) * stencil_size;
+                my_col_index[elm] = lin(i,j,lsize);
+                
+                for r in 1..=radius{
+                    my_col_index[elm + 1] = lin( (i+r)%size, j, lsize );
+                    my_col_index[elm + 2] = lin( (i+size-r)%size, j, lsize );
+                    my_col_index[elm + 3] = lin( i, (j+r)%size, lsize );
+                    my_col_index[elm + 4] = lin( i, (j+size-r)%size, lsize );
+                    elm += 4;
+                }
+            }
+            let guard = col_index.lock().unwrap();
+            let mut len = guard.len();
+            drop(guard);
+            while len != col_lo{
+                thread::sleep(time::Duration::from_millis(t_id as u64));
+                let guard = col_index.lock().unwrap();
+                len = guard.len();
+                drop(guard);
+            }
+            let mut guard = col_index.lock().unwrap();
+            guard.append(&mut my_col_index);
+            if guard.len() == nent {
+                tx.send(()).unwrap();
+            }
+        }));
     }
+    rx.recv().unwrap();
+    for h in hds {
+        h.join().unwrap()
+    }
+    let col_index = col_index.lock().unwrap();
+
     col_index.par_iter().map(|e| 1.0/(e+1) as f64).collect_into_vec(&mut matrix);
-   // for row in (0..size2).into_iter() {
-   //     let lo = row * stencil_size;
-   //     let hi = lo + stencil_size;
-   //  //   col_index[lo..hi].sort_unstable_by(|a,b| a.cmp(b));
-   //     for e in lo..hi {
-   //         matrix[e] = 1.0/ (col_index[e]+1) as f64;
-   //     }
-   // }
     
     let mut sparse_time = Instant::now();
     for i in 0..=iterations {
