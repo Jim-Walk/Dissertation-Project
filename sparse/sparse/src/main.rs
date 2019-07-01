@@ -110,21 +110,21 @@ fn main() {
         .collect_into_vec(&mut result);
 
 
-    // Parallel init uses a trick because we're on a 64bit system
-    //(0..size2 as usize).into_par_iter()
-    //    .map(|idx| init(idx as i64, size, stencil_size, lsize, lsize2, nent, radius))
-    //    .collect_into_vec(&mut matrix);
 
     let mut matrix = vec![0.0f64, 0.0f64];
     let col_index = Arc::new(Mutex::new(vec![]));
 
+    // vector of handles
     let mut hds = vec![];
+    // tx: Transmitter, sends data
+    // rx: Receiver, recieves data
     let (tx, rx) = channel();
 
     for t_id in 0..num_threads {
         let (col_index, tx) = (Arc::clone(&col_index), tx.clone());
         hds.push(thread::spawn(move || {
             
+            // calculate where I am going to write
             let interval = size2/num_threads;
             let my_lo = t_id * interval;
             let mut my_hi = my_lo + interval;
@@ -141,8 +141,8 @@ fn main() {
                 let j = row / size;
                 let i = row % size;
                 let mut elm = (row - my_lo) * stencil_size;
+                // Write my part of the array
                 my_col_index[elm] = lin(i,j,lsize);
-                
                 for r in 1..=radius{
                     my_col_index[elm + 1] = lin( (i+r)%size, j, lsize );
                     my_col_index[elm + 2] = lin( (i+size-r)%size, j, lsize );
@@ -151,9 +151,11 @@ fn main() {
                     elm += 4;
                 }
             }
+            // Aquire lock, check length of array is appropriate for me to add my section
             let guard = col_index.lock().unwrap();
             let mut len = guard.len();
             drop(guard);
+            // While length is not appropriate, release lock and wait
             while len != col_lo{
                 thread::sleep(time::Duration::from_millis(t_id as u64));
                 let guard = col_index.lock().unwrap();
