@@ -1,0 +1,46 @@
+\documentclass[11pt]{article} % Default font size is 12pt, it can be changed here
+
+\usepackage{geometry} % Required to change the page size to A4
+\usepackage{listings} % for code
+\usepackage{tasks}
+\usepackage{exsheets}
+\SetupExSheets[question]{type=exam}
+\geometry{a4paper} % Set the page size to be A4 as opposed to the
+\lstset{basicstyle=\footnotesize}
+\begin{document}
+\title{High Performance Rust Questionnaire}
+\maketitle
+\newsavebox\myboxa
+\begin{lrbox}{\myboxa}
+  \begin{minipage}{\textwidth}
+    \begin{lstlisting}
+pub fn foo(&mut self)->T {
+
+    self.a.par_chunks(self.chunk_size)
+        .zip(self.b.par_chunks(self.chunk_size))
+        .map(|(a,b)| a.iter()
+                      .zip(b.iter())
+                      .fold(T::from(0).unwrap(), | acc, ele| acc + *ele.0 * *ele.1)
+            )
+        .sum()
+}
+\end{lstlisting}
+\end{minipage}
+\end{lrbox}
+
+\begin{question}
+
+Please inspect the following code, and then indicate what you think it does.
+aaa
+\noindent\usebox\myboxa
+
+\begin{tasks}(4)
+  \task Dot product
+  \task thing2
+  \task thing3
+  \task thing4
+\end{tasks}
+
+\end{question}
+
+\end{document}
