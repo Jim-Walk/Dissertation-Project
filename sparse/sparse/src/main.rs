@@ -16,6 +16,17 @@ fn lin(i: usize, j: usize, shift: i32) -> usize {
     i + (j << shift)
 }
 
+// A successful write returns a zero, an unsuccesful returns a 1. 
+// This enables us to keep track of the number of unsafe memory accesses attempted
+fn safe_write(arr:&mut Vec<usize>, idx: usize, val: usize) -> i32{
+    if idx < arr.len() {
+        arr[idx] = val;
+        0
+    } else {
+        1
+    }
+}
+
 
 fn main() {
 
@@ -122,7 +133,7 @@ fn main() {
 
     for t_id in 0..num_threads {
         let (col_index, tx) = (Arc::clone(&col_index), tx.clone());
-        hds.push(thread::spawn(move || {
+        hds.push(thread::Builder::new().name(t_id.to_string()).spawn(move || {
             
             // calculate where I am going to write
             let interval = size2/num_threads;
@@ -134,20 +145,23 @@ fn main() {
             let col_interval = nent/num_threads;
             let col_lo = t_id * col_interval;
             let mut my_col_index = vec![0usize; col_interval];
+            let mut misses = 0;
             if (t_id + 1) == num_threads {
-                my_col_index = vec![0usize; nent - col_lo]
+                my_col_index = vec![0usize; nent - col_lo];
+                //println!("nent: {} col_interval * num_threads: {} total elems: {}", nent, col_interval * num_threads, col_interval * (num_threads-1) + nent - col_lo);
+                //println!("{}: my_col_index len is {}", t_id, my_col_index.len());
             }
             for row in my_lo..my_hi {
                 let j = row / size;
                 let i = row % size;
                 let mut elm = (row - my_lo) * stencil_size;
                 // Write my part of the array
-                my_col_index[elm] = lin(i,j,lsize);
+                misses += safe_write(&mut my_col_index, elm, lin(i,j,lsize));
                 for r in 1..=radius{
-                    my_col_index[elm + 1] = lin( (i+r)%size, j, lsize );
-                    my_col_index[elm + 2] = lin( (i+size-r)%size, j, lsize );
-                    my_col_index[elm + 3] = lin( i, (j+r)%size, lsize );
-                    my_col_index[elm + 4] = lin( i, (j+size-r)%size, lsize );
+                    misses += safe_write(&mut my_col_index, elm + 1, lin( (i+r)%size, j, lsize ));
+                    misses += safe_write(&mut my_col_index, elm + 2, lin( (i+size-r)%size, j, lsize ));
+                    misses += safe_write(&mut my_col_index, elm + 3, lin( i, (j+r)%size, lsize ));
+                    misses += safe_write(&mut my_col_index, elm + 4, lin( i, (j+size-r)%size, lsize ));
                     elm += 4;
                 }
             }
@@ -167,11 +181,14 @@ fn main() {
             if guard.len() == nent {
                 tx.send(()).unwrap();
             }
+            if misses > 0 {
+                println!("{}: attempted to write out of bounds {} times", t_id, misses);
+            }
         }));
     }
     rx.recv().unwrap();
     for h in hds {
-        h.join().unwrap()
+        h.unwrap().join().unwrap()
     }
     let col_index = col_index.lock().unwrap();
 
