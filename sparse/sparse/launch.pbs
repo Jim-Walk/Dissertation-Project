@@ -1,8 +1,8 @@
 #!/bin/bash --login
 
 # PBS job options (name, compute nodes, job time)
-#PBS -N sparse_100_iter
-#PBS -l select=34
+#PBS -N sparse_100_iter_rust_36
+#PBS -l select=36
 #PBS -l walltime=00:30:00
 #PBS -A d167-s1893750
 #PBS -l place=excl
