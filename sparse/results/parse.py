@@ -40,8 +40,8 @@ if __name__ == '__main__':
         all_results += [parse_file(sys.argv[i])]
         i += 1
 
-    #for res in all_results:
-    #    get_speedup(res)
+    for res in all_results:
+        get_speedup(res)
 
     x_axis = [1,2] + list(range(4,37,4))
     j = 0
@@ -50,8 +50,8 @@ if __name__ == '__main__':
         ax.plot(x_axis, all_results[j], label=labels[j], marker='.')
         j += 1
     t = 'Sparse Matrix Multiplication'
-    ax.set(xlabel='Number of threads', ylabel='Time (seconds)',title=t)
+    ax.set(xlabel='Number of threads', ylabel='Speedup (t1/tn)',title=t)
     ax.set_xticks(x_axis)
     ax.set_xticklabels(x_axis)
     ax.legend()
-    fig.savefig('time.png')
+    fig.savefig('speedup.png')

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.1.8)  3 JUL 2019 14:39
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.1.8)  9 JUL 2019 16:08
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1023,63 +1023,145 @@ or `english'. on input line 10.
 File: exsheets_configurations.cfg 
 )
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 12.
+(Font)              <12> on input line 13.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 12.
+(Font)              <8> on input line 13.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 12.
-
-
-LaTeX Warning: No \author given.
-
+(Font)              <6> on input line 13.
 \myboxa=\box66
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <9> on input line 17.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 17.
-LaTeX Font Info:    Try loading font information for OML+cmr on input line 17.
-(/usr/share/texlive/texmf-dist/tex/latex/base/omlcmr.fd
-File: omlcmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
-)
-LaTeX Font Info:    Font shape `OML/cmr/m/n' in size <9> not available
-(Font)              Font shape `OML/cmm/m/it' tried instead on input line 17.
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 17.
+(Font)              <10.95> on input line 24.
 
+Overfull \hbox (2.80756pt too wide) in paragraph at lines 38--38
+\OT1/cmr/m/n/10.95 to a mu-ta-ble vec-
+ []
+
+
+Overfull \hbox (0.6784pt too wide) in paragraph at lines 38--38
+\OT1/cmr/m/n/10.95 la-bel v2 to a vec-
+ []
+
+
+Overfull \hbox (12.02383pt too wide) in paragraph at lines 38--38
+\OT1/cmr/m/n/10.95 tor with 8 el-e-ments
+ []
+
+
+Overfull \hbox (4.02423pt too wide) in paragraph at lines 38--38
+\OT1/cmr/m/n/10.95 to a mu-tated vec-
+ []
+
+
+Overfull \hbox (4.1155pt too wide) in paragraph at lines 38--38
+\OT1/cmr/m/n/10.95 tor with el-e-ments
+ []
+
+
+Overfull \hbox (0.6784pt too wide) in paragraph at lines 38--38
+\OT1/cmr/m/n/10.95 la-bel v2 to a vec-
+ []
+
+
+Overfull \hbox (2.59465pt too wide) in paragraph at lines 38--38
+\OT1/cmr/m/n/10.95 tor of 2 el-e-ments,
+ []
+
+
+Overfull \hbox (12.54091pt too wide) in paragraph at lines 38--38
+\OT1/cmr/m/n/10.95 to a mu-tat-able vec-
+ []
+
+
+Overfull \hbox (4.1155pt too wide) in paragraph at lines 38--38
+\OT1/cmr/m/n/10.95 tor with el-e-ments
+ []
+
+
+Overfull \hbox (0.6784pt too wide) in paragraph at lines 38--38
+\OT1/cmr/m/n/10.95 la-bel v2 to a vec-
+ []
+
+
+Overfull \hbox (2.59465pt too wide) in paragraph at lines 38--38
+\OT1/cmr/m/n/10.95 tor of 2 el-e-ments,
+ []
+
+
+Overfull \hbox (2.80756pt too wide) in paragraph at lines 38--38
+\OT1/cmr/m/n/10.95 to a mu-ta-ble vec-
+ []
+
+\myboxb=\box67
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 44.
 (/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <9> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 17.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 44.
 
-Overfull \hbox (42.39784pt too wide) in paragraph at lines 23--24
+Overfull \hbox (1.9559pt too wide) in paragraph at lines 61--61
+\OT1/cmr/m/n/10.95 calls the an-nony-
+ []
+
+
+Overfull \hbox (15.03508pt too wide) in paragraph at lines 61--61
+\OT1/cmr/m/n/10.95 mous/lambda func-
+ []
+
+
+Overfull \hbox (10.44217pt too wide) in paragraph at lines 61--61
+\OT1/cmr/m/n/10.95 ment of the vector.| 
+ []
+
+
+Overfull \hbox (1.16507pt too wide) in paragraph at lines 61--61
+|\OT1/cmr/m/n/10.95 Every el-e-ment of
+ []
+
+
+Overfull \hbox (31.18639pt too wide) in paragraph at lines 61--61
+\OT1/cmr/m/n/10.95 v is mul-ti-plied together| 
+ []
+
+\myboxc=\box68
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <9> on input line 67.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 67.
+LaTeX Font Info:    Try loading font information for OML+cmr on input line 67.
+(/usr/share/texlive/texmf-dist/tex/latex/base/omlcmr.fd
+File: omlcmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OML/cmr/m/n' in size <9> not available
+(Font)              Font shape `OML/cmm/m/it' tried instead on input line 67.
+
+Overfull \hbox (42.39784pt too wide) in paragraph at lines 73--74
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
  []
 
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <10.95> on input line 28.
 [1
 
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] (./questionaire.aux) ) 
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2] (./questionaire.aux) )
+ 
 Here is how much of TeX's memory you used:
- 21788 strings out of 492982
- 451191 string characters out of 6134897
- 493776 words of memory out of 5000000
- 25084 multiletter control sequences out of 15000+600000
+ 21792 strings out of 492982
+ 451241 string characters out of 6134897
+ 498049 words of memory out of 5000000
+ 25088 multiletter control sequences out of 15000+600000
  535549 words of font info for 40 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 61i,6n,82p,10363b,1192s stack positions out of 5000i,500n,10000p,200000b,80000s
-</us
-r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/shar
-e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/share/texli
-ve/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texm
-f-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/
-fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/fonts/t
-ype1/public/amsfonts/cm/cmr9.pfb></usr/share/texlive/texmf-dist/fonts/type1/pub
-lic/amsfonts/cm/cmsy9.pfb>
-Output written on questionaire.pdf (1 page, 75358 bytes).
+ 61i,6n,82p,10363b,1191s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/
+share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/share/t
+exlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/
+texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-d
+ist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/fon
+ts/type1/public/amsfonts/cm/cmr9.pfb></usr/share/texlive/texmf-dist/fonts/type1
+/public/amsfonts/cm/cmsy9.pfb>
+Output written on questionaire.pdf (2 pages, 84765 bytes).
 PDF statistics:
- 39 PDF objects out of 1000 (max. 8388607)
- 28 compressed objects within 1 object stream
+ 42 PDF objects out of 1000 (max. 8388607)
+ 30 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  13 words of extra memory for PDF output out of 10000 (max. 10000000)
 

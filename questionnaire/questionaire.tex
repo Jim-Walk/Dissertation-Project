@@ -8,10 +8,60 @@
 \geometry{a4paper} % Set the page size to be A4 as opposed to the
 \lstset{basicstyle=\footnotesize}
 \begin{document}
+\author{Jim Walker}
 \title{High Performance Rust Questionnaire}
 \maketitle
+Hi! I'm Jim Walker, one of the MSc students at EPCC. My dissertation aims to examine if the new programming language, Rust, is suitable for HPC. To thatt end, I have written this questionnaire, to asses how easy it is for HPC programmers such as yourself to understand it.
+
+The questionnaire is simple. There are five questions, which present you with a fragment of rust code. Please describe what each of these functions does to the best of your abilities
 \newsavebox\myboxa
 \begin{lrbox}{\myboxa}
+  \begin{minipage}{\textwidth}
+    \begin{lstlisting}
+let mut v1 = vec![2,8];
+let v2 = vec![2;8];
+\end{lstlisting}
+\end{minipage}
+\end{lrbox}
+
+\begin{question}
+
+\noindent\usebox\myboxa
+
+\begin{tasks}(4)
+  \task Assigns label v1 to a mutable vector of elements 2 and 8. Assigns label v2 to a vector with 8 elements of value 2.
+  \task Assigns label v1 to a mutated vector with elements 2 and 8. Assigns label v2 to a vector of 2 elements, both with value 8.
+  \task Assigns label v1 to a mutatable vector with elements 2 and 8. Assigns label v2 to a vector of 2 elements, both with value 8.
+  \task Assigns label v1 to a mutable vector of 8 elements of value 2. Assigns label v2 to a vector with elements 2 and 8.
+\end{tasks}
+
+\end{question}
+
+\newsavebox\myboxb
+\begin{lrbox}{\myboxb}
+  \begin{minipage}{\textwidth}
+    \begin{lstlisting}
+v.iter().fold(1, |foo, x| foo * x);
+\end{lstlisting}
+\end{minipage}
+\end{lrbox}
+
+\begin{question}
+In this question, please assume that v is a vector.
+
+\noindent\usebox\myboxb
+
+\begin{tasks}(4)
+  \task An iteretator is created over the vector v, which calls the annonymous/lambda function on each element of the vector.  
+  \task Every element of v is multiplied together
+  \task thing3
+  \task thing4
+\end{tasks}
+
+\end{question}
+
+\newsavebox\myboxc
+\begin{lrbox}{\myboxc}
   \begin{minipage}{\textwidth}
     \begin{lstlisting}
 pub fn foo(&mut self)->T {
@@ -30,9 +80,7 @@ pub fn foo(&mut self)->T {
 
 \begin{question}
 
-Please inspect the following code, and then indicate what you think it does.
-aaa
-\noindent\usebox\myboxa
+\noindent\usebox\myboxc
 
 \begin{tasks}(4)
   \task Dot product
