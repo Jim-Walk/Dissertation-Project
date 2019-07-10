@@ -7,7 +7,7 @@ Stencil diameter      = 31
 Sparsity              = 0.000003635883331298828
 Number of iterations  = 101
 Solution validates
-Rate (MFLops/s) = 635.904432727226, Avg time (s): 3.2187546534653464
+Rate (MFLops/s) = 596.2740231453496, Avg time (s): 3.4326840891089105
 Running on 2 Threads
 Jim's bootleg Research Kernels version 0.17
 Rust Sparse matrix-vector multiplication
@@ -17,7 +17,7 @@ Stencil diameter      = 31
 Sparsity              = 0.000003635883331298828
 Number of iterations  = 101
 Solution validates
-Rate (MFLops/s) = 1225.508751389072, Avg time (s): 1.670180118811881
+Rate (MFLops/s) = 1254.9729438828758, Avg time (s): 1.630967712871287
 Running on 4 Threads
 Jim's bootleg Research Kernels version 0.17
 Rust Sparse matrix-vector multiplication
@@ -27,7 +27,7 @@ Stencil diameter      = 31
 Sparsity              = 0.000003635883331298828
 Number of iterations  = 101
 Solution validates
-Rate (MFLops/s) = 2400.470054327352, Avg time (s): 0.852674811881188
+Rate (MFLops/s) = 2366.6737018005083, Avg time (s): 0.8648510990099009
 Running on 8 Threads
 Jim's bootleg Research Kernels version 0.17
 Rust Sparse matrix-vector multiplication
@@ -37,7 +37,7 @@ Stencil diameter      = 31
 Sparsity              = 0.000003635883331298828
 Number of iterations  = 101
 Solution validates
-Rate (MFLops/s) = 4605.90314048225, Avg time (s): 0.4443906633663366
+Rate (MFLops/s) = 4678.943876693383, Avg time (s): 0.4374534950495049
 Running on 12 Threads
 Jim's bootleg Research Kernels version 0.17
 Rust Sparse matrix-vector multiplication
@@ -48,7 +48,7 @@ Sparsity              = 0.000003635883331298828
 Number of iterations  = 101
 11: attempted to write out of bounds 220 times
 Solution validates
-Rate (MFLops/s) = 6732.744597930174, Avg time (s): 0.304009801980198
+Rate (MFLops/s) = 6625.955014026025, Avg time (s): 0.30890948514851485
 Running on 16 Threads
 Jim's bootleg Research Kernels version 0.17
 Rust Sparse matrix-vector multiplication
@@ -58,7 +58,7 @@ Stencil diameter      = 31
 Sparsity              = 0.000003635883331298828
 Number of iterations  = 101
 Solution validates
-Rate (MFLops/s) = 8161.419888526697, Avg time (s): 0.2507921881188119
+Rate (MFLops/s) = 8187.954928094482, Avg time (s): 0.24997943564356434
 Running on 20 Threads
 Jim's bootleg Research Kernels version 0.17
 Rust Sparse matrix-vector multiplication
@@ -69,7 +69,7 @@ Sparsity              = 0.000003635883331298828
 Number of iterations  = 101
 19: attempted to write out of bounds 912 times
 Solution validates
-Rate (MFLops/s) = 8500.210689124484, Avg time (s): 0.24079642574257426
+Rate (MFLops/s) = 8638.24284272929, Avg time (s): 0.2369486930693069
 Running on 24 Threads
 Jim's bootleg Research Kernels version 0.17
 Rust Sparse matrix-vector multiplication
@@ -80,7 +80,7 @@ Sparsity              = 0.000003635883331298828
 Number of iterations  = 101
 23: attempted to write out of bounds 920 times
 Solution validates
-Rate (MFLops/s) = 9152.7525308787, Avg time (s): 0.2236289405940594
+Rate (MFLops/s) = 9046.182588796106, Avg time (s): 0.22626343564356435
 Running on 28 Threads
 Jim's bootleg Research Kernels version 0.17
 Rust Sparse matrix-vector multiplication
@@ -91,7 +91,7 @@ Sparsity              = 0.000003635883331298828
 Number of iterations  = 101
 27: attempted to write out of bounds 459 times
 Solution validates
-Rate (MFLops/s) = 9003.266921928314, Avg time (s): 0.22734196039603957
+Rate (MFLops/s) = 9048.498106536686, Avg time (s): 0.22620553465346535
 Running on 32 Threads
 Jim's bootleg Research Kernels version 0.17
 Rust Sparse matrix-vector multiplication
@@ -101,7 +101,7 @@ Stencil diameter      = 31
 Sparsity              = 0.000003635883331298828
 Number of iterations  = 101
 Solution validates
-Rate (MFLops/s) = 9015.077216942647, Avg time (s): 0.22704412871287127
+Rate (MFLops/s) = 9105.048278075783, Avg time (s): 0.22480060396039606
 Running on 36 Threads
 Jim's bootleg Research Kernels version 0.17
 Rust Sparse matrix-vector multiplication
@@ -112,4 +112,4 @@ Sparsity              = 0.000003635883331298828
 Number of iterations  = 101
 35: attempted to write out of bounds 1645 times
 Solution validates
-Rate (MFLops/s) = 8899.67673980646, Avg time (s): 0.2299881683168317
+Rate (MFLops/s) = 9010.743454392867, Avg time (s): 0.22715332673267327
