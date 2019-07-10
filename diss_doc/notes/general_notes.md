@@ -23,3 +23,6 @@ but this is illegal?
 ```
 let sparsity: f64  = (4 * radius as i64 + 1)/ size2).into();
 ```
+
+
+I think I will not look at single threaded roofline performance, as my work seems to be concentrating on parallel performance and scaling.
