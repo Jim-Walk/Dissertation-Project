@@ -1,0 +1,175 @@
+\documentclass[12pt,a4paper]{report}
+
+\usepackage{epcc}
+\usepackage{graphics}
+
+% This example file shows how a thesis can be laid out using Latex. It
+% does not use any special local features so should be portable to other
+% places.
+%
+% When producing draft copies of a thesis you may want to print only
+% selected pages of the thesis. To do this use the command
+%
+% dvips -f -p 4 -n 3 myfile.dvi | lpr
+%
+% where -p 4 means start printing at page 4 (ie the page that will be
+% numbered 4, not necessarily the 4th page) and -n 3 means print 3 pages.
+% This example will print pages 4, 5 and 6.
+%
+% If you want to print the thesis and also save paper you can print more
+% than one page on each sheet of paper. Use the command
+%
+% dvips -f myfile.dvi | psnup -2 | lpr
+%
+% to print 2 pages per sheet. psnup can take values 2, 4, 8, or 9.
+%
+% To produce a PDF version you can create a PostScript copy first
+%
+% dvips -f myfile.dvi > myfile.pdf
+%
+% and then convert it
+%
+% distill myfile.ps
+%
+% or you can go straight to PDF
+%
+% pdflatex myfile
+%
+% Note that pdflatex expects all included figures to be in PDF too. See
+% the includegraphics command below.
+
+
+% This document contains many cross-references and forward references,
+% eg in constructing a table of contents, so Latex may need to be run
+% twice to get all the references correct. If you need to run Latex twice
+% you may get the warning:
+%
+% LaTeX Warning: Label(s) may have changed. Rerun to get cross-refSerences right.
+
+
+% the following 4 lines are the content of the smallmargins.sty file
+% but including them explicitly makes this more portable.
+%AC%\oddsidemargin=0.1in
+%AC%\topmargin=-0.5in
+%AC%\textheight=9in
+%AC%\textwidth=6.25in
+
+%AC%\parskip 10pt
+%AC%\parindent 0in
+
+\begin{document}
+
+%AC%\pagestyle{myheadings}
+%AC%\markright{D.~S.~Henty}
+
+%\title{A Latex thesis example}
+%\author{D.~S.~Henty}
+%\date{\today}
+
+%\maketitle
+
+\pagenumbering{roman}
+
+\title{High Performance Rust}
+\author{Jim Walker}
+\date{\today}
+
+\makeEPCCtitle
+
+\thispagestyle{empty}
+
+\vspace{12cm}
+
+\begin{center}
+
+\large{MSc in High Performance Computing}
+
+\large{The University of Edinburgh}
+
+\large{Year of Presentation: 2019}
+
+\end{center}
+
+\newpage
+
+\begin{abstract}
+This dissertation examines the suitabilty of the Rust programming language, to High Performance Computing (HPC). This examination is made through porting three HPC mini apps to Rust from typical HPC languages and comparing the perfomance of the Rust and the original implementation. We also investigate the readability of Rust's higher level programming syntax for HPC programmers through the use of a questionnaire.
+\end{abstract}
+
+\pagenumbering{roman}
+
+\tableofcontents
+\listoftables
+\listoffigures
+
+\begin{titlepage}
+\vspace*{2in}
+% an acknowledgements section is completely optional but if you decide
+% not to include it you should still include an empty {titlepage}
+% environment as this initialises things like section and page numbering.
+\section*{Acknowledgements}
+
+This template is a slightly modified version of the one developed by
+Prof. Charles Duncan for MSc students in the Dept. of Meteorology. His
+acknowledgement follows:
+
+{\em This template has been produced with help from many former students who
+have shown different ways of doing things. Please make suggestions for
+further improvements.}
+
+\end{titlepage}
+
+\pagenumbering{arabic}
+
+\input{sections/intro.tex}
+
+\chapter{Babel Stream}
+\section{Development}
+\section{Comparison}
+
+
+\chapter{Sparse Matrix Multiplication}
+\section{Development}
+\section{Comparison}
+
+\chapter{K-means}
+\section{Development}
+\section{Comparison}
+
+\chapter{Rust's usability}
+Here are some questionnaire results.
+
+
+
+% in practice you would probably keep this in a separate file and use
+% the \include{filename} command to insert it here.
+
+
+
+\chapter{Conclusions}
+
+This is the place to put your conclusions about your work. You can
+split it into different sections if appropriate. You may want to include
+a section of future work which could be carried out to continue your
+research.
+
+\appendix
+% the appendix command just changes heading styles for appendices.
+
+\chapter{Stuff which is too detailed}
+
+Appendices should contain all the material which is considered too
+detailed to be included in the main bod but which is, nevertheless,
+important enough to be included in the thesis.
+
+\chapter{Stuff which no-one will read}
+
+Some people include in their thesis a lot of detail, particularly
+computer code, which no-one will ever read. You should be careful that
+anything like this you include should contain some element of uniqueness
+which justifies its inclusion.
+
+
+
+
+\end{document}
