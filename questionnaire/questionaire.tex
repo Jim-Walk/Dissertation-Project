@@ -86,7 +86,6 @@ v.iter().fold(1, |acc, x| acc * x);
 \begin{multiplechoice}[choices=1]
 What is printed?
 \begin{lstlisting}
-fn main() {
   let mut stack = Vec::new();
 
   stack.push(1);
@@ -96,7 +95,6 @@ fn main() {
   while let Some(top) = stack.pop() {
     print!("{} ", top);
   }
-}
 \end{lstlisting}
   \choice Some(3) Some(2) Some(1)
   \choice 3 2 1 None None None...
@@ -109,10 +107,10 @@ fn main() {
   What is a set to?
 
   \begin{lstlisting}
-    let a: Vec<i32> = (1..).step_by(3)
-                           .take(3)
-                           .map(|x| x * 2)
-                           .collect();
+let a: Vec<i32> = (1..).step_by(3)
+                       .take(3)
+                       .map(|x| x * 2)
+                       .collect();
   \end{lstlisting}
 
   \choice {[2, 4, 6]}
