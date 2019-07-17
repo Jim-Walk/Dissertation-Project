@@ -2,93 +2,149 @@
 
 \usepackage{geometry} % Required to change the page size to A4
 \usepackage{listings} % for code
-\usepackage{tasks}
-\usepackage{exsheets}
-\SetupExSheets[question]{type=exam}
-\geometry{a4paper} % Set the page size to be A4 as opposed to the
+\geometry{a4paper}
+\usepackage[clear-aux]{xsim}
+
+\usepackage{enumitem,amssymb,fmtcount}
+\newlist{choices}{itemize}{1}
+\setlist[choices]{label=$\Box$}
+\newcommand*\choice{\item}
+
+\DeclareExerciseProperty{choices}
+\DeclareExerciseProperty*{multiple}
+\DeclareExerciseEnvironmentTemplate{mc}
+  {%
+    \UseExerciseTemplate{begin}{default}%
+    \IfExerciseBooleanPropertyTF{multiple}
+      {Select one or more correct answers}
+      {%
+        \GetExercisePropertyT{choices}
+          {Select \numberstringnum{#1} correct answer\ifnum#1>1 s\fi.}%
+      }%
+    \begin{choices}
+  }
+  {%
+    \end{choices}
+    \UseExerciseTemplate{end}{default}%
+  }
+
+\DeclareExerciseType{mc}{
+  exercise-env = multiplechoice ,
+  solution-env = correctchoices ,
+  exercise-name = Question ,
+  solution-name = Solution ,
+  exercise-template = mc ,
+  solution-template = mc ,
+  counter = exercise
+}
+
+\xsimsetup{
+  exercise/name = Question ,
+  solution/name = Solution
+}
+
 \lstset{basicstyle=\footnotesize}
 \begin{document}
 \author{Jim Walker}
-\title{High Performance Rust Questionnaire}
-\maketitle
-Hi! I'm Jim Walker, one of the MSc students at EPCC. My dissertation aims to examine if the new programming language, Rust, is suitable for HPC. To thatt end, I have written this questionnaire, to asses how easy it is for HPC programmers such as yourself to understand it.
+\begin{center}
+\large {High Performance Rust MSc Questionnaire}
+
+\normalsize Jim Walker
+\end{center}
+
+Hi! I'm Jim Walker, one of the MSc students at EPCC. My dissertation aims to examine if the new programming language Rust, is suitable for HPC. To that end, I have written this questionnaire, to asses how easy it is for HPC programmers such as yourself to understand it.
 
 The questionnaire is simple. There are five questions, which present you with a fragment of rust code. Please describe what each of these functions does to the best of your abilities
-\newsavebox\myboxa
-\begin{lrbox}{\myboxa}
-  \begin{minipage}{\textwidth}
-    \begin{lstlisting}
+
+
+\begin{multiplechoice}[choices=1]
+
+\begin{lstlisting}
 let mut v1 = vec![2,8];
 let v2 = vec![2;8];
 \end{lstlisting}
-\end{minipage}
-\end{lrbox}
 
-\begin{question}
+\choice Assigns label v1 to a mutable vector of elements 2 and 8. Assigns label v2 to a vector with 8 elements of value 2.
+\choice Assigns label v1 to a mutated vector with elements 2 and 8. Assigns label v2 to a vector of 2 elements, both with value 8.
+\choice Assigns label v1 to a mutatable vector with elements 2 and 8. Assigns label v2 to a vector of 2 elements, both with value 8.
+\choice Assigns label v1 to a mutable vector of 8 elements of value 2. Assigns label v2 to a vector with elements 2 and 8.
 
-\noindent\usebox\myboxa
+\end{multiplechoice}
 
-\begin{tasks}(4)
-  \task Assigns label v1 to a mutable vector of elements 2 and 8. Assigns label v2 to a vector with 8 elements of value 2.
-  \task Assigns label v1 to a mutated vector with elements 2 and 8. Assigns label v2 to a vector of 2 elements, both with value 8.
-  \task Assigns label v1 to a mutatable vector with elements 2 and 8. Assigns label v2 to a vector of 2 elements, both with value 8.
-  \task Assigns label v1 to a mutable vector of 8 elements of value 2. Assigns label v2 to a vector with elements 2 and 8.
-\end{tasks}
 
-\end{question}
-
-\newsavebox\myboxb
-\begin{lrbox}{\myboxb}
-  \begin{minipage}{\textwidth}
-    \begin{lstlisting}
-v.iter().fold(1, |foo, x| foo * x);
-\end{lstlisting}
-\end{minipage}
-\end{lrbox}
-
-\begin{question}
+\begin{multiplechoice}[choices=1]
 In this question, please assume that v is a vector.
+\begin{lstlisting}
+v.iter().fold(1, |acc, x| acc * x);
+\end{lstlisting}
+  \choice An iterator is created over the vector v, which calls the anonymous/lambda function on each element of the vector.
+  \choice Every element of v is multiplied together
+  \choice thing3
+  \choice thing4
+\end{multiplechoice}
 
-\noindent\usebox\myboxb
+\begin{multiplechoice}[choices=1]
+What is printed?
+\begin{lstlisting}
+fn main() {
+  let mut stack = Vec::new();
 
-\begin{tasks}(4)
-  \task An iteretator is created over the vector v, which calls the annonymous/lambda function on each element of the vector.  
-  \task Every element of v is multiplied together
-  \task thing3
-  \task thing4
-\end{tasks}
+  stack.push(1);
+  stack.push(2);
+  stack.push(3);
 
-\end{question}
-
-\newsavebox\myboxc
-\begin{lrbox}{\myboxc}
-  \begin{minipage}{\textwidth}
-    \begin{lstlisting}
-pub fn foo(&mut self)->T {
-
-    self.a.par_chunks(self.chunk_size)
-        .zip(self.b.par_chunks(self.chunk_size))
-        .map(|(a,b)| a.iter()
-                      .zip(b.iter())
-                      .fold(T::from(0).unwrap(), | acc, ele| acc + *ele.0 * *ele.1)
-            )
-        .sum()
+  while let Some(top) = stack.pop() {
+    print!("{} ", top);
+  }
 }
 \end{lstlisting}
-\end{minipage}
-\end{lrbox}
+  \choice Some(3) Some(2) Some(1)
+  \choice 3 2 1 None None None...
+  \choice 3 2 1
+  \choice Some(3) Some(2) Some(1) None None None...
+\end{multiplechoice}
 
-\begin{question}
 
-\noindent\usebox\myboxc
+\begin{multiplechoice}[choices=1]
+  What is a set to?
 
-\begin{tasks}(4)
-  \task Dot product
-  \task thing2
-  \task thing3
-  \task thing4
-\end{tasks}
+  \begin{lstlisting}
+    let a: Vec<i32> = (1..).step_by(3)
+                           .take(3)
+                           .map(|x| x * 2)
+                           .collect();
+  \end{lstlisting}
 
-\end{question}
+  \choice {[2, 4, 6]}
+  \choice Syntax error
+  \choice {[4, 10, 16]}
+  \choice {[2. 8, 14]}
+\end{multiplechoice}
+
+\begin{multiplechoice}[choices=1]
+
+\begin{lstlisting}
+pub fn foo(&mut self)->T {
+
+self.a.par_chunks(self.chunk_size)
+    .zip(self.b.par_chunks(self.chunk_size))
+    .map(|(a,b)| a.iter()
+                  .zip(b.iter())
+                  .fold(0, | acc, ele| acc + *ele.0 * *ele.1)
+        )
+    .sum()
+}
+\end{lstlisting}
+
+\choice Sum reduction
+\choice Dot Product
+\choice Transpose?
+\choice thing4
+
+\end{multiplechoice}
+
+\begin{exercise}
+I have \blank{}  years of experience in HPC / Scientific Programming
+\end{exercise}
 
 \end{document}
