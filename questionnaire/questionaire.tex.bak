@@ -1,0 +1,150 @@
+\documentclass[11pt]{article} % Default font size is 12pt, it can be changed here
+
+\usepackage{geometry} % Required to change the page size to A4
+\usepackage{listings} % for code
+\geometry{a4paper}
+\usepackage[clear-aux]{xsim}
+
+\usepackage{enumitem,amssymb,fmtcount}
+\newlist{choices}{itemize}{1}
+\setlist[choices]{label=$\Box$}
+\newcommand*\choice{\item}
+
+\DeclareExerciseProperty{choices}
+\DeclareExerciseProperty*{multiple}
+\DeclareExerciseEnvironmentTemplate{mc}
+  {%
+    \UseExerciseTemplate{begin}{default}%
+    \IfExerciseBooleanPropertyTF{multiple}
+      {Select one or more correct answers}
+      {%
+        \GetExercisePropertyT{choices}
+          {Select \numberstringnum{#1} correct answer\ifnum#1>1 s\fi.}%
+      }%
+    \begin{choices}
+  }
+  {%
+    \end{choices}
+    \UseExerciseTemplate{end}{default}%
+  }
+
+\DeclareExerciseType{mc}{
+  exercise-env = multiplechoice ,
+  solution-env = correctchoices ,
+  exercise-name = Question ,
+  solution-name = Solution ,
+  exercise-template = mc ,
+  solution-template = mc ,
+  counter = exercise
+}
+
+\xsimsetup{
+  exercise/name = Question ,
+  solution/name = Solution
+}
+
+\lstset{basicstyle=\footnotesize}
+\begin{document}
+\author{Jim Walker}
+\begin{center}
+\large {High Performance Rust MSc Questionnaire}
+
+\normalsize Jim Walker
+\end{center}
+
+Hi! I'm Jim Walker, one of the MSc students at EPCC. My dissertation aims to examine if the new programming language Rust, is suitable for HPC. To that end, I have written this questionnaire, to asses how easy it is for HPC programmers such as yourself to understand it.
+
+The questionnaire is simple. There are five questions, which present you with a fragment of rust code. Please describe what each of these functions does to the best of your abilities
+
+
+\begin{multiplechoice}[choices=1]
+
+\begin{lstlisting}
+let mut v1 = vec![2,8];
+let v2 = vec![2;8];
+\end{lstlisting}
+
+\choice Assigns label v1 to a mutable vector of elements 2 and 8. Assigns label v2 to a vector with 8 elements of value 2.
+\choice Assigns label v1 to a mutated vector with elements 2 and 8. Assigns label v2 to a vector of 2 elements, both with value 8.
+\choice Assigns label v1 to a mutatable vector with elements 2 and 8. Assigns label v2 to a vector of 2 elements, both with value 8.
+\choice Assigns label v1 to a mutable vector of 8 elements of value 2. Assigns label v2 to a vector with elements 2 and 8.
+
+\end{multiplechoice}
+
+
+\begin{multiplechoice}[choices=1]
+In this question, please assume that v is a vector.
+\begin{lstlisting}
+v.iter().fold(1, |acc, x| acc * x);
+\end{lstlisting}
+  \choice An iteretator is created over the vector v, which calls the annonymous/lambda function on each element of the vector.
+  \choice Every element of v is multiplied together
+  \choice thing3
+  \choice thing4
+\end{multiplechoice}
+
+\begin{multiplechoice}[choices=1]
+What is printed?
+\begin{lstlisting}
+fn main() {
+  let mut stack = Vec::new();
+
+  stack.push(1);
+  stack.push(2);
+  stack.push(3);
+
+  while let Some(top) = stack.pop() {
+    print!("{} ", top);
+  }
+}
+\end{lstlisting}
+  \choice Some(3) Some(2) Some(1)
+  \choice 3 2 1 None None None...
+  \choice 3 2 1
+  \choice Some(3) Some(2) Some(1) None None None...
+\end{multiplechoice}
+
+
+\begin{multiplechoice}[choices=1]
+  What is a set to?
+
+  \begin{lstlisting}
+    let a: Vec<i32> = (1..).step_by(3)
+                           .take(3)
+                           .map(|x| x * 2)
+                           .collect();
+  \end{lstlisting}
+
+  \choice {[2, 4, 6]}
+  \choice Syntax error
+  \choice {[4, 10, 16]}
+  \choice {[2. 8, 14]}
+\end{multiplechoice}
+
+\begin{multiplechoice}[choices=1]
+
+\begin{lstlisting}
+pub fn foo(&mut self)->T {
+
+self.a.par_chunks(self.chunk_size)
+    .zip(self.b.par_chunks(self.chunk_size))
+    .map(|(a,b)| a.iter()
+                  .zip(b.iter())
+                  .fold(0, | acc, ele| acc + *ele.0 * *ele.1)
+        )
+    .sum()
+}
+\end{lstlisting}
+
+\choice Sum reduction
+\choice Dot Product
+\choice Transpose?
+\choice thing4
+
+\end{multiplechoice}
+
+\begin{exercise}
+I have \blank{}  years of experience in HPC / Scientific Programming
+\end{exercise}
+
+\end{document}
