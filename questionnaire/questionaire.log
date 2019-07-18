@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.1.8)  17 JUL 2019 16:57
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.1.8)  18 JUL 2019 16:35
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1417,12 +1417,19 @@ File: fc-english.def 2016/01/12
 
 
 (./questionaire-mc-1-exercise-body.tex
-LaTeX Font Info:    Try loading font information for U+msa on input line 16.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 14.
+
+(/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd
+File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <9> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 14.
+LaTeX Font Info:    Try loading font information for U+msa on input line 17.
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 16.
+LaTeX Font Info:    Try loading font information for U+msb on input line 17.
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
@@ -1430,24 +1437,17 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 \openout3 = `questionaire-mc-2-exercise-body.tex'.
 
 
-(./questionaire-mc-2-exercise-body.tex
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 12.
-
-(/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd
-File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
-)
-LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <9> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 12.
-)
+(./questionaire-mc-2-exercise-body.tex)
 \openout3 = `questionaire-mc-3-exercise-body.tex'.
 
-
-(./questionaire-mc-3-exercise-body.tex [1
+ (./questionaire-mc-3-exercise-body.tex
+[1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}])
 \openout3 = `questionaire-mc-4-exercise-body.tex'.
 
- (./questionaire-mc-4-exercise-body.tex
+
+(./questionaire-mc-4-exercise-body.tex
 LaTeX Font Info:    Try loading font information for OML+cmr on input line 13.
 
 (/usr/share/texlive/texmf-dist/tex/latex/base/omlcmr.fd
@@ -1460,30 +1460,37 @@ LaTeX Font Info:    Font shape `OML/cmr/m/n' in size <9> not available
 
 
 (./questionaire-mc-5-exercise-body.tex [2])
-\openout3 = `questionaire-exercise-6-exercise-body.tex'.
+\openout3 = `questionaire-mc-6-exercise-body.tex'.
 
 
-(./questionaire-exercise-6-exercise-body.tex) [3] (./questionaire.aux) ) 
+(./questionaire-mc-6-exercise-body.tex)
+\openout3 = `questionaire-mc-7-exercise-body.tex'.
+
+ (./questionaire-mc-7-exercise-body.tex)
+\openout3 = `questionaire-exercise-8-exercise-body.tex'.
+
+(./questionaire-exercise-8-exercise-body.tex) [3] [4] (./questionaire.aux) ) 
 Here is how much of TeX's memory you used:
- 15242 strings out of 492982
- 315927 string characters out of 6134897
- 372096 words of memory out of 5000000
- 18660 multiletter control sequences out of 15000+600000
- 537715 words of font info for 51 fonts, out of 8000000 for 9000
+ 15250 strings out of 492982
+ 316157 string characters out of 6134897
+ 375288 words of memory out of 5000000
+ 18661 multiletter control sequences out of 15000+600000
+ 537883 words of font info for 52 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 72i,5n,72p,10329b,1665s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/s
-hare/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/t
-exlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/share/texlive/
-texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-d
-ist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fon
-ts/type1/public/amsfonts/cm/cmr9.pfb></usr/share/texlive/texmf-dist/fonts/type1
-/public/amsfonts/cm/cmsy9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public
-/amsfonts/symbols/msam10.pfb>
-Output written on questionaire.pdf (3 pages, 84233 bytes).
+ 72i,5n,72p,10329b,1663s stack positions out of 5000i,500n,10000p,200000b,80000s
+</u
+sr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/sha
+re/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/share/texl
+ive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/tex
+mf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist
+/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/share/texlive/texmf-dist/fonts/t
+ype1/public/amsfonts/cm/cmsy9.pfb></usr/share/texlive/texmf-dist/fonts/type1/pu
+blic/amsfonts/cm/cmtt10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/a
+msfonts/symbols/msam10.pfb>
+Output written on questionaire.pdf (4 pages, 98310 bytes).
 PDF statistics:
- 42 PDF objects out of 1000 (max. 8388607)
- 29 compressed objects within 1 object stream
+ 49 PDF objects out of 1000 (max. 8388607)
+ 34 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
