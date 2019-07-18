@@ -1,8 +1,15 @@
 use netcdf;
 
 // Array is of width rows * cols, and of length rows
-fn make_2d_float_array(rows: u64, cols: u64) -> Vec<Vec<f32>> {
-    vec![vec![0.0; (rows * cols) as usize]; rows as usize]
+fn make_2d_float_array(rows: u64, cols: u64, data: Vec<f32>) -> Vec<Vec<f32>> {
+    let mut v = vec![vec![0.0; (rows * cols) as usize]; rows as usize];
+    for i in 0..rows as usize {
+        let lo = cols as usize * i;
+        let hi = cols as usize * (i+1);
+       v[i] = data[lo..hi].to_vec();
+        //println!("length of v[{}] is {}",i, v[i].len());
+    }
+    v
 }
 fn make_2d_int_array(rows: u64, cols: u64) -> Vec<Vec<i32>> {
     vec![vec![0; (rows * cols) as usize]; rows as usize]
@@ -41,8 +48,7 @@ fn main() {
 
     let guess_var = file.root.variables.get("GUESS").unwrap();
 
-    let mut X = make_2d_float_array(samples_d.len, clusters_d.len);
-    X[0] = x_var.get_float(true).unwrap();
+    let mut X = make_2d_float_array(samples_d.len, features_d.len, x_var.get_float(true).unwrap());
 
     let mut GUESS = make_2d_int_array(repeat_d.len, clusters_d.len);
     GUESS[0] = guess_var.get_int(true).unwrap();
@@ -55,8 +61,8 @@ fn main() {
     let mut labels_best = vec![0; samples_d.len as usize];
 
     let mut cluster_sizes = vec![0; clusters_d.len as usize];
-    let mut old_cluster_centres = make_2d_float_array(clusters_d.len, features_d.len);
-    let mut new_cluster_centres = make_2d_float_array(clusters_d.len, features_d.len);
+    let mut old_cluster_centres = vec![vec![0.0; (clusters_d.len * features_d.len) as usize]; clusters_d.len as usize];
+    let mut new_cluster_centres = vec![vec![0.0; (clusters_d.len * features_d.len) as usize]; clusters_d.len as usize];
 
     let mut inert_best = std::f32::MAX;
     for i_repeat in 0..repeat_d.len as usize {
