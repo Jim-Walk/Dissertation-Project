@@ -1,18 +1,25 @@
 use netcdf;
+use rayon::prelude::*;
 
 // Array is of width rows * cols, and of length rows
 fn make_2d_float_array(rows: u64, cols: u64, data: Vec<f32>) -> Vec<Vec<f32>> {
-    let mut v = vec![vec![0.0; (rows * cols) as usize]; rows as usize];
+    let mut v = vec![vec![0.0; 1]; rows as usize];
     for i in 0..rows as usize {
         let lo = cols as usize * i;
         let hi = cols as usize * (i+1);
-       v[i] = data[lo..hi].to_vec();
-        //println!("length of v[{}] is {}",i, v[i].len());
+        v[i] = data[lo..hi].to_vec();
     }
     v
 }
-fn make_2d_int_array(rows: u64, cols: u64) -> Vec<Vec<i32>> {
-    vec![vec![0; (rows * cols) as usize]; rows as usize]
+fn make_2d_int_array(rows: u64, cols: u64, data: Vec<i32>) -> Vec<Vec<i32>> {
+    vec![vec![0; 1]; rows as usize];;
+    let mut v = vec![vec![0; 1]; rows as usize];
+    for i in 0..rows as usize {
+        let lo = cols as usize * i;
+        let hi = cols as usize * (i+1);
+        v[i] = data[lo..hi].to_vec();
+    }
+    v
 }
 
 fn correlation(n_features: f32, x: &Vec<f32>, y: &Vec<f32>)-> f32{
@@ -50,10 +57,10 @@ fn main() {
 
     let mut X = make_2d_float_array(samples_d.len, features_d.len, x_var.get_float(true).unwrap());
 
-    let mut GUESS = make_2d_int_array(repeat_d.len, clusters_d.len);
-    GUESS[0] = guess_var.get_int(true).unwrap();
+    let mut GUESS = make_2d_int_array(repeat_d.len, clusters_d.len, guess_var.get_int(true).unwrap());
 
     println!("Reading data finished");
+    println!("X len {}", X.len());
     println!("X[0] len {}", X[0].len());
     println!("X[1] len {}", X[1].len());
 
@@ -85,11 +92,10 @@ fn main() {
             i_iter += 1;
             let dist_sum_old = dist_sum_new;
             dist_sum_new = 0.0;
-            let mut k_best;
 
             // E-Step TODO Parallelise this!
-            for i  in 0..samples_d.len as usize {
-                k_best = 0;
+            for i in 0..samples_d.len as usize {
+                let mut k_best = 0;
                 let mut dist_min = correlation(features_d.len as f32, &X[i], &old_cluster_centres[k_best]);
                 for k in 1..clusters_d.len as usize {
                     let mut dist = correlation(features_d.len as f32, &X[i], &old_cluster_centres[k]);
@@ -104,7 +110,7 @@ fn main() {
 
             // M-Step first half
             for i in 0..samples_d.len as usize {
-                k_best = labels[i];
+                let k_best = labels[i];
                 cluster_sizes[k_best] += 1; // add one more point to this cluster
                 // as the total number of smaples in each cluster is not known yet,
                 // here we are just calulcating the sum, not the mean
@@ -132,7 +138,6 @@ fn main() {
 
         if dist_sum_new < inert_best {
             inert_best = dist_sum_new;
-            println!("lower");
             for i in 0..samples_d.len as usize {
                 labels_best[i] = labels[i];
             }

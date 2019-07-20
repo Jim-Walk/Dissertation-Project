@@ -6,3 +6,4 @@ edition = "2018"
 
 [dependencies]
 netcdf = {git = "https://github.com/mhiley/rust-netcdf"}
+rayon = "1.0.3"
