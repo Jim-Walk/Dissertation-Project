@@ -50,23 +50,42 @@
 \large {High Performance Rust MSc Questionnaire}
 
 \normalsize Jim Walker
+
+s1893750@ed.ac.uk
 \end{center}
 
 Hi! I'm Jim Walker, one of the MSc students at EPCC. My dissertation aims to examine if the new programming language Rust, is suitable for HPC. To that end, I have written this questionnaire, to assess how easy it is for HPC programmers, such as yourself to understand it.
 
-The questionnaire is simple. There are five questions, which present you with a fragment of rust code. Please describe what each of these functions does to the best of your abilities
-
+All data collected through this questionnaire will be annonymous. It will only be used for this dissertation, and will be destroyed once the dissertation has been graded.
 
 \begin{multiplechoice}[choices=1]
-In Rust, \texttt{vec!} is used to create a vector. All variables in Rust are immutable by default. If this program compiles and runs, what does it print?
+What does the function \texttt{foo} do?
+\begin{lstlisting}
+fn foo(m: i32, n: i32) -> i32 {
+   if m == 0 {
+      n.abs()
+   } else {
+      foo(n % m, m)
+      test()
+   }
+}
+\end{lstlisting}
+  \choice It finds the greatest common divisor of m and n
+  \choice It doesn't compile.
+  \choice It finds the closest prime number to n
+  \choice It calls itself infinitely.
+\end{multiplechoice}
+
+\begin{multiplechoice}[choices=1]
+In Rust, \texttt{vec!} is used to create a vector. All variables in Rust are immutable by default. What happens when we try to run this program?
 \begin{lstlisting}
 let v = vec![2,3];
 v.push(3);
 print!("{:?}", v);
 \end{lstlisting}
 
-\choice {[2,3,2]}
-\choice {[2,2,2,3]}
+\choice {[2,3,2]} is printed.
+\choice {[2,2,2,3]} is printed.
 \choice The program does not compile.
 \choice The program compiles, but crashes when it tries to push 3 to v.
 
@@ -78,7 +97,7 @@ Idomatic Rust code oten uses patterns associated with functional languages. Give
 \begin{lstlisting}
 let a = v.iter().fold(1, |acc, x| acc * x);
 \end{lstlisting}
-  \choice Every element of v is set to 1, and the result is stored in a.
+  \choice Every element of v is set to 1, and then copied to a.
   \choice Every element of v is multiplied together and the result is stored in a.
   \choice Every element of v is multiplied by 1 and the result is stored in a.
   \choice The program does not compile.
@@ -115,7 +134,7 @@ let a: Vec<i32> = (1..).step_by(3)
 \end{lstlisting}
 
   \choice {[2, 4, 6]}
-  \choice Syntax error, doesn't compile.
+  \choice The program doesn't compile.
   \choice {[4, 10, 16]}
   \choice {[2. 8, 14]}
 \end{multiplechoice}
@@ -139,23 +158,6 @@ a.par_chunks(chunk_size)
 
 \end{multiplechoice}
 \begin{multiplechoice}[choices=1]
-What does the function \texttt{foo} do?
-\begin{lstlisting}
-fn foo(m: i32, n: i32) -> i32 {
-   if m == 0 {
-      n.abs()
-   } else {
-      foo(n % m, m)
-      test()
-   }
-}
-\end{lstlisting}
-  \choice It finds the greatest common divisor of m and n
-  \choice It doesn't compile.
-  \choice It finds the closest prime number to n
-  \choice It calls itself infinitely.
-\end{multiplechoice}
-\begin{multiplechoice}[choices=1]
 The Rust compiler's borrow checker makes sure that values are mutably borrowed if they are altered from a different function than the one they were created in. What does this program print?
 \begin{lstlisting}
 fn plus_one(x: &mut i32){
@@ -172,8 +174,25 @@ fn main(){
   \choice It doesn't compile.
   \choice 66.
 \end{multiplechoice}
+\pagebreak
 \begin{exercise}
-I have \blank{}  years of experience in HPC / Scientific Programming
+Please tick the boxes below to show your level of skill in the varying programming languages
+\begin{center}
+\begin{tabular}{|l|c|c|c|c|}
+\hline
+& None & Basic & Comprehensive & Advanced \\ \hline
+Fortran & & & & \\ \hline
+C & & & & \\ \hline
+C++ & & & & \\ \hline
+Python & & & & \\ \hline
+Ruby & & & & \\ \hline
+Java & & & & \\ \hline
+JavaScript & & & & \\ \hline
+Haskell & & & & \\ \hline
+Rust  & & & & \\ \hline
+\end{tabular}
+\end{center}
+
 \end{exercise}
 
 \end{document}
