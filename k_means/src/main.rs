@@ -58,7 +58,7 @@ fn main() {
 
     let mut X = make_2d_float_array(samples_d.len, features_d.len, x_var.get_float(true).unwrap());
 
-    let mut GUESS = make_2d_int_array(repeat_d.len, clusters_d.len, guess_var.get_int(true).unwrap());
+    let mut guess = make_2d_int_array(repeat_d.len, clusters_d.len, guess_var.get_int(true).unwrap());
 
     println!("Reading data finished");
     println!("X len {}", X.len());
@@ -73,12 +73,12 @@ fn main() {
     let mut new_cluster_centres = vec![vec![0.0; (clusters_d.len * features_d.len) as usize]; clusters_d.len as usize];
 
     let mut inert_best = std::f32::MAX;
-    let mut e_timings = 0;
+    let mut e_timings = 0.0;
     for i_repeat in 0..repeat_d.len as usize {
         
         // Guess initial centers
         for k in 0..clusters_d.len as usize {
-            let initial_idx = GUESS[i_repeat][k];
+            let initial_idx = guess[i_repeat][k];
             for j in 0..features_d.len as usize {
                 old_cluster_centres[k][j] = X[initial_idx as usize][j];
                 new_cluster_centres[k][j] = 0.0; // this line may be unnecessary as data is already zeroed
@@ -89,7 +89,7 @@ fn main() {
         let mut i_iter = 0;
         let mut dist_sum_new = 0.0;
         let TOL = 0.0001;
-        let MAX_ITER = 100;
+        let max_iter = 100;
         loop {
             i_iter += 1;
             let dist_sum_old = dist_sum_new;
@@ -110,7 +110,7 @@ fn main() {
                 labels[i] = k_best;
                 dist_sum_new += dist_min;
             }
-            e_timings += t1.elapsed().as_micros();
+            e_timings += (t1.elapsed().as_micros() as f64) / 1000.0;
 
             // M-Step first half
             for i in 0..samples_d.len as usize {
@@ -133,7 +133,7 @@ fn main() {
                 }
                 cluster_sizes[k] = 0;
             }
-            if i_iter == 1 || ((dist_sum_old - dist_sum_new > TOL) && i_iter < MAX_ITER){
+            if i_iter == 1 || ((dist_sum_old - dist_sum_new > TOL) && i_iter < max_iter){
                 continue;
             } else {
                 break;
