@@ -1,4 +1,5 @@
 use netcdf;
+use std::time::Instant;
 use rayon::prelude::*;
 
 // Array is of width rows * cols, and of length rows
@@ -72,6 +73,7 @@ fn main() {
     let mut new_cluster_centres = vec![vec![0.0; (clusters_d.len * features_d.len) as usize]; clusters_d.len as usize];
 
     let mut inert_best = std::f32::MAX;
+    let mut e_timings = 0;
     for i_repeat in 0..repeat_d.len as usize {
         
         // Guess initial centers
@@ -94,6 +96,7 @@ fn main() {
             dist_sum_new = 0.0;
 
             // E-Step TODO Parallelise this!
+            let t1 = Instant::now();
             for i in 0..samples_d.len as usize {
                 let mut k_best = 0;
                 let mut dist_min = correlation(features_d.len as f32, &X[i], &old_cluster_centres[k_best]);
@@ -107,6 +110,7 @@ fn main() {
                 labels[i] = k_best;
                 dist_sum_new += dist_min;
             }
+            e_timings += t1.elapsed().as_micros();
 
             // M-Step first half
             for i in 0..samples_d.len as usize {
@@ -143,5 +147,6 @@ fn main() {
             }
         }
     }
+    println!("E-step time: {}", e_timings);
     println!("Best inertia: {}", inert_best);
 }
