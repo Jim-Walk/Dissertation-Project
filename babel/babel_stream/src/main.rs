@@ -4,7 +4,6 @@ extern crate clap;
 use clap::{Arg, App};
 use std::time::Instant;
 mod stream;
-//use num::traits;
 use std::any::Any;
 use std::ops::{AddAssign, DivAssign};
 use num::Float;
