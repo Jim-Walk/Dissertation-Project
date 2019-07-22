@@ -1,15 +1,20 @@
 \contentsline {chapter}{\numberline {1}Introduction}{1}
-\contentsline {section}{\numberline {1.1}Mini App Selection}{1}
-\contentsline {chapter}{\numberline {2}Babel Stream}{2}
-\contentsline {section}{\numberline {2.1}Development}{2}
-\contentsline {section}{\numberline {2.2}Comparison}{2}
-\contentsline {chapter}{\numberline {3}Sparse Matrix Multiplication}{3}
-\contentsline {section}{\numberline {3.1}Development}{3}
-\contentsline {section}{\numberline {3.2}Comparison}{3}
-\contentsline {chapter}{\numberline {4}K-means}{4}
-\contentsline {section}{\numberline {4.1}Development}{4}
-\contentsline {section}{\numberline {4.2}Comparison}{4}
-\contentsline {chapter}{\numberline {5}Rust's usability}{5}
-\contentsline {chapter}{\numberline {6}Conclusions}{6}
-\contentsline {chapter}{\numberline {A}Stuff which is too detailed}{7}
-\contentsline {chapter}{\numberline {B}Stuff which no-one will read}{8}
+\contentsline {chapter}{\numberline {2}Methodology}{2}
+\contentsline {section}{\numberline {2.1}Mini-Apps}{2}
+\contentsline {subsection}{\numberline {2.1.1}Selection}{2}
+\contentsline {subsection}{\numberline {2.1.2}Implementation}{3}
+\contentsline {subsubsection}{Babel Stream}{3}
+\contentsline {section}{\numberline {2.2}Questionnaire}{3}
+\contentsline {chapter}{\numberline {3}Babel Stream}{4}
+\contentsline {section}{\numberline {3.1}Development}{4}
+\contentsline {section}{\numberline {3.2}Comparison}{4}
+\contentsline {chapter}{\numberline {4}Sparse Matrix Multiplication}{5}
+\contentsline {section}{\numberline {4.1}Development}{5}
+\contentsline {section}{\numberline {4.2}Comparison}{5}
+\contentsline {chapter}{\numberline {5}K-means}{6}
+\contentsline {section}{\numberline {5.1}Development}{6}
+\contentsline {section}{\numberline {5.2}Comparison}{6}
+\contentsline {chapter}{\numberline {6}Rust's usability}{7}
+\contentsline {chapter}{\numberline {7}Conclusions}{8}
+\contentsline {chapter}{\numberline {A}Stuff which is too detailed}{9}
+\contentsline {chapter}{\numberline {B}Stuff which no-one will read}{10}

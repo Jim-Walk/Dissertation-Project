@@ -4,4 +4,27 @@
 Steve Klabnik and Carol Nichols.
 \newblock The rust programming language.
 
+\bibitem{Mallinson:2014}
+A.~C. Mallinson, S.~A. Jarvis, W.~P. Gaudin, and J.~A. Herdman.
+\newblock {E}xperiences at {S}cale with {PGAS} versions of a {H}ydrodynamics
+  {A}pplication.
+\newblock In {\em Proceedings of the 8th International Conference on
+  Partitioned Global Address Space Programming Models}, PGAS '14, pages
+  9:1--9:11, New York, NY, USA, 2014. ACM.
+
+\bibitem{martineau2017arch}
+Matthew Martineau and Simon McIntosh-Smith.
+\newblock The arch project: physics mini-apps for algorithmic exploration and
+  evaluating programming environments on hpc architectures.
+\newblock In {\em 2017 IEEE International Conference on Cluster Computing
+  (CLUSTER)}, pages 850--857. IEEE, 2017.
+
+\bibitem{Slaughter:2015}
+Elliott Slaughter, Wonchan Lee, Sean Treichler, Michael Bauer, and Alex Aiken.
+\newblock Regent: A {H}igh-productivity {P}rogramming language for {HPC} with
+  {L}ogical {R}egions.
+\newblock In {\em Proceedings of the International Conference for High
+  Performance Computing, Networking, Storage and Analysis}, SC '15, pages
+  81:1--81:12, New York, NY, USA, 2015. ACM.
+
 \end{thebibliography}
