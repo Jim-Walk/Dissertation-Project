@@ -26,11 +26,11 @@ fn make_2d_int_array(rows: u64, cols: u64, data: Vec<i32>) -> Vec<Vec<i32>> {
 fn correlation(n_features: f32, x: &Vec<f32>, y: &Vec<f32>)-> f32{
     let (mut xsum, mut ysum, mut xysum, mut xsqr_sum, mut ysqr_sum) = (0.0, 0.0, 0.0, 0.0, 0.0);
     for j in 0..n_features as usize {
-            xsum = xsum + x[j];
-            ysum = ysum + y[j];
-            xysum = xysum + x[j] * y[j];
-            xsqr_sum = xsqr_sum + x[j] * x[j];
-            ysqr_sum = ysqr_sum + y[j] * y[j];
+            xsum += x[j];
+            ysum += y[j];
+            xysum += x[j] * y[j];
+            xsqr_sum += x[j] * x[j];
+            ysqr_sum += y[j] * y[j];
     }
 
     let num = (n_features * xysum) - (xsum * ysum);
@@ -52,9 +52,9 @@ fn main() {
     let repeat_d = &file.root.dimensions["N_repeat"];
     println!("Number of repeated runs: {}", repeat_d.len);
 
-    let x_var = file.root.variables.get("X").unwrap();
+    let x_var = &file.root.variables["X"];
 
-    let guess_var = file.root.variables.get("GUESS").unwrap();
+    let guess_var = &file.root.variables["GUESS"];
 
     let X = make_2d_float_array(samples_d.len, features_d.len, x_var.get_float(true).unwrap());
 
@@ -101,7 +101,7 @@ fn main() {
                 let mut k_best = 0;
                 let mut dist_min = correlation(features_d.len as f32, &X[i], &old_cluster_centres[k_best]);
                 for k in 1..clusters_d.len as usize {
-                    let mut dist = correlation(features_d.len as f32, &X[i], &old_cluster_centres[k]);
+                    let dist = correlation(features_d.len as f32, &X[i], &old_cluster_centres[k]);
                     if dist < dist_min {
                         dist_min = dist;
                         k_best = k;
@@ -158,11 +158,11 @@ fn main() {
     let mut file = netcdf::append("data/SSWdata.nc").unwrap();
 
     let mut inert_c = file.root.variables.get_mut("INERT_C").unwrap();
-    inert_c.put_value_at(inert_best, &[0]);
+    inert_c.put_value_at(inert_best, &[0]).unwrap();
 
     let mut y_c = file.root.variables.get_mut("Y_C").unwrap();
     let labels_w: Vec<i32>= labels_best.iter().map(|e| *e as i32).collect();
-    y_c.put_values_at(&labels_w, &[0], &[samples_d.len as usize]);
+    y_c.put_values_at(&labels_w, &[0], &[samples_d.len as usize]).unwrap();
 
 
     println!("==== Finished Writing Data ====");
