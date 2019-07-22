@@ -40,30 +40,27 @@ fn correlation(n_features: f32, x: &Vec<f32>, y: &Vec<f32>)-> f32{
 
 fn main() {
     let file = netcdf::open(&"data/SSWdata.nc").unwrap();
-    let samples_d = file.root.dimensions.get("N_samples").unwrap();
+    let samples_d = &file.root.dimensions["N_samples"];
     println!("Number of samples: {}", samples_d.len);
 
-    let features_d = file.root.dimensions.get("N_features").unwrap();
+    let features_d = &file.root.dimensions["N_features"];
     println!("Number of features: {}", features_d.len);
     
-    let clusters_d = file.root.dimensions.get("N_clusters").unwrap();
+    let clusters_d = &file.root.dimensions["N_clusters"];
     println!("Number of clusters: {}", clusters_d.len);
     
-    let repeat_d = file.root.dimensions.get("N_repeat").unwrap();
+    let repeat_d = &file.root.dimensions["N_repeat"];
     println!("Number of repeated runs: {}", repeat_d.len);
 
     let x_var = file.root.variables.get("X").unwrap();
 
     let guess_var = file.root.variables.get("GUESS").unwrap();
 
-    let mut X = make_2d_float_array(samples_d.len, features_d.len, x_var.get_float(true).unwrap());
+    let X = make_2d_float_array(samples_d.len, features_d.len, x_var.get_float(true).unwrap());
 
-    let mut guess = make_2d_int_array(repeat_d.len, clusters_d.len, guess_var.get_int(true).unwrap());
+    let guess = make_2d_int_array(repeat_d.len, clusters_d.len, guess_var.get_int(true).unwrap());
 
-    println!("Reading data finished");
-    println!("X len {}", X.len());
-    println!("X[0] len {}", X[0].len());
-    println!("X[1] len {}", X[1].len());
+    println!("=====reading data finished======");
 
     let mut labels = vec![0; samples_d.len as usize];
     let mut labels_best = vec![0; samples_d.len as usize];
@@ -74,6 +71,10 @@ fn main() {
 
     let mut inert_best = std::f32::MAX;
     let mut e_timings = 0.0;
+    let mut m1_timings = 0.0;
+    let mut m2_timings = 0.0;
+    let t0 = Instant::now();
+    println!("=====Applying K-mean======");
     for i_repeat in 0..repeat_d.len as usize {
         
         // Guess initial centers
@@ -81,7 +82,6 @@ fn main() {
             let initial_idx = guess[i_repeat][k];
             for j in 0..features_d.len as usize {
                 old_cluster_centres[k][j] = X[initial_idx as usize][j];
-                new_cluster_centres[k][j] = 0.0; // this line may be unnecessary as data is already zeroed
             }
         }
 
@@ -110,9 +110,10 @@ fn main() {
                 labels[i] = k_best;
                 dist_sum_new += dist_min;
             }
-            e_timings += (t1.elapsed().as_micros() as f64) / 1000.0;
+            e_timings += t1.elapsed().as_micros() as f64 / 1000.0;
 
             // M-Step first half
+            let t2 = Instant::now();
             for i in 0..samples_d.len as usize {
                 let k_best = labels[i];
                 cluster_sizes[k_best] += 1; // add one more point to this cluster
@@ -122,8 +123,10 @@ fn main() {
                     new_cluster_centres[k_best][j] += X[i][j];
                 }
             }
+            m1_timings += t2.elapsed().as_micros() as f64 / 1000.0;
 
             // M-step second half: convert sum to mean
+            let t3 = Instant::now();
             for k in 0..clusters_d.len as usize {
                 for j in 0..features_d.len as usize {
                     if cluster_sizes[k] > 0 {
@@ -133,6 +136,7 @@ fn main() {
                 }
                 cluster_sizes[k] = 0;
             }
+            m2_timings += t3.elapsed().as_micros() as f64 / 1000.0;
             if i_iter == 1 || ((dist_sum_old - dist_sum_new > TOL) && i_iter < max_iter){
                 continue;
             } else {
@@ -147,6 +151,24 @@ fn main() {
             }
         }
     }
-    println!("E-step time: {}", e_timings);
+    let a_timings = t0.elapsed().as_micros() as f64 / 1000.0;
+
+    // write data back to files 
+
+    let mut file = netcdf::append("data/SSWdata.nc").unwrap();
+
+    let mut inert_c = file.root.variables.get_mut("INERT_C").unwrap();
+    inert_c.put_value_at(inert_best, &[0]);
+
+    let mut y_c = file.root.variables.get_mut("Y_C").unwrap();
+    let labels_w: Vec<i32>= labels_best.iter().map(|e| *e as i32).collect();
+    y_c.put_values_at(&labels_w, &[0], &[samples_d.len as usize]);
+
+
+    println!("==== Finished Writing Data ====");
     println!("Best inertia: {}", inert_best);
+    println!("Kmean total time use (ms) {}", a_timings);
+    println!("E-step time (ms): {}", e_timings);
+    println!("M-step-1st half time (ms): {}", m1_timings);
+    println!("M-step-2nd half time (ms): {}", m2_timings);
 }
