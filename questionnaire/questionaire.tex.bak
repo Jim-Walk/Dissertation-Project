@@ -16,10 +16,10 @@
   {%
     \UseExerciseTemplate{begin}{default}%
     \IfExerciseBooleanPropertyTF{multiple}
-      {Select one or more correct answers}
+      {}
       {%
         \GetExercisePropertyT{choices}
-          {Select \numberstringnum{#1} correct answer\ifnum#1>1 s\fi.}%
+          {}%
       }%
     \begin{choices}
   }
@@ -50,52 +50,69 @@
 \large {High Performance Rust MSc Questionnaire}
 
 \normalsize Jim Walker
+
+s1893750@ed.ac.uk
 \end{center}
 
-Hi! I'm Jim Walker, one of the MSc students at EPCC. My dissertation aims to examine if the new programming language Rust, is suitable for HPC. To that end, I have written this questionnaire, to asses how easy it is for HPC programmers such as yourself to understand it.
+Hi! I'm Jim Walker, one of the MSc students at EPCC. My dissertation aims to examine if the new programming language Rust, is suitable for HPC. To that end, I have written this questionnaire, to assess how easy it is for HPC programmers, such as yourself to understand it.
 
-The questionnaire is simple. There are five questions, which present you with a fragment of rust code. Please describe what each of these functions does to the best of your abilities
-
+All data collected through this questionnaire will be annonymous. It will only be used for this dissertation, and will be destroyed once the dissertation has been graded.
 
 \begin{multiplechoice}[choices=1]
-
+What does the function \texttt{foo} do?
 \begin{lstlisting}
-let mut v1 = vec![2,8];
-let v2 = vec![2;8];
+fn foo(m: i32, n: i32) -> i32 {
+   if m == 0 {
+      n.abs()
+   } else {
+      foo(n % m, m)
+   }
+}
+\end{lstlisting}
+  \choice It finds the greatest common divisor of m and n
+  \choice It doesn't compile.
+  \choice It finds the closest prime number to n
+  \choice It calls itself infinitely.
+\end{multiplechoice}
+
+\begin{multiplechoice}[choices=1]
+In Rust, \texttt{vec!} is used to create a vector. All variables in Rust are immutable by default. What happens when we try to run this program?
+\begin{lstlisting}
+let v = vec![2,3];
+v.push(3);
+print!("{:?}", v);
 \end{lstlisting}
 
-\choice Assigns label v1 to a mutable vector of elements 2 and 8. Assigns label v2 to a vector with 8 elements of value 2.
-\choice Assigns label v1 to a mutated vector with elements 2 and 8. Assigns label v2 to a vector of 2 elements, both with value 8.
-\choice Assigns label v1 to a mutatable vector with elements 2 and 8. Assigns label v2 to a vector of 2 elements, both with value 8.
-\choice Assigns label v1 to a mutable vector of 8 elements of value 2. Assigns label v2 to a vector with elements 2 and 8.
+\choice {[2,3,2]} is printed.
+\choice {[2,2,2,3]} is printed.
+\choice The program does not compile.
+\choice The program compiles, but crashes when it tries to push 3 to v.
 
 \end{multiplechoice}
 
 
 \begin{multiplechoice}[choices=1]
-In this question, please assume that v is a vector.
+Idomatic Rust code oten uses patterns associated with functional languages. Given an immutable vector, v, please select what the line of code below does.
 \begin{lstlisting}
-v.iter().fold(1, |acc, x| acc * x);
+let a = v.iter().fold(1, |acc, x| acc * x);
 \end{lstlisting}
-  \choice An iteretator is created over the vector v, which calls the annonymous/lambda function on each element of the vector.
-  \choice Every element of v is multiplied together
-  \choice thing3
-  \choice thing4
+  \choice Every element of v is set to 1, and then copied to a.
+  \choice Every element of v is multiplied together and the result is stored in a.
+  \choice Every element of v is multiplied by 1 and the result is stored in a.
+  \choice The program does not compile.
 \end{multiplechoice}
 
 \begin{multiplechoice}[choices=1]
-What is printed?
+A vector's push method return an optional value, or none. What does this fragment of code print?
 \begin{lstlisting}
-fn main() {
-  let mut stack = Vec::new();
+let mut stack = Vec::new();
 
-  stack.push(1);
-  stack.push(2);
-  stack.push(3);
+stack.push(1);
+stack.push(2);
+stack.push(3);
 
-  while let Some(top) = stack.pop() {
-    print!("{} ", top);
-  }
+while let Some(top) = stack.pop() {
+  print!("{} ", top);
 }
 \end{lstlisting}
   \choice Some(3) Some(2) Some(1)
@@ -106,45 +123,75 @@ fn main() {
 
 
 \begin{multiplechoice}[choices=1]
-  What is a set to?
+What does this fragment of code do?
 
-  \begin{lstlisting}
-    let a: Vec<i32> = (1..).step_by(3)
-                           .take(3)
-                           .map(|x| x * 2)
-                           .collect();
-  \end{lstlisting}
+\begin{lstlisting}
+let a: Vec<i32> = (1..).step_by(3)
+                       .take(3)
+                       .map(|x| x * 2)
+                       .collect();
+\end{lstlisting}
 
   \choice {[2, 4, 6]}
-  \choice Syntax error
+  \choice The program doesn't compile.
   \choice {[4, 10, 16]}
   \choice {[2. 8, 14]}
 \end{multiplechoice}
 
 \begin{multiplechoice}[choices=1]
-
+In this question, a and b are both vectors of the same length. The method \texttt{par\_chunks} returns a parallel iterator over at most \texttt{chunk\_size} elements at a time. What does this fragment of code do?
 \begin{lstlisting}
-pub fn foo(&mut self)->T {
-
-self.a.par_chunks(self.chunk_size)
-    .zip(self.b.par_chunks(self.chunk_size))
-    .map(|(a,b)| a.iter()
-                  .zip(b.iter())
+a.par_chunks(chunk_size)
+    .zip(b.par_chunks(chunk_size))
+    .map(|(x,y)| x.iter()
+                  .zip(y.iter())
                   .fold(0, | acc, ele| acc + *ele.0 * *ele.1)
-        )
-    .sum()
-}
+    ).sum();
+
 \end{lstlisting}
 
 \choice Sum reduction
 \choice Dot Product
-\choice Transpose?
-\choice thing4
+\choice Transpose
+\choice A single iteration of a one dimensional relaxation.
 
 \end{multiplechoice}
-
+\begin{multiplechoice}[choices=1]
+The Rust compiler's borrow checker makes sure that values are mutably borrowed if they are altered from a different function than the one they were created in. What does this program print?
+\begin{lstlisting}
+fn plus_one(x: &mut i32){
+    *x += 1;
+}
+fn main(){
+    let x = 64;
+    plus_one(&mut x);
+    println!("{}", x+1);
+}
+\end{lstlisting}
+  \choice 65
+  \choice Undefined.
+  \choice It doesn't compile.
+  \choice 66.
+\end{multiplechoice}
+\pagebreak
 \begin{exercise}
-I have \blank{}  years of experience in HPC / Scientific Programming
+Please tick the boxes below to show your level of skill in the varying programming languages
+\begin{center}
+\begin{tabular}{|l|c|c|c|c|}
+\hline
+& None & Basic & Comprehensive & Advanced \\ \hline
+Fortran & & & & \\ \hline
+C & & & & \\ \hline
+C++ & & & & \\ \hline
+Python & & & & \\ \hline
+Ruby & & & & \\ \hline
+Java & & & & \\ \hline
+JavaScript & & & & \\ \hline
+Haskell & & & & \\ \hline
+Rust  & & & & \\ \hline
+\end{tabular}
+\end{center}
+
 \end{exercise}
 
 \end{document}

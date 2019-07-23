@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.1.8)  20 JUL 2019 13:06
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.1.8)  23 JUL 2019 14:07
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1412,6 +1412,16 @@ or `english'. on input line 47.
 (/usr/share/texlive/texmf-dist/tex/latex/fmtcount/fc-english.def
 File: fc-english.def 2016/01/12
 )
+Underfull \hbox (badness 10000) in paragraph at lines 56--61
+
+ []
+
+Missing character: There is no â in font cmr10!
+Missing character: There is no € in font cmr10!
+Missing character: There is no ™ in font cmr10!
+[1
+
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
 \l__file_contents_iow=\write3
 \openout3 = `questionaire-mc-1-exercise-body.tex'.
 
@@ -1448,49 +1458,52 @@ LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <9> not available
 (./questionaire-mc-2-exercise-body.tex)
 \openout3 = `questionaire-mc-3-exercise-body.tex'.
 
- (./questionaire-mc-3-exercise-body.tex
-[1
-
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}])
+ (./questionaire-mc-3-exercise-body.tex)
 \openout3 = `questionaire-mc-4-exercise-body.tex'.
 
-
-(./questionaire-mc-4-exercise-body.tex)
+(./questionaire-mc-4-exercise-body.tex [2])
 \openout3 = `questionaire-mc-5-exercise-body.tex'.
 
- (./questionaire-mc-5-exercise-body.tex)
+
+(./questionaire-mc-5-exercise-body.tex)
 \openout3 = `questionaire-mc-6-exercise-body.tex'.
 
-(./questionaire-mc-6-exercise-body.tex [2])
+ (./questionaire-mc-6-exercise-body.tex
+[3])
 \openout3 = `questionaire-mc-7-exercise-body.tex'.
 
-
-(./questionaire-mc-7-exercise-body.tex) [3]
+ (./questionaire-mc-7-exercise-body.tex) [4]
 \openout3 = `questionaire-exercise-8-exercise-body.tex'.
 
 
-(./questionaire-exercise-8-exercise-body.tex) [4] (./questionaire.aux) ) 
+(./questionaire-exercise-8-exercise-body.tex)
+*************************************************
+* xsim warning: "rerun"
+* 
+* Exercise properties may have changed. Rerun to get them synchronized.
+*************************************************
+[5] (./questionaire.aux) ) 
 Here is how much of TeX's memory you used:
- 15250 strings out of 492982
- 316157 string characters out of 6134897
- 369980 words of memory out of 5000000
- 18661 multiletter control sequences out of 15000+600000
- 537883 words of font info for 52 fonts, out of 8000000 for 9000
+ 15252 strings out of 492982
+ 316181 string characters out of 6134897
+ 371980 words of memory out of 5000000
+ 18662 multiletter control sequences out of 15000+600000
+ 538191 words of font info for 53 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 72i,6n,72p,10329b,1661s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/s
-hare/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/t
-exlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/share/texlive/
-texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-d
-ist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fon
-ts/type1/public/amsfonts/cm/cmr9.pfb></usr/share/texlive/texmf-dist/fonts/type1
-/public/amsfonts/cm/cmsy9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public
-/amsfonts/cm/cmtt10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfo
-nts/symbols/msam10.pfb>
-Output written on questionaire.pdf (4 pages, 100031 bytes).
+ 72i,6n,72p,10329b,1659s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/share/texlive/texmf-dist/fonts/type1/public/ams
+fonts/cm/cmbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/
+cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmm
+i9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb>
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/s
+hare/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/share/tex
+live/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/share/texlive/te
+xmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/share/texlive/texmf-di
+st/fonts/type1/public/amsfonts/symbols/msam10.pfb>
+Output written on questionaire.pdf (5 pages, 116370 bytes).
 PDF statistics:
- 49 PDF objects out of 1000 (max. 8388607)
- 34 compressed objects within 1 object stream
+ 56 PDF objects out of 1000 (max. 8388607)
+ 39 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

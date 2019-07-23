@@ -53,10 +53,42 @@
 
 s1893750@ed.ac.uk
 \end{center}
+\textbf{Questionnaire Information}
+\newline\newline
+\noindent\textbf{About this project:}
+\newline
+\noindent This project aims to evaluate the usability of Rust from the perspective of HPC programmers.
 
-Hi! I'm Jim Walker, one of the MSc students at EPCC. My dissertation aims to examine if the new programming language Rust, is suitable for HPC. To that end, I have written this questionnaire, to assess how easy it is for HPC programmers, such as yourself to understand it.
+\noindent\textbf{Who is responsible for data collected?}
 
-All data collected through this questionnaire will be annonymous. It will only be used for this dissertation, and will be destroyed once the dissertation has been graded.
+\noindent Jim Walker
+
+\noindent\textbf{What is involved in this study?}
+
+\noindent A multiple choice paper questionnaires which asks participants what particular fragments of Rust code do. Participants are also requested to self identify how proficient they are at the following programming languages: Fortran, C, C++, Python, Ruby, Java, JavaScript, Haskell and Rust. I will collect no other data from the participants.
+
+\noindent Once questionnaires have been completed I will digitise the data into a csv format, and use it to create figures for my dissertation. Once my dissertation has been marked, that data will be destroyed. The digital csv file holding all my data will only be available on my laptop.
+
+\noindent\textbf{What are the risks involved in this study?}
+
+\noindent Data could be taken from my laptop, and people could try to ascertain which participants got higher marks on  the questionnaire from the skill levels the participant applied to the various languages. This could then potentially effect a participant’s future career progress if the Rust programming language begun to be widely used in EPCC.
+
+\noindent\textbf{What are the benefits of taking part in this study?}
+
+\noindent People can test their knowledge on Rust. Once all data has been collected, correct answers will be circulated through the EPCC mailing list.
+
+\noindent\textbf{What are your rights as a participant?}
+
+\noindent Taking part in the study is voluntary. You may choose not to take part or subsequently cease participation at any time.
+
+\noindent\textbf{Will I receive any payment or monetary benefits?}
+
+\noindent No.
+
+\noindent\textbf{For more information:}
+
+\noindent You can contact Jim Walker directly, or his supervisor Magnus Morton, m.morton@epcc .ed.ac.uk
+\pagebreak
 
 \begin{multiplechoice}[choices=1]
 What does the function \texttt{foo} do?
@@ -66,7 +98,6 @@ fn foo(m: i32, n: i32) -> i32 {
       n.abs()
    } else {
       foo(n % m, m)
-      test()
    }
 }
 \end{lstlisting}
@@ -124,7 +155,7 @@ while let Some(top) = stack.pop() {
 
 
 \begin{multiplechoice}[choices=1]
-What is a set to?
+What does this fragment of code do?
 
 \begin{lstlisting}
 let a: Vec<i32> = (1..).step_by(3)
@@ -133,7 +164,7 @@ let a: Vec<i32> = (1..).step_by(3)
                        .collect();
 \end{lstlisting}
 
-  \choice {[2, 4, 6]}
+  \choice Sets a to {[2, 4, 6]}
   \choice The program doesn't compile.
   \choice {[4, 10, 16]}
   \choice {[2. 8, 14]}
@@ -153,12 +184,12 @@ a.par_chunks(chunk_size)
 
 \choice Sum reduction
 \choice Dot Product
-\choice Transpose
-\choice A single iteration of a one dimensional relaxation.
+\choice Element wise sum
+
 
 \end{multiplechoice}
 \begin{multiplechoice}[choices=1]
-The Rust compiler's borrow checker makes sure that values are mutably borrowed if they are altered from a different function than the one they were created in. What does this program print?
+The Rust compiler's borrow checker makes sure that values are mutably borrowed if they are altered from a different function than the one they were created in. What does this program do?
 \begin{lstlisting}
 fn plus_one(x: &mut i32){
     *x += 1;
@@ -169,10 +200,10 @@ fn main(){
     println!("{}", x+1);
 }
 \end{lstlisting}
-  \choice 65
-  \choice Undefined.
+  \choice Print 65.
+  \choice Prints an undefined value.
   \choice It doesn't compile.
-  \choice 66.
+  \choice Print 66.
 \end{multiplechoice}
 \pagebreak
 \begin{exercise}
