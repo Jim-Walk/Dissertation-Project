@@ -2,7 +2,7 @@
 \section{Mini-Apps}
 Mini-apps are a well established method of assessing new programming languages or techniques within HPC~\cite{Mallinson:2014, Slaughter:2015, martineau2017arch}. A mini-app is a small program which reproduces some functionality of a common HPC use case. Often, the program will be implemented using one particular technology, and then ported to another technology. The performance of the two mini-apps will then be tested, to see which technology is better suited to the particular problem represented by that mini-app. Such an approach gives quantitative data which provides a strong indication for the performance of a technology in a full implementation of an application. This dissertation will follow a similar approach of evaluating a program through the performance of a mini-app, using the test data to find any weaknesses in the Rust or original implementation.
 
-I will also evaluate the ease with which I am able to port a mini-app into Rust. These observations will provide insight into what it is like to program in Rust, if its strict memory model and functional idioms help or hinder translation from the imperative languages which the ported programs are written in. This qualative, partly experiential information will hopefully provide an insight into the actual practicalities of programming in Rust. For Rust to be fully accepted by the HPC community, it is necessary that the program fufills the functional requirements of speed and scaling, alongside non functional requirements, of usability and user experience. The first factor provides a reason for using Rust programs in HPC, the second provides an impetus for learning how to write those programs.
+I will also evaluate the ease with which I am able to port a mini-app into Rust. These observations will provide insight into what it is like to program in Rust, if its strict memory model and functional idioms help or hinder translation from the imperative languages which the ported programs are written in. This qualitative, partly experiential information will hopefully provide an insight into the actual practicalities of programming in Rust. For Rust to be fully accepted by the HPC community, it is necessary that the program fulfils the functional requirements of speed and scaling, alongside non functional requirements, of usability and user experience. The first factor provides a reason for using Rust programs in HPC, the second provides an impetus for learning how to write those programs.
 \subsection{Selection}
 So that a breadth of usage scenarios were examined, three mini-apps were selected based on their conformity to the following set of criteria.
 \begin{itemize}
@@ -16,14 +16,15 @@ So that a breadth of usage scenarios were examined, three mini-apps were selecte
 
   \item \textbf{The program must be written in C or C++.} This restriction allows us to choose work which is more representative of HPC programs that actually run on HPC systems, rather than python programs which call out to pre-compiled libraries. Unlike Fortran, C and C++ use array indexing and layout conventions similar to Rust, which will make porting programs from them easier.
 
-  \item \textbf{The program must use OMP.} This is a typical approach for shared memory parallelism in HPC. Use of a library to do the parallel processing also further standardises the candidate programs, allowing a deeper comparison between the mini-apps.
+  \item \textbf{The program must use OMP.} This is a typical approach for shared memory parallelism in HPC. Use of a library to do the parallel processing also further standardises the candidate programs, which will lead to a deeper understanding between the mini-apps.
 \end{itemize}
 
 \subsection{Implementation}
-Implmentation of all three programs follows the same process, as outlined in Figure~\ref{fig:imp-flow}
+Implementation of all three programs follows the same process, as outlined in Figure~\ref{fig:imp-flow}. Once a candidate mini-app is selected, it is implemented in Rust in serial. Any differences between the  behaviour of the Rust and the original implementation are thought of as bugs, and are eradicated or minimised as far as is possible. For ease of development, the Rust crate Clap was used to read command line arguments for the program, leading to Rust implementations of mini-apps being called with slightly different syntax. This difference was deemed to be so superficial as to be allowable. Program output was ensured to be as similar as possible to aid data-collection from both implementations.
+
 \begin{figure}
   \center
-  \includegraphics{figs/ImplementationFlow.png}
+  \includegraphics[height=12cm]{figs/ImplementationFlow.png}
   \caption{Flow Diagram for Implementation Process}
   \label{fig:imp-flow}
 \end{figure}
