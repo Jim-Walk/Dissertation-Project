@@ -16,11 +16,13 @@ So that a breadth of usage scenarios were examined, three mini-apps were selecte
 
   \item \textbf{The program must be written in C or C++.} This restriction allows us to choose work which is more representative of HPC programs that actually run on HPC systems, rather than python programs which call out to pre-compiled libraries. Unlike Fortran, C and C++ use array indexing and layout conventions similar to Rust, which will make porting programs from them easier.
 
-  \item \textbf{The program must use OMP.} This is a typical approach for shared memory parallelism in HPC. Use of a library to do the parallel processing also further standardises the candidate programs, which will lead to a deeper understanding between the mini-apps.
+  \item \textbf{The program must use OMP.} This is a typical approach for shared memory parallelism in HPC. Use of a library to do the parallel processing also further standardises the candidate programs, which will lead to a deeper understanding of the mini-app's performance factors.
 \end{itemize}
 
+Should I quickly describe the mini-apps I selected and explain my choices here or later?
+
 \subsection{Implementation}
-Implementation of all three programs follows the same process, as outlined in Figure~\ref{fig:imp-flow}. Once a candidate mini-app is selected, it is implemented in Rust in serial. Any differences between the  behaviour of the Rust and the original implementation are thought of as bugs, and are eradicated or minimised as far as is possible. For ease of development, the Rust crate Clap was used to read command line arguments for the program, leading to Rust implementations of mini-apps being called with slightly different syntax. This difference was deemed to be so superficial as to be allowable. Program output was ensured to be as similar as possible to aid data-collection from both implementations.
+Implementation of all three programs follows the same process, as outlined in Figure~\ref{fig:imp-flow}. Once a candidate mini-app is selected, it is implemented in Rust in serial. Any differences between the  behaviour of the Rust and the original implementation are thought of as bugs, and are eradicated or minimised as far as is possible. For ease of development, the Rust crate Clap was used to read command line arguments for the program, leading to Rust implementations of mini-apps being called with slightly different syntax. This difference was deemed to be so superficial as to be allowable. Mini-app output was ensured to be as similar as possible to aid data-collection from both implementations.
 
 \begin{figure}
   \center
@@ -28,6 +30,53 @@ Implementation of all three programs follows the same process, as outlined in Fi
   \caption{Flow Diagram for Implementation Process}
   \label{fig:imp-flow}
 \end{figure}
+
+Parallising code was done using the Rayon library etc etc,
+
+Bugs at this stage could be hard to fix as they could come from original implementations
+
+testing is discussed in full detail next section, box could instead say `Ready for testing'
+
 \subsubsection{Babel Stream}
+\begin{itemize}
+  \item Type problems due to generics leading to verbose code and obfusticating debugging
+  \item The compiler did help with type debugging a little, but had limitations - give example
+  \item Idiomatic serial Rust was faster than C like rust, potentially due to iter\_mut allowing optimisations? Evidence from triad and add.
+  \item Once I figured out the for\_each pattern is was easy to apply it to other operations
+  \item Realised that Rust's serial init was a bottleneck
+  \item difficulty in writing para init as not a common use case scenario, and obfusticated by type
+\end{itemize}
+
+Initialisation is the very verbose - Explain why it's so verbose, process for finding this to be worth doing etc.
+\begin{lstlisting}
+vec![0.0; arr_size].par_iter()
+                   .map(|_| T::from(0.2).unwrap())
+                   .collect_into_vec(&mut self.b);
+\end{lstlisting}
+
+Explain what's going on in this code fragment, compare it to the C original. Whilst this is a lot, Rust does reduce need for defensive coding. Could do a sloc comparison between original and new, if it was felt to be worth doing.
+
+\begin{lstlisting}
+pub fn triad(&mut self){
+    let scalar_imut = self.scalar;
+    self.a.par_chunks_mut(self.chunk_size)
+        .zip(self.c.par_chunks(self.chunk_size))
+        .zip(self.b.par_chunks(self.chunk_size))
+        .for_each(|((a, c), b)|
+                  for ((a_i, c_i,), b_i) in a.iter_mut()
+                                             .zip(c.iter())
+                                             .zip(b.iter()){
+                                               *a_i = *b_i + scalar_imut * *c_i
+                                              });
+}
+\end{lstlisting}
+
+\subsubsection{Sparse Matrix}
+\begin{itemize}
+  \item Bit shift overflow causes Rust to crash not just run on, have to be more careful about mini-app input parameters. Initially thought this might be a bug. Give example.
+  \item Found init bug, was very difficult to implement para init. Filed bug report with original project
+\end{itemize}
+
+\subsection{Experimentation}
 
 \section{Questionnaire}

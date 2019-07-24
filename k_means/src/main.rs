@@ -88,7 +88,7 @@ fn main() {
         // Core k-mean stepping (Expectation-Maximization) begins here!
         let mut i_iter = 0;
         let mut dist_sum_new = 0.0;
-        let TOL = 0.0001;
+        let tol = 0.0001;
         let max_iter = 100;
         loop {
             i_iter += 1;
@@ -97,6 +97,7 @@ fn main() {
 
             // E-Step TODO Parallelise this!
             let t1 = Instant::now();
+
             for i in 0..samples_d.len as usize {
                 let mut k_best = 0;
                 let mut dist_min = correlation(features_d.len as f32, &X[i], &old_cluster_centres[k_best]);
@@ -110,6 +111,7 @@ fn main() {
                 labels[i] = k_best;
                 dist_sum_new += dist_min;
             }
+
             e_timings += t1.elapsed().as_micros() as f64 / 1000.0;
 
             // M-Step first half
@@ -137,7 +139,7 @@ fn main() {
                 cluster_sizes[k] = 0;
             }
             m2_timings += t3.elapsed().as_micros() as f64 / 1000.0;
-            if i_iter == 1 || ((dist_sum_old - dist_sum_new > TOL) && i_iter < max_iter){
+            if i_iter == 1 || ((dist_sum_old - dist_sum_new > tol) && i_iter < max_iter){
                 continue;
             } else {
                 break;
@@ -146,9 +148,7 @@ fn main() {
 
         if dist_sum_new < inert_best {
             inert_best = dist_sum_new;
-            for i in 0..samples_d.len as usize {
-                labels_best[i] = labels[i];
-            }
+            labels_best[..samples_d.len as usize].clone_from_slice(&labels[..samples_d.len as usize]);
         }
     }
     let a_timings = t0.elapsed().as_micros() as f64 / 1000.0;
@@ -158,11 +158,11 @@ fn main() {
     let mut file = netcdf::append("data/SSWdata.nc").unwrap();
 
     let mut inert_c = file.root.variables.get_mut("INERT_C").unwrap();
-    inert_c.put_value_at(inert_best, &[0]).unwrap();
+    inert_c.put_value_at(inert_best, &[0]);
 
     let mut y_c = file.root.variables.get_mut("Y_C").unwrap();
     let labels_w: Vec<i32>= labels_best.iter().map(|e| *e as i32).collect();
-    y_c.put_values_at(&labels_w, &[0], &[samples_d.len as usize]).unwrap();
+    y_c.put_values_at(&labels_w, &[0], &[samples_d.len as usize]);
 
 
     println!("==== Finished Writing Data ====");
