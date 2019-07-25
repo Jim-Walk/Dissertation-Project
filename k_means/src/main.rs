@@ -83,7 +83,7 @@ fn main() {
             for j in 0..features_d.len as usize {
                 old_cluster_centres[k][j] = X[initial_idx as usize][j];
             }
-        }
+        
 
         // Core k-mean stepping (Expectation-Maximization) begins here!
         let mut i_iter = 0;
@@ -98,17 +98,17 @@ fn main() {
             // E-Step TODO Parallelise this!
             let t1 = Instant::now();
 
-            for i in 0..samples_d.len as usize {
+            for (idx, item) in X.iter().enumerate() {
                 let mut k_best = 0;
-                let mut dist_min = correlation(features_d.len as f32, &X[i], &old_cluster_centres[k_best]);
+                let mut dist_min = correlation(features_d.len as f32, &item, &old_cluster_centres[k_best]);
                 for k in 1..clusters_d.len as usize {
-                    let dist = correlation(features_d.len as f32, &X[i], &old_cluster_centres[k]);
+                    let dist = correlation(features_d.len as f32, &item, &old_cluster_centres[k]);
                     if dist < dist_min {
                         dist_min = dist;
                         k_best = k;
                     }
                 }
-                labels[i] = k_best;
+                labels[idx] = k_best;
                 dist_sum_new += dist_min;
             }
 

@@ -1,8 +1,14 @@
 \begin{thebibliography}{1}
 
+\bibitem{RustClippy}
+The Rust~Project Developers.
+\newblock rust-clippy.
+\newblock https://github.com/rust-lang/rust-clippy.
+
 \bibitem{RustBook}
 Steve Klabnik and Carol Nichols.
 \newblock The rust programming language.
+\newblock https://doc.rust-lang.org/book/.
 
 \bibitem{Mallinson:2014}
 A.~C. Mallinson, S.~A. Jarvis, W.~P. Gaudin, and J.~A. Herdman.
@@ -26,5 +32,10 @@ Elliott Slaughter, Wonchan Lee, Sean Treichler, Michael Bauer, and Alex Aiken.
 \newblock In {\em Proceedings of the International Conference for High
   Performance Computing, Networking, Storage and Analysis}, SC '15, pages
   81:1--81:12, New York, NY, USA, 2015. ACM.
+
+\bibitem{RustRayon}
+Josh Stone and Niko Matsakis.
+\newblock rayon.
+\newblock https://github.com/rayon-rs/rayon.
 
 \end{thebibliography}
