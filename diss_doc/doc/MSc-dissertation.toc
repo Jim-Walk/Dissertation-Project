@@ -7,21 +7,28 @@
 \contentsline {subsection}{\numberline {2.3.1}Rayon}{3}
 \contentsline {chapter}{\numberline {3}Methodology}{4}
 \contentsline {section}{\numberline {3.1}Kernel Selection}{4}
-\contentsline {subsection}{\numberline {3.1.1}Implementation}{5}
-\contentsline {subsubsection}{Babel Stream}{7}
-\contentsline {subsubsection}{Sparse Matrix}{8}
-\contentsline {subsection}{\numberline {3.1.2}Experimentation}{8}
-\contentsline {section}{\numberline {3.2}Questionnaire}{8}
-\contentsline {chapter}{\numberline {4}Babel Stream}{9}
-\contentsline {section}{\numberline {4.1}Development}{9}
-\contentsline {section}{\numberline {4.2}Comparison}{9}
-\contentsline {chapter}{\numberline {5}Sparse Matrix Multiplication}{10}
-\contentsline {section}{\numberline {5.1}Development}{10}
-\contentsline {section}{\numberline {5.2}Comparison}{10}
-\contentsline {chapter}{\numberline {6}K-means}{11}
-\contentsline {section}{\numberline {6.1}Development}{11}
-\contentsline {section}{\numberline {6.2}Comparison}{11}
-\contentsline {chapter}{\numberline {7}Rust's usability}{12}
-\contentsline {chapter}{\numberline {8}Conclusions}{13}
-\contentsline {chapter}{\numberline {A}Stuff which is too detailed}{14}
-\contentsline {chapter}{\numberline {B}Stuff which no-one will read}{15}
+\contentsline {subsection}{\numberline {3.1.1}Babel Stream}{5}
+\contentsline {subsection}{\numberline {3.1.2}Sparse}{6}
+\contentsline {subsection}{\numberline {3.1.3}K Means}{6}
+\contentsline {section}{\numberline {3.2}Implementation}{7}
+\contentsline {subsection}{\numberline {3.2.1}Porting to Serial Rust}{7}
+\contentsline {subsection}{\numberline {3.2.2}Bug fixing, conversion to idiomatic Rust}{8}
+\contentsline {subsection}{\numberline {3.2.3}Parallelisation}{8}
+\contentsline {subsection}{\numberline {3.2.4}Debug final implementation}{9}
+\contentsline {subsection}{\numberline {3.2.5}Babel Stream}{9}
+\contentsline {subsection}{\numberline {3.2.6}Sparse Matrix}{10}
+\contentsline {subsection}{\numberline {3.2.7}Experimentation}{10}
+\contentsline {section}{\numberline {3.3}Questionnaire}{10}
+\contentsline {chapter}{\numberline {4}Babel Stream}{11}
+\contentsline {section}{\numberline {4.1}Development}{11}
+\contentsline {section}{\numberline {4.2}Comparison}{11}
+\contentsline {chapter}{\numberline {5}Sparse Matrix Multiplication}{12}
+\contentsline {section}{\numberline {5.1}Development}{12}
+\contentsline {section}{\numberline {5.2}Comparison}{12}
+\contentsline {chapter}{\numberline {6}K-means}{13}
+\contentsline {section}{\numberline {6.1}Development}{13}
+\contentsline {section}{\numberline {6.2}Comparison}{13}
+\contentsline {chapter}{\numberline {7}Rust's usability}{14}
+\contentsline {chapter}{\numberline {8}Conclusions}{15}
+\contentsline {chapter}{\numberline {A}Stuff which is too detailed}{16}
+\contentsline {chapter}{\numberline {B}Stuff which no-one will read}{17}

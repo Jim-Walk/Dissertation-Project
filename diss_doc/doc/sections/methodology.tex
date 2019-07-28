@@ -2,7 +2,7 @@
 \section{Kernel Selection}
 So that a breadth of usage scenarios were examined, three kernels were selected based on their conformity to the following set of criteria.
 \begin{itemize}
-  \item \textbf{The part of the program responsible for more than two thirds of the processing time should not be more than 1500 lines.} To ensure that I fully implemented three ports of existing kernels, it was necessary to limit the size of the kernels that could be considered. This was an unfortunately necessary decision to make. Whilst it reduced the field of possible kernels, an analysis of the rejected kernels found that many of them devoted lots of code to subtle computational variations, which were of more importance to a particular rarefied domain, rather than presenting a novel approach to parallelism. (i could cite some benchmarks here like bookleaf or something)
+  \item \textbf{The part of the program responsible for more than two thirds of the processing time should not be more than 1500 lines.} To ensure that I fully implemented three ports of existing kernels, it was necessary to limit the size of the kernels that could be considered. This was an unfortunately necessary decision to make. Whilst it reduced the field of possible kernels, it helpfully excluded any overly complex mini-apps.
 
   \item \textbf{The program must use shared memory parallelism and target the CPU.} Rust's (supposed) zero cost memory safety features are its differentiating factor. The best way to test the true cost of Rust's memory safety features would be through shared memory parallelism, where a poor implementation of memory management will make itself evident through poor performance. Programs which target the GPU rather than the CPU will not be considered, as the current implementations for Rust to target GPUs involve calling out to existing GPU APIs. Therefore, any analysis of a Rust program targeting a GPU would largely be an analysis of the GPU API itself.
 
@@ -15,12 +15,42 @@ So that a breadth of usage scenarios were examined, three kernels were selected 
   \item \textbf{The program must use OMP.} This is a typical approach for shared memory parallelism in HPC. Use of a library to do the parallel processing also further standardises the candidate programs, which will lead to a deeper understanding of the kernel's performance factors.
 \end{itemize}
 
-The best kernels I found to fit this criteria were Babel Stream, sparse matrix vector multiplication and K-means clustering.
+I used this selection criteria to compile a long list of potential kernels to port to Rust. From this longlist, I selected the Babel Stream, sparse matrix vector multiplication and K-means clustering.
 
-Babel Stream was developed by blah blah and it is written in C++, using OpenMP it has a good precedent of being used by blah blah, it performs operations blah blah. Tests found it to scale well so I implemented it.
+\subsection{Babel Stream}
 
-\subsection{Implementation}
-Implementation of all three programs follows the same process, as outlined in Figure~\ref{fig:imp-flow}. Once a candidate kernel is selected, it is implemented in Rust in serial. Any differences between the  behaviour of the Rust and the original implementation are thought of as bugs, and are eradicated or minimised as far as is possible. For ease of development, the Rust crate Clap was used to read command line arguments for the program, leading to Rust implementations of kernels being called with slightly different syntax. This difference was deemed to be superficial enough to be allowable. Kernel output was ensured to be as similar as possible to aid data-collection from both implementations.
+Babel Stream is a memory benchmarking tool which was developed by the university of Bristol. Babel Stream was written to primarily target GPUs, but it is able to target CPUs too~\cite{BabelStream}.  It is written in C++, supports OpenMP and allows one to set the problem size when executing the program, so we can be sure we exceed the size of L3 cache. Tests found the kernel to scale well, and altough the program as a whole is quite large, when one ignores parallel technologies excluded by our selection criteria, the amount of code which needs to be ported to Rust falls well within our bounds.
+
+Babel Stream performs simple operations on three arrays of either 32 or 64 bit floating point numbers, $a$, $b$ and $c$. The values of $a$ are set to 0.1, $b$'s to 0.2, and $c$'s to 0.0. Stream performs five operations $n$ times on the arrays, where $n$ is a specified command line arguement. The operations are listed below:
+\begin{itemize}
+  \item \textbf{Copy:} Data is copied from the array $a$ into array $c$
+  \item \textbf{Multiply:} Data in $c$ is multiplied by a scalar and stored in $b$
+  \item \textbf{Add:} The values in $a$ and $b$ are added together and stored in $c$
+  \item \textbf{Triad:} The program then multiplies the new values in $c$ by the same scalar value, adds it to $b$ and stores the value in $a$
+  \item \textbf{Dot:} The dot product is performed on arrays $a$ and $b$. This is when every nth element of $a$ is multiplied by the nth element of $b$, and summed.
+\end{itemize}
+The resulting values in the arrays are then compared against seperatly caluclated reference values, and examined to see if their average error is greater than that number types epsilon value.
+
+Babel Stream's simple mathematical operations provide an insight into the memory bandwidth of a programming language, and give an indication of how the  design choices of a language can influence their performance.
+
+\subsection{Sparse}
+
+The Sparse Kernel~\cite{ParResSparse} forms part of the Parallel Research Kernels suite, developed by the Parallel Research Tools group. Sparse matrix vector multiplication is a common HPC operation, used to sovle a broad range of scientific problems~\cite{Sedaghati:2015, spMVGPU, DBLP:journals}.
+
+The kernel mostly one file, sparse.c, which in total is 353 lines of code. The implementation is in C and OpenMP, and tests found it to scale to a high thread count. As with Babel Stream, the program allows one to set problem size through command line arguments, allowing us to ensure the program operated on data greater than the CPU's L3 cache.
+
+The program reperesents its sparse matrix through the compressed sparse row (CSR) format. This format uses key information about the matrix to avoid storing all of the sparse matrix's redundant zeros in the computer's memory. The information used to do this are the number of rows and columns the matrix has, and the number of non zero values which exist in the matrix. These three values are used to build three vectors, one holding all the non zero values of the matrix, another vector of the same length holding the column indexes for all of those values, in order, and lastly a smaller vector which holds the index at which a particular row starts. For example, if we wanted the element at 24,32 within the vector, we would look in the 24th elemet of the row start vector, which would give us the y index of the elemnt. If this did not match the y index we were looking for, in this case 32, we would then look at the next element until we found it. Once we have found the element, we can get the value from the value vector using the index we construct from adding the 24th element of the row start vector, added to however many times we needed to look at the next value to before we found the appropriate y index.
+
+The particular implementation of sparse matrix vector mulitplication which we are porting to Rust uses a user defined grid size, over which a user defined periodic stencil is applied to find the number of non zero entries. The implementation parallelises its initilisation and the actual multiplication of the values using simple \texttt{\#pragma} statements.
+
+This kernel will hopefully provide a realistic idea of how well Rust can perform one of the most common HPC operations.
+
+\subsection{K Means}
+
+K means is common etc, this implementation also uses netcdf which is also v common so interesting to see how hard it is to get Rust to work with it.
+
+\section{Implementation}
+Implementation of all three programs follows the same process, as outlined in Figure~\ref{fig:imp-flow}. The full process would take between three to four weeks to complete for each kernel. I first implemented Babel Stream, then the sparse matrix mulitplication kernel and finally the K means kernel in that order.
 
 \begin{figure}
   \center
@@ -29,15 +59,27 @@ Implementation of all three programs follows the same process, as outlined in Fi
   \label{fig:imp-flow}
 \end{figure}
 
+\subsection{Porting to Serial Rust}
+Once a candidate kernel is selected, it is implemented in Rust in serial. Any differences between the  behaviour of the Rust and the original implementation are thought of as bugs, and are eradicated or minimised as far as is possible. For ease of development, the Rust crate Clap was used to read command line arguments for the program, leading to Rust implementations of kernels being called with slightly different syntax. This difference was deemed to be superficial enough to be allowable. Kernel output was ensured to be as similar as possible to aid data-collection from both implementations.
+
+Babel Stream was in some ways one of the hardest to Kernels to port to serial Rust. This was partly due to it being the first program which I attempted to port, but also because of Rusts type system and the use of generics. The original C++ implmentation of the program uses templates to allow the user to choose to use 32 or 64 bit floating numbers when running the program. To achive the same thing in Rust, generics types have to be used, which are defined through traits. This made reading error messages slightly difficult, but easier to parse once the offending code was removed into a smaller example, and stripped of its generic type. Generics in Rust also necissitate the slightly cumbersome sytax \texttt{T::from(0).unwrap()} to generate a zero of type T. This expression generates an option type, which in this case is \texttt{Some(0.0)}, and is then unwrapped into simpy \texttt{0}. Rust does this to allow programmers to deal with cases where a value of type T is impossible to generate from the input value, as casting a value greater than $2^{32} - 1$ to a signed 32 bit value. In this circumstance, the value returned would be \texttt{None}, which the programmer would then have to deal with. As zero can always be succsefully casted to a 32 or 64 bit floating point number, it is safe to simply unwrap the value here, but if it was a number that could not be cast to the type, then the program would crash at this point.
+
+The Rust implementation of Babel stream, like the reference implementation, creates a stream object which calls certain functions on its own data sets. This was quite easy to implement as Rust has enough features of object oriented design, such as allowing objects to contain data and behaviour for these simple objects to work. However, Rust does implement object inheritence, instead using trait objects to share behaviors. This design choice did not interfere with any of the simple kernels which were implemented, but would certainly be interesting to translate object inheritence from a larger program, maybe a mini-app into Rust's trait objects.
+
+The sparse matrix vector mulitplication kernel was quite simple to port to serial Rust, as I was able to ignore parts of the small program which would not be used. Interestingly, at this stage I found that not all behavior in C
+
+\subsection{Bug fixing, conversion to idiomatic Rust}
 Next, I would eliminate any bugs found in my serial implementation of the code by comparing outputs between my implementation and the reference implementation. During this process I would also move the code away from its C conventions towards more idiomatic Rust. To achieve more idiomatic Rust, I used the linting tool Clippy~\cite{RustClippy}, which was developed by the Rust team.  Clippy includes a category of lints under  which highlight `code that should be written in a more idiomatic way'~\cite{RustClippy}. I implemented all of Clippy's recommended rewrites, which would often include replacing the use of for loops to access vector variables with calls to the vectors \texttt{iter()} method. This particular replacement could require code to be rewritten in a much more functional style. (should I give an example?)
 
-I would then parallelise the kernel using Rayon~\cite{RustRayon} at the same loops where the reference implementation used OpenMP to parallelise its loops. Sometimes this would be a simple matter of replacing the \texttt{iter()} method with \texttt{par_iter()}, but more parallising more complex operations like reductions and initilisations was slightly more difficult.
+\subsection{Parallelisation}
+I would then parallelise the kernel using Rayon~\cite{RustRayon} at the same loops where the reference implementation used OpenMP to parallelise its loops. Sometimes this would be a simple matter of replacing the \texttt{iter()} method with \texttt{par\_iter()}, but more parallising more complex operations like reductions and initilisations was slightly more difficult.
 
-I would then again endeavour to fix bugs Bugs at this stage could be hard to fix as they could come from original implementations
+\subsection{Debug final implementation}
+Once I had parallised the Rust implementation, I would again debug the program process at this stage could be hard to fix as they could come from original implementations. An intersting example of such a bug is discussed further in this section, from the sparse matrix vector multiplication kernel.
 
-testing is discussed in full detail next section, box could instead say `Ready for testing'
+Once the implementation process had been finished, testing could begin.
 
-\subsubsection{Babel Stream}
+\subsection{Babel Stream}
 \begin{itemize}
   \item Type problems due to generics leading to verbose code and obfuscating debugging
   \item The compiler did help with type debugging a little, but had limitations - give example
@@ -71,7 +113,7 @@ pub fn triad(&mut self){
 }
 \end{lstlisting}
 
-\subsubsection{Sparse Matrix}
+\subsection{Sparse Matrix}
 \begin{itemize}
   \item Bit shift overflow causes Rust to crash not just run on, have to be more careful about kernel input parameters. Initially thought this might be a bug. Give example.
   \item Found init bug, was very difficult to implement para init. Filed bug report with original project

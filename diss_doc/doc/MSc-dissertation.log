@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.1.8)  25 JUL 2019 20:10
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.1.8)  28 JUL 2019 16:46
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -243,24 +243,24 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <8> on input line 3.
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <6> on input line 3.
-)
-\tf@toc=\write3
-\openout3 = `MSc-dissertation.toc'.
-
 
 [1
 
-] (./MSc-dissertation.lot)
+])
+\tf@toc=\write3
+\openout3 = `MSc-dissertation.toc'.
+
+ [2] (./MSc-dissertation.lot)
 \tf@lot=\write4
 \openout4 = `MSc-dissertation.lot'.
 
- [2
+ [3
 
 ] (./MSc-dissertation.lof)
 \tf@lof=\write5
 \openout5 = `MSc-dissertation.lof'.
 
- [3
+ [4
 
 ]
 LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <17.28> not available
@@ -293,74 +293,89 @@ Overfull \hbox (2.10655pt too wide) in paragraph at lines 7--8
 
 [4
 
-]
-<figs/ImplementationFlow.png, id=42, 122.4575pt x 503.8825pt>
-File: figs/ImplementationFlow.png Graphic file (type png)
-<use figs/ImplementationFlow.png>
-Package pdftex.def Info: figs/ImplementationFlow.png  used on input line 27.
-(pdftex.def)             Requested size: 82.97849pt x 341.43306pt.
-LaTeX Font Info:    Try loading font information for T1+pcr on input line 32.
+] [5]
+LaTeX Font Info:    Try loading font information for T1+pcr on input line 44.
  (/usr/share/texlive/texmf-dist/tex/latex/psnfss/t1pcr.fd
 File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
-) [5] [6 <./figs/ImplementationFlow.png>]
+) [6]
+<figs/ImplementationFlow.png, id=54, 122.4575pt x 503.8825pt>
+File: figs/ImplementationFlow.png Graphic file (type png)
+<use figs/ImplementationFlow.png>
+Package pdftex.def Info: figs/ImplementationFlow.png  used on input line 57.
+(pdftex.def)             Requested size: 82.97849pt x 341.43306pt.
+ [7 <./figs/ImplementationFlow.png>] [8]
 LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <10> not available
-(Font)              Font shape `T1/ptm/b/n' tried instead on input line 52.
+(Font)              Font shape `T1/ptm/b/n' tried instead on input line 90.
 LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 69.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 107.
 
-Overfull \hbox (33.17169pt too wide) in paragraph at lines 69--70
+Overfull \hbox (33.17169pt too wide) in paragraph at lines 107--108
 [][][][][][][][][][][][][][][][][][][] 
  []
 
-[7]) [8]
+[9]) [10]
 Chapter 4.
-[9
-
-]
-Chapter 5.
-[10
-
-]
-Chapter 6.
 [11
 
 ]
-Chapter 7.
+Chapter 5.
 [12
 
 ]
-Chapter 8.
+Chapter 6.
 [13
 
 ]
-Appendix A.
+Chapter 7.
 [14
 
 ]
+Chapter 8.
+[15
+
+]
+Appendix A.
+[16
+
+]
 Appendix B.
-(./MSc-dissertation.bbl [15
+(./MSc-dissertation.bbl [17
 
-]) [16
+]
+Underfull \hbox (badness 5105) in paragraph at lines 15--18
+[]\T1/ptm/m/n/12 Steve Klab-nik and Carol Nichols.  The rust pro-gram-ming lan-
+guage.
+ []
 
-] (./MSc-dissertation.aux) ) 
+
+Underfull \hbox (badness 10000) in paragraph at lines 62--65
+[]\T1/ptm/m/n/12 Parallel Re-search Tools.  Ker-nel-s/open-m-p/s-parse.
+ []
+
+[18
+
+]) [19] (./MSc-dissertation.aux) ) 
 Here is how much of TeX's memory you used:
- 4331 strings out of 492982
- 59367 string characters out of 6134897
- 214639 words of memory out of 5000000
- 7827 multiletter control sequences out of 15000+600000
+ 4336 strings out of 492982
+ 59434 string characters out of 6134897
+ 214918 words of memory out of 5000000
+ 7832 multiletter control sequences out of 15000+600000
  39713 words of font info for 51 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  41i,12n,42p,7884b,2086s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/share/texlive/texmf-dist/fonts/enc/dvips/base
-/8r.enc}</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pf
-b></usr/share/texlive/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/share
-/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-
-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type
-1/urw/times/utmri8a.pfb>
-Output written on MSc-dissertation.pdf (22 pages, 117596 bytes).
+{/usr/share/texlive/texmf-dist/fonts/enc/dvip
+s/base/8r.enc}</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmm
+i12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb
+></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/s
+hare/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/t
+exlive/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/share/texlive/texmf-
+dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type
+1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utm
+ri8a.pfb>
+Output written on MSc-dissertation.pdf (26 pages, 153590 bytes).
 PDF statistics:
- 103 PDF objects out of 1000 (max. 8388607)
- 69 compressed objects within 1 object stream
+ 128 PDF objects out of 1000 (max. 8388607)
+ 87 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  16 words of extra memory for PDF output out of 10000 (max. 10000000)
 

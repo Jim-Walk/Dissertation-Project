@@ -12,6 +12,7 @@ fn make_2d_float_array(rows: u64, cols: u64, data: Vec<f32>) -> Vec<Vec<f32>> {
     }
     v
 }
+
 fn make_2d_int_array(rows: u64, cols: u64, data: Vec<i32>) -> Vec<Vec<i32>> {
     vec![vec![0; 1]; rows as usize];;
     let mut v = vec![vec![0; 1]; rows as usize];
@@ -99,7 +100,7 @@ fn main() {
             let t1 = Instant::now();
 
             for (idx, item) in X.iter().enumerate() {
-                let mut k_best = 0;
+                let mut k_best = 0; // assume cluster no.0 is nearest
                 let mut dist_min = correlation(features_d.len as f32, &item, &old_cluster_centres[k_best]);
                 for k in 1..clusters_d.len as usize {
                     let dist = correlation(features_d.len as f32, &item, &old_cluster_centres[k]);

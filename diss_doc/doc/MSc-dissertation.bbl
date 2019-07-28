@@ -1,4 +1,10 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
+
+\bibitem{DBLP:journals}
+Shizhao Chen, Jianbin Fang, Donglin Chen, Chuanfu Xu, and Zheng Wang.
+\newblock Optimizing sparse matrix-vector multiplication on emerging many-core
+  architectures.
+\newblock {\em CoRR}, abs/1805.11938, 2018.
 
 \bibitem{RustClippy}
 The Rust~Project Developers.
@@ -25,6 +31,13 @@ Matthew Martineau and Simon McIntosh-Smith.
 \newblock In {\em 2017 IEEE International Conference on Cluster Computing
   (CLUSTER)}, pages 850--857. IEEE, 2017.
 
+\bibitem{Sedaghati:2015}
+Naser Sedaghati, Te~Mu, Louis-Noel Pouchet, Srinivasan Parthasarathy, and
+  P.~Sadayappan.
+\newblock Automatic selection of sparse matrix representation on gpus.
+\newblock In {\em Proceedings of the 29th ACM on International Conference on
+  Supercomputing}, ICS '15, pages 99--108, New York, NY, USA, 2015. ACM.
+
 \bibitem{Slaughter:2015}
 Elliott Slaughter, Wonchan Lee, Sean Treichler, Michael Bauer, and Alex Aiken.
 \newblock Regent: A {H}igh-productivity {P}rogramming language for {HPC} with
@@ -37,5 +50,23 @@ Elliott Slaughter, Wonchan Lee, Sean Treichler, Michael Bauer, and Alex Aiken.
 Josh Stone and Niko Matsakis.
 \newblock rayon.
 \newblock https://github.com/rayon-rs/rayon.
+
+\bibitem{BabelStream}
+Deakin~T T, Price J, Martineau M, and McIntosh-Smith S.
+\newblock Gpu-stream v2.0: Benchmarking the achievable memory bandwidth of
+  many-core processors across diverse parallel programming models.
+\newblock In {\em Paper presented at P3MA Workshop at ISC High Performance,
+  Frankfurt, Germany.}, 2016.
+
+\bibitem{ParResSparse}
+Parallel~Research Tools.
+\newblock Kernels/openmp/sparse.
+\newblock https://github.com/ParRes/Kernels/tree/master/OPENMP/Sparse.
+
+\bibitem{spMVGPU}
+Xintian Yang, Srinivasan Parthasarathy, and Ponnuswamy Sadayappan.
+\newblock Fast sparse matrix-vector multiplication on gpus: Implications for
+  graph mining.
+\newblock {\em Proceedings of The Vldb Endowment - PVLDB}, 4, 03 2011.
 
 \end{thebibliography}
