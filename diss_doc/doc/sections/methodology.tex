@@ -106,35 +106,12 @@ for ((c, b), a) in self.c.iter_mut()
 \end{lstlisting}
 Also not in listing~\ref{lst:iters-a} the distinction between the methods \texttt{iter()} and \texttt{iter\_mut()}, the first of which create an iterator, and the second of which creates an iterator which may change its elements. Although an indepth investigation was not carried out to see if the compiler made use of any optimisations here from the greater amount of information available to it, the time to run this fragment did decrese when converted to idiomatic Rust, from 0.09501 seconds to 0.09079 seconds.
 
-An bug in the SpMV implementation made itself apparent when I noticed that when launched with certain parameters, the C version ran without error, whilst the Rust version would panic and fail every time, with the message Interestingly, at this stage I also found that not all behaviour in C could be easily replicated in Rust. I noticed that the reference implementation of SpMV could run with arguments which would cause the Rust version to crash.
+An bug in the SpMV implementation made itself apparent when I noticed that when launched with certain parameters, the C version ran without error, whilst the Rust version would panic and fail every time, with the message Interestingly, at this stage I also found that not all behaviour in C could be easily replicated in Rust. I noticed that the reference implementation of SpMV could run with arguments which would cause the Rust version to crash. This was because of some bit shift overflow nonsense
 
 \subsection{Parallelisation}
 I would then parallels the kernel using Rayon~\cite{RustRayon} at the same loops where the reference implementation used OpenMP to parallelise its loops. Sometimes this would be a simple matter of replacing the \texttt{iter()} method with \texttt{par\_iter()}, but more parallising more complex operations like reductions and initilisations was slightly more difficult.
 
-\subsection{Debug final implementation}
-Once I had parallelised the Rust implementation, I would again debug the program process at this stage could be hard to fix as they could come from original implementations. An interesting example of such a bug is discussed further in this section, from the sparse matrix vector multiplication kernel.
-
-Once the implementation process had been finished, testing could begin.
-
-\subsubsection{Babel Stream}
-\begin{itemize}
-  \item Type problems due to generics leading to verbose code and obfuscating debugging
-  \item The compiler did help with type debugging a little, but had limitations - give example
-  \item Idiomatic serial Rust was faster than C like rust, potentially due to iter\_mut allowing optimisations? Evidence from triad and add.
-  \item Once I figured out the for\_each pattern is was easy to apply it to other operations
-  \item Realised that Rust's serial init was a bottleneck
-  \item difficulty in writing para init as not a common use case scenario, and obfuscated by type
-\end{itemize}
-
-Initialisation is the very verbose - Explain why it's so verbose, process for finding this to be worth doing etc.
-\begin{lstlisting}[language=Rust]
-vec![0.0; arr_size].par_iter()
-                   .map(|_| T::from(0.2).unwrap())
-                   .collect_into_vec(&mut self.b);
-\end{lstlisting}
-
 Explain what's going on in this code fragment, compare it to the C original. Whilst this is a lot, Rust does reduce need for defensive coding. Could do a sloc comparison between original and new, if it was felt to be worth doing.
-
 \begin{lstlisting}[language=Rust]
 pub fn triad(&mut self){
   let scalar_imut = self.scalar;
@@ -149,6 +126,38 @@ pub fn triad(&mut self){
                                           });
 }
 \end{lstlisting}
+
+
+\subsection{Debug final implementation}
+Once I had parallelised the Rust implementation, I would again debug the program process at this stage could be hard to fix as they could come from original implementations. An interesting example of such a bug is discussed further in this section, from the sparse matrix vector multiplication kernel.
+
+Initialisation is the very verbose - Explain why it's so verbose, process for finding this to be worth doing etc.
+\begin{lstlisting}[language=Rust]
+vec![0.0; arr_size].par_iter()
+                   .map(|_| T::from(0.2).unwrap())
+                   .collect_into_vec(&mut self.b);
+\end{lstlisting}
+
+Talk about finding horrendus parallel init bug in Sparse
+
+Once the implementation process had been finished, testing could begin.
+
+\subsubsection{Babel Stream}
+\begin{itemize}
+  \item Type problems due to generics leading to verbose code and obfuscating debugging
+  \item The compiler did help with type debugging a little, but had limitations - give example
+  \item Idiomatic serial Rust was faster than C like rust, potentially due to iter\_mut allowing optimisations? Evidence from triad and add.
+  \item Once I figured out the for\_each pattern is was easy to apply it to other operations
+  \item Realised that Rust's serial init was a bottleneck
+  \item difficulty in writing para init as not a common use case scenario, and obfuscated by type
+\end{itemize}
+
+
+
+
+
+
+
 
 \subsubsection{Sparse Matrix}
 \begin{itemize}

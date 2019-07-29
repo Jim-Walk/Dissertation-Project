@@ -14,8 +14,8 @@
 \contentsline {subsection}{\numberline {3.2.1}Porting to Serial Rust}{7}
 \contentsline {subsection}{\numberline {3.2.2}Bug fixing, conversion to idiomatic Rust}{9}
 \contentsline {subsection}{\numberline {3.2.3}Parallelisation}{10}
-\contentsline {subsection}{\numberline {3.2.4}Debug final implementation}{10}
-\contentsline {subsubsection}{Babel Stream}{10}
+\contentsline {subsection}{\numberline {3.2.4}Debug final implementation}{11}
+\contentsline {subsubsection}{Babel Stream}{11}
 \contentsline {subsubsection}{Sparse Matrix}{11}
 \contentsline {subsection}{\numberline {3.2.5}Experimentation}{12}
 \contentsline {section}{\numberline {3.3}Questionnaire}{12}
