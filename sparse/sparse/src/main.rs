@@ -6,7 +6,6 @@ use clap::{Arg, App};
 use std::process::exit;
 use rayon::prelude::*;
 use std::time::Instant;
-use std::time;
 use std::sync::{Arc, Mutex};
 use std::thread;
 use std::sync::mpsc::channel;
@@ -93,6 +92,7 @@ fn main() {
     if size < (2 * radius + 1) {
         println!("Error, grid extent {} smaller than stencil diameter 2*{}+1={}",
                  size, radius, 2 * radius + 1);
+        exit(1);
     }
 
     /* compute total size of star stencil in 2D                                     */
@@ -237,10 +237,7 @@ fn main() {
     // Verification test
     let reference_sum = 0.5 * nent as f64 * f64::from(iterations + 1) * f64::from(iterations + 2);
 
-    let mut vector_sum = 0.0;
-    for row in 0..size2 { 
-        vector_sum += result[row]
-    }
+    let vector_sum: f64 = result.iter().sum();
 
     let epsilon = 1.0e-8; // error tolerance
     if (vector_sum-reference_sum).abs() > epsilon {

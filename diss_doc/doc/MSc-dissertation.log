@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.1.8)  28 JUL 2019 16:46
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.1.8)  29 JUL 2019 16:40
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -124,19 +124,19 @@ Package color Info: Driver file: pdftex.def on input line 147.
 (./MSc-dissertation.aux)
 \openout1 = `MSc-dissertation.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 10.
-LaTeX Font Info:    ... okay on input line 10.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 10.
-LaTeX Font Info:    ... okay on input line 10.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 10.
-LaTeX Font Info:    ... okay on input line 10.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 10.
-LaTeX Font Info:    ... okay on input line 10.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 10.
-LaTeX Font Info:    ... okay on input line 10.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 10.
-LaTeX Font Info:    ... okay on input line 10.
-LaTeX Font Info:    Try loading font information for T1+ptm on input line 10.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
+LaTeX Font Info:    Try loading font information for T1+ptm on input line 11.
 
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/t1ptm.fd
 File: t1ptm.fd 2001/06/04 font definitions for T1/ptm.
@@ -214,17 +214,17 @@ e
 <logos/logo_black.pdf, id=1, 662.475pt x 191.71625pt>
 File: logos/logo_black.pdf Graphic file (type pdf)
 <use logos/logo_black.pdf>
-Package pdftex.def Info: logos/logo_black.pdf  used on input line 28.
+Package pdftex.def Info: logos/logo_black.pdf  used on input line 29.
 (pdftex.def)             Requested size: 662.47339pt x 191.71577pt.
 <logos/crest_bw.pdf, id=2, 363.3575pt x 367.3725pt>
 File: logos/crest_bw.pdf Graphic file (type pdf)
 <use logos/crest_bw.pdf>
-Package pdftex.def Info: logos/crest_bw.pdf  used on input line 28.
+Package pdftex.def Info: logos/crest_bw.pdf  used on input line 29.
 (pdftex.def)             Requested size: 363.3566pt x 367.37158pt.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <14.4> on input line 28.
+(Font)              <14.4> on input line 29.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 28.
+(Font)              <7> on input line 29.
 
 [1
 
@@ -232,10 +232,10 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 Non-PDF special ignored!{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map} <./
 logos/logo_black.pdf> <./logos/crest_bw.pdf>]
 LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <12> not available
-(Font)              Font shape `T1/ptm/b/n' tried instead on input line 45.
+(Font)              Font shape `T1/ptm/b/n' tried instead on input line 46.
  [1]
 LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <24.88> not available
-(Font)              Font shape `T1/ptm/b/n' tried instead on input line 51.
+(Font)              Font shape `T1/ptm/b/n' tried instead on input line 52.
  (./MSc-dissertation.toc
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <12> on input line 3.
@@ -243,28 +243,28 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <8> on input line 3.
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <6> on input line 3.
-
-[1
-
-])
+)
 \tf@toc=\write3
 \openout3 = `MSc-dissertation.toc'.
 
- [2] (./MSc-dissertation.lot)
+
+[1
+
+] (./MSc-dissertation.lot)
 \tf@lot=\write4
 \openout4 = `MSc-dissertation.lot'.
 
- [3
+ [2
 
 ] (./MSc-dissertation.lof)
 \tf@lof=\write5
 \openout5 = `MSc-dissertation.lof'.
 
- [4
+ [3
 
 ]
 LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <17.28> not available
-(Font)              Font shape `T1/ptm/b/n' tried instead on input line 60.
+(Font)              Font shape `T1/ptm/b/n' tried instead on input line 61.
  [1]
 (./sections/intro.tex
 Chapter 1.
@@ -298,48 +298,39 @@ LaTeX Font Info:    Try loading font information for T1+pcr on input line 44.
  (/usr/share/texlive/texmf-dist/tex/latex/psnfss/t1pcr.fd
 File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
 ) [6]
-<figs/ImplementationFlow.png, id=54, 122.4575pt x 503.8825pt>
+<figs/ImplementationFlow.png, id=50, 122.4575pt x 503.8825pt>
 File: figs/ImplementationFlow.png Graphic file (type png)
 <use figs/ImplementationFlow.png>
 Package pdftex.def Info: figs/ImplementationFlow.png  used on input line 57.
 (pdftex.def)             Requested size: 82.97849pt x 341.43306pt.
- [7 <./figs/ImplementationFlow.png>] [8]
+ [7 <./figs/ImplementationFlow.png>]
 LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <10> not available
-(Font)              Font shape `T1/ptm/b/n' tried instead on input line 90.
+(Font)              Font shape `T1/ptm/b/n' tried instead on input line 72.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 74.
+ [8] [9]
 LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 107.
-
-Overfull \hbox (33.17169pt too wide) in paragraph at lines 107--108
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 104.
+ [10]
+Overfull \hbox (33.17169pt too wide) in paragraph at lines 148--149
 [][][][][][][][][][][][][][][][][][][] 
  []
 
-[9]) [10]
+) [11] [12]
 Chapter 4.
-[11
-
-]
-Chapter 5.
-[12
-
-]
-Chapter 6.
 [13
 
 ]
-Chapter 7.
+Chapter 5.
 [14
 
 ]
-Chapter 8.
+Appendix A.
 [15
 
 ]
-Appendix A.
-[16
-
-]
 Appendix B.
-(./MSc-dissertation.bbl [17
+(./MSc-dissertation.bbl [16
 
 ]
 Underfull \hbox (badness 5105) in paragraph at lines 15--18
@@ -348,21 +339,21 @@ guage.
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 62--65
+Underfull \hbox (badness 10000) in paragraph at lines 67--70
 []\T1/ptm/m/n/12 Parallel Re-search Tools.  Ker-nel-s/open-m-p/s-parse.
  []
 
-[18
+[17
 
-]) [19] (./MSc-dissertation.aux) ) 
+]) [18] (./MSc-dissertation.aux) ) 
 Here is how much of TeX's memory you used:
- 4336 strings out of 492982
- 59434 string characters out of 6134897
- 214918 words of memory out of 5000000
- 7832 multiletter control sequences out of 15000+600000
- 39713 words of font info for 51 fonts, out of 8000000 for 9000
+ 4372 strings out of 492982
+ 59799 string characters out of 6134897
+ 218352 words of memory out of 5000000
+ 7867 multiletter control sequences out of 15000+600000
+ 42435 words of font info for 53 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 41i,12n,42p,7884b,2086s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 41i,12n,42p,7884b,2107s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texlive/texmf-dist/fonts/enc/dvip
 s/base/8r.enc}</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmm
 i12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb
@@ -372,10 +363,10 @@ exlive/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/share/texlive/texmf-
 dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type
 1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utm
 ri8a.pfb>
-Output written on MSc-dissertation.pdf (26 pages, 153590 bytes).
+Output written on MSc-dissertation.pdf (24 pages, 160588 bytes).
 PDF statistics:
- 128 PDF objects out of 1000 (max. 8388607)
- 87 compressed objects within 1 object stream
+ 121 PDF objects out of 1000 (max. 8388607)
+ 82 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  16 words of extra memory for PDF output out of 10000 (max. 10000000)
 

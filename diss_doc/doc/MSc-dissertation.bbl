@@ -16,6 +16,11 @@ Steve Klabnik and Carol Nichols.
 \newblock The rust programming language.
 \newblock https://doc.rust-lang.org/book/.
 
+\bibitem{Liskov:1987}
+Barbara Liskov.
+\newblock Keynote address - data abstraction and hierarchy.
+\newblock {\em SIGPLAN Not.}, 23(5):17--34, January 1987.
+
 \bibitem{Mallinson:2014}
 A.~C. Mallinson, S.~A. Jarvis, W.~P. Gaudin, and J.~A. Herdman.
 \newblock {E}xperiences at {S}cale with {PGAS} versions of a {H}ydrodynamics
