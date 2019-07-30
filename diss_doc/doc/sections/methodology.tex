@@ -114,8 +114,17 @@ It became apparent that this was occuring because although I had mirrored the ty
 
   $foo = 1 << 33$
 
-sets $foo$ to 2, when all numbers are 32 bit integers. This occurs because the value 1 overflows and rolls over. In Rust however, the ting errors
+sets $foo$ to 2, when all numbers are 32 bit integers. This occurs because the value 1 overflows and rolls over. In Rust however, this code causes the program to panic and quit~\footnote{The compiler will catch this error before run time if it can calculate the value 1 will be shifted by}. The Rust language does not consider this behavior to be unsafe, but finds that that the programmer `should' find it `undesirable, unexpected or unsafe'~\cite{rustunsafe}. However, Rust does recognise that some programs do rely upon overflow arithmatic, and provides mechanisms to enable this feature in the language. Fortunately, I was not required to use this feature by instead changing radius from the \texttt{i32} type to \texttt{usize} type, which is 64 bits. This choice was made because the radius values were being cast to \texttt{usize} more often than they were being used as \texttt{i32}. This had the consequence of making the program impossible to bit shift overflow, as a radius of 64 requires a stencil diameter greater than $2^{32}-1$, which would in turn require a colindex array terrabytes in size, which the Cirrus hardware does not support.
 
+Clippy was dumb with a loop in K-means, telling me to replace
+\begin{lstlisting}[language=Rust]
+for k in 1..clusters_d.len as usize {
+\end{lstlisting}
+with
+\begin{lstlisting}[language=Rust]
+ for (k, <item>) in old_cluster_centres.iter().enumerate().take(clusters_d.len as usize).skip(1) {
+\end{lstlisting}
+which really shows the limits of it as a tool to make Rust idiomatic, or how blindly following rules to get idiomatic code can make things worse
 \subsection{Parallelisation}
 I would then parallelise the kernel using Rayon~\cite{RustRayon} at the same loops where the reference implementation used OpenMP to parallelise its loops. Sometimes this would be a simple matter of replacing the \texttt{iter()} method with \texttt{par\_iter()}, but parallising more complex operations like reductions and initilisations was slightly more difficult.
 
