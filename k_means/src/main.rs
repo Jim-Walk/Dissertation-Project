@@ -57,7 +57,9 @@ fn main() {
 
     let guess_var = &file.root.variables["GUESS"];
 
-    let X = make_2d_float_array(samples_d.len, features_d.len, x_var.get_float(true).unwrap());
+    // mention that changing from X to x makes it hard to read but both are bad variable names
+    // anyways so
+    let x = make_2d_float_array(samples_d.len, features_d.len, x_var.get_float(true).unwrap());
 
     let guess = make_2d_int_array(repeat_d.len, clusters_d.len, guess_var.get_int(true).unwrap());
 
@@ -82,8 +84,9 @@ fn main() {
         for k in 0..clusters_d.len as usize {
             let initial_idx = guess[i_repeat][k];
             for j in 0..features_d.len as usize {
-                old_cluster_centres[k][j] = X[initial_idx as usize][j];
+                old_cluster_centres[k][j] = x[initial_idx as usize][j];
             }
+        }
         
 
         // Core k-mean stepping (Expectation-Maximization) begins here!
@@ -99,7 +102,7 @@ fn main() {
             // E-Step TODO Parallelise this!
             let t1 = Instant::now();
 
-            for (idx, item) in X.iter().enumerate() {
+            for (idx, item) in x.iter().enumerate() {
                 let mut k_best = 0; // assume cluster no.0 is nearest
                 let mut dist_min = correlation(features_d.len as f32, &item, &old_cluster_centres[k_best]);
                 for k in 1..clusters_d.len as usize {
@@ -123,7 +126,7 @@ fn main() {
                 // as the total number of smaples in each cluster is not known yet,
                 // here we are just calulcating the sum, not the mean
                 for j in 0..features_d.len as usize {
-                    new_cluster_centres[k_best][j] += X[i][j];
+                    new_cluster_centres[k_best][j] += x[i][j];
                 }
             }
             m1_timings += t2.elapsed().as_micros() as f64 / 1000.0;
@@ -158,12 +161,14 @@ fn main() {
 
     let mut file = netcdf::append("data/SSWdata.nc").unwrap();
 
-    let mut inert_c = file.root.variables.get_mut("INERT_C").unwrap();
-    inert_c.put_value_at(inert_best, &[0]);
+    let inert_c = file.root.variables.get_mut("INERT_C").unwrap();
+    let aa = inert_c.len;
+    println!("aa: {}", aa);
+    inert_c.put_value_at(inert_best, &[0]).unwrap();
 
-    let mut y_c = file.root.variables.get_mut("Y_C").unwrap();
+    let y_c = file.root.variables.get_mut("Y_C").unwrap();
     let labels_w: Vec<i32>= labels_best.iter().map(|e| *e as i32).collect();
-    y_c.put_values_at(&labels_w, &[0], &[samples_d.len as usize]);
+    y_c.put_values_at(&labels_w, &[0], &[samples_d.len as usize]).unwrap();
 
 
     println!("==== Finished Writing Data ====");
