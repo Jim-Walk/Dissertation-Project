@@ -83,7 +83,7 @@ error[E0596]: cannot borrow `self.c` as mutable, as it is behind a
 error: aborting due to previous error
 \end{lstlisting}
 
-The sparse matrix vector multiplication kernel was quite simple to port to serial Rust, as I was able to ignore parts of the small program which would not be used. As with Babel Stream, I found converting from C's data types into Rust to be a stumbling point due to Rust's safety constraints. For example, in the C implementation, the vector holding the column index of the matrix was composed of values of type \texttt{s64Int}, which a signed 64 bit int. This datatype is directly analogous to Rust's \texttt{i64} data type, except in C you may use numbers of type \texttt{s64Int} to index into arrays, where as in Rust you must only use numbers of type \texttt{usize}. Errors of this type are easily dealt with however, as they are explicitly pointed out to the programmer at compile time, and can be remedied with casts in the simple format \texttt{as usize}. I found sparse matrix vector multiplication easier to port to serial Rust than babel stream, but this could have been that by this point I was already more familiar with Rust's way of doing things.
+The sparse matrix vector multiplication kernel was quite simple to port to serial Rust, as I was able to ignore parts of the small program which would not be used. As with Babel Stream, I found converting from C's data types into Rust to be a stumbling point due to Rust's safety constraints. For example, in the C implementation, the vector holding the column index of the matrix was composed of values of type \texttt{s64Int}, which a signed 64 bit int. This datatype is directly analogous to Rust's \texttt{i64} data type, except in C you may use numbers of type \texttt{s64Int} to index into arrays, where as in Rust you must only use numbers of type \texttt{usize}. Errors of this type are easily dealt with however, as they are explicitly pointed out to the programmer at compile time, and can be remedied with casts in the simple format \texttt{as usize}. I found sparse matrix vector multiplication easier to port to serial Rust than Babel Stream, but this could have been that by this point I was already more familiar with Rust's way of doing things.
 
 some stuff about K means, how easy it was to get netcdf working because of cargo
 
@@ -91,40 +91,53 @@ some stuff about K means, how easy it was to get netcdf working because of cargo
 Next, I would eliminate any bugs found in my serial implementation of the code by comparing outputs between my implementation and the reference implementation. During this process I would also move the code away from its C conventions towards more idiomatic Rust. To achieve more idiomatic Rust, I used the linting tool Clippy~\cite{RustClippy}, which was developed by the Rust team.  Clippy includes a category of lints under  which highlight `code that should be written in a more idiomatic way'~\cite{RustClippy}. I implemented all of Clippy's recommended rewrites, which would often include replacing the use of for loops to access vector variables with calls to the vectors \texttt{iter()} method. This particular replacement could require code to be rewritten in a much more functional style.
 
 For example, all of the array operations in Babel Stream where originally written in a C style, and then transformed to use iterators. Listing~\ref{lst:iters-b}, shows the original, more succint for of Babel Stream's add operation. This style is rejected by Clippy, which prefers the style presented by listing~\ref{lst:iters-a}.
-\begin{lstlisting}[language=Rust, label=lst:iters-b, caption=Before applying idomatic Rust style]
+\begin{lstlisting}[language=Rust, label=lst:iters-b, caption={Babel Stream Add, before applying idomatic Rust style}]
 for i in 0..self.c.len() as usize {
     self.c[i] = self.b[i] + self.a[i]
 }
 \end{lstlisting}
 Whilst the more idiomatic rust style in listing~\ref{lst:iters-a} is less succint than~\ref{lst:iters-b}, it does have some benefits which does not posses. For example, if the stream object's c array had been of greater length than its $a$ or $b$ arrays, the more C like implementation would fail at run time withan index out of bounds error, where as the more Rustic code only write to as many elements of $c$ as the least elements there are of any of the arrays it is zipped with.
-\begin{lstlisting}[language=Rust, label=lst:iters-a, caption=After applying idomatic Rust style]
+\begin{lstlisting}[language=Rust, label=lst:iters-a, caption={Babel Stream Add, after applying idomatic Rust style}]
 for ((c, b), a) in self.c.iter_mut()
                          .zip(self.b.iter())
                          .zip(self.a.iter()){
     *c = *b + *a;
 }
 \end{lstlisting}
-Also not in listing~\ref{lst:iters-a} the distinction between the methods \texttt{iter()} and \texttt{iter\_mut()}, the first of which create an iterator, and the second of which creates an iterator which may change its elements. Although an indepth investigation was not carried out to see if the compiler made use of any optimisations here from the greater amount of information available to it, the time to run this fragment did decrese when converted to idiomatic Rust, from 0.09501 seconds to 0.09079 seconds.
+Also note in listing~\ref{lst:iters-a} the distinction between the methods \texttt{iter()} and \texttt{iter\_mut()}, the first of which create an iterator, and the second of which creates an iterator which may change its elements. Although an indepth investigation was not carried out to see if the compiler made use of any optimisations here from the greater amount of information available to it, the time to run this fragment did decrese when converted to idiomatic Rust, from 0.09501 seconds to 0.09079 seconds.
 
-An bug in the SpMV implementation made itself apparent when I noticed that when launched with certain parameters, the C version ran without error, whilst the Rust version would panic and fail every time, with the message Interestingly, at this stage I also found that not all behaviour in C could be easily replicated in Rust. I noticed that the reference implementation of SpMV could run with arguments which would cause the Rust version to crash. This was because of some bit shift overflow nonsense
+A bug in the SpMV implementation made itself apparent when I noticed that when launched with certain parameters, the C version ran without error, whilst the Rust version would panic and fail every time, with the error message:
+
+thread 'main' panicked at 'attempt to shift left with overflow', main.rs:8:13
+
+It became apparent that this was occuring because although I had mirrored the types used by the reference implementation, the behaviour of those types differed. In the reference implementation, radius was of type \texttt{int}, which is a 32-bit integer. I therefore translated this into a \texttt{i32} type in Rust. These values are used as upper limits in an initilisation loop, where intermediate values of the same type are bit-shifted before being stored in the colIndex array. In C, the operation
+
+  $foo = 1 << 33$
+
+sets $foo$ to 2, when all numbers are 32 bit integers. This occurs because the value 1 overflows and rolls over. In Rust however, the ting errors
 
 \subsection{Parallelisation}
-I would then parallels the kernel using Rayon~\cite{RustRayon} at the same loops where the reference implementation used OpenMP to parallelise its loops. Sometimes this would be a simple matter of replacing the \texttt{iter()} method with \texttt{par\_iter()}, but more parallising more complex operations like reductions and initilisations was slightly more difficult.
+I would then parallelise the kernel using Rayon~\cite{RustRayon} at the same loops where the reference implementation used OpenMP to parallelise its loops. Sometimes this would be a simple matter of replacing the \texttt{iter()} method with \texttt{par\_iter()}, but parallising more complex operations like reductions and initilisations was slightly more difficult.
 
-Explain what's going on in this code fragment, compare it to the C original. Whilst this is a lot, Rust does reduce need for defensive coding. Could do a sloc comparison between original and new, if it was felt to be worth doing.
+Parallelising Babel Stream was simple. As listing~\ref{lst:iters-p} shows, Babel Stream's add operation remains largely the same, only that the \texttt{iter()} method has been replaced by the \texttt{par\_iter()} method, and that the method for each has to be called. As the serial version of this loop had no inter loop dependencies, it coud easily be transformed from a for loop to a for each one.
+\begin{lstlisting}[language=Rust, label=lst:iters-p, caption={Babel Stream Add, parallelised}]
+self.c.par_iter_mut()
+            .zip(self.b.par_iter())
+            .zip(self.a.par_iter())
+            .for_each(|((c, b), a)| *c = *a + *b);
+\end{lstlisting}
+
+Then we did some chunking
 \begin{lstlisting}[language=Rust]
-pub fn triad(&mut self){
-  let scalar_imut = self.scalar;
-  self.a.par_chunks_mut(self.chunk_size)
-        .zip(self.c.par_chunks(self.chunk_size))
-        .zip(self.b.par_chunks(self.chunk_size))
-        .for_each(|((a, c), b)|
-              for ((a_i, c_i,), b_i) in a.iter_mut()
-                                         .zip(c.iter())
-                                         .zip(b.iter()){
-                                           *a_i = *b_i + scalar_imut * *c_i
-                                          });
-}
+self.c.par_chunks_mut(self.chunk_size)
+    .zip(self.b.par_chunks(self.chunk_size))
+    .zip(self.a.par_chunks(self.chunk_size))
+    .for_each(|((c, b), a)|
+                    for ((c_i, b_i), a_i) in c.iter_mut()
+                                                .zip(b.iter())
+                                                .zip(a.iter()){
+                                                    *c_i = *a_i + *b_i
+                                                });
 \end{lstlisting}
 
 
