@@ -24,7 +24,7 @@ fn make_2d_int_array(rows: u64, cols: u64, data: Vec<i32>) -> Vec<Vec<i32>> {
     v
 }
 
-fn correlation(n_features: f32, x: &Vec<f32>, y: &Vec<f32>)-> f32{
+fn correlation(n_features: f32, x: &[f32], y: &[f32])-> f32{
     let (mut xsum, mut ysum, mut xysum, mut xsqr_sum, mut ysqr_sum) = (0.0, 0.0, 0.0, 0.0, 0.0);
     for j in 0..n_features as usize {
             xsum += x[j];
