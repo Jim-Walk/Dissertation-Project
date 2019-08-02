@@ -1,0 +1,9 @@
+[package]
+name = "k_means"
+version = "0.1.0"
+authors = ["andrewpsuedonym <j.m.walker@live.co.uk>"]
+edition = "2018"
+
+[dependencies]
+netcdf = {git = "https://github.com/mhiley/rust-netcdf"}
+rayon = "1.0.3"
