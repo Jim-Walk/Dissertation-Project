@@ -1,4 +1,4 @@
 all: MSc-dissertation.tex bib.bib
-	pdflatex MSc-dissertation.tex
+	pdflatex --shell-escape MSc-dissertation.tex 
 	bibtex MSc-dissertation.aux
-	pdflatex MSc-dissertation.tex
+	pdflatex --shell-escape MSc-dissertation.tex 

@@ -1,5 +1,10 @@
 \begin{thebibliography}{10}
 
+\bibitem{DBLP:journals/corr/ChakrabortyND14a}
+Sanjay Chakraborty, N.~K. Nagwani, and Lopamudra Dey.
+\newblock Weather forecasting using incremental k-means clustering.
+\newblock {\em CoRR}, abs/1406.4756, 2014.
+
 \bibitem{DBLP:journals}
 Shizhao Chen, Jianbin Fang, Donglin Chen, Chuanfu Xu, and Zheng Wang.
 \newblock Optimizing sparse matrix-vector multiplication on emerging many-core
@@ -16,10 +21,24 @@ Steve Klabnik and Carol Nichols.
 \newblock The rust programming language.
 \newblock https://doc.rust-lang.org/book/.
 
+\bibitem{Yang2014}
+Yang L, Chiu SC, Thomas MA, and Liao WK.
+\newblock High performance data clustering: A comparative analysis of
+  performance for gpu, rasc, mpi, and openmp implementations.
+\newblock {\em The Journal of supercomputing}, 70(1):284--300, 2014.
+
 \bibitem{Liskov:1987}
 Barbara Liskov.
 \newblock Keynote address - data abstraction and hierarchy.
 \newblock {\em SIGPLAN Not.}, 23(5):17--34, January 1987.
+
+\bibitem{macqueen1967}
+J.~MacQueen.
+\newblock Some methods for classification and analysis of multivariate
+  observations.
+\newblock In {\em Proceedings of the Fifth Berkeley Symposium on Mathematical
+  Statistics and Probability, Volume 1: Statistics}, pages 281--297, Berkeley,
+  Calif., 1967. University of California Press.
 
 \bibitem{Mallinson:2014}
 A.~C. Mallinson, S.~A. Jarvis, W.~P. Gaudin, and J.~A. Herdman.
@@ -35,6 +54,12 @@ Matthew Martineau and Simon McIntosh-Smith.
   evaluating programming environments on hpc architectures.
 \newblock In {\em 2017 IEEE International Conference on Cluster Computing
   (CLUSTER)}, pages 850--857. IEEE, 2017.
+
+\bibitem{ordovas2014fast}
+I~Ordov{\'a}s-Pascual and J~S{\'a}nchez Almeida.
+\newblock A fast version of the k-means classification algorithm for
+  astronomical applications.
+\newblock {\em Astronomy \& Astrophysics}, 565:A53, 2014.
 
 \bibitem{Sedaghati:2015}
 Naser Sedaghati, Te~Mu, Louis-Noel Pouchet, Srinivasan Parthasarathy, and
@@ -79,5 +104,10 @@ Xintian Yang, Srinivasan Parthasarathy, and Ponnuswamy Sadayappan.
 \newblock Fast sparse matrix-vector multiplication on gpus: Implications for
   graph mining.
 \newblock {\em Proceedings of The Vldb Endowment - PVLDB}, 4, 03 2011.
+
+\bibitem{CS205}
+Jiawei Zhuang.
+\newblock Cs205\_final\_project.
+\newblock https://github.com/JiaweiZhuang/CS205\_final\_project.
 
 \end{thebibliography}

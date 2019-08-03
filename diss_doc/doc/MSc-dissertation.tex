@@ -2,11 +2,31 @@
 
 \usepackage{epcc}
 \usepackage{graphicx}
+\usepackage{alltt}
 \usepackage{listings, listings-rust}
 \lstset{
   basicstyle=\footnotesize,
   captionpos=b
 }
+\usepackage{minted}
+\usepackage{todonotes}
+\usepackage{tikz}
+\usetikzlibrary{matrix,calc,shapes}
+\tikzset{
+  treenode/.style = {shape=rectangle, rounded corners,
+                     draw, anchor=center,
+                     text width=5em, align=center,
+                     top color=white, bottom color=blue!20,
+                     inner sep=1ex},
+  decision/.style = {treenode, diamond, inner sep=0pt},
+  root/.style     = {treenode, font=\Large,
+                     bottom color=red!30},
+  env/.style      = {treenode, font=\ttfamily\normalsize},
+  finish/.style   = {root, bottom color=green!40},
+  dummy/.style    = {circle,draw}
+}
+\newcommand{\yes}{edge node [above] {yes}}
+\newcommand{\no}{edge  node [left]  {no}}
 
 \begin{document}
 

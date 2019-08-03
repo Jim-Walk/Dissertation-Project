@@ -161,7 +161,7 @@ fn main() {
 
     // write data back to files 
 
-    let mut file = netcdf::append("data/SSWdata.nc").unwrap();
+    let mut file = netcdf::append("data/Blobs_smp35756_fea512_cls16.nc").unwrap();
 
     let inert_c = file.root.variables.get_mut("INERT_C").unwrap();
     //let aa = inert_c.len;
