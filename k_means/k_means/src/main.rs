@@ -40,7 +40,7 @@ fn correlation(n_features: f32, x: &[f32], y: &[f32])-> f32{
 }
 
 fn main() {
-    let file = netcdf::open(&"data/SSWdata.nc").unwrap();
+    let file = netcdf::open(&"data/Blobs_smp35756_fea512_cls16.nc").unwrap();
     let samples_d = &file.root.dimensions["N_samples"];
     println!("Number of samples: {}", samples_d.len);
 
