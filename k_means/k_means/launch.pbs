@@ -1,7 +1,7 @@
 #!/bin/bash --login
 
 # PBS job options (name, compute nodes, job time)
-#PBS -N k_means
+#PBS -N k_means_rust
 #PBS -l select=36
 #PBS -l walltime=00:15:00
 #PBS -A d167-s1893750
@@ -9,7 +9,7 @@
 
 # Change to the directory that the job was submitted from
 # (remember this should be on the /work filesystem)
-cd /lustre/home/d167/s1893750/Dissertation-Project/k_means 
+cd /lustre/home/d167/s1893750/Dissertation-Project/k_means/k_means
 
 module load gcc
 module load intel-compilers-18
