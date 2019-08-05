@@ -11,10 +11,21 @@ Shizhao Chen, Jianbin Fang, Donglin Chen, Chuanfu Xu, and Zheng Wang.
   architectures.
 \newblock {\em CoRR}, abs/1805.11938, 2018.
 
+\bibitem{ClippyLoop}
+Clippy.
+\newblock needless\_range\_loop.
+\newblock
+  https://rust-lang.github.io/rust-clippy/master/index.html\#needless\_range\_loop.
+
 \bibitem{RustClippy}
 The Rust~Project Developers.
 \newblock rust-clippy.
 \newblock https://github.com/rust-lang/rust-clippy.
+
+\bibitem{RustNetCDF}
+Michael Hiley.
+\newblock rust-netcdf.
+\newblock https://github.com/mhiley/rust-netcdf.
 
 \bibitem{RustBook}
 Steve Klabnik and Carol Nichols.
@@ -107,7 +118,7 @@ Xintian Yang, Srinivasan Parthasarathy, and Ponnuswamy Sadayappan.
 
 \bibitem{CS205}
 Jiawei Zhuang.
-\newblock Cs205\_final\_project.
+\newblock C{S}205\_final\_project.
 \newblock https://github.com/JiaweiZhuang/CS205\_final\_project.
 
 \end{thebibliography}

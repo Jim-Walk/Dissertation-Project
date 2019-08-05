@@ -19,7 +19,7 @@ I used this selection criteria to compile a long list of potential kernels to po
 
 \subsection{Babel Stream}
 
-Babel Stream is a memory bench marking tool which was developed by the university of Bristol. Babel Stream was written to primarily target GPUs, but it is able to target CPUs too~\cite{BabelStream}.  It is written in C++, supports OpenMP and allows one to set the problem size when executing the program, so we can be sure we exceed the size of L3 cache. Tests found the kernel to scale well, and although the program as a whole is quite large, when one ignores parallel technologies excluded by our selection criteria, the amount of code which needs to be ported to Rust falls well within our bounds.
+Babel Stream is a memory bench marking tool which was developed by the university of Bristol. Babel Stream was written to primarily target GPUs, but it is able to target CPUs too~\cite{BabelStream}.  It is written in C++, supports OpenMP and allows one to set the problem size when executing the program, so we can be sure we exceed the size of L3 cache. Tests found the kernel to scale well, and although the program as a whole is quite large, when one ignores parallel technologies excluded by our selection criteria, the amount of code which needs to be ported to Rust falls well within our bounds. I found Babel Stream easy to install and run, and initial testing showed us that the program scaled well.
 
 Babel Stream performs simple operations on three arrays of either 32 or 64 bit floating point numbers, $a$, $b$ and $c$. The values of $a$ are set to 0.1, $b$'s to 0.2, and $c$'s to 0.0. Stream performs five operations $n$ times on the arrays, where $n$ is a specified command line argument. The operations are listed below:
 \begin{itemize}
@@ -31,30 +31,46 @@ Babel Stream performs simple operations on three arrays of either 32 or 64 bit f
 \end{itemize}
 The resulting values in the arrays are then compared against separately calculated reference values, and examined to see if their average error is greater than that number types epsilon value.
 
-Babel Stream's simple mathematical operations provide an insight into the memory bandwidth of a programming language, and give an indication of how the  design choices of a language can influence their performance.
+Babel Stream's operations are `\textit{memory bandwidth bound}'~\cite{BabelStream}, because they are so simple. Therefore, when implemented through different technologies, Babel Stream provides an insight into the memory bandwidth of that technology, and gives an indication of how the design choices of that technology influences its performance.
 
-\subsection{Sparse}
+\subsection{Sparse Matrix Vector Multiplication}
 
-The Sparse Kernel~\cite{ParResSparse} forms part of the Parallel Research Kernels suite, developed by the Parallel Research Tools group. Sparse matrix vector multiplication is a common HPC operation, used to solve a broad range of scientific problems~\cite{Sedaghati:2015, spMVGPU, DBLP:journals}.
+The Sparse Kernel~\cite{ParResSparse} forms part of the Parallel Research Kernels suite, developed by the Parallel Research Tools group. Sparse matrix vector multiplication (SpMV) is a common HPC operation, used to solve a broad range of scientific problems~\cite{Sedaghati:2015, spMVGPU, DBLP:journals}.
 
 The kernel mostly one file, sparse.c, which in total is 353 lines of code. The implementation is in C and OpenMP, and tests found it to scale to a high thread count. As with Babel Stream, the program allows one to set problem size through command line arguments, allowing us to ensure the program operated on data greater than the CPU's L3 cache.
 
+In the selection process, I found that the programs lack of dependencies made it easy to install and run, and that it scaled well.
+
 The program represents its sparse matrix through the compressed sparse row (CSR) format. This format uses key information about the matrix to avoid storing all of the sparse matrix's redundant zeros in the computer's memory. The information used to do this are the number of rows and columns the matrix has, and the number of non zero values which exist in the matrix. These three values are used to build three vectors, one holding all the non zero values of the matrix, another vector of the same length holding the column indexes for all of those values, in order, and lastly a smaller vector which holds the index at which a particular row starts. For example, if we wanted the element at 24,32 within the vector, we would look in the 24\textsuperscript{th} element of the row start vector, which would give us the y index of the element. If this did not match the y index we were looking for, in this case 32, we would then look at the next element until we found it. Once we have found the element, we can get the value from the value vector using the index we construct from adding the 24\textsuperscript{th} element of the row start vector, added to however many times we needed to look at the next value to before we found the appropriate y index.
 
-The particular implementation of sparse matrix vector multiplication which we are porting to Rust uses a user defined grid size, over which a user defined periodic stencil is applied to find the number of non zero entries. The implementation parallelises its initialisation and the actual multiplication of the values using simple \texttt{\#pragma} statements.
+The particular implementation of SpMV which we are porting to Rust uses a user defined grid size, over which a user defined periodic stencil is applied to find the number of non zero entries. The implementation parallelises its initialisation and the actual multiplication of the values using simple \texttt{\#pragma} statements.
 
 This kernel will hopefully provide a realistic idea of how well Rust can perform one of the most common HPC operations.
 
-\subsection{K Means}
+\subsection{K-Means clustering}
 
-K means is common etc, this implementation also uses netcdf which is also v common so interesting to see how hard it is to get Rust to work with it.
+K-means clustering is a `process for paritioning an $N$-dimensional population into $K$ sets'~\cite{macqueen1967}, where the number of sets is less than $N$, and each set of is clustered around a local mean. K-means clustering finds many uses in HPC, particularly in data analysis~\cite{DBLP:journals/corr/ChakrabortyND14a, ordovas2014fast}, and is so ubiquitous throughout HPC that implementations of it are already used to evaluate software and hardware~\cite{Yang2014}.
 
+My reference implementation for this code comes from Jaiwei Zhuang's CS205 project~\cite{CS205}. It is written in C and uses OPENMP, and is less than 200 lines long. The data processed by the program can be generated by a script, allowing us to work on an arbitrary amount of data. The kernel is written so that all processing is done by the CPU. It is of particular interest to us that the kernel reads its data from a NetCDF file, which is common in HPC. The code is well documented and concise.
+
+After the Kernel has read in the program data, it performs the clustering process. It does this by first filling the \texttt{old\_cluster\_centres} array with random data, and then begining its central processing loop.
+\begin{itemize}
+  \item \textbf{Expectation:} Assign population points to their nearest cluster center, by looping over every member of the population, and finding the minimum distance between that point all the cluster centers. At this stage, the minimum distances found between the population points and their cluster centres is also found. This is the stage which is parallelised.
+  \item \textbf{Maximisation:} Next, the cluster centers are set to the mean, which is caluclated in two steps.
+  \begin{itemize}
+    \item \textbf{1:} The size of the cluster is calculated by looping over overy point and finding its cluster center, and then incrementing that cluster centers population count. The sum of the points in that cluster is also calculated and stored in the \texttt{new\_cluster\_centres} array.
+   \item \textbf{ 2:} The sum of the cluster is diveded by the size of it, and stored in to the \texttt{old\_cluster\_centres} for use on the next iteration of the loop.
+   \end{itemize}
+\end{itemize}
+This loop continues until it reaches a pre defined maximum iteration value, or the sum of the minimum distance values becomes less than a certain tolerence value. The program then writes data back out to the NetCDF file it read the data from originally.
+
+I found this program quite difficult to install and run due to the NetCDF dependency. My first attempt to install NetCDF through the script included in the repository ended with me unable to boot into my laptop. Subsequent attempts to install NetCDF through package managers were also not successful, although they were less damaging to my system. To compile the kernel on cirrus I had to make sure I had tosellected the correct combination of NetCDF and HDfF5 librariy versions, mosty through guest work. However, once I had accomplished this task, comiling the program itself was easy. The kernel then showed itself to be able to scale adaquetly enough for the interests of this project.
 \section{Implementation}
-Implementation of all three programs follows the same process, as outlined in Figure~\ref{fig:imp-flow}. The full process would take between three to four weeks to complete for each kernel. I first implemented Babel Stream, then the sparse matrix multiplication kernel and finally the K means kernel in that order.
+Implementation of all three programs followed the same process, as outlined in Figure~\ref{fig:imp-flow}. The full process would take between three to four weeks to complete for each kernel. I first implemented Babel Stream, then the sparse matrix multiplication kernel and finally the K means kernel, in that order.
 
 \begin{figure}
   \center
-  \includegraphics[height=12cm]{figs/ImplementationFlow.png}
+  \includegraphics[height=8cm]{figs/ImplementationFlow.png}
   \caption{Flow Diagram for Implementation Process}
   \label{fig:imp-flow}
 \end{figure}
@@ -62,74 +78,81 @@ Implementation of all three programs follows the same process, as outlined in Fi
 \subsection{Porting to Serial Rust}
 Once a candidate kernel is selected, it is implemented in Rust in serial. Any differences between the  behaviour of the Rust and the original implementation are thought of as bugs, and are eradicated or minimised as far as is possible. For ease of development, the Rust crate Clap was used to read command line arguments for the program, leading to Rust implementations of kernels being called with slightly different syntax. This difference was deemed to be superficial enough to be allowable. Kernel output was ensured to be as similar as possible to aid data-collection from both implementations.
 
-Babel Stream was in some ways one of the hardest to Kernels to port to serial Rust. This was partly due to it being the first program which I attempted to port, but also because of Rusts type system and the use of generics. The original C++ implementation of the program uses templates to allow the user to choose to use 32 or 64 bit floating numbers when running the program. To achieve the same thing in Rust, generics types have to be used, which are defined through traits. This made reading error messages slightly difficult, but easier to parse once the offending code was removed into a smaller example, and stripped of its generic type. Generics in Rust also necessitate the slightly cumbersome syntax \texttt{T::from(0).unwrap()} to generate a zero of type T. This expression generates an option type, which in this case is \texttt{Some(0.0)}, and is then unwrapped into simply \texttt{0}. Rust does this to allow programmers to deal with cases where a value of type T is impossible to generate from the input value, as casting a value greater than $2^{32} - 1$ to a signed 32 bit value. In this circumstance, the value returned would be \texttt{None}, which the programmer would then have to deal with. As zero can always be successfully cast to a 32 or 64 bit floating point number, it is safe to simply unwrap the value here, but if it was a number that could not be cast to the type, then the program would crash at this point.
+Babel Stream was in some ways one of the hardest to Kernels to port to serial Rust. This was partly due to it being the first program which I attempted to port, but also because of Rusts type system and the use of generics. The original C++ implementation of the program uses templates to allow the user to choose to use 32 or 64 bit floating numbers when running the program. To achieve the same thing in Rust, generic types have to be used, which are defined through traits.
 
-The Rust implementation of Babel stream, like the reference implementation, creates a stream object which calls certain functions on its own data sets. This was quite easy to implement as Rust has enough features of object oriented design, such as allowing objects to contain data and behaviour for these simple objects to work. However, Rust does not implement inheritance, which is conisdered by some to be a foundational aspect of object oriented programming~\cite{Liskov:1987}, and instead uses trait objects to share behaviours. This design choice did not interfere with any of the simple kernels which were implemented, but would certainly be interesting to translate object inheritance from a larger program, maybe a mini-app, into Rust's trait objects.
+I found that using generics in Rust made reading error messages slightly difficult, but easier to parse once the offending code was removed into a smaller example, and stripped of its generic type. Generics in Rust necessitate the slightly cumbersome syntax \texttt{T::from(0).unwrap()} to generate a zero of type T. This expression generates an option type, which in this case is \texttt{Some(0.0)}, and is then unwrapped into simply \texttt{0.0}. Rust does this to allow programmers to deal with cases where a value of type T is impossible to generate from the input value, as casting a value greater than $2^{32} - 1$ to a signed 32 bit value. In this circumstance, the value returned would be \texttt{None}, which the programmer would then have to deal with. As zero can always be successfully cast to a 32 or 64 bit floating point number, it is safe to simply unwrap the value here, but if it was a number that could not be cast to the type, then the program would crash at this point.
+
+The Rust implementation of Babel stream, like the reference implementation, creates a stream object which calls certain functions on its own data sets. This was quite easy to implement as Rust has enough features of object oriented design, such as allowing objects to contain data and behaviour for these simple objects to work. However, Rust does not implement inheritance, which is considered by some to be a foundational aspect of object oriented programming~\cite{Liskov:1987}, and instead uses trait objects to share behaviours. This design choice did not interfere with any of the simple kernels which were implemented, but would certainly be interesting to translate object inheritance from a larger program, maybe a mini-app, into Rust's trait objects.
 
 Whilst the concept of borrowing did take some time to fully understand, I found that the compiler gave very helpful and accurate hints on how to make sure my program complied with the borrow checker. For example, in listing~\ref{lst:comp-help}, the programmer is informed that they ``cannot borrow self.c as mutable'', and is shown where the function tries to mutate the value. The stream object's triad function, which alters the objects data, but take mutable ownership of the data, through using \texttt{\&mut self}, where \texttt{\&mut} is a mutable borrow. Once the programmer implements the compiler's suggested fix, this fragment of code will compile.
 
-\begin{lstlisting}[language=Rust,label=lst:comp-help,caption=Help from the Rust compiler]
+\begin{alltt}
+\footnotesize
 error[E0596]: cannot borrow `self.c` as mutable, as it is behind a
               `&` reference
   --> src/stream.rs:20:9
    |
-18 |     pub fn triad(&self){
+18 |     pub fn triad(&self)\{
    |                  ----- help: consider changing this to be a
     mutable reference: `&mut self`
 20 |         self.c[0] = self.a[0] + self.b[0];
    |         ^^^^^^ `self` is a `&` reference, so the data it refers
     to cannot be borrowed as mutable
-
 error: aborting due to previous error
-\end{lstlisting}
+\end{alltt}
 
 The sparse matrix vector multiplication kernel was quite simple to port to serial Rust, as I was able to ignore parts of the small program which would not be used. As with Babel Stream, I found converting from C's data types into Rust to be a stumbling point due to Rust's safety constraints. For example, in the C implementation, the vector holding the column index of the matrix was composed of values of type \texttt{s64Int}, which a signed 64 bit int. This datatype is directly analogous to Rust's \texttt{i64} data type, except in C you may use numbers of type \texttt{s64Int} to index into arrays, where as in Rust you must only use numbers of type \texttt{usize}. Errors of this type are easily dealt with however, as they are explicitly pointed out to the programmer at compile time, and can be remedied with casts in the simple format \texttt{as usize}. I found sparse matrix vector multiplication easier to port to serial Rust than Babel Stream, but this could have been that by this point I was already more familiar with Rust's way of doing things.
 
-some stuff about K means, how easy it was to get netcdf working because of cargo
+Given the difficulty I had trying to install the dependencies for the reference implementation of the K-means clustering Kernel, it was suprisingly easy to get NetCDF working with Rust. I simply found a NetCDF rust library~\cite{RustNetCDF}, which I added to my implementation's Cargo.toml file. This file lists the information for your project, alongside its dependencies. I was then able to easily compile and use this library within my K-means implementation.
 
-\subsection{Bug fixing, conversion to idiomatic Rust}
+An interesting factor in writing the K-Means cluster in Rust was porting the original helper functions, whcih were used to make 2d integer and 2d float arrays. In the original C implementation, these 2d arrays were \texttt{float**} and \texttt{int**}. When I was porting these data structures to Rust, it was important to consider how their use would be impacted by their data locality. The original implementation used the data a column wise operation, so that the next datum to be used was likely to have already been loaded in the same cache line as the previous one. This allowed me to write my implementation as a vector of \texttt{f32} or \texttt{i32} vectors.
+
+The Rust vector of vectors was generated from a single one dimensional vector using the same algorithm as the reference implementation, where sections of the original vector are read into the new vectors within the vector of vectors. Altough the original is well suited to C's powerful memory management idioms, it was easy to write the same method is safe rust. The ease with which I was able to reimplement this routine is another suggestion of Rust's ability to supplement C's use in HPC.
+
+\subsection{Optimisation I}
 Next, I would eliminate any bugs found in my serial implementation of the code by comparing outputs between my implementation and the reference implementation. During this process I would also move the code away from its C conventions towards more idiomatic Rust. To achieve more idiomatic Rust, I used the linting tool Clippy~\cite{RustClippy}, which was developed by the Rust team.  Clippy includes a category of lints under  which highlight `code that should be written in a more idiomatic way'~\cite{RustClippy}. I implemented all of Clippy's recommended rewrites, which would often include replacing the use of for loops to access vector variables with calls to the vectors \texttt{iter()} method. This particular replacement could require code to be rewritten in a much more functional style.
 
-For example, all of the array operations in Babel Stream where originally written in a C style, and then transformed to use iterators. Listing~\ref{lst:iters-b}, shows the original, more succint for of Babel Stream's add operation. This style is rejected by Clippy, which prefers the style presented by listing~\ref{lst:iters-a}.
-\begin{lstlisting}[language=Rust, label=lst:iters-b, caption={Babel Stream Add, before applying idomatic Rust style}]
+For example, all of the array operations in Babel Stream where originally written in a C style, and then transformed to use iterators. Listing~\ref{lst:iters-b}, shows the original, more succinct for of Babel Stream's add operation. This style is rejected by Clippy, which prefers the style presented by listing~\ref{lst:iters-a}.
+\begin{lstlisting}[language=Rust, label=lst:iters-b, caption={Babel Stream Add, before applying idiomatic Rust style}]
 for i in 0..self.c.len() as usize {
     self.c[i] = self.b[i] + self.a[i]
 }
 \end{lstlisting}
-Whilst the more idiomatic rust style in listing~\ref{lst:iters-a} is less succint than~\ref{lst:iters-b}, it does have some benefits which does not posses. For example, if the stream object's c array had been of greater length than its $a$ or $b$ arrays, the more C like implementation would fail at run time withan index out of bounds error, where as the more Rustic code only write to as many elements of $c$ as the least elements there are of any of the arrays it is zipped with.
-\begin{lstlisting}[language=Rust, label=lst:iters-a, caption={Babel Stream Add, after applying idomatic Rust style}]
+Whilst the more idiomatic rust style in listing~\ref{lst:iters-a} is less succinct than~\ref{lst:iters-b}, it does have some benefits which does not posses. For example, if the stream object's c array had been of greater length than its $a$ or $b$ arrays, the more C like implementation would fail at run time with an index out of bounds error, where as the more Rustic code only write to as many elements of $c$ as the least elements there are of any of the arrays it is zipped with.
+%\begin{lstlisting}[language=Rust, label=lst:iters-a, caption={Babel Stream Add, after applying idiomatic Rust style}]
+\begin{minted}[fontsize=\footnotesize]{rust}
 for ((c, b), a) in self.c.iter_mut()
                          .zip(self.b.iter())
                          .zip(self.a.iter()){
     *c = *b + *a;
 }
-\end{lstlisting}
-Also note in listing~\ref{lst:iters-a} the distinction between the methods \texttt{iter()} and \texttt{iter\_mut()}, the first of which create an iterator, and the second of which creates an iterator which may change its elements. Although an indepth investigation was not carried out to see if the compiler made use of any optimisations here from the greater amount of information available to it, the time to run this fragment did decrese when converted to idiomatic Rust, from 0.09501 seconds to 0.09079 seconds.
+\end{minted}
+Also note in listing~\ref{lst:iters-a} the distinction between the methods \texttt{iter()} and \texttt{iter\_mut()}, the first of which create an iterator, and the second of which creates an iterator which may change its elements. Although an in depth investigation was not carried out to see if the compiler made use of any optimisations here from the greater amount of information available to it, the time to run this fragment did decrease when converted to idiomatic Rust, from 0.09501 seconds to 0.09079 seconds.
 
 A bug in the SpMV implementation made itself apparent when I noticed that when launched with certain parameters, the C version ran without error, whilst the Rust version would panic and fail every time, with the error message:
 
 thread 'main' panicked at 'attempt to shift left with overflow', main.rs:8:13
 
-It became apparent that this was occuring because although I had mirrored the types used by the reference implementation, the behaviour of those types differed. In the reference implementation, radius was of type \texttt{int}, which is a 32-bit integer. I therefore translated this into a \texttt{i32} type in Rust. These values are used as upper limits in an initilisation loop, where intermediate values of the same type are bit-shifted before being stored in the colIndex array. In C, the operation
+It became apparent that this was occurring because although I had mirrored the types used by the reference implementation, the behaviour of those types differed. In the reference implementation, radius was of type \texttt{int}, which is a 32-bit integer. I therefore translated this into a \texttt{i32} type in Rust. These values are used as upper limits in an initialisation loop, where intermediate values of the same type are bit-shifted before being stored in the colIndex array. In C, the operation
 
   $foo = 1 << 33$
 
-sets $foo$ to 2, when all numbers are 32 bit integers. This occurs because the value 1 overflows and rolls over. In Rust however, this code causes the program to panic and quit~\footnote{The compiler will catch this error before run time if it can calculate the value 1 will be shifted by}. The Rust language does not consider this behavior to be unsafe, but finds that that the programmer `should' find it `undesirable, unexpected or unsafe'~\cite{rustunsafe}. However, Rust does recognise that some programs do rely upon overflow arithmatic, and provides mechanisms to enable this feature in the language. Fortunately, I was not required to use this feature by instead changing radius from the \texttt{i32} type to \texttt{usize} type, which is 64 bits. This choice was made because the radius values were being cast to \texttt{usize} more often than they were being used as \texttt{i32}. This had the consequence of making the program impossible to bit shift overflow, as a radius of 64 requires a stencil diameter greater than $2^{32}-1$, which would in turn require a colindex array terrabytes in size, which the Cirrus hardware does not support.
+sets $foo$ to 2, when all numbers are 32 bit integers. This occurs because the value 1 overflows and rolls over. In Rust however, this code causes the program to panic and quit~\footnote{The compiler will catch this error before run time if it can calculate the value 1 will be shifted by}. The Rust language does not consider this behaviour to be unsafe, but finds that that the programmer `should' find it `undesirable, unexpected or unsafe'~\cite{rustunsafe}. However, Rust does recognise that some programs do rely upon overflow arithmetic, and provides mechanisms to enable this feature in the language. Fortunately, I was not required to use this feature by instead changing radius from the \texttt{i32} type to \texttt{usize} type, which is 64 bits. This choice was made because the radius values were being cast to \texttt{usize} more often than they were being used as \texttt{i32}. This had the consequence of making the program impossible to bit shift overflow, as a radius of 64 requires a stencil diameter greater than $2^{32}-1$, which would in turn require a colindex array terrabytes in size, which the Cirrus hardware does not support.
 
-Clippy was dumb with a loop in K-means, telling me to replace
+When this optimisation pass was applied to K-means, it showed the limits of Clippy's linter. Clippy reacted flagged concise for loops with warnings, and suggested overly vebose rewrites of them. For example, one line 110 of the kernel, just before the second part of the maximisation is about to begin, clippy complains that listing blah has a 'needless range loop'.
 \begin{lstlisting}[language=Rust]
 for k in 1..clusters_d.len as usize {
 \end{lstlisting}
-with
+Clippy argues this pattern should be avoided, because `iterating the collection itself makes the intent more clear and is probably faster'~\cite{ClippyLoop}. However, its suggested replacement is much longer, and the deeply chained methods take longer to comprehend.
 \begin{lstlisting}[language=Rust]
  for (k, <item>) in old_cluster_centres.iter()
                                        .enumerate()
                                        .take(clusters_d.len as usize)
                                        .skip(1) {
 \end{lstlisting}
-which really shows the limits of it as a tool to make Rust idiomatic, or how blindly following rules to get idiomatic code can make things worse
+It would be difficult to argue that the code suggested by Clippy is idiomatic, as idiomatic code is generally agreed to be code which uses features of the language to acvhieve conciseness. This code fragment is clearly not concise, and I therefore did not make Clippy's suggested correction.
 \subsection{Parallelisation}
-I would then parallelise the kernel with Rayon~\cite{RustRayon}, at the same loops where the reference implementation uses OpenMP. Sometimes this would be a simple matter of replacing the \texttt{iter()} method with \texttt{par\_iter()}, but parallising more complex operations like reductions and initilisations was slightly more difficult.
+I would then parallelise the kernel with Rayon~\cite{RustRayon}, at the same loops where the reference implementation uses OpenMP. Sometimes this would be a simple matter of replacing the \texttt{iter()} method with \texttt{par\_iter()}, but parallising more complex operations like reductions and initialisations was slightly more difficult.
 
 Parallelising Babel Stream was simple. As listing~\ref{lst:iters-p} shows, Babel Stream's add operation remains largely the same, only that the \texttt{iter()} method has been replaced by the \texttt{par\_iter()} method, and that the method for each has to be called. As the serial version of this loop had no inter loop dependencies, it coud easily be transformed from a for loop to a parallel for each loop.
 \begin{lstlisting}[language=Rust, label=lst:iters-p, caption={Babel Stream Add, parallelised}]
@@ -140,12 +163,15 @@ self.c.par_iter_mut()
 \end{lstlisting}
 
 This pattern was applicable to the copy, multiply, add, and triad methods. The dot method needed less alteration than these methods to become parallelised, going from this to that easily.
-\begin{lstlisting}[language=Rust]
+\begin{figure}[ht]
+\begin{minted}[fontsize=\footnotesize]{rust}
 let sum1: T = T::from(0).unwrap();
 self.a.iter()
     .zip(self.b.iter())
     .fold(|| sum1, |acc, it| acc + *it.0 * *it.1).sum()
-\end{lstlisting}
+\end{minted}
+\caption{Serial dot product}
+\end{figure}
 \begin{lstlisting}[language=Rust]
 let sum1: T = T::from(0).unwrap();
 self.a.par_iter()
@@ -154,7 +180,7 @@ self.a.par_iter()
 \end{lstlisting}
 However, the ease with which these methods were parallelised does not necessarily show us the strength of the Rayon library, it is more likely to indicate to us
 
-\subsection{Debug final implementation}
+\subsection{Optimisation II}
 Once I had parallelised the Rust implementation, I would again debug the program process at this stage could be hard to fix as they could come from original implementations. An interesting example of such a bug is discussed further in this section, from the sparse matrix vector multiplication kernel.
 
 Initialisation is the very verbose - Explain why it's so verbose, process for finding this to be worth doing etc.
@@ -164,34 +190,30 @@ vec![0.0; arr_size].par_iter()
                    .collect_into_vec(&mut self.b);
 \end{lstlisting}
 
-Talk about finding horrendus parallel init bug in Sparse
+Talk about finding horrendous parallel init bug in Sparse.
+
+No great need for further optimisation with K-means as there was no parallel init.
 
 Once the implementation process had been finished, testing could begin.
 
 \subsubsection{Babel Stream}
 \begin{itemize}
-  \item Type problems due to generics leading to verbose code and obfuscating debugging
-  \item The compiler did help with type debugging a little, but had limitations - give example
-  \item Idiomatic serial Rust was faster than C like rust, potentially due to iter\_mut allowing optimisations? Evidence from triad and add.
-  \item Once I figured out the for\_each pattern is was easy to apply it to other operations
-  \item Realised that Rust's serial init was a bottleneck
-  \item difficulty in writing para init as not a common use case scenario, and obfuscated by type
+  \item Type problems due to generics leading to verbose code and obfuscating debugging - Done
+  \item The compiler did help with type debugging a little, but had limitations - give example - Done
+  \item Idiomatic serial Rust was faster than C like rust, potentially due to iter\_mut allowing optimisations? Evidence from triad and add. - Done
+  \item Once I figured out the for\_each pattern is was easy to apply it to other operations - Dpne
+  \item Realised that Rust's serial init was a bottleneck - Should this go in debug section?
+  \item difficulty in writing para init as not a common use case scenario
 \end{itemize}
-
-
-
-
-
-
-
 
 \subsubsection{Sparse Matrix}
 \begin{itemize}
-  \item Bit shift overflow causes Rust to crash not just run on, have to be more careful about kernel input parameters. Initially thought this might be a bug. Give example.
+  \item Bit shift overflow causes Rust to crash not just run on, have to be more careful about kernel input parameters. Initially thought this might be a bug. Give example. - Done
   \item Found init bug, was very difficult to implement para init. Filed bug report with original project
   \item remember that class you tried to build to increment stuff? m8
 \end{itemize}
 
-\subsection{Experimentation}
-
+\section{Experimentation}
+Experimental set up etc. Roofline stuff makes sense here.
 \section{Questionnaire}
+Motivation for questionnaire, what insight am I looking for, test parameters etc

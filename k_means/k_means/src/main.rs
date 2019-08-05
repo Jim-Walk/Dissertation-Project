@@ -99,7 +99,7 @@ fn main() {
             let dist_sum_old = dist_sum_new;
             dist_sum_new = 0.0;
 
-            // E-Step TODO Parallelise this!
+            // E-Step 
             let t1 = Instant::now();
 
             dist_sum_new = labels.par_iter_mut()
@@ -134,6 +134,7 @@ fn main() {
             m1_timings += t2.elapsed().as_micros() as f64 / 1000.0;
 
             // M-step second half: convert sum to mean
+            // TODO see how easy this is to parallelise
             let t3 = Instant::now();
             for k in 0..clusters_d.len as usize {
                 for j in 0..features_d.len as usize {
