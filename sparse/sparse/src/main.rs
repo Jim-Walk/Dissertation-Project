@@ -234,6 +234,7 @@ fn main() {
     }
     let end_time = sparse_time.elapsed();
 
+    println!("Vector sizes\n result: {} matrix: {} vector: {} col_index: {}", result.len(), matrix.len(), vector.len(), col_index.len());
     // Verification test
     let reference_sum = 0.5 * nent as f64 * f64::from(iterations + 1) * f64::from(iterations + 2);
 
