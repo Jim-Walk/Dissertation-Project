@@ -7,7 +7,7 @@ Stencil diameter      = 31
 Sparsity              = 0.000003635883331298828
 Number of iterations  = 101
 Solution validates
-Rate (MFLops/s) = 422.04251504221503, Avg time (s): 4.849796594059406
+Rate (MFLops/s): 422.04251504221503, Avg time (s): 4.849796594059406
 Running on 2 Threads
 Jim's bootleg Research Kernels version 0.17
 Rust Sparse matrix-vector multiplication
@@ -17,7 +17,7 @@ Stencil diameter      = 31
 Sparsity              = 0.000003635883331298828
 Number of iterations  = 101
 Solution validates
-Rate (MFLops/s) = 1331.0781664833423, Avg time (s): 1.537716118811881
+Rate (MFLops/s): 1331.0781664833423, Avg time (s): 1.537716118811881
 Running on 4 Threads
 Jim's bootleg Research Kernels version 0.17
 Rust Sparse matrix-vector multiplication
@@ -27,7 +27,7 @@ Stencil diameter      = 31
 Sparsity              = 0.000003635883331298828
 Number of iterations  = 101
 Solution validates
-Rate (MFLops/s) = 2384.479259246742, Avg time (s): 0.8583930198019802
+Rate (MFLops/s): 2384.479259246742, Avg time (s): 0.8583930198019802
 Running on 8 Threads
 Jim's bootleg Research Kernels version 0.17
 Rust Sparse matrix-vector multiplication
@@ -37,7 +37,7 @@ Stencil diameter      = 31
 Sparsity              = 0.000003635883331298828
 Number of iterations  = 101
 Solution validates
-Rate (MFLops/s) = 5131.446365278595, Avg time (s): 0.39887786138613857
+Rate (MFLops/s): 5131.446365278595, Avg time (s): 0.39887786138613857
 Running on 12 Threads
 Jim's bootleg Research Kernels version 0.17
 Rust Sparse matrix-vector multiplication
@@ -47,7 +47,7 @@ Stencil diameter      = 31
 Sparsity              = 0.000003635883331298828
 Number of iterations  = 101
 Solution validates
-Rate (MFLops/s) = 6729.6054293922525, Avg time (s): 0.3041516138613861
+Rate (MFLops/s): 6729.6054293922525, Avg time (s): 0.3041516138613861
 Running on 16 Threads
 Jim's bootleg Research Kernels version 0.17
 Rust Sparse matrix-vector multiplication
@@ -57,7 +57,7 @@ Stencil diameter      = 31
 Sparsity              = 0.000003635883331298828
 Number of iterations  = 101
 Solution validates
-Rate (MFLops/s) = 7434.891847924853, Avg time (s): 0.27529927722772274
+Rate (MFLops/s): 7434.891847924853, Avg time (s): 0.27529927722772274
 Running on 20 Threads
 Jim's bootleg Research Kernels version 0.17
 Rust Sparse matrix-vector multiplication
@@ -67,7 +67,7 @@ Stencil diameter      = 31
 Sparsity              = 0.000003635883331298828
 Number of iterations  = 101
 Solution validates
-Rate (MFLops/s) = 7147.356839427049, Avg time (s): 0.28637444554455443
+Rate (MFLops/s): 7147.356839427049, Avg time (s): 0.28637444554455443
 Running on 24 Threads
 Jim's bootleg Research Kernels version 0.17
 Rust Sparse matrix-vector multiplication
@@ -77,7 +77,7 @@ Stencil diameter      = 31
 Sparsity              = 0.000003635883331298828
 Number of iterations  = 101
 Solution validates
-Rate (MFLops/s) = 7009.493793683276, Avg time (s): 0.2920068712871287
+Rate (MFLops/s): 7009.493793683276, Avg time (s): 0.2920068712871287
 Running on 28 Threads
 Jim's bootleg Research Kernels version 0.17
 Rust Sparse matrix-vector multiplication
@@ -87,7 +87,7 @@ Stencil diameter      = 31
 Sparsity              = 0.000003635883331298828
 Number of iterations  = 101
 Solution validates
-Rate (MFLops/s) = 6935.880928587174, Avg time (s): 0.29510603960396037
+Rate (MFLops/s): 6935.880928587174, Avg time (s): 0.29510603960396037
 Running on 32 Threads
 Jim's bootleg Research Kernels version 0.17
 Rust Sparse matrix-vector multiplication
@@ -97,7 +97,7 @@ Stencil diameter      = 31
 Sparsity              = 0.000003635883331298828
 Number of iterations  = 101
 Solution validates
-Rate (MFLops/s) = 6714.812619928914, Avg time (s): 0.3048216633663366
+Rate (MFLops/s): 6714.812619928914, Avg time (s): 0.3048216633663366
 Running on 36 Threads
 Jim's bootleg Research Kernels version 0.17
 Rust Sparse matrix-vector multiplication
@@ -107,4 +107,4 @@ Stencil diameter      = 31
 Sparsity              = 0.000003635883331298828
 Number of iterations  = 101
 Solution validates
-Rate (MFLops/s) = 6563.594065065888, Avg time (s): 0.3118444455445544
+Rate (MFLops/s): 6563.594065065888, Avg time (s): 0.3118444455445544
