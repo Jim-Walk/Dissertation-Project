@@ -1,5 +1,12 @@
 \begin{thebibliography}{10}
 
+\bibitem{Bhuyan:2000}
+L.~N. Bhuyan, H.~Wang, and R.~Iyer.
+\newblock Impact of cc-numa memory management policies on the application
+  performance of multistage switching networks.
+\newblock {\em IEEE Trans. Parallel Distrib. Syst.}, 11(3):230--246, March
+  2000.
+
 \bibitem{DBLP:journals/corr/ChakrabortyND14a}
 Sanjay Chakraborty, N.~K. Nagwani, and Lopamudra Dey.
 \newblock Weather forecasting using incremental k-means clustering.
@@ -99,6 +106,12 @@ Elliott Slaughter, Wonchan Lee, Sean Treichler, Michael Bauer, and Alex Aiken.
 Josh Stone and Niko Matsakis.
 \newblock rayon.
 \newblock https://github.com/rayon-rs/rayon.
+
+\bibitem{rayonMap}
+Josh Stone and Niko Matsakis.
+\newblock Trait rayon::iter::paralleliterator.
+\newblock
+  https://docs.rs/rayon/1.0.3/rayon/iter/trait.ParallelIterator.html\#method.map.
 
 \bibitem{BabelStream}
 Deakin~T T, Price J, Martineau M, and McIntosh-Smith S.

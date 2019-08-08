@@ -295,9 +295,11 @@ In Listing~\ref{lst:kmeansserial} I am creating an iterator over \texttt{x}, whi
 
 
 \subsection{Optimisation II}
-Once I had parallelised the Rust implementation, I would again debug the program process at this stage could be hard to fix as they could come from original implementations. An interesting example of such a bug is discussed further in this section, from the sparse matrix vector multiplication kernel.
+Once I had parallelised the Rust implementations, I carried out another optimisation pass. This optimisiation pass alllowed me to find issues caused by parallism, and make improvements only possible through parallelism. One such improvement was parallel initiliastaion.
 
-`poorly written applications (e.g., initializations  performed  at  a  single  processor  before  main  parallel computation  begins)  will  locate  pages  incorrectly based  on  the  first  access  and  cause  several  remote memory accesses later.'~\cite{Bhuyan:2000}
+Parallel initilisation is an important feature of programs which run on cache coherent non uniform memory address (CC-NUMA) systems. CC-NUMA systems ofton use a first touch allocation policy, which means that the each memory address that is written to, or page, is located near to the processor which first touched it. The 18 core Intel Xeon processors on Cirrus use this particular memory allocation policy, which therefore means that `poorly written applications (e.g., initializations  performed  at  a  single  processor  before  main  parallel computation  begins)  will  locate  pages  incorrectly based  on  the  first  access  and  cause  several  remote memory accesses later'~\cite{Bhuyan:2000}. Without parallel initilisation, the Rust implementation of Babel Stream falls under this definition of a poorly written application. Preliminary testing had also found that the Rust implementation's performance had failed to scale past 8 threads, whilst the C++ implementation's performance continued to increase up to 24 threads. 
+
+I had not yet prioritised written parallel initilisation in Rust as there was no clear way to do it. This was largely because in the C++ form of parallel initilisation, allocating the memory to be used and then initilisating that memory are two distinct steps, where as in Rust they are the same step.
 
 \noindent\begin{minipage}{.48\textwidth}
 \begin{listing}[H]
@@ -310,7 +312,7 @@ for (int i = 0; i < array_size; i++)
     c[i] = initC;
 }
 \end{minted}
-\label{lst:kmeansserial}
+\label{lst:serialInit}
 \caption{Serial K-means}
 \end{listing}
 \end{minipage}\hfill
@@ -321,17 +323,24 @@ vec![0.0; arr_size].par_iter()
        .map(|_| T::from(0.2).unwrap())
        .collect_into_vec(&mut self.b);
 \end{minted}
-\label{lst:kmeanspar}
+\label{lst:parInit}
 \caption{Parallel K-means}
 \end{listing}
 \end{minipage}
+
+Listing~\ref{lst:serialInit} shows how the C++ version of Babel Stream carries out its first touch in parallel, by adding a simple \texttt{\#pragma} statement to the code. This pattern is not reproducible with Rayon, as it doesn't use parallel for loops, but instead uses parallel iterators. The solution was found to be using the map function to collect values into a vector, as shown in listing~\ref{lst:parInit}.
+
+This routine works by using the \texttt{vec!} macro to create a vector of length \texttt{arr\_size}, where every value in the vector is 0.0. This vector is then used to generate a parallel iterator. The parallel iterator performas a map, taking all values from the vector, and generating a corresponding 0.2, of type T. The \texttt{|\_|} notation here means that altough the closure signature requires a value, that value will not be used in the closure's method.
+These values of 0.2 are then collected into the vector held in \texttt{self.b}.
+
+The use of map here to generate values for parallel initilisation seems like it is an unlikely use case scenario, but I discovered how to use it from the rayon documenation on the map method~\cite{rayonMap}.
+
 \begin{figure}[h]
     \centering
     \includegraphics[width=.8\linewidth]{figs/babel/dot-init.png}
     \caption{Babel Stream Memory Bandwidth initilsation comparision}
     \label{fig:babel-dot-init}
 \end{figure}
-
 As Figure~\ref{fig:babel-dot-init} shows, the use of parallel initilisation greatly improved the memory bandwidth of the Babel Stream. However, the improvement in performance still did not bring it to a parity with the C++ and OMP implementation, for reasons discussed further in section~\ref{sec:res-babel}.\todo{how much detail here about effects of para init, or should I just use a graph only comparing Rust impls}
 
 Talk about finding horrendous parallel init bug in Sparse~\cite{SparseBug}.
