@@ -249,5 +249,5 @@ fn main() {
 
     // Print info 
     let rate = 1.0e-6 * (2.0 * nent as f64)/avgtime;
-    println!("Rate (MFLops/s): {}, Avg time (s): {}", rate, avgtime);
+    println!("Rate (MFLops/s): {} Avg time (s): {}", rate, avgtime);
 }
