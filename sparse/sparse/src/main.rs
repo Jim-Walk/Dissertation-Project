@@ -5,6 +5,7 @@ extern crate rayon;
 use clap::{Arg, App};
 use std::process::exit;
 use rayon::prelude::*;
+use std::time;
 use std::time::Instant;
 use std::sync::{Arc, Mutex};
 use std::thread;
@@ -123,89 +124,89 @@ fn main() {
 
 
     let mut matrix = vec![0.0f64, 0.0f64];
-    let mut col_index = vec![0usize; nent];
-    for row in (0..size2).into_iter() {
-        let j = row / size;
-        let i = row % size;
-        let mut elm = row * stencil_size;
-        col_index[elm] = lin(i,j,lsize);
-        
-        for r in 1..=radius{
-            col_index[elm + 1] = lin( (i+r)%size, j, lsize );
-            col_index[elm + 2] = lin( (i+size-r)%size, j, lsize );
-            col_index[elm + 3] = lin( i, (j+r)%size, lsize );
-            col_index[elm + 4] = lin( i, (j+size-r)%size, lsize );
-            elm += 4;
-        }
-   }
-   // let col_index = Arc::new(Mutex::new(vec![]));
+    //let mut col_index = vec![0usize; nent];
+    //for row in (0..size2).into_iter() {
+    //    let j = row / size;
+    //    let i = row % size;
+    //    let mut elm = row * stencil_size;
+    //    col_index[elm] = lin(i,j,lsize);
+    //    
+    //    for r in 1..=radius{
+    //        col_index[elm + 1] = lin( (i+r)%size, j, lsize );
+    //        col_index[elm + 2] = lin( (i+size-r)%size, j, lsize );
+    //        col_index[elm + 3] = lin( i, (j+r)%size, lsize );
+    //        col_index[elm + 4] = lin( i, (j+size-r)%size, lsize );
+    //        elm += 4;
+    //    }
+    // }
+    let col_index = Arc::new(Mutex::new(vec![]));
 
-   // // vector of handles
-   // let mut hds = vec![];
-   // // tx: Transmitter, sends data
-   // // rx: Receiver, recieves data
-   // let (tx, rx) = channel();
+    // vector of handles
+    let mut hds = vec![];
+    // tx: Transmitter, sends data
+    // rx: Receiver, recieves data
+    let (tx, rx) = channel();
 
-   // for t_id in 0..num_threads {
-   //     let (col_index, tx) = (Arc::clone(&col_index), tx.clone());
-   //     hds.push(thread::Builder::new().name(t_id.to_string()).spawn(move || {
-   //         
-   //         // calculate where I am going to write
-   //         let interval = size2/num_threads;
-   //         let my_lo = t_id * interval;
-   //         let mut my_hi = my_lo + interval;
-   //         if (t_id + 1) == num_threads{
-   //             my_hi = size2;
-   //         }
-   //         let col_interval = nent/num_threads;
-   //         let col_lo = t_id * col_interval;
-   //         let mut my_col_index = vec![0usize; col_interval];
-   //         let mut misses = 0;
-   //         if (t_id + 1) == num_threads {
-   //             my_col_index = vec![0usize; nent - col_lo];
-   //             //println!("nent: {} col_interval * num_threads: {} total elems: {}", nent, col_interval * num_threads, col_interval * (num_threads-1) + nent - col_lo);
-   //             //println!("{}: my_col_index len is {}", t_id, my_col_index.len());
-   //         }
-   //         for row in my_lo..my_hi {
-   //             let j = row / size;
-   //             let i = row % size;
-   //             let mut elm = (row - my_lo) * stencil_size;
-   //             // Write my part of the array
-   //             misses += safe_write(&mut my_col_index, elm, lin(i,j,lsize));
-   //             for r in 1..=radius{
-   //                 misses += safe_write(&mut my_col_index, elm + 1, lin( (i+r)%size, j, lsize ));
-   //                 misses += safe_write(&mut my_col_index, elm + 2, lin( (i+size-r)%size, j, lsize ));
-   //                 misses += safe_write(&mut my_col_index, elm + 3, lin( i, (j+r)%size, lsize ));
-   //                 misses += safe_write(&mut my_col_index, elm + 4, lin( i, (j+size-r)%size, lsize ));
-   //                 elm += 4;
-   //             }
-   //         }
-   //         // Aquire lock, check length of array is appropriate for me to add my section
-   //         let guard = col_index.lock().unwrap();
-   //         let mut len = guard.len();
-   //         drop(guard);
-   //         // While length is not appropriate, release lock and wait
-   //         while len != col_lo{
-   //             thread::sleep(time::Duration::from_millis(t_id as u64));
-   //             let guard = col_index.lock().unwrap();
-   //             len = guard.len();
-   //             drop(guard);
-   //         }
-   //         let mut guard = col_index.lock().unwrap();
-   //         guard.append(&mut my_col_index);
-   //         if guard.len() == nent {
-   //             tx.send(()).unwrap();
-   //         }
-   //         if misses > 0 {
-   //             println!("{}: attempted to write out of bounds {} times", t_id, misses);
-   //         }
-   //     }));
-   // }
-   // rx.recv().unwrap();
-   // for h in hds {
-   //     h.unwrap().join().unwrap()
-   // }
-   // let col_index = col_index.lock().unwrap();
+    for t_id in 0..num_threads {
+        let (col_index, tx) = (Arc::clone(&col_index), tx.clone());
+        hds.push(thread::Builder::new().name(t_id.to_string()).spawn(move || {
+            
+            // calculate where I am going to write
+            let interval = size2/num_threads;
+            let my_lo = t_id * interval;
+            let mut my_hi = my_lo + interval;
+            if (t_id + 1) == num_threads{
+                my_hi = size2;
+            }
+            let col_interval = nent/num_threads;
+            let col_lo = t_id * col_interval;
+            let mut my_col_index = vec![0usize; col_interval];
+            let mut misses = 0;
+            if (t_id + 1) == num_threads {
+                my_col_index = vec![0usize; nent - col_lo];
+                //println!("nent: {} col_interval * num_threads: {} total elems: {}", nent, col_interval * num_threads, col_interval * (num_threads-1) + nent - col_lo);
+                //println!("{}: my_col_index len is {}", t_id, my_col_index.len());
+            }
+            for row in my_lo..my_hi {
+                let j = row / size;
+                let i = row % size;
+                let mut elm = (row - my_lo) * stencil_size;
+                // Write my part of the array
+                misses += safe_write(&mut my_col_index, elm, lin(i,j,lsize));
+                for r in 1..=radius{
+                    misses += safe_write(&mut my_col_index, elm + 1, lin( (i+r)%size, j, lsize ));
+                    misses += safe_write(&mut my_col_index, elm + 2, lin( (i+size-r)%size, j, lsize ));
+                    misses += safe_write(&mut my_col_index, elm + 3, lin( i, (j+r)%size, lsize ));
+                    misses += safe_write(&mut my_col_index, elm + 4, lin( i, (j+size-r)%size, lsize ));
+                    elm += 4;
+                }
+            }
+            // Aquire lock, check length of array is appropriate for me to add my section
+            let guard = col_index.lock().unwrap();
+            let mut len = guard.len();
+            drop(guard);
+            // While length is not appropriate, release lock and wait
+            while len != col_lo{
+                thread::sleep(time::Duration::from_millis(t_id as u64));
+                let guard = col_index.lock().unwrap();
+                len = guard.len();
+                drop(guard);
+            }
+            let mut guard = col_index.lock().unwrap();
+            guard.append(&mut my_col_index);
+            if guard.len() == nent {
+                tx.send(()).unwrap();
+            }
+            if misses > 0 {
+                println!("{}: attempted to write out of bounds {} times", t_id, misses);
+            }
+        }));
+    }
+    rx.recv().unwrap();
+    for h in hds {
+        h.unwrap().join().unwrap()
+    }
+    let col_index = col_index.lock().unwrap();
 
     col_index.par_iter().map(|e| 1.0/(e+1) as f64).collect_into_vec(&mut matrix);
     

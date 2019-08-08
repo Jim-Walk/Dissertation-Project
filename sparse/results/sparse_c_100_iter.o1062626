@@ -1,0 +1,121 @@
+Running on 1 Thread
+Parallel Research Kernels version 2.17
+OpenMP Sparse matrix-vector multiplication
+Number of threads     =                1
+Matrix order          =         16777216
+Stencil diameter      =               31
+Sparsity              =     0.0000036359
+Number of iterations  =              101
+Using canonical indexing
+Solution validates
+Rate (MFlops/s): 648.348683  Avg time (s): 3.156975
+Running on 2 Threads
+Parallel Research Kernels version 2.17
+OpenMP Sparse matrix-vector multiplication
+Number of threads     =                2
+Matrix order          =         16777216
+Stencil diameter      =               31
+Sparsity              =     0.0000036359
+Number of iterations  =              101
+Using canonical indexing
+Solution validates
+Rate (MFlops/s): 1367.067792  Avg time (s): 1.497234
+Running on 4 Threads
+Parallel Research Kernels version 2.17
+OpenMP Sparse matrix-vector multiplication
+Number of threads     =                4
+Matrix order          =         16777216
+Stencil diameter      =               31
+Sparsity              =     0.0000036359
+Number of iterations  =              101
+Using canonical indexing
+Solution validates
+Rate (MFlops/s): 2991.238696  Avg time (s): 0.684272
+Running on 8 Threads
+Parallel Research Kernels version 2.17
+OpenMP Sparse matrix-vector multiplication
+Number of threads     =                8
+Matrix order          =         16777216
+Stencil diameter      =               31
+Sparsity              =     0.0000036359
+Number of iterations  =              101
+Using canonical indexing
+Solution validates
+Rate (MFlops/s): 5727.247256  Avg time (s): 0.357383
+Running on 12 Threads
+Parallel Research Kernels version 2.17
+OpenMP Sparse matrix-vector multiplication
+Number of threads     =               12
+Matrix order          =         16777216
+Stencil diameter      =               31
+Sparsity              =     0.0000036359
+Number of iterations  =              101
+Using canonical indexing
+Solution validates
+Rate (MFlops/s): 7844.725696  Avg time (s): 0.260917
+Running on 16 Threads
+Parallel Research Kernels version 2.17
+OpenMP Sparse matrix-vector multiplication
+Number of threads     =               16
+Matrix order          =         16777216
+Stencil diameter      =               31
+Sparsity              =     0.0000036359
+Number of iterations  =              101
+Using canonical indexing
+Solution validates
+Rate (MFlops/s): 8393.542469  Avg time (s): 0.243857
+Running on 20 Threads
+Parallel Research Kernels version 2.17
+OpenMP Sparse matrix-vector multiplication
+Number of threads     =               20
+Matrix order          =         16777216
+Stencil diameter      =               31
+Sparsity              =     0.0000036359
+Number of iterations  =              101
+Using canonical indexing
+Solution validates
+Rate (MFlops/s): 8552.886705  Avg time (s): 0.239313
+Running on 24 Threads
+Parallel Research Kernels version 2.17
+OpenMP Sparse matrix-vector multiplication
+Number of threads     =               24
+Matrix order          =         16777216
+Stencil diameter      =               31
+Sparsity              =     0.0000036359
+Number of iterations  =              101
+Using canonical indexing
+Solution validates
+Rate (MFlops/s): 10179.260802  Avg time (s): 0.201078
+Running on 28 Threads
+Parallel Research Kernels version 2.17
+OpenMP Sparse matrix-vector multiplication
+Number of threads     =               28
+Matrix order          =         16777216
+Stencil diameter      =               31
+Sparsity              =     0.0000036359
+Number of iterations  =              101
+Using canonical indexing
+Solution validates
+Rate (MFlops/s): 9658.174339  Avg time (s): 0.211926
+Running on 32 Threads
+Parallel Research Kernels version 2.17
+OpenMP Sparse matrix-vector multiplication
+Number of threads     =               32
+Matrix order          =         16777216
+Stencil diameter      =               31
+Sparsity              =     0.0000036359
+Number of iterations  =              101
+Using canonical indexing
+Solution validates
+Rate (MFlops/s): 9429.794826  Avg time (s): 0.217059
+Running on 36 Threads
+Parallel Research Kernels version 2.17
+OpenMP Sparse matrix-vector multiplication
+Number of threads     =               36
+Matrix order          =         16777216
+Stencil diameter      =               31
+Sparsity              =     0.0000036359
+Number of iterations  =              101
+Using canonical indexing
+Solution validates
+Rate (MFlops/s): 9801.527877  Avg time (s): 0.208827

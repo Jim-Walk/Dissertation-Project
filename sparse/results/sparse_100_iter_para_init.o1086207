@@ -1,0 +1,115 @@
+Running on 1 Thread
+Jim's bootleg Research Kernels version 0.17
+Rust Sparse matrix-vector multiplication
+Number of threads     =	1
+Matrix order          = 16777216
+Stencil diameter      = 31
+Sparsity              = 0.000003635883331298828
+Number of iterations  = 101
+Solution validates
+Rate (MFLops/s): 537.1786793737381 Avg time (s): 3.810315693069307
+Running on 2 Threads
+Jim's bootleg Research Kernels version 0.17
+Rust Sparse matrix-vector multiplication
+Number of threads     =	2
+Matrix order          = 16777216
+Stencil diameter      = 31
+Sparsity              = 0.000003635883331298828
+Number of iterations  = 101
+Solution validates
+Rate (MFLops/s): 1207.3483597690727 Avg time (s): 1.6953022178217823
+Running on 4 Threads
+Jim's bootleg Research Kernels version 0.17
+Rust Sparse matrix-vector multiplication
+Number of threads     =	4
+Matrix order          = 16777216
+Stencil diameter      = 31
+Sparsity              = 0.000003635883331298828
+Number of iterations  = 101
+Solution validates
+Rate (MFLops/s): 2435.898137299989 Avg time (s): 0.8402733762376237
+Running on 8 Threads
+Jim's bootleg Research Kernels version 0.17
+Rust Sparse matrix-vector multiplication
+Number of threads     =	8
+Matrix order          = 16777216
+Stencil diameter      = 31
+Sparsity              = 0.000003635883331298828
+Number of iterations  = 101
+Solution validates
+Rate (MFLops/s): 4727.969640197071 Avg time (s): 0.432917405940594
+Running on 12 Threads
+Jim's bootleg Research Kernels version 0.17
+Rust Sparse matrix-vector multiplication
+Number of threads     =	12
+Matrix order          = 16777216
+Stencil diameter      = 31
+Sparsity              = 0.000003635883331298828
+Number of iterations  = 101
+11: attempted to write out of bounds 220 times
+Solution validates
+Rate (MFLops/s): 6559.56206239002 Avg time (s): 0.3120361287128713
+Running on 16 Threads
+Jim's bootleg Research Kernels version 0.17
+Rust Sparse matrix-vector multiplication
+Number of threads     =	16
+Matrix order          = 16777216
+Stencil diameter      = 31
+Sparsity              = 0.000003635883331298828
+Number of iterations  = 101
+Solution validates
+Rate (MFLops/s): 7929.5232268463005 Avg time (s): 0.25812653465346536
+Running on 20 Threads
+Jim's bootleg Research Kernels version 0.17
+Rust Sparse matrix-vector multiplication
+Number of threads     =	20
+Matrix order          = 16777216
+Stencil diameter      = 31
+Sparsity              = 0.000003635883331298828
+Number of iterations  = 101
+19: attempted to write out of bounds 912 times
+Solution validates
+Rate (MFLops/s): 8719.030013696709 Avg time (s): 0.23475321782178216
+Running on 24 Threads
+Jim's bootleg Research Kernels version 0.17
+Rust Sparse matrix-vector multiplication
+Number of threads     =	24
+Matrix order          = 16777216
+Stencil diameter      = 31
+Sparsity              = 0.000003635883331298828
+Number of iterations  = 101
+23: attempted to write out of bounds 920 times
+Solution validates
+Rate (MFLops/s): 8906.297952535326 Avg time (s): 0.22981718811881185
+Running on 28 Threads
+Jim's bootleg Research Kernels version 0.17
+Rust Sparse matrix-vector multiplication
+Number of threads     =	28
+Matrix order          = 16777216
+Stencil diameter      = 31
+Sparsity              = 0.000003635883331298828
+Number of iterations  = 101
+27: attempted to write out of bounds 459 times
+Solution validates
+Rate (MFLops/s): 9004.999170061437 Avg time (s): 0.22729822772277228
+Running on 32 Threads
+Jim's bootleg Research Kernels version 0.17
+Rust Sparse matrix-vector multiplication
+Number of threads     =	32
+Matrix order          = 16777216
+Stencil diameter      = 31
+Sparsity              = 0.000003635883331298828
+Number of iterations  = 101
+Solution validates
+Rate (MFLops/s): 9089.152871665885 Avg time (s): 0.22519374257425742
+Running on 36 Threads
+Jim's bootleg Research Kernels version 0.17
+Rust Sparse matrix-vector multiplication
+Number of threads     =	36
+Matrix order          = 16777216
+Stencil diameter      = 31
+Sparsity              = 0.000003635883331298828
+Number of iterations  = 101
+35: attempted to write out of bounds 1645 times
+Solution validates
+Rate (MFLops/s): 8826.666609965278 Avg time (s): 0.23189052475247524

@@ -1,7 +1,7 @@
 #!/bin/bash --login
 
 # PBS job options (name, compute nodes, job time)
-#PBS -N sparse_100_iter_serial_init
+#PBS -N sparse_100_iter_para_init
 #PBS -l select=36
 #PBS -l walltime=00:30:00
 #PBS -A d167-s1893750
