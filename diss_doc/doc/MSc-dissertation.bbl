@@ -17,11 +17,6 @@ Clippy.
 \newblock
   https://rust-lang.github.io/rust-clippy/master/index.html\#needless\_range\_loop.
 
-\bibitem{RustClippy}
-The Rust~Project Developers.
-\newblock rust-clippy.
-\newblock https://github.com/rust-lang/rust-clippy.
-
 \bibitem{RustNetCDF}
 Michael Hiley.
 \newblock rust-netcdf.
@@ -99,16 +94,31 @@ Deakin~T T, Price J, Martineau M, and McIntosh-Smith S.
 \newblock In {\em Paper presented at P3MA Workshop at ISC High Performance,
   Frankfurt, Germany.}, 2016.
 
+\bibitem{RustClippy}
+The Rust~Language Team.
+\newblock rust-clippy.
+\newblock https://github.com/rust-lang/rust-clippy.
+
 \bibitem{rustunsafe}
 The Rust~Language Team.
 \newblock The rust reference: Behavior not considered unsafe.
 \newblock
   https://doc.rust-lang.org/reference/behavior-not-considered-unsafe.html.
 
+\bibitem{rust-doc-fnmut}
+The Rust~Language Team.
+\newblock Trait std::ops::fnmut.
+\newblock https://doc.rust-lang.org/std/ops/trait.FnMut.html.
+
 \bibitem{ParResSparse}
 Parallel~Research Tools.
 \newblock Kernels/openmp/sparse.
 \newblock https://github.com/ParRes/Kernels/tree/master/OPENMP/Sparse.
+
+\bibitem{SparseBug}
+Jim Walker.
+\newblock Openmp sparse access outside array boundaries.
+\newblock https://github.com/ParRes/Kernels/issues/405.
 
 \bibitem{spMVGPU}
 Xintian Yang, Srinivasan Parthasarathy, and Ponnuswamy Sadayappan.
