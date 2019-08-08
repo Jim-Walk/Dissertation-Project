@@ -113,25 +113,41 @@ The Rust vector of vectors was generated from a single one dimensional vector us
 Next, I would eliminate any bugs found in my serial implementation of the code by comparing outputs between my implementation and the reference implementation. During this process I would also move the code away from its C conventions towards more idiomatic Rust. To achieve more idiomatic Rust, I used the linting tool Clippy~\cite{RustClippy}, which was developed by the Rust team.  Clippy includes a category of lints under  which highlight `code that should be written in a more idiomatic way'~\cite{RustClippy}. I implemented all of Clippy's recommended rewrites, which would often include replacing the use of for loops to access vector variables with calls to the vectors \texttt{iter()} method. This particular replacement could require code to be rewritten in a much more functional style.
 
 For example, all of the array operations in Babel Stream where originally written in a C style, and then transformed to use iterators. Listing~\ref{lst:iters-b}, shows the original, more succinct for of Babel Stream's add operation. This style is rejected by Clippy, which prefers the style presented by listing~\ref{lst:iters-a}.
-\begin{lstlisting}[language=Rust, label=lst:iters-b, caption={Babel Stream Add, before applying idiomatic Rust style}]
+
+\noindent\begin{minipage}{.45\textwidth}
+    \begin{listing}[H]
+    \label{lst:iters-b}
+\begin{minted}{rust}
 for i in 0..self.c.len() as usize {
     self.c[i] = self.b[i] + self.a[i]
 }
-\end{lstlisting}
-Whilst the more idiomatic rust style in listing~\ref{lst:iters-a} is less succinct than~\ref{lst:iters-b}, it does have some benefits which does not posses. For example, if the stream object's c array had been of greater length than its $a$ or $b$ arrays, the more C like implementation would fail at run time with an index out of bounds error, where as the more Rustic code only write to as many elements of $c$ as the least elements there are of any of the arrays it is zipped with.
-%\begin{lstlisting}[language=Rust, label=lst:iters-a, caption={Babel Stream Add, after applying idiomatic Rust style}]
+\end{minted}
+\caption{Babel Stream Add, before applying idiomatic Rust style}
+\end{listing}
+\end{minipage}\hfill
+\begin{minipage}{.45\textwidth}
+    \begin{listing}[H]
+        \label{lst:iters-a}
 \begin{minted}[fontsize=\scriptsize]{rust}
 for ((c, b), a) in self.c.iter_mut()
-                         .zip(self.b.iter())
-                         .zip(self.a.iter()){
+                 .zip(self.b.iter())
+                 .zip(self.a.iter()){
     *c = *b + *a;
 }
 \end{minted}
+\caption{Babel Stream Add, after applying idiomatic Rust style}
+\end{listing}
+\end{minipage}
+
+Whilst the more idiomatic rust style in listing~\ref{lst:iters-a} is less succinct than~\ref{lst:iters-b}, it does have some benefits which does not posses. For example, if the stream object's c array had been of greater length than its $a$ or $b$ arrays, the more C like implementation would fail at run time with an index out of bounds error, where as the more idiomatic code only write to as many elements of $c$ as the least elements there are of any of the arrays it is zipped with.
 Also note in listing~\ref{lst:iters-a} the distinction between the methods \texttt{iter()} and \texttt{iter\_mut()}, the first of which create an iterator, and the second of which creates an iterator which may change its elements. Although an in depth investigation was not carried out to see if the compiler made use of any optimisations here from the greater amount of information available to it, the time to run this fragment did decrease when converted to idiomatic Rust, from 0.09501 seconds to 0.09079 seconds.
 
 A bug in the SpMV implementation made itself apparent when I noticed that when launched with certain parameters, the C version ran without error, whilst the Rust version would panic and fail every time, with the error message:
 
-\texttt{thread `main' panicked at `attempt to shift left with overflow', main.rs:8:13}
+\begin{alltt}
+\scriptsize
+thread `main' panicked at `attempt to shift left with overflow', main.rs:8:13
+\end{alltt}
 
 It became apparent that this was occurring because although I had mirrored the types used by the reference implementation, the behaviour of those types differed. In the reference implementation, radius was of type \texttt{int}, which is a 32-bit integer. I therefore translated this into a \texttt{i32} type in Rust. These values are used as upper limits in an initialisation loop, where intermediate values of the same type are bit-shifted before being stored in the colIndex array. In C, the operation
 
@@ -259,7 +275,7 @@ for (idx, item) in x.iter()
 \label{lst:kmeansserial}
 \caption{Serial K-means}
 \end{listing}
-\end{minipage}
+\end{minipage}\hfill
 \begin{minipage}{.48\textwidth}
 \begin{listing}[H]
 \begin{minted}[fontsize=\scriptsize, frame=single]{rust}
@@ -281,12 +297,42 @@ In Listing~\ref{lst:kmeansserial} I am creating an iterator over \texttt{x}, whi
 \subsection{Optimisation II}
 Once I had parallelised the Rust implementation, I would again debug the program process at this stage could be hard to fix as they could come from original implementations. An interesting example of such a bug is discussed further in this section, from the sparse matrix vector multiplication kernel.
 
-Initialisation is the very verbose - Explain why it's so verbose, process for finding this to be worth doing etc.
-\begin{lstlisting}[language=Rust]
+`poorly written applications (e.g., initializations  performed  at  a  single  processor  before  main  parallel computation  begins)  will  locate  pages  incorrectly based  on  the  first  access  and  cause  several  remote memory accesses later.'~\cite{Bhuyan:2000}
+
+\noindent\begin{minipage}{.48\textwidth}
+\begin{listing}[H]
+\begin{minted}{c}
+#pragma omp parallel for
+for (int i = 0; i < array_size; i++)
+{
+    a[i] = initA;
+    b[i] = initB;
+    c[i] = initC;
+}
+\end{minted}
+\label{lst:kmeansserial}
+\caption{Serial K-means}
+\end{listing}
+\end{minipage}\hfill
+\begin{minipage}{.48\textwidth}
+\begin{listing}[H]
+\begin{minted}{rust}
 vec![0.0; arr_size].par_iter()
-                   .map(|_| T::from(0.2).unwrap())
-                   .collect_into_vec(&mut self.b);
-\end{lstlisting}
+       .map(|_| T::from(0.2).unwrap())
+       .collect_into_vec(&mut self.b);
+\end{minted}
+\label{lst:kmeanspar}
+\caption{Parallel K-means}
+\end{listing}
+\end{minipage}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=.8\linewidth]{figs/babel/dot-init.png}
+    \caption{Babel Stream Memory Bandwidth initilsation comparision}
+    \label{fig:babel-dot-init}
+\end{figure}
+
+As Figure~\ref{fig:babel-dot-init} shows, the use of parallel initilisation greatly improved the memory bandwidth of the Babel Stream. However, the improvement in performance still did not bring it to a parity with the C++ and OMP implementation, for reasons discussed further in section~\ref{sec:res-babel}.\todo{how much detail here about effects of para init, or should I just use a graph only comparing Rust impls}
 
 Talk about finding horrendous parallel init bug in Sparse~\cite{SparseBug}.
 
@@ -294,11 +340,6 @@ No great need for further optimisation with K-means as there was no parallel ini
 
 Once the implementation process had been finished, testing could begin.
 
-\subsubsection{Babel Stream}
-\begin{itemize}
-  \item Realised that Rust's serial init was a bottleneck - Should this go in debug section?
-  \item difficulty in writing para init as not a common use case scenario
-\end{itemize}
 
 \subsubsection{Sparse Matrix}
 \begin{itemize}
@@ -310,4 +351,9 @@ Once the implementation process had been finished, testing could begin.
 \section{Experimentation}
 Experimental set up etc. Roofline stuff makes sense here.
 \section{Questionnaire}
+To further assess the suitability of Rust to HPC, I presented staff and students at Edinburgh's Parallel Computing Centre (EPCC) with a questionnaire. The aim of this questionnaire was to examine how easily people with little to no experience of Rust could understand it. The more understandable a language is, the easier it is to learn, the more likely it is to be adopted~\todo{find a citation to support this?}. This questionnaire would provide valuable data on the usability of Rust as a language.
+
+The Questionnaire was formed of seven multiple choice questions, designed to test the particpant's knowledge of Rust. An eigth question was also given, which asked the particpant how skilled they were at various programming languages.
+To minimise the factors of imposter syndrome~\cite{langford1993} and the Dunning-Kruger effect~\cite{kruger1999}
+
 Motivation for questionnaire, what insight am I looking for, test parameters etc

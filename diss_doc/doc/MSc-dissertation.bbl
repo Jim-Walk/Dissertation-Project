@@ -27,11 +27,24 @@ Steve Klabnik and Carol Nichols.
 \newblock The rust programming language.
 \newblock https://doc.rust-lang.org/book/.
 
+\bibitem{kruger1999}
+Justin Kruger and David Dunning.
+\newblock Unskilled and unaware of it: how difficulties in recognizing one's
+  own incompetence lead to inflated self-assessments.
+\newblock {\em Journal of personality and social psychology}, 77(6):1121, 1999.
+
 \bibitem{Yang2014}
 Yang L, Chiu SC, Thomas MA, and Liao WK.
 \newblock High performance data clustering: A comparative analysis of
   performance for gpu, rasc, mpi, and openmp implementations.
 \newblock {\em The Journal of supercomputing}, 70(1):284--300, 2014.
+
+\bibitem{langford1993}
+Joe Langford and Pauline~Rose Clance.
+\newblock The imposter phenomenon: recent research findings regarding dynamics,
+  personality and family patterns and their implications for treatment.
+\newblock {\em Psychotherapy: Theory, Research, Practice, Training}, 30(3):495,
+  1993.
 
 \bibitem{Liskov:1987}
 Barbara Liskov.
