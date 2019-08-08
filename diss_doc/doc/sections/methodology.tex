@@ -142,7 +142,7 @@ for ((c, b), a) in self.c.iter_mut()
 Whilst the more idiomatic rust style in listing~\ref{lst:iters-a} is less succinct than~\ref{lst:iters-b}, it does have some benefits which does not posses. For example, if the stream object's c array had been of greater length than its $a$ or $b$ arrays, the more C like implementation would fail at run time with an index out of bounds error, where as the more idiomatic code only write to as many elements of $c$ as the least elements there are of any of the arrays it is zipped with.
 Also note in listing~\ref{lst:iters-a} the distinction between the methods \texttt{iter()} and \texttt{iter\_mut()}, the first of which create an iterator, and the second of which creates an iterator which may change its elements. Although an in depth investigation was not carried out to see if the compiler made use of any optimisations here from the greater amount of information available to it, the time to run this fragment did decrease when converted to idiomatic Rust, from 0.09501 seconds to 0.09079 seconds.
 
-A bug in the SpMV implementation made itself apparent when I noticed that when launched with certain parameters, the C version ran without error, whilst the Rust version would panic and fail every time, with the error message:
+A bug in the SpMV implementation was found at this stage. When launched with certain parameters, the C version ran without error, whilst the Rust version would panic and fail every time, with the error message:
 
 \begin{alltt}
 \scriptsize
@@ -346,7 +346,28 @@ The use of map here to generate values for parallel initialisation seems like it
 
 Figure~\ref{fig:babel-dot-init} shows, the use of parallel initialisation greatly improved the memory bandwidth of the Babel Stream. However, the improvement in performance still did not bring it to a parity with the C++ and OMP implementation, for reasons discussed further in section~\ref{sec:res-babel}.\todo{how much detail here about effects of para init, or should I just use a graph only comparing Rust impls}
 
+The initilisation routine for the Sparse Matrix Vector Multiplication kernel was not as easy to implement. The difficulty was that the parallel loop used to write to elements of the vector \texttt{colIndex}, wrote to the vector in chunks of five. This made it very hard to translate into Rust, as Rayon only uses parallel iterators, and has no exact equivelent of parallel for loops.\todo{explain shortcomings of iterators here or in background?} Within an iterator, the programmer may only access the current element of the array, and the next element of the array. This restricted functionality is not expressive enough for the initilisation routine shown in listing~\ref{lst:sparseParaInit}, as we are unable
+
 I filed an issue for this bug on the github repository~\cite{SparseBug}.
+
+\begin{listing}\label{lst:sparseParaInit}
+\begin{minted}{c}
+#pragma omp for private (i,j,r)
+for (row=0; row<size2; row++) {
+j = row/size; i=row%size;
+elm = row*stencil_size;
+colIndex[elm] = REVERSE(LIN(i,j),lsize2);
+    for (r=1; r<=radius; r++, elm+=4) {
+      colIndex[elm+1] = REVERSE(LIN((i+r)%size,j),lsize2);
+      colIndex[elm+2] = REVERSE(LIN((i-r+size)%size,j),lsize2);
+      colIndex[elm+3] = REVERSE(LIN(i,(j+r)%size),lsize2);
+      colIndex[elm+4] = REVERSE(LIN(i,(j-r+size)%size),lsize2);
+    }
+...
+}
+\end{minted}
+\caption{Serial K-means}
+\end{listing}
 
 \begin{figure}[h]
     \centering

@@ -4,14 +4,24 @@
 \usepackage{graphicx}
 \usepackage{alltt}
 \usepackage{listings, listings-rust}
-\lstset{
-  basicstyle=\footnotesize,
-  captionpos=b
-}
-\usepackage{minted}
+\usepackage[titles]{tocloft}
+\newlistof{listing}{lol}{List of Listings}
+\usepackage[newfloat]{minted}
 \usepackage{todonotes}
 \usepackage{tikz}
 \usepackage{float}
+\usepackage{caption}
+
+\newenvironment{code}{\captionsetup{type=listing}}{}
+\SetupFloatingEnvironment{listing}{%
+    name={Listing},
+    fileext=lol}
+\renewcommand{\cftfigpresnum}{Figure~}
+\setlength{\cftfigindent}{0pt}
+\setlength{\cftfignumwidth}{2cm}
+
+\renewcommand{\cftlistingpresnum}{Listing~}
+\setlength{\cftlistingnumwidth}{2cm}
 
 \begin{document}
 \setminted{
