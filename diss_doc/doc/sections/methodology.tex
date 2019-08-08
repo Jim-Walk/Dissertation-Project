@@ -209,7 +209,7 @@ self.a.par_iter()
 \end{minted}
     \caption{Parallel Dot Product}
 \end{listing}
-In this listing, a zero of type T is generated, and the vectors a and b are zipped together, as before. The fold method then takes two arguements, both of which are closures, or annoymous functions. The first closure is used to create the identity value, which is the value which can be used as the initial accumalator value when the zipped vector of \texttt{a} and \texttt{b} is divided between threads. The zipped vector of \texttt{a} and \texttt{b} takes the form
+In this listing, a zero of type T is generated, and the vectors a and b are zipped together, as before. The fold method then takes two arguments, both of which are closures, or anonymous functions. The first closure is used to create the identity value, which is the value which can be used as the initial accumulator value when the zipped vector of \texttt{a} and \texttt{b} is divided between threads. The zipped vector of \texttt{a} and \texttt{b} takes the form
 
 \begin{center}
 $[(a_1, b_1), (a_2, b_2), \ldots, (a_{n-1}, b_{n-1})]$
@@ -226,9 +226,9 @@ Which is reduced to the a single number, through calling sum
 $a_1b_1+a_2b_2+\cdots+a_{n-1}b_{n-1}$
 \end{center}
 
-Retrospectively, it is easy to see the simplicity of this solution, but approaching it from code which despite pleasing Clippy was still quite C made it harder to see exactly how this soloution would work. Although it was hard to use Rayon's fold method, I did not find it to be prohibitevely difficult.
+Retrospectively, it is easy to see the simplicity of this solution, but approaching it from code which despite pleasing Clippy was still quite C made it harder to see exactly how this solution would work. Although it was hard to use Rayon's fold method, I did not find it to be prohibitively difficult.
 
-Most of the methods of Babel Stream were easy to parallise, but this does not necessarily show us the expressiveness of the Rayon library. The parallelised methods were so simple that they were extremely unrespresentative of production HPC code. The Sparse matrix vector multiplication parallelisation was more representative of the type of parallelism which is done in HPC, and was therefore more complex than babel stream. Even so, parallelising the central processing loop of SpMV was trivial.
+Most of the methods of Babel Stream were easy to parallelise, but this does not necessarily show us the expressiveness of the Rayon library. The parallelised methods were so simple that they were extremely unrepresentative of production HPC code. The Sparse matrix vector multiplication parallelisation was more representative of the type of parallelism which is done in HPC, and was therefore more complex than babel stream. Even so, parallelising the central processing loop of SpMV was trivial.
 \noindent\begin{minipage}{.48\textwidth}
 \begin{listing}[H]
 \begin{minted}[fontsize=\scriptsize]{rust}
@@ -257,11 +257,11 @@ result.par_iter_mut()
 \end{listing}
 \end{minipage}
 
-In the parallel version of the Spare Matrix vector multiplication I created a parallel mutable iterator over the result vector, and enumerated it. This allowed me to access the items and the indexes of the vector, which I used without changing the internal logic of the for loop at all. The transferability of this common HPC pattern from C into Rust indicates that Rust is an expressive language for HPC.
+In the parallel version of the Spare Matrix vector multiplication I created a parallel mutable iterator over the result vector, and enumerated it. This allowed me to access the items and the indexes of the vector, which I used without changing the internal logic of the for loop at all. The applicability of this common HPC pattern from C into Rust indicates that Rust is an expressive language for HPC.
 
 The K-means kernel's E-step was harder to parallelise. This difficulty arose from trying to do two, seemingly mutually exclusive things, within the same loop. The code required me to update the values of the array and perform a reduction on another variable external to the loop. I had encountered the difficulty of reducing an external variable before, with Babel Stream's dot product (see Listing~\ref{lst:dot-fold}) before, but was unaware of how to perform this reduction with side effects.
 
-After some experimentation, I found the soloution, a simple \texttt{map()} and then \texttt{sum()}. 
+After some experimentation, I found the solution, a simple \texttt{map()} and then \texttt{sum()}. 
 \begin{minipage}{.48\textwidth}
 \begin{listing}[H]
 \begin{minted}[fontsize=\scriptsize, frame=single]{rust}
@@ -293,13 +293,15 @@ dist_sum_new = labels.par_iter_mut()
 
 In Listing~\ref{lst:kmeansserial} I am creating an iterator over \texttt{x}, which is a vector of the length as the vector \texttt{labels}. I had originally chosen this vector to be the one which created the iterator merely for convenience. I had to change this vector to \texttt{labels} in the parallel implementation however, as it is the items of \texttt{labels} that need to be updated. I then used the index value to retrieve the necessary values from \texttt{x} to calculate the value of \texttt{k\_best}. The value of \texttt{dist\_min} is also calculated for that particular index value. These \texttt{dist\_min} values are left in a map structure, which is reduced by the sum and written to \texttt{dist\_sum\_new}, yielding the same result as the serial implementation. 
 
+\todo{reflection on this use pattern}
+
 
 \subsection{Optimisation II}
-Once I had parallelised the Rust implementations, I carried out another optimisation pass. This optimisiation pass alllowed me to find issues caused by parallism, and make improvements only possible through parallelism. One such improvement was parallel initiliastaion.
+Once I had parallelised the Rust implementations, I carried out another optimisation pass. This optimisation pass allowed me to find issues caused by parallelism, and make improvements only possible through parallelism. One such improvement was parallel initialisation.
 
-Parallel initilisation is an important feature of programs which run on cache coherent non uniform memory address (CC-NUMA) systems. CC-NUMA systems ofton use a first touch allocation policy, which means that the each memory address that is written to, or page, is located near to the processor which first touched it. The 18 core Intel Xeon processors on Cirrus use this particular memory allocation policy, which therefore means that `poorly written applications (e.g., initializations  performed  at  a  single  processor  before  main  parallel computation  begins)  will  locate  pages  incorrectly based  on  the  first  access  and  cause  several  remote memory accesses later'~\cite{Bhuyan:2000}. Without parallel initilisation, the Rust implementation of Babel Stream falls under this definition of a poorly written application. Preliminary testing had also found that the Rust implementation's performance had failed to scale past 8 threads, whilst the C++ implementation's performance continued to increase up to 24 threads. 
+Parallel initialisation is an important feature of programs which run on cache coherent non uniform memory address (CC-NUMA) systems. CC-NUMA systems often use a first touch allocation policy, which means that the each memory address that is written to, or page, is located near to the processor which first touched it. The 18 core Intel Xeon processors on Cirrus use this particular memory allocation policy, which therefore means that `poorly written applications (e.g., initializations  performed  at  a  single  processor  before  main  parallel computation  begins)  will  locate  pages  incorrectly based  on  the  first  access  and  cause  several  remote memory accesses later'~\cite{Bhuyan:2000}. Without parallel initialisation, the Rust implementation of Babel Stream falls under this definition of a poorly written application. Preliminary testing had also found that the Rust implementation's performance had failed to scale past 8 threads, whilst the C++ implementation's performance continued to increase up to 24 threads. 
 
-I had not yet prioritised written parallel initilisation in Rust as there was no clear way to do it. This was largely because in the C++ form of parallel initilisation, allocating the memory to be used and then initilisating that memory are two distinct steps, where as in Rust they are the same step.
+I had not yet prioritised written parallel initialisation in Rust as there was no clear way to do it. This was largely because in the C++ form of parallel initialisation, allocating the memory to be used and then initialising that memory are two distinct steps, where as in Rust they are the same step.
 
 \noindent\begin{minipage}{.48\textwidth}
 \begin{listing}[H]
@@ -330,21 +332,28 @@ vec![0.0; arr_size].par_iter()
 
 Listing~\ref{lst:serialInit} shows how the C++ version of Babel Stream carries out its first touch in parallel, by adding a simple \texttt{\#pragma} statement to the code. This pattern is not reproducible with Rayon, as it doesn't use parallel for loops, but instead uses parallel iterators. The solution was found to be using the map function to collect values into a vector, as shown in listing~\ref{lst:parInit}.
 
-This routine works by using the \texttt{vec!} macro to create a vector of length \texttt{arr\_size}, where every value in the vector is 0.0. This vector is then used to generate a parallel iterator. The parallel iterator performas a map, taking all values from the vector, and generating a corresponding 0.2, of type T. The \texttt{|\_|} notation here means that altough the closure signature requires a value, that value will not be used in the closure's method.
+This routine works by using the \texttt{vec!} macro to create a vector of length \texttt{arr\_size}, where every value in the vector is 0.0. This vector is then used to generate a parallel iterator. The parallel iterator performs a map, taking all values from the vector, and generating a corresponding 0.2, of type T. The \texttt{|\_|} notation here means that although the closure signature requires a value, that value will not be used in the closure's method.
 These values of 0.2 are then collected into the vector held in \texttt{self.b}.
 
-The use of map here to generate values for parallel initilisation seems like it is an unlikely use case scenario, but I discovered how to use it from the rayon documenation on the map method~\cite{rayonMap}.
+The use of map here to generate values for parallel initialisation seems like it is an unlikely use case scenario, but I discovered how to use it from the rayon documentation on the map method~\cite{rayonMap}. Whilst clear documentation always helps a language to become more accepted, this use case was shown to not be as flexible as was needed by all kernels which were ported to Rust, as was found later when attempting to implement parallel initialisation for SpMV.
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=.8\linewidth]{figs/babel/dot-init.png}
-    \caption{Babel Stream Memory Bandwidth initilsation comparision}
+    \caption{Babel Stream Memory Bandwidth initialisation comparison}
     \label{fig:babel-dot-init}
 \end{figure}
-As Figure~\ref{fig:babel-dot-init} shows, the use of parallel initilisation greatly improved the memory bandwidth of the Babel Stream. However, the improvement in performance still did not bring it to a parity with the C++ and OMP implementation, for reasons discussed further in section~\ref{sec:res-babel}.\todo{how much detail here about effects of para init, or should I just use a graph only comparing Rust impls}
 
-Talk about finding horrendous parallel init bug in Sparse~\cite{SparseBug}.
+Figure~\ref{fig:babel-dot-init} shows, the use of parallel initialisation greatly improved the memory bandwidth of the Babel Stream. However, the improvement in performance still did not bring it to a parity with the C++ and OMP implementation, for reasons discussed further in section~\ref{sec:res-babel}.\todo{how much detail here about effects of para init, or should I just use a graph only comparing Rust impls}
 
+I filed an issue for this bug on the github repository~\cite{SparseBug}.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=.8\linewidth]{figs/sparse/speedup.png}
+    \caption{Babel Stream Memory Bandwidth initialisation comparison}
+    \label{fig:sparse-speedup}
+\end{figure}
 No great need for further optimisation with K-means as there was no parallel init.
 
 Once the implementation process had been finished, testing could begin.
@@ -362,7 +371,7 @@ Experimental set up etc. Roofline stuff makes sense here.
 \section{Questionnaire}
 To further assess the suitability of Rust to HPC, I presented staff and students at Edinburgh's Parallel Computing Centre (EPCC) with a questionnaire. The aim of this questionnaire was to examine how easily people with little to no experience of Rust could understand it. The more understandable a language is, the easier it is to learn, the more likely it is to be adopted~\todo{find a citation to support this?}. This questionnaire would provide valuable data on the usability of Rust as a language.
 
-The Questionnaire was formed of seven multiple choice questions, designed to test the particpant's knowledge of Rust. An eigth question was also given, which asked the particpant how skilled they were at various programming languages.
-To minimise the factors of imposter syndrome~\cite{langford1993} and the Dunning-Kruger effect~\cite{kruger1999}
+The Questionnaire was formed of seven multiple choice questions, designed to test the participant's knowledge of Rust. An eighth question was also given, which asked the participant how skilled they were at various programming languages.
+To minimise the factors of impostor syndrome~\cite{langford1993} and the Dunning-Kruger effect~\cite{kruger1999}
 
 Motivation for questionnaire, what insight am I looking for, test parameters etc
