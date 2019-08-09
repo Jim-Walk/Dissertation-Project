@@ -115,19 +115,18 @@ Next, I would eliminate any bugs found in my serial implementation of the code b
 For example, all of the array operations in Babel Stream where originally written in a C style, and then transformed to use iterators. Listing~\ref{lst:iters-b}, shows the original, more succinct for of Babel Stream's add operation. This style is rejected by Clippy, which prefers the style presented by listing~\ref{lst:iters-a}.
 
 \noindent\begin{minipage}{.45\textwidth}
-    \begin{listing}[H]
-    \label{lst:iters-b}
+    \begin{code}
 \begin{minted}{rust}
 for i in 0..self.c.len() as usize {
     self.c[i] = self.b[i] + self.a[i]
 }
 \end{minted}
-\caption{Babel Stream Add, before applying idiomatic Rust style}
-\end{listing}
+\captionof{listing}{Babel Stream Add, before applying idiomatic Rust style}
+    \label{lst:iters-b}
+\end{code}
 \end{minipage}\hfill
 \begin{minipage}{.45\textwidth}
-    \begin{listing}[H]
-        \label{lst:iters-a}
+    \begin{code}
 \begin{minted}[fontsize=\scriptsize]{rust}
 for ((c, b), a) in self.c.iter_mut()
                  .zip(self.b.iter())
@@ -135,8 +134,9 @@ for ((c, b), a) in self.c.iter_mut()
     *c = *b + *a;
 }
 \end{minted}
-\caption{Babel Stream Add, after applying idiomatic Rust style}
-\end{listing}
+\captionof{listing}{Babel Stream Add, after applying idiomatic Rust style}
+\label{lst:iters-a}
+\end{code}
 \end{minipage}
 
 Whilst the more idiomatic rust style in listing~\ref{lst:iters-a} is less succinct than~\ref{lst:iters-b}, it does have some benefits which does not posses. For example, if the stream object's c array had been of greater length than its $a$ or $b$ arrays, the more C like implementation would fail at run time with an index out of bounds error, where as the more idiomatic code only write to as many elements of $c$ as the least elements there are of any of the arrays it is zipped with.
@@ -156,22 +156,29 @@ It became apparent that this was occurring because although I had mirrored the t
 sets $foo$ to 2, when all numbers are 32 bit integers. This occurs because the value 1 overflows and rolls over. In Rust however, this code causes the program to panic and quit~\footnote{The compiler will catch this error before run time if it can calculate the value 1 will be shifted by}. The Rust language does not consider this behaviour to be unsafe, but finds that that the programmer `should' find it `undesirable, unexpected or unsafe'~\cite{rustunsafe}. However, Rust does recognise that some programs do rely upon overflow arithmetic, and provides mechanisms to enable this feature in the language. Fortunately, I was not required to use this feature by instead changing radius from the \texttt{i32} type to \texttt{usize} type, which is 64 bits. This choice was made because the radius values were being cast to \texttt{usize} more often than they were being used as \texttt{i32}. This had the consequence of making the program impossible to bit shift overflow, as a radius of 64 requires a stencil diameter greater than $2^{32}-1$, which would in turn require a colindex array terabytes in size, which the Cirrus hardware does not support.
 
 When this optimisation pass was applied to K-means, it showed the limits of Clippy's linter. Clippy reacted flagged concise for loops with warnings, and suggested overly verbose rewrites of them. For example, one line 110 of the kernel, just before the second part of the maximisation is about to begin, Clippy complains that listing blah has a `needless range loop'.
-\begin{lstlisting}[language=Rust]
+
+\begin{code}
+\begin{minted}{rust}
 for k in 1..clusters_d.len as usize {
-\end{lstlisting}
+\end{minted}
+\captionof{listing}{Needless range loop}
+\end{code}
 Clippy argues this pattern should be avoided, because `iterating the collection itself makes the intent more clear and is probably faster'~\cite{ClippyLoop}. However, its suggested replacement is much longer, and the deeply chained methods take longer to comprehend.
-\begin{lstlisting}[language=Rust]
+\begin{code}
+\begin{minted}{rust}
 for (k, <item>) in old_cluster_centres.iter()
                                        .enumerate()
                                        .take(clusters_d.len as usize)
                                        .skip(1) {
-\end{lstlisting}
+\end{minted}
+\captionof{listing}{Clippy's suggested iterator}
+\end{code}
 It would be difficult to argue that the code suggested by Clippy is idiomatic, as idiomatic code is generally agreed to be code which uses features of the language to achieve conciseness. This code fragment is clearly not concise, and I therefore did not make Clippy's suggested correction.
 \subsection{Parallelisation}
 I would then parallelise the kernel with Rayon~\cite{RustRayon}, at the same loops where the reference implementation uses OpenMP\@. Sometimes this would be a simple matter of replacing the \texttt{iter()} method with \texttt{par\_iter()}, but parallising more complex operations like reductions and initialisation was slightly more difficult.
 
 Parallelising Babel Stream was simple. As listing~\ref{lst:iters-p} shows, Babel Stream's add operation remains largely the same, only that the \texttt{iter()} method has been replaced by the \texttt{par\_iter()} method, and that the method for each has to be called. As the serial version of this loop had no inter loop dependencies, it coud easily be transformed from a for loop to a parallel for each loop.
-\begin{listing}
+\begin{code}
 
 \label{lst:iters-p}
 \begin{minted}[fontsize=\scriptsize]{rust}
@@ -180,12 +187,11 @@ self.c.par_iter_mut()
             .zip(self.a.par_iter())
             .for_each(|((c, b), a)| *c = *a + *b);
 \end{minted}
-\caption{Babel Stream Add, parallelises}
-\end{listing}
+\captionof{listing}{Babel Stream Add, parallelises}
+\end{code}
 
 This pattern was applicable to the copy, multiply, add, and triad methods. The dot method needed more alteration than these methods to be parallelised, as the original, Clippy compliant code was very different to the final code used. The original code in Listing~\ref{lst:dot-for} updates the sum value from within a for loop before returning it.
-\begin{listing}
-    \label{lst:dot-for}
+\begin{code}
 \begin{minted}[fontsize=\scriptsize]{rust}
 let mut sum1: T = T::from(0).unwrap();
 for (a, b) in self.a.iter()
@@ -194,21 +200,22 @@ for (a, b) in self.a.iter()
                     }
 sum1
 \end{minted}
-\caption{Serial Dot Product}
-\end{listing}
-This update pattern does not work with a rayon parallel loop, as threads are not able to write to a shared variable. The Rust compiler gives the error that the closure does not implement \texttt{FnMut}, which is `The version of the call operator that takes a mutable receiver'~\cite{rust-doc-fnmut}. This error demonstrates the utility of Rust's mutable and immutable variables in parallel operations.
+\captionof{listing}{Serial Dot Product}
+\label{lst:dot-for}
+\end{code}
+This update pattern does not work with a rayon parallel loop, as threads are not able to write to a shared variable. The Rust compiler gives the error that the closure does not implement \texttt{FnMut}, which is `The version of the call operator that takes a mutable receiver'~\cite{rust-doc-fnmut}. A mutable receiver in this case refers to a mutable variable which is created, and lives on, outside of the iterator's scope. This error demonstrates the utility of Rust's mutable and immutable variables in parallel operations.
 
 To solve this error, the expression is rewritten using the fold method. It was quite difficult to find how to exactly write this, as the serial fold method has a different call signature to the rayon parallel fold. The final implementation of Babel Stream's fold is shown in Listing~\ref{lst:dot-fold}.
-\begin{listing}
-    \label{lst:dot-fold}
+\begin{code}
 \begin{minted}[fontsize=\scriptsize]{rust}
 let sum1: T = T::from(0).unwrap();
 self.a.par_iter()
     .zip(self.b.par_iter())
     .fold(|| sum1, |acc, it| acc + *it.0 * *it.1).sum()
 \end{minted}
-    \caption{Parallel Dot Product}
-\end{listing}
+\captionof{listing}{Parallel Dot Product}
+\label{lst:dot-fold}
+\end{code}
 In this listing, a zero of type T is generated, and the vectors a and b are zipped together, as before. The fold method then takes two arguments, both of which are closures, or anonymous functions. The first closure is used to create the identity value, which is the value which can be used as the initial accumulator value when the zipped vector of \texttt{a} and \texttt{b} is divided between threads. The zipped vector of \texttt{a} and \texttt{b} takes the form
 
 \begin{center}
@@ -230,7 +237,7 @@ Retrospectively, it is easy to see the simplicity of this solution, but approach
 
 Most of the methods of Babel Stream were easy to parallelise, but this does not necessarily show us the expressiveness of the Rayon library. The parallelised methods were so simple that they were extremely unrepresentative of production HPC code. The Sparse matrix vector multiplication parallelisation was more representative of the type of parallelism which is done in HPC, and was therefore more complex than babel stream. Even so, parallelising the central processing loop of SpMV was trivial.
 \noindent\begin{minipage}{.48\textwidth}
-\begin{listing}[H]
+\begin{code}
 \begin{minted}[fontsize=\scriptsize]{rust}
 for row in 0..size2 as usize {
   let first = stencil_size * row;
@@ -238,11 +245,11 @@ for row in 0..size2 as usize {
   result[row] += temp;
 }
 \end{minted}
-\caption{Serial SpMV}
-\end{listing}
+\captionof{listing}{Serial SpMV}
+\end{code}
 \end{minipage}\hfill
 \begin{minipage}{.48\textwidth}
-\begin{listing}[H]
+\begin{code}
 \begin{minted}[fontsize=\scriptsize]{rust}
 result.par_iter_mut()
       .enumerate()
@@ -253,8 +260,8 @@ result.par_iter_mut()
 }
 \end{minted}
 \label{lst:spmv-par}
-\caption{Parallel SpMV}
-\end{listing}
+\captionof{listing}{Parallel SpMV}
+\end{code}
 \end{minipage}
 
 In the parallel version of the Spare Matrix vector multiplication I created a parallel mutable iterator over the result vector, and enumerated it. This allowed me to access the items and the indexes of the vector, which I used without changing the internal logic of the for loop at all. The applicability of this common HPC pattern from C into Rust indicates that Rust is an expressive language for HPC.
@@ -262,8 +269,9 @@ In the parallel version of the Spare Matrix vector multiplication I created a pa
 The K-means kernel's E-step was harder to parallelise. This difficulty arose from trying to do two, seemingly mutually exclusive things, within the same loop. The code required me to update the values of the array and perform a reduction on another variable external to the loop. I had encountered the difficulty of reducing an external variable before, with Babel Stream's dot product (see Listing~\ref{lst:dot-fold}) before, but was unaware of how to perform this reduction with side effects.
 
 After some experimentation, I found the solution, a simple \texttt{map()} and then \texttt{sum()}. 
+
 \begin{minipage}{.48\textwidth}
-\begin{listing}[H]
+\begin{code}
 \begin{minted}[fontsize=\scriptsize, frame=single]{rust}
 for (idx, item) in x.iter()
                     .enumerate(){
@@ -272,12 +280,12 @@ for (idx, item) in x.iter()
     dist_sum_new += dist_min;
 }
 \end{minted}
+\captionof{listing}{K-means Rust serial E-step}
 \label{lst:kmeansserial}
-\caption{Serial K-means}
-\end{listing}
+\end{code}
 \end{minipage}\hfill
 \begin{minipage}{.48\textwidth}
-\begin{listing}[H]
+\begin{code}
 \begin{minted}[fontsize=\scriptsize, frame=single]{rust}
 dist_sum_new = labels.par_iter_mut()
                 .enumerate()
@@ -286,9 +294,9 @@ dist_sum_new = labels.par_iter_mut()
     dist_min
     }).sum();
 \end{minted}
+\captionof{listing}{K-means Rust parallel E-step}
 \label{lst:kmeanspar}
-\caption{Parallel K-means}
-\end{listing}
+\end{code}
 \end{minipage}
 
 In Listing~\ref{lst:kmeansserial} I am creating an iterator over \texttt{x}, which is a vector of the length as the vector \texttt{labels}. I had originally chosen this vector to be the one which created the iterator merely for convenience. I had to change this vector to \texttt{labels} in the parallel implementation however, as it is the items of \texttt{labels} that need to be updated. I then used the index value to retrieve the necessary values from \texttt{x} to calculate the value of \texttt{k\_best}. The value of \texttt{dist\_min} is also calculated for that particular index value. These \texttt{dist\_min} values are left in a map structure, which is reduced by the sum and written to \texttt{dist\_sum\_new}, yielding the same result as the serial implementation. 
@@ -304,7 +312,7 @@ Parallel initialisation is an important feature of programs which run on cache c
 I had not yet prioritised written parallel initialisation in Rust as there was no clear way to do it. This was largely because in the C++ form of parallel initialisation, allocating the memory to be used and then initialising that memory are two distinct steps, where as in Rust they are the same step.
 
 \noindent\begin{minipage}{.48\textwidth}
-\begin{listing}[H]
+\begin{code}
 \begin{minted}{c}
 #pragma omp parallel for
 for (int i = 0; i < array_size; i++)
@@ -315,19 +323,19 @@ for (int i = 0; i < array_size; i++)
 }
 \end{minted}
 \label{lst:serialInit}
-\caption{Serial K-means}
-\end{listing}
+\captionof{listing}{Babel Stream C parallel initilisation}
+\end{code}
 \end{minipage}\hfill
 \begin{minipage}{.48\textwidth}
-\begin{listing}[H]
+\begin{code}
 \begin{minted}{rust}
 vec![0.0; arr_size].par_iter()
        .map(|_| T::from(0.2).unwrap())
        .collect_into_vec(&mut self.b);
 \end{minted}
 \label{lst:parInit}
-\caption{Parallel K-means}
-\end{listing}
+\captionof{listing}{Babel Stream Rust parallel initilisation}
+\end{code}
 \end{minipage}
 
 Listing~\ref{lst:serialInit} shows how the C++ version of Babel Stream carries out its first touch in parallel, by adding a simple \texttt{\#pragma} statement to the code. This pattern is not reproducible with Rayon, as it doesn't use parallel for loops, but instead uses parallel iterators. The solution was found to be using the map function to collect values into a vector, as shown in listing~\ref{lst:parInit}.
@@ -344,13 +352,14 @@ The use of map here to generate values for parallel initialisation seems like it
     \label{fig:babel-dot-init}
 \end{figure}
 
-Figure~\ref{fig:babel-dot-init} shows, the use of parallel initialisation greatly improved the memory bandwidth of the Babel Stream. However, the improvement in performance still did not bring it to a parity with the C++ and OMP implementation, for reasons discussed further in section~\ref{sec:res-babel}.\todo{how much detail here about effects of para init, or should I just use a graph only comparing Rust impls}
+Figure~\ref{fig:babel-dot-init} shows, the use of parallel initialisation greatly improved the memory bandwidth of the Babel Stream. However, the improvement in performance still did not bring it to a parity with the C++ and OMP implementation, for reasons discussed further in section~\ref{sec:res-babel}.
 
-The initilisation routine for the Sparse Matrix Vector Multiplication kernel was not as easy to implement. The difficulty was that the parallel loop used to write to elements of the vector \texttt{colIndex}, wrote to the vector in chunks of five. This made it very hard to translate into Rust, as Rayon only uses parallel iterators, and has no exact equivelent of parallel for loops.\todo{explain shortcomings of iterators here or in background?} Within an iterator, the programmer may only access the current element of the array, and the next element of the array. This restricted functionality is not expressive enough for the initilisation routine shown in listing~\ref{lst:sparseParaInit}, as we are unable
+The initilisation routine for the Sparse Matrix Vector Multiplication kernel was not as easy to implement. The difficulty was that the parallel loop used to write to elements of the vector \texttt{colIndex}, wrote to the vector in chunks of five. This made it very hard to translate into Rust, as Rayon only uses parallel iterators, and has no exact equivelent of parallel for loops.
 
-I filed an issue for this bug on the github repository~\cite{SparseBug}.
+Within an iterator, the programmer may only access the current element of the array, and the next element of the array. This restricted functionality is not expressive enough for the initilisation routine shown in listing~\ref{lst:sparseParaInit}, as we are unable to step in fours, and we are unable to access the next element of the vector without starting the iterator routine from it's first instruction again.
 
-\begin{listing}\label{lst:sparseParaInit}
+
+\begin{code}
 \begin{minted}{c}
 #pragma omp for private (i,j,r)
 for (row=0; row<size2; row++) {
@@ -366,33 +375,59 @@ colIndex[elm] = REVERSE(LIN(i,j),lsize2);
 ...
 }
 \end{minted}
-\caption{Serial K-means}
-\end{listing}
+\captionof{listing}{SpMV C Parallel Initilisation}
+\label{lst:sparseParaInit}
+\end{code}
+
+Several methods were used in an attempt to solve this problem, including creating an object which would have permanance between iterations. However, this method was unsuccseful as the rayon iterator's did not implement \texttt{FnMut}. This problem was ultimitely solved using Rust's parallel primitives:
+
+\begin{itemize}
+    \item \texttt{Mutex} - Protects shared data through mutual exclusion of locks.
+    \item \texttt{channel} - Used to send data between threads.
+    \item \texttt{Arc} - An atomic reference counter, which provides shared ownership of a value between threads.
+    \item \texttt{thread} - The most basic threading model available in Rust. Platform agnostic.
+\end{itemize}
+
+These primitives were then used to initilise the \texttt{col\_index} array thusly.
+
+\begin{enumerate}
+    \item The main thread creates a vector, and wraps it in a \texttt{Mutex} which is wrapped in an \texttt{Arc}, which is labelled \texttt{col\_index}
+    \item The main thread uses the \texttt{channel} to create a sender and a receiver nodes.
+    \item The main thread enters a loop, where it creates clones of the n threads worth of \texttt{col\_index} constructs and sender nodes, which it then moves into spawned threads. Each thread is given a consecutive thread ID starting from 0.
+    \item Each thread calculates the section of \texttt{col\_index} it will write to from its thread ID and the size of the overall \texttt{col\_index}. This section is called \texttt{my\_col\_index}, and is created as a vector of zeros of the correct length for that thread and filled with zeros, which are then overwritten according to the original algorithm.
+    \item Each thread then attempts to aquire the lock for the shared \texttt{col\_index}, and checks the length of it.
+    \begin{enumerate}
+        \item If the length of \texttt{col\_index} is the same as the lower bound of that thread's section, then the thread appends its \texttt{my\_col\_index} to \texttt{col\_index}, which it then releases the lock for.
+        \item Otherwise, the releases the lock and periodically re-acquires it until \texttt{col\_index} is the right length.
+    \end{enumerate}
+\item Once the last thread has appeneded their \texttt{my\_col\_index} to \texttt{col\_index}, it sends an empty message to the master thread.
+\item The master thread, which has been blocking, receives this message, and joins all the child threads. It then aquires the lock for \texttt{col\_index} and unwraps it, so that it can now be used as a normal vector.
+\end{enumerate}
+
+This whole routine is 62 lines of code, which is more than four times the original 16 lines of code. It was hard to find this solution, as requiring threads to operate in a specific order is not a typical use case scenario. 
+The solution is complex, and brittle. Its verbosity makes it harder to read than the original code, and the need for careful array calculations feels unfaithful to the Rust philosophy of safety.
+
+When implementing this solution, I kept running into array index out of bounds errors, implying that I was trying to write outside the array boundaries. These errors would crash the program. The cause of this issue was traced to the original implementation of the program, in C. I found this error by checking the final index written to by the threads, which was two more than the length of the array, if the program was run with certain input parameters. This error goes unnoticed in the C version of SpMV, because whilst a write overrun of 16 bits can cause a program to crash, on a modern system like Cirrus it is unlikely to. I corrected my program's threads to write only within the boundaries of their vectors, and filed an issue for this bug on the ParRes Kernels' github repository~\cite{SparseBug}.
+
+Despite the negatives of the Rust version of the parallel initilisation, it did not have any bugs. Figure~\ref{fig:sparse-speedup} shows the benefit of implementing parallel initilisation for SpMV, which gives the Rust version better scaling than the C version, although its final speed is still slower than the C version's final speed. This difference will be discussed in more detail in section~\ref{sec:res-sparse}
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=.8\linewidth]{figs/sparse/speedup.png}
-    \caption{Babel Stream Memory Bandwidth initialisation comparison}
+    \caption{SpMV speed up comparison}
     \label{fig:sparse-speedup}
 \end{figure}
-No great need for further optimisation with K-means as there was no parallel init.
 
-Once the implementation process had been finished, testing could begin.
-
-
-\subsubsection{Sparse Matrix}
-\begin{itemize}
-  \item Bit shift overflow causes Rust to crash not just run on, have to be more careful about kernel input parameters. Initially thought this might be a bug. Give example. - Done
-  \item Found init bug, was very difficult to implement para init. Filed bug report with original project
-  \item remember that class you tried to build to increment stuff? m8
-\end{itemize}
+The K-means kernel did not use any parallel initlisation, and therefore did not undergo parallel optimisation.
 
 \section{Experimentation}
-Experimental set up etc. Roofline stuff makes sense here.
+All experiments were run on a single node of Cirrus. No other users had access to that node whilst experiments were being run. Each node on cirrues has 36 cores, spread across two 18 core Intel Xeon processors. Each processor shares a 45MiB L3 cache between its 18 cores, with smaller L1 and L2 caches for each individual core.Each processor belongs to a seperate NUMA region, leading to increased latency when retrievinng data from the other NUMA region~\cite{CirrusHardware}.
+
+To reduce the impact of anamolous runs, both versions of each Kernel were run for 100 iterations, and the average speed was taken. Experiments were submitted to cirrus through the use of Portable Batch Script (PBS) files, which returned program output to timestamped files. A sample PBS submission file can be found in Appendix~\ref{app:launch}.
 \section{Questionnaire}
-To further assess the suitability of Rust to HPC, I presented staff and students at Edinburgh's Parallel Computing Centre (EPCC) with a questionnaire. The aim of this questionnaire was to examine how easily people with little to no experience of Rust could understand it. The more understandable a language is, the easier it is to learn, the more likely it is to be adopted~\todo{find a citation to support this?}. This questionnaire would provide valuable data on the usability of Rust as a language.
+To further assess the suitability of Rust for HPC, I presented staff and students at Edinburgh's Parallel Computing Centre (EPCC) with a questionnaire. The aim of this questionnaire was to examine how easily people with little to no experience of Rust could understand it. The more understandable a language is, the easier it is to learn, the more likely it is to be adopted. This questionnaire would provide valuable data on the usability of Rust as a language.
 
 The Questionnaire was formed of seven multiple choice questions, designed to test the participant's knowledge of Rust. An eighth question was also given, which asked the participant how skilled they were at various programming languages.
 To minimise the factors of impostor syndrome~\cite{langford1993} and the Dunning-Kruger effect~\cite{kruger1999}
 
-Motivation for questionnaire, what insight am I looking for, test parameters etc
+A copy of the questionnaire can be found in Appendix~\ref{app:quest}

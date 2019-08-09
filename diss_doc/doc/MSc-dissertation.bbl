@@ -18,6 +18,11 @@ Shizhao Chen, Jianbin Fang, Donglin Chen, Chuanfu Xu, and Zheng Wang.
   architectures.
 \newblock {\em CoRR}, abs/1805.11938, 2018.
 
+\bibitem{CirrusHardware}
+Cirrus.
+\newblock Cirrus hardware.
+\newblock http://www.cirrus.ac.uk/about/hardware.html.
+
 \bibitem{ClippyLoop}
 Clippy.
 \newblock needless\_range\_loop.

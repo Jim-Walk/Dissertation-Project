@@ -11,6 +11,7 @@
 \usepackage{tikz}
 \usepackage{float}
 \usepackage{caption}
+\usepackage{pdfpages}
 
 \newenvironment{code}{\captionsetup{type=listing}}{}
 \SetupFloatingEnvironment{listing}{%
@@ -21,7 +22,7 @@
 \setlength{\cftfignumwidth}{2cm}
 
 \renewcommand{\cftlistingpresnum}{Listing~}
-\setlength{\cftlistingnumwidth}{2cm}
+\setlength{\cftlistingnumwidth}{2.2cm}
 
 \begin{document}
 \setminted{
@@ -100,11 +101,6 @@ further improvements.}
 \input{sections/results.tex}
 
 
-% in practice you would probably keep this in a separate file and use
-% the \include{filename} command to insert it here.
-
-
-
 \chapter{Conclusions}
 
 This is the place to put your conclusions about your work. You can
@@ -115,13 +111,12 @@ research.
 \appendix
 % the appendix command just changes heading styles for appendices.
 
-\chapter{Stuff which is too detailed}
+\chapter{Questionnaire}\label{app:quest}
+On the next page, I present a replica of the questionnaire used to collect data.
+\includepdf[pages=-, nup=2x2]{../../questionnaire/questionaire.pdf}
 
-Appendices should contain all the material which is considered too
-detailed to be included in the main bod but which is, nevertheless,
-important enough to be included in the thesis.
 
-\chapter{Stuff which no-one will read}
+\chapter{Launch Scripts}\label{app:launch}
 
 Some people include in their thesis a lot of detail, particularly
 computer code, which no-one will ever read. You should be careful that
