@@ -158,6 +158,7 @@ fn main() {
             labels_best[..samples_d.len as usize].clone_from_slice(&labels[..samples_d.len as usize]);
         }
     }
+    println!("x {} x[0] {}, labels {},", x.len(), x[0].len(), labels.len()); 
     let a_timings = t0.elapsed().as_micros() as f64 / 1000.0;
 
     // write data back to files 
