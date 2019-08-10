@@ -32,8 +32,8 @@ where T: Float + AddAssign<T> + num::Signed + DivAssign<T> + std::fmt::Display +
                         .collect_into_vec(&mut self.c);
     }
     pub fn copy(&mut self){
-       self.c.par_chunks_mut(1000)
-            .zip(self.a.par_chunks(1000))
+       self.c.par_chunks_mut(self.chunk_size)
+            .zip(self.a.par_chunks(self.chunk_size))
             .for_each(|(c, a)| c.copy_from_slice(a));
     }
 
