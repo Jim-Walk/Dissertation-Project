@@ -34,6 +34,11 @@ Michael Hiley.
 \newblock rust-netcdf.
 \newblock https://github.com/mhiley/rust-netcdf.
 
+\bibitem{RustClap}
+K.~Kevin and Fey Katherina.
+\newblock clap.
+\newblock https://github.com/clap-rs/clap.
+
 \bibitem{RustBook}
 Steve Klabnik and Carol Nichols.
 \newblock The rust programming language.
