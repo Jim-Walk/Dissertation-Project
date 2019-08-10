@@ -445,9 +445,11 @@ K-means used a population of size 73MB, and 16 clusters. This meant that the par
 \section{Questionnaire}
 To further assess the suitability of Rust for HPC, I presented staff and students at Edinburgh's Parallel Computing Centre (EPCC) with a questionnaire. The aim of this questionnaire was to examine how easily people with little to no experience of Rust could understand it. The more understandable a language is, the easier it is to learn, the more likely it is to be adopted. This questionnaire would provide valuable data on the usability of Rust as a language.
 
-The Questionnaire was formed of seven multiple choice questions, designed to test the participant's knowledge of Rust. 
+The Questionnaire was formed of seven multiple choice questions, designed to test the participant's knowledge of Rust. Each question first preseneted the particpant with a fragment of Rust code, and was then asked what that fragment of code did. On some questions, context specific information was given to the participant, such as on question four, which told the particpant that `A vector’s pop method return an optional value, or none'. The decision to give the participant this extra information was made so that they could deal with certain functionality which was not unique to Rust, but had a particular name which might be different to something they had already encountered in another language. In this case, the idea of the optional value is seen in other languages, like Haskell's maybe type~\cite{HaskellMaybe}.
 
 An eighth question was also given, which asked the participant how skilled they were at various programming languages.
-To minimise the factors of impostor syndrome~\cite{langford1993} and the Dunning-Kruger effect~\cite{kruger1999}
+To minimise the factors of impostor syndrome~\cite{langford1993} and the Dunning-Kruger effect~\cite{kruger1999} on this question, (which were hopefully minimal due to the anonymous nature of the questionnaire), each skill level was given concrete examples of what they corresponded to. For example, basic knowledge was the ability to `write loops, [and] conditionals', whilst advanced knowledge was the ability to `effectively use the more esoteric features of this language'. Unfortunately, self assessment will never be as good as independant assessment, but without the ability to ask for a large amount of time from my participants, it had to suffice.
+
+The questionnaire was left out in the eating area of EPCC at lunch time. Staff and academics were notified of its presence via email at 11:30am and questionnaires were collected at 5pm 
 
 A copy of the questionnaire can be found in Appendix~\ref{app:quest}

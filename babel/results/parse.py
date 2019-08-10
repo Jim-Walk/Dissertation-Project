@@ -48,6 +48,7 @@ if __name__ == '__main__':
         for res in config_res:
             get_Gb(res)
 
+    markers = ["o", "v", "s", "^", "x", "1", "2", "3", "4"]
     functions = ['Copy', 'Mul', 'Add', 'Triad', 'Dot']
     x_axis = [1,2] + list(range(4,37,4))
     i = 0
@@ -57,12 +58,14 @@ if __name__ == '__main__':
         fig, ax = plt.subplots()
         j = 0
         while j < len(all_results):
-            ax.plot(x_axis, all_results[j][i], label=labels[j], marker='.')
+            ax.plot(x_axis, all_results[j][i], label=labels[j],
+                    marker=markers[j])
             j += 1
         ax.plot(x_axis, peak_mem, label='Theoretical Peak', ls='--')
-        ax.set(xlabel='Number of threads', ylabel='Memory Bandwidth (MB/s)',title=functions[i])
+        ax.set(xlabel='Number of threads', ylabel='Memory Bandwidth (MB/s)')
         ax.set_xticks(x_axis)
         ax.set_xticklabels(x_axis)
-        ax.legend()
-        fig.savefig(functions[i] + '.png')
+        lgd = ax.legend(bbox_to_anchor=(1.05, 1),loc=2, borderaxespad=0.)
+        fig.savefig(functions[i] + '.png', bbox_extra_artists=(lgd,),
+                    bbox_inches='tight')
         i += 1

@@ -29,6 +29,11 @@ Clippy.
 \newblock
   https://rust-lang.github.io/rust-clippy/master/index.html\#needless\_range\_loop.
 
+\bibitem{HaskellMaybe}
+Haskell Community.
+\newblock Maybe - haskell wiki.
+\newblock https://wiki.haskell.org/Maybe.
+
 \bibitem{RustNetCDF}
 Michael Hiley.
 \newblock rust-netcdf.
