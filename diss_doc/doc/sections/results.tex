@@ -1,13 +1,24 @@
 \chapter{Results}
 \section{Babel Stream}\label{sec:res-babel}
+Babel stream results show that Rayon is unable to scale as well as OpenMP\@. This is likely because of the CC-Numa layout of the system, and Rayon's affinity schedule. I might include a diagram here to show exactly what I mean. Is it worth getting the legend outside the box? would make things look neater
 \begin{figure}[h]\label{fig:babel-dot}
 \centering
-\includegraphics[width=.8\linewidth]{figs/babel/Dot.png}
+\includegraphics[width=\linewidth]{figs/babel/Dot.png}
 \caption{Babel Stream: Dot product bandwidth}
 \end{figure}
-Babel stream results show that Rayon is unable to scale as well as OpenMP\@. This is likely because of the CC-Numa layout of the system, and Rayon's affinity schedule. I might include a diagram here to show exactly what I mean. Is it worth getting the legend outside the box? would make things look neater
 
 I might generate this figure again but without the 500MB rust run, and include chunkless para init runs instead on add, triad etc
+\begin{figure}[h]\label{fig:babel-add}
+\centering
+\includegraphics[width=\linewidth]{figs/babel/Add.png}
+\caption{Babel Stream: add bandwidth}
+\end{figure}
+
+\begin{figure}[h]\label{fig:babel-Triad}
+\centering
+\includegraphics[width=\linewidth]{figs/babel/Triad.png}
+\caption{Babel Stream: Triad bandwidth}
+\end{figure}
 \section{Sparse Matrix}\label{sec:res-sparse}
 \section{K-means}
 \section{Questionnaire}
