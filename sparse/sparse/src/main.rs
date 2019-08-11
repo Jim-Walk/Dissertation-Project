@@ -1,4 +1,4 @@
-// Port of Babel Stream core functionality
+// Port of Spare Matrix Vector Multiplication core functionality
 // to Rust
 extern crate clap;
 extern crate rayon;

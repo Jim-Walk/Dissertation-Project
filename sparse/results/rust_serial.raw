@@ -7,7 +7,7 @@ Stencil diameter      = 31
 Sparsity              = 0.000003635883331298828
 Number of iterations  = 101
 Solution validates
-Rate (MFLops/s) = 648.8889392386834, Avg time (s): 3.1543461881188115
+Rate (MFLops/s): 648.8889392386834, Avg time (s): 3.1543461881188115
 Running on 2 Threads
 Jim's bootleg Research Kernels version 0.17
 Rust Sparse matrix-vector multiplication
@@ -17,7 +17,7 @@ Stencil diameter      = 31
 Sparsity              = 0.000003635883331298828
 Number of iterations  = 101
 Solution validates
-Rate (MFLops/s) = 1390.5083063572913, Avg time (s): 1.4719943366336634
+Rate (MFLops/s): 1390.5083063572913, Avg time (s): 1.4719943366336634
 Running on 4 Threads
 Jim's bootleg Research Kernels version 0.17
 Rust Sparse matrix-vector multiplication
@@ -27,7 +27,7 @@ Stencil diameter      = 31
 Sparsity              = 0.000003635883331298828
 Number of iterations  = 101
 Solution validates
-Rate (MFLops/s) = 2685.9711475495546, Avg time (s): 0.7620410792079207
+Rate (MFLops/s): 2685.9711475495546, Avg time (s): 0.7620410792079207
 Running on 8 Threads
 Jim's bootleg Research Kernels version 0.17
 Rust Sparse matrix-vector multiplication
@@ -37,7 +37,7 @@ Stencil diameter      = 31
 Sparsity              = 0.000003635883331298828
 Number of iterations  = 101
 Solution validates
-Rate (MFLops/s) = 5041.032853241366, Avg time (s): 0.4060319405940594
+Rate (MFLops/s): 5041.032853241366, Avg time (s): 0.4060319405940594
 Running on 12 Threads
 Jim's bootleg Research Kernels version 0.17
 Rust Sparse matrix-vector multiplication
@@ -47,7 +47,7 @@ Stencil diameter      = 31
 Sparsity              = 0.000003635883331298828
 Number of iterations  = 101
 Solution validates
-Rate (MFLops/s) = 6900.318223222808, Avg time (s): 0.2966269504950495
+Rate (MFLops/s): 6900.318223222808, Avg time (s): 0.2966269504950495
 Running on 16 Threads
 Jim's bootleg Research Kernels version 0.17
 Rust Sparse matrix-vector multiplication
@@ -59,7 +59,7 @@ Number of iterations  = 101
 Vector sizes
  result: 16777216 matrix: 1023410176 vector: 16777216 col_index: 1023410176
 Solution validates
-Rate (MFLops/s) = 7085.959910102106, Avg time (s): 0.2888557623762376
+Rate (MFLops/s): 7085.959910102106, Avg time (s): 0.2888557623762376
 Running on 20 Threads
 Jim's bootleg Research Kernels version 0.17
 Rust Sparse matrix-vector multiplication
@@ -71,7 +71,7 @@ Number of iterations  = 101
 Vector sizes
  result: 16777216 matrix: 1023410176 vector: 16777216 col_index: 1023410176
 Solution validates
-Rate (MFLops/s) = 7373.938081833796, Avg time (s): 0.27757493069306927
+Rate (MFLops/s): 7373.938081833796, Avg time (s): 0.27757493069306927
 Running on 24 Threads
 Jim's bootleg Research Kernels version 0.17
 Rust Sparse matrix-vector multiplication
@@ -83,7 +83,7 @@ Number of iterations  = 101
 Vector sizes
  result: 16777216 matrix: 1023410176 vector: 16777216 col_index: 1023410176
 Solution validates
-Rate (MFLops/s) = 7160.3207054498, Avg time (s): 0.28585596039603955
+Rate (MFLops/s): 7160.3207054498, Avg time (s): 0.28585596039603955
 Running on 28 Threads
 Jim's bootleg Research Kernels version 0.17
 Rust Sparse matrix-vector multiplication
@@ -95,7 +95,7 @@ Number of iterations  = 101
 Vector sizes
  result: 16777216 matrix: 1023410176 vector: 16777216 col_index: 1023410176
 Solution validates
-Rate (MFLops/s) = 6822.770759673014, Avg time (s): 0.299998405940594
+Rate (MFLops/s): 6822.770759673014, Avg time (s): 0.299998405940594
 Running on 32 Threads
 Jim's bootleg Research Kernels version 0.17
 Rust Sparse matrix-vector multiplication
@@ -107,7 +107,7 @@ Number of iterations  = 101
 Vector sizes
  result: 16777216 matrix: 1023410176 vector: 16777216 col_index: 1023410176
 Solution validates
-Rate (MFLops/s) = 6858.125603551901, Avg time (s): 0.2984518613861386
+Rate (MFLops/s): 6858.125603551901, Avg time (s): 0.2984518613861386
 Running on 36 Threads
 Jim's bootleg Research Kernels version 0.17
 Rust Sparse matrix-vector multiplication
@@ -119,4 +119,4 @@ Number of iterations  = 101
 Vector sizes
  result: 16777216 matrix: 1023410176 vector: 16777216 col_index: 1023410176
 Solution validates
-Rate (MFLops/s) = 6748.353838849737, Avg time (s): 0.30330661386138613
+Rate (MFLops/s): 6748.353838849737, Avg time (s): 0.30330661386138613

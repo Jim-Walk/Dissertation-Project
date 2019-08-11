@@ -49,7 +49,7 @@ def abline(slope, intercept):
 def flops_per_byte(res):
     flby = []
     for r in res:
-        flby += [r/8187]
+        flby += [r/128]
     return flby
 
 if __name__ == '__main__':
@@ -61,21 +61,25 @@ if __name__ == '__main__':
         all_results += [parse_file(sys.argv[i])]
         i += 1
 
-    for res in all_results:
-        get_speedup(res)
 
+    markers = ["o", "v", "s", "^", "x", "1", "2", "3", "4"]
     x_axis = [1,2] + list(range(4,37,4))
     j = 0
     fig, ax = plt.subplots()
     while j < len(all_results):
-        my_y = flops_per_byte(all_results[j])
-        ax.plot(my_y, all_results[j], label=labels[j], marker='.')
+        my_x = flops_per_byte(all_results[j])
+        print(labels[j])
+        print('Threads, Flops,\tOperation Intensity')
+        for i in range(len(all_results[j])):
+            print(x_axis[i],'\t', all_results[j][i], my_x[i])
+        ax.plot(my_x,all_results[j],label=labels[j], marker=markers[j])
         j += 1
-    peak_band_x, peak_band_y = abline(135106, 0)
-    ax.plot(peak_band_x, peak_band_y, label="Peak Bandwidth")
+    peak_band_x, peak_band_y = abline(1351, 0)
+    #ax.plot(peak_band_x, peak_band_y, label="Peak Bandwidth")
+    #ax.plot(my_x, [33782 for i in my_x], label="Maximum Flop/s")
     t = 'Sparse Matrix Multiplication - Roofline'
     ax.set(xlabel='Operational Intensity (MFlops/MByte)', ylabel='Attainable MFlop/s',title=t)
-    #ax.set_xticks(x_axis)
-    #ax.set_xticklabels(x_axis)
+    #ax.set_yscale('log')
+    #ax.set_xscale('log')
     ax.legend()
     fig.savefig('roofline.png')
