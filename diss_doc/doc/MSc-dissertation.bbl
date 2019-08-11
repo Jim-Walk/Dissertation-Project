@@ -102,6 +102,11 @@ I~Ordov{\'a}s-Pascual and J~S{\'a}nchez Almeida.
   astronomical applications.
 \newblock {\em Astronomy \& Astrophysics}, 565:A53, 2014.
 
+\bibitem{Ritchie:1993}
+Dennis~M. Ritchie.
+\newblock The development of the {C} language.
+\newblock {\em SIGPLAN Not.}, 28(3):201--208, March 1993.
+
 \bibitem{Sedaghati:2015}
 Naser Sedaghati, Te~Mu, Louis-Noel Pouchet, Srinivasan Parthasarathy, and
   P.~Sadayappan.
@@ -127,6 +132,12 @@ Josh Stone and Niko Matsakis.
 \newblock Trait rayon::iter::paralleliterator.
 \newblock
   https://docs.rs/rayon/1.0.3/rayon/iter/trait.ParallelIterator.html\#method.map.
+
+\bibitem{CplusEssence}
+Bjarne Stroustrup.
+\newblock The essence of {C}++.
+\newblock https://www.youtube.com/watch?v=86xWVb4XIyE, May 2014.
+\newblock Lecture given at the University of Edinburgh.
 
 \bibitem{BabelStream}
 Deakin~T T, Price J, Martineau M, and McIntosh-Smith S.
