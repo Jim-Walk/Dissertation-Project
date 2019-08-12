@@ -84,7 +84,7 @@ Once a candidate kernel is selected, it is implemented in Rust in serial. Any di
 
 Babel Stream was in some ways one of the hardest to Kernels to port to serial Rust. This was partly due to it being the first program which I attempted to port, but also because of Rust's type system and the use of generics. The original C++ implementation of the program uses templates to allow the user to choose to use 32 or 64 bit floating numbers when running the program. To achieve the same thing in Rust, generic types have to be used, which are defined through traits.
 
-I found that using generics in Rust made reading error messages difficult, but easier to parse once the offending code was removed into a smaller example, and stripped of its generic type. Generics in Rust necessitate slightly cumbersome syntax, for example, \texttt{T::from(0).unwrap()} is used to generate a zero of type T. The first part of this expression generates an option type, which in this case is \texttt{Some(0.0)}, and is then unwrapped into simply \texttt{0.0}. Rust does this to allow programmers to deal with cases where a value of type T is impossible to generate from the input value, such as casting a value greater than $2^{32} - 1$ to a signed 32 bit value. In this circumstance, the value returned would be \texttt{None}, which the programmer would then have to deal with. As zero can always be successfully cast to a 32 or 64 bit floating point number, it is safe to simply unwrap the value here, but if it was a number that could not be cast to the type, then the program would crash at this point. A C or C++ program doing the same thing would not crash, but its result would be implementation specific undefined behavior, or throw an exception. \todo{should I discuss the design choices made here, and their implications for Rust in HPC}
+I found that using generics in Rust made reading error messages difficult, but easier to parse once the offending code was removed into a smaller example, and stripped of its generic type. Generics in Rust necessitate slightly cumbersome syntax, for example, \texttt{T::from(0).unwrap()} is used to generate a zero of type T. The first part of this expression generates an option type, which in this case is \texttt{Some(0.0)}, and is then unwrapped into simply \texttt{0.0}. Rust does this to allow programmers to deal with cases where a value of type T is impossible to generate from the input value, such as casting a value greater than $2^{32} - 1$ to a signed 32 bit value. In this circumstance, the value returned would be \texttt{None}, which the programmer would then have to deal with. As zero can always be successfully cast to a 32 or 64 bit floating point number, it is safe to simply unwrap the value here, but if it was a number that could not be cast to the type, then the program would crash at this point. A C or C++ program doing the same thing would not crash, but its result would be implementation specific undefined behaviour, or throw an exception. \todo{should I discuss the design choices made here, and their implications for Rust in HPC}
 
 The Rust implementation of Babel stream, like the reference implementation, creates a stream object which calls certain functions on its own data sets. This was quite easy to implement as Rust has enough features of object oriented programming, such as allowing objects to contain data and behaviour, for these simple objects to work. However, Rust does not implement inheritance, which is considered by some to be a foundational aspect of object oriented programming~\cite{Liskov:1987}, and instead uses trait objects to share behaviours. This design choice did not interfere with any of the simple kernels which were implemented, but would certainly be interesting to translate object inheritance from a larger program, maybe a mini-app, into Rust's trait feature.
 
@@ -154,7 +154,7 @@ A bug in my SpMV implementation was found at this stage. When launched with cert
 thread `main' panicked at `attempt to shift left with overflow', main.rs:8:13
 \end{alltt}
 
-It became apparent that this was occurring because although I had mirrored the types used by the reference implementation, the behaviour of those types differed. In the reference implementation, radius was of type \texttt{int}, which is a 32-bit integer. I therefore translated this into a \texttt{i32} type in Rust. These values are used as upper limits in an initialisation loop, where intermediate values of the same type are bit-shifted before being stored in the colIndex array. In C, the operation shown in the listing~\ref{lst:bit-shift} sets $foo$ to 2, when all numbers are 32 bit integers. 
+It became apparent that this was occurring because although I had mirrored the types used by the reference implementation, the behaviour of those types differed. In the reference implementation, radius was of type \texttt{int}, which is a 32-bit integer. I therefore translated this into a \texttt{i32} type in Rust. These values are used as upper limits in an initialisation loop, where intermediate values of the same type are bit-shifted before being stored in the \texttt{col\_index} array. In C, the operation shown in the listing~\ref{lst:bit-shift} sets $foo$ to 2, when all numbers are 32 bit integers. 
 
 \begin{code}
 \begin{minted}{c}
@@ -164,7 +164,7 @@ int foo = 1 << 33;
 \label{lst:bit-shift}
 \end{code}
 
-This occurs because the value 1 overflows and rolls over. In Rust however, this code causes the program to panic and quit~\footnote{The compiler will catch this error before run time if it can calculate the value 1 will be shifted by}. The Rust language does not consider this behaviour to be unsafe, but finds that that the programmer `should' find it `undesirable, unexpected or unsafe'~\cite{rustunsafe}. However, Rust does recognise that some programs do rely upon overflow arithmetic, and provides mechanisms to enable this feature in the language. Fortunately, I was not required to use this feature after changing radius from the \texttt{i32} type to \texttt{usize} type, which is 64 bits. This choice was made because the radius values were being cast to \texttt{usize} more often than they were being used as \texttt{i32}. This had the consequence of making the program impossible to bit shift overflow, as a radius of 64 requires a stencil diameter greater than $2^{32}-1$, which would in turn require a colindex array terabytes in size, which the Cirrus hardware does not support.
+This occurs because the value 1 overflows and rolls over. In Rust however, this code causes the program to panic and quit~\footnote{The compiler will catch this error before run time if it can calculate the value 1 will be shifted by}. The Rust language does not consider this behaviour to be unsafe, but finds that that the programmer `should' find it `undesirable, unexpected or unsafe'~\cite{rustunsafe}. However, Rust does recognise that some programs do rely upon overflow arithmetic, and provides mechanisms to enable this feature in the language. Fortunately, I was not required to use this feature after changing radius from the \texttt{i32} type to \texttt{usize} type, which is 64 bits. This choice was made because the radius values were being cast to \texttt{usize} more often than they were being used as \texttt{i32}. This had the consequence of making the program impossible to bit shift overflow, as a radius of 64 requires a stencil diameter greater than $2^{32}-1$, which would in turn require a \texttt{col\_index} array terabytes in size, which the Cirrus hardware does not support.
 
 When this optimisation pass was applied to K-means, it showed the limits of Clippy's linter. Clippy flagged concise for loops with warnings, and suggested overly verbose rewrites of them. For example, on line 110 of the kernel, just before the second part of the maximisation is about to begin, Clippy complains that listing~\ref{lst:for-concise} has a `needless range loop'.
 
@@ -187,7 +187,7 @@ for (k, <item>) in old_cluster_centres.iter()
 \end{code}
 It would be difficult to argue that the code suggested by Clippy is idiomatic, as idiomatic code is generally agreed to be code which uses features of the language to achieve conciseness. This code fragment is clearly not concise, and I therefore did not make Clippy's suggested correction.
 \subsection{Parallelisation}
-I then parallelised the kernel with Rayon~\cite{RustRayon}, at the same loops where the reference implementation uses OpenMP\@. Sometimes this would be a simple matter of replacing the \texttt{iter()} method with \texttt{par\_iter()}, but parallising more complex operations like reductions and initialisation was slightly more difficult.
+I then parallelised the kernel with Rayon~\cite{RustRayon}, at the same loops where the reference implementation uses OpenMP\@. Sometimes this would be a simple matter of replacing the \texttt{iter()} method with \texttt{par\_iter()}, but parallelising more complex operations like reductions and initialisation was slightly more difficult.
 
 Parallelising Babel Stream was simple. As listing~\ref{lst:iters-p} shows, Babel Stream's add operation remains largely the same, only that the \texttt{iter()} method has been replaced by the \texttt{par\_iter()} method, and that the method for each has to be called. As the serial version of this loop had no inter loop dependencies, it coud easily be transformed from a for loop to a parallel for each loop.
 \begin{code}
@@ -335,7 +335,7 @@ for (int i = 0; i < array_size; i++)
 }
 \end{minted}
 \label{lst:serialInit}
-\captionof{listing}{Babel Stream C parallel initilisation}
+\captionof{listing}{Babel Stream C parallel initialisation}
 \end{code}
 \end{minipage}\hfill
 \begin{minipage}{.48\textwidth}
@@ -346,7 +346,7 @@ vec![0.0; arr_size].par_iter()
        .collect_into_vec(&mut self.b);
 \end{minted}
 \label{lst:parInit}
-\captionof{listing}{Babel Stream Rust parallel initilisation}
+\captionof{listing}{Babel Stream Rust parallel initialisation}
 \end{code}
 \end{minipage}
 
@@ -366,9 +366,9 @@ The use of map here to generate values for parallel initialisation seems like it
 
 Figure~\ref{fig:babel-dot-init} shows, the use of parallel initialisation greatly improved the memory bandwidth of the Babel Stream. However, the improvement in performance still did not bring it to a parity with the C++ and OMP implementation, for reasons discussed further in section~\ref{sec:res-babel}.
 
-The initilisation routine for the Sparse Matrix Vector Multiplication kernel was not as easy to implement. The difficulty was that the parallel loop used to write to elements of the vector \texttt{colIndex}, wrote to the vector in chunks of five. This made it very hard to translate into Rust, as Rayon only uses parallel iterators, and has no exact equivelent of parallel for loops.
+The initialisation routine for the Sparse Matrix Vector Multiplication kernel was not as easy to implement. The difficulty was that the parallel loop used to write to elements of the vector \texttt{col\_index}, wrote to the vector in chunks of five. This made it very hard to translate into Rust, as Rayon only uses parallel iterators, and has no exact equivalent of parallel for loops.
 
-Within an iterator, the programmer may only access the current element of the array, and the next element of the array. This restricted functionality is not expressive enough for the initilisation routine shown in listing~\ref{lst:sparseParaInit}, as we are unable to step in fours, and we are unable to access the next element of the vector without starting the iterator routine from it's first instruction again.
+Within an iterator, the programmer may only access the current element of the array, and the next element of the array. This restricted functionality is not expressive enough for the initialisation routine shown in listing~\ref{lst:sparseParaInit}, as we are unable to step in fours, and we are unable to access the next element of the vector without starting the iterator routine from it's first instruction again.
 
 
 \begin{code}
@@ -391,7 +391,7 @@ colIndex[elm] = REVERSE(LIN(i,j),lsize2);
 \label{lst:sparseParaInit}
 \end{code}
 
-Several methods were used in an attempt to solve this problem, including creating an object which would have permanance between iterations. However, this method was unsuccseful as the rayon iterator's did not implement \texttt{FnMut}. This problem was ultimitely solved using Rust's parallel primitives:
+Several methods were used in an attempt to solve this problem, including creating an object which would have permanence between iterations. However, this method was unsuccessful as the rayon iterator's did not implement \texttt{FnMut}. This problem was ultimately solved using Rust's parallel primitives:
 
 \begin{itemize}
     \item \texttt{Mutex} - Protects shared data through mutual exclusion of locks.
@@ -400,7 +400,7 @@ Several methods were used in an attempt to solve this problem, including creatin
     \item \texttt{thread} - The most basic threading model available in Rust. Platform agnostic.
 \end{itemize}
 
-These primitives were then used to initilise the \texttt{col\_index} array thusly.
+These primitives were then used to initialise the \texttt{col\_index} array thusly.
 
 \begin{enumerate}
     \item The main thread creates a vector, and wraps it in a \texttt{Mutex} which is wrapped in an \texttt{Arc}, which is labelled \texttt{col\_index}
@@ -412,16 +412,16 @@ These primitives were then used to initilise the \texttt{col\_index} array thusl
         \item If the length of \texttt{col\_index} is the same as the lower bound of that thread's section, then the thread appends its \texttt{my\_col\_index} to \texttt{col\_index}, which it then releases the lock for.
         \item Otherwise, the releases the lock and periodically re-acquires it until \texttt{col\_index} is the right length.
     \end{enumerate}
-\item Once the last thread has appeneded their \texttt{my\_col\_index} to \texttt{col\_index}, it sends an empty message to the master thread.
-\item The master thread, which has been blocking, receives this message, and joins all the child threads. It then aquires the lock for \texttt{col\_index} and unwraps it, so that it can now be used as a normal vector.
+\item Once the last thread has appended their \texttt{my\_col\_index} to \texttt{col\_index}, it sends an empty message to the master thread.
+\item The master thread, which has been blocking, receives this message, and joins all the child threads. It then acquires the lock for \texttt{col\_index} and unwraps it, so that it can now be used as a normal vector.
 \end{enumerate}
 
 This whole routine is 62 lines of code, which is more than four times the original 16 lines of code. It was hard to find this solution, as requiring threads to operate in a specific order is not a typical use case scenario. 
 The solution is complex, and brittle. Its verbosity makes it harder to read than the original code, and the need for careful array calculations feels unfaithful to the Rust philosophy of safety.
 
-When implementing this solution, I kept running into array index out of bounds errors, implying that I was trying to write outside the array boundaries. These errors would crash the program. The cause of this issue was traced to the original implementation of the program, in C. I found this error by checking the final index written to by the threads, which was two more than the length of the array, if the program was run with certain input parameters. This error goes unnoticed in the C version of SpMV, because whilst a write overrun of 16 bits can cause a program to crash, on a modern system like Cirrus it is unlikely to. I corrected my program's threads to write only within the boundaries of their vectors, and filed an issue for this bug on the ParRes Kernels' github repository~\cite{SparseBug}.
+When implementing this solution, I kept running into array index out of bounds errors, implying that I was trying to write outside the array boundaries. These errors would crash the program. The cause of this issue was traced to the original implementation of the program, in C. I found this error by checking the final index written to by the threads, which was two more than the length of the array, if the program was run with certain input parameters. This error goes unnoticed in the C version of SpMV, because whilst a write overrun of 16 bits can cause a program to crash, on a modern system like Cirrus it is unlikely to. I corrected my program's threads to write only within the boundaries of their vectors, and filed an issue for this bug on the ParRes Kernels' GitHub repository~\cite{SparseBug}.
 
-Despite the negatives of the Rust version of the parallel initilisation, it did not have any bugs. Figure~\ref{fig:sparse-speedup} shows the benefit of implementing parallel initilisation for SpMV, which gives the Rust version better scaling than the C version, although its final speed is still slower than the C version's final speed. This difference will be discussed in more detail in section~\ref{sec:res-sparse}
+Despite the negatives of the Rust version of the parallel initialisation, it did not have any bugs. Figure~\ref{fig:sparse-speedup} shows the benefit of implementing parallel initialisation for SpMV, which gives the Rust version better scaling than the C version, although its final speed is still slower than the C version's final speed. This difference will be discussed in more detail in section~\ref{sec:res-sparse}
 
 \begin{figure}[H]
     \centering
@@ -430,26 +430,26 @@ Despite the negatives of the Rust version of the parallel initilisation, it did 
     \label{fig:sparse-speedup}
 \end{figure}
 
-The K-means kernel did not use any parallel initlisation, and therefore did not undergo parallel optimisation.
+The K-means kernel did not use any parallel initialisation, and therefore did not undergo parallel optimisation.
 
 \section{Experimentation}
-All experiments were run on a single node of Cirrus. No other users had access to that node whilst experiments were being run. Each node on cirrues has 36 cores, spread across two 18 core Intel Xeon processors. Each processor shares a 45MiB L3 cache between its 18 cores, with smaller L1 and L2 caches for each individual core.Each processor belongs to a seperate NUMA region, leading to increased latency when retrievinng data from the other NUMA region~\cite{CirrusHardware}.
+All experiments were run on a single node of Cirrus. No other users had access to that node whilst experiments were being run. Each node on Cirrus has 36 cores, spread across two 18 core Intel Xeon processors. Each processor shares a 45MiB L3 cache between its 18 cores, with smaller L1 and L2 caches for each individual core.Each processor belongs to a separate NUMA region, leading to increased latency when retrieving data from the other NUMA region~\cite{CirrusHardware}.
 
-To reduce the impact of anamolous runs, both versions of each Kernel were run for 100 iterations, and the average speed was taken. Experiments were submitted to cirrus through the use of Portable Batch Script (PBS) files, which returned program output to timestamped files. A sample PBS submission file can be found in Appendix~\ref{app:launch}.
+To reduce the impact of anomalous runs, both versions of each Kernel were run for 100 iterations, and the average speed was taken. Experiments were submitted to cirrus through the use of Portable Batch Script (PBS) files, which returned program output to timestamped files. A sample PBS submission file can be found in Appendix~\ref{app:launch}.
 
 Babel Stream's experiments were run on vectors of size of 1GB, leading to a total data size of 3GB. Each vector was filled with $1.25\times10^8$ 64-bit floating point numbers. Experiments were run multiple times with varying chunk sizes. Chunk sizes here refers to the amount of data a thread works on, in a given iteration. Varying chunk size gave greater insight into the inner workings of the Rayon library, and see the cost of context switching for threads.
 
-For the sparse matrix vector multiplication kernel, the vectors \texttt{col\_index} and \texttt{matrix} were given a size of 8.2GB, whilst the \texttt{result} and \texttt{vector} vectors had size 0.134 GB. The generated matrix had sparisty $3.63 \times 10^{-5}$. Such large vector sizes were used to ensure that a large amount of data passed through the system's L3 caches. Chunk size was not varied in this instance to allow for a clearer comparison between Rayon and OpenMP in the roofline model.
+For the sparse matrix vector multiplication kernel, the vectors \texttt{col\_index} and \texttt{matrix} were given a size of 8.2GB, whilst the \texttt{result} and \texttt{vector} vectors had size 0.134 GB. The generated matrix had sparsity $3.63 \times 10^{-5}$. Such large vector sizes were used to ensure that a large amount of data passed through the system's L3 caches. Chunk size was not varied in this instance to allow for a clearer comparison between Rayon and OpenMP in the Roofline model.
 
 K-means used a population of size 73MB, and 16 clusters. This meant that the parallelised E-step of the calculation operated on total of 147MB of data, most of which were 32-bit floats. The rest of the data was 64 bit integers of type \texttt{usize} which were used to refer to array indexes. This size of data set exceeded the L3 cache capacity, but was unable to be raised due to instability in the generating python script.
 \section{Questionnaire}
 To further assess the suitability of Rust for HPC, I presented staff and students at Edinburgh's Parallel Computing Centre (EPCC) with a questionnaire. The aim of this questionnaire was to examine how easily people with little to no experience of Rust could understand it. The more understandable a language is, the easier it is to learn, the more likely it is to be adopted. This questionnaire would provide valuable data on the usability of Rust as a language.
 
-The Questionnaire was formed of seven multiple choice questions, designed to test the participant's knowledge of Rust. Each question first preseneted the particpant with a fragment of Rust code, and was then asked what that fragment of code did. On some questions, context specific information was given to the participant, such as on question four, which told the particpant that `A vector’s pop method return an optional value, or none'. The decision to give the participant this extra information was made so that they could deal with certain functionality which was not unique to Rust, but had a particular name which might be different to something they had already encountered in another language. In this case, the idea of the optional value is seen in other languages, like Haskell's maybe type~\cite{HaskellMaybe}.
+The Questionnaire was formed of seven multiple choice questions, designed to test the participant's knowledge of Rust. Each question first presented the participant with a fragment of Rust code, and was then asked what that fragment of code did. On some questions, context specific information was given to the participant, such as on question four, which told the participant that `A vector’s pop method return an optional value, or none'. The decision to give the participant this extra information was made so that they could deal with certain functionality which was not unique to Rust, but had a particular name which might be different to something they had already encountered in another language. In this case, the idea of the optional value is seen in other languages, like Haskell's maybe type~\cite{HaskellMaybe}.
 
 An eighth question was also given, which asked the participant how skilled they were at various programming languages.
-To minimise the factors of impostor syndrome~\cite{langford1993} and the Dunning-Kruger effect~\cite{kruger1999} on this question, (which were hopefully minimal due to the anonymous nature of the questionnaire), each skill level was given concrete examples of what they corresponded to. For example, basic knowledge was the ability to `write loops, [and] conditionals', whilst advanced knowledge was the ability to `effectively use the more esoteric features of this language'. Unfortunately, self assessment will never be as good as independant assessment, but without the ability to ask for a large amount of time from my participants, it had to suffice.
+To minimise the factors of impostor syndrome~\cite{langford1993} and the Dunning-Kruger effect~\cite{kruger1999} on this question, (which were hopefully minimal due to the anonymous nature of the questionnaire), each skill level was given concrete examples of what they corresponded to. For example, basic knowledge was the ability to `write loops, [and] conditionals', whilst advanced knowledge was the ability to `effectively use the more esoteric features of this language'. Unfortunately, self assessment will never be as good as independent assessment, but without the ability to ask for a large amount of time from my participants, it had to suffice.
 
-The questionnaire was left out in the lunch area at 12am. Staff and academics were notified of its presence via email at 11:30am and questionnaires were collected at 5pm. I watched the first few questionnaires be completed, but did not intervene in the process. I then returned to my desk to make sure I did not effect the data collection by being there. As all the questionnaires were annonymous, and the people answering them all had a limited amount of time and low investment in the results, people cheating on the questionnaire was not considered a risk. 
+The questionnaire was left out in the lunch area at 12am. Staff and academics were notified of its presence via email at 11:30am and questionnaires were collected at 5pm. I watched the first few questionnaires be completed, but did not intervene in the process. I then returned to my desk to make sure I did not effect the data collection by being there. As all the questionnaires were anonymous, and the people answering them all had a limited amount of time and low investment in the results, people cheating on the questionnaire was not considered a risk. 
 
 A full copy of the questionnaire can be found in Appendix~\ref{app:quest}.

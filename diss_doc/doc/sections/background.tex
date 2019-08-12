@@ -4,7 +4,7 @@ High Performance Computing (HPC) is the name commonly given to computation which
 Supercomputers generally have more and faster cores than personal computers. Generally, supercomputers are used for highly numerical scientific programs. The high core count on supercomputers leads to these programs using parallel computing techniques, which share the computation between the processing cores.
 
 The Illiac IV is generally considered to be the first supercomputer with a modern design, in that it was, for its time, massively parallel, with 64 processing cores. It's 
-This division of labour allows bigger problems to be sovled more quickly.
+This division of labour allows bigger problems to be solved more quickly.
 
 \begin{itemize}
     \item What was HPC?
@@ -13,11 +13,11 @@ This division of labour allows bigger problems to be sovled more quickly.
 \end{itemize}
 
 Shared memory parallelism.
-\subsection{Development Enviroment?}
+\subsection{Development Environment?}
 
 \section{C/C++}
-The C programming language was developed in the early 1970s, as a `system implementation language'~\cite{Ritchie:1993}. Its first purpose was to program operating systems and the utilites which were fundamental to their use, like \texttt{cat} and \texttt{rm}. Since that point, the C programming language has always been associated with low level computing. In this case, low level computing means computing which is able to be compiled to very efficient machine code, and gives the programmer fine grained memory management.
-Today, the Linux kernel, which provides the foundation for the operating systems used on the vast majority of the world's supercomputers, is 96\% written in C~\cite{LinuxKernel}. X years later, the C++ language was invented as an extension to C. It also focused on sytem programming~\cite{CplusEssence}.
+The C programming language was developed in the early 1970s, as a `system implementation language'~\cite{Ritchie:1993}. Its first purpose was to program operating systems and the utilities which were fundamental to their use, like \texttt{cat} and \texttt{rm}. Since that point, the C programming language has always been associated with low level computing. In this case, low level computing means computing which is able to be compiled to very efficient machine code, and gives the programmer fine grained memory management.
+Today, the Linux kernel, which provides the foundation for the operating systems used on the vast majority of the world's supercomputers, is 96\% written in C~\cite{LinuxKernel}. X years later, the C++ language was invented as an extension to C. It also focused on system programming~\cite{CplusEssence}.
 
 \begin{itemize}
     \item Brief history of C and C++
@@ -29,7 +29,7 @@ Today, the Linux kernel, which provides the foundation for the operating systems
 \subsection{OpenMP}
 \begin{itemize}
     \item Brief history of  OpenMP
-    \item Some indiciation of OpenMP as a standard
+    \item Some indication of OpenMP as a standard
     \item Example OpenMP program, and evaluation
     \item my level of knowledge
 \end{itemize}
@@ -50,7 +50,7 @@ What's an iterator?
 \section{Kernels}
 By Kernels I mean blah blah. I will use Kernels in a similar way to how Mini-apps have been used in research in the past.
 
-Mini-apps are a well established method of assessing new programming languages or techniques within HPC~\cite{Mallinson:2014, Slaughter:2015, martineau2017arch}. A mini-app is a small program which reproduces some functionality of a common HPC use case. Often, the program will be implemented using one particular technology, and then ported to another technology. The performance of the two mini-apps will then be tested, to see which technology is better suited to the particular problem represented by that mini-app. Such an approach gives quantitative data which provides a strong indication for the performance of a technology in a full implementation of an application. I am going to use Kernels rather than mini-apps because more bredth and less time, more use cases, better indication
+Mini-apps are a well established method of assessing new programming languages or techniques within HPC~\cite{Mallinson:2014, Slaughter:2015, martineau2017arch}. A mini-app is a small program which reproduces some functionality of a common HPC use case. Often, the program will be implemented using one particular technology, and then ported to another technology. The performance of the two mini-apps will then be tested, to see which technology is better suited to the particular problem represented by that mini-app. Such an approach gives quantitative data which provides a strong indication for the performance of a technology in a full implementation of an application. I am going to use Kernels rather than mini-apps because more breadth and less time, more use cases, better indication
 
 This dissertation will follow a similar approach of evaluating a program through the performance of a kernel, using the test data to find any weaknesses in the Rust or original implementation.
 
