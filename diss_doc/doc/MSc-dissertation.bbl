@@ -7,6 +7,11 @@ L.~N. Bhuyan, H.~Wang, and R.~Iyer.
 \newblock {\em IEEE Trans. Parallel Distrib. Syst.}, 11(3):230--246, March
   2000.
 
+\bibitem{OpenMPARB}
+OpenMP Architecture~Review Board.
+\newblock Openmp architecture review board members.
+\newblock https://www.openmp.org/about/members/.
+
 \bibitem{OpenMPSpec}
 OpenMP Architecture~Review Board.
 \newblock Openmp c and c++ application program interface.

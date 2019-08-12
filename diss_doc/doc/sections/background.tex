@@ -61,7 +61,9 @@ Whilst it is possible to write memory safe code with memory safe languages, it i
 As an indication, we can take data from Microsoft, which shows that 70\% of their Common Vulnerbilites and Exposures (CVEs) are caused by memory safety issues~\cite{MicroBugs}. If there is not a similar level of memory safety of bugs in HPC, then HPC programmers must spend a lot of time thinking about memory.
 
 \subsection{OpenMP}
-The first specification for the OpenMP C and C++ application program interface (API) was released in October 1998. Its aim was to "allow users to create and manage parallel programs while permitting portability"\cite{OpenMPSpec}.
+The first specification for the OpenMP (Open Multi-Processing) C and C++ application program interface (API) was released in October 1998. Its aim was to `allow users to create and manage parallel programs while permitting portability'~\cite{OpenMPSpec}. It acts as an extension to the C and C++ language specifications, leaving responsibility for implementing it to compiler writers, just as with C and C++. New specifications of OpenMP are periodically released, and it is now recognised as a cornerstone of HPC, as can be seen from the large number of people who sit on the its Architecture Review Board~\cite{OpenMPARB}.
+
+OpenMP is used in C and C++ programs through \texttt{\#pragma} statements, which are used by the compiler to implement the lower level parallelism necessary.
 \begin{itemize}
     \item Brief history of  OpenMP
     \item Some indication of OpenMP as a standard
