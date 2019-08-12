@@ -16,8 +16,46 @@ Shared memory parallelism.
 \subsection{Development Environment?}
 
 \section{C/C++}
-The C programming language was developed in the early 1970s, as a `system implementation language'~\cite{Ritchie:1993}. Its first purpose was to program operating systems and the utilities which were fundamental to their use, like \texttt{cat} and \texttt{rm}. Since that point, the C programming language has always been associated with low level computing. In this case, low level computing means computing which is able to be compiled to very efficient machine code, and gives the programmer fine grained memory management.
-Today, the Linux kernel, which provides the foundation for the operating systems used on the vast majority of the world's supercomputers, is 96\% written in C~\cite{LinuxKernel}. X years later, the C++ language was invented as an extension to C. It also focused on system programming~\cite{CplusEssence}.
+The C programming language was developed in 1972, as a `system implementation language'~\cite{Ritchie:1993}. Its first purpose was to program operating systems and the utilities which were fundamental to their use, like \texttt{cat} and \texttt{rm}. Since that point, the C programming language has always been associated with low level computing. In this case, low level computing means computing which is able to be compiled to very efficient machine code, and gives the programmer fine grained memory management.
+
+Today, the Linux kernel, which provides the foundation for the operating systems used on the vast majority of the world's supercomputers, is 96\% written in C~\cite{LinuxKernel}. Many of the programs that are run on these supercomputers are written in C~\cite{fftw, ffs, foam}
+
+Despite C's success, only seven years after it was first developed, Bjarne Stroustrup began working on an improved version of C, which was to become C++. In 1985, the first commercial edition of C++ was released~\cite{CPPFAQS}. Two of C++'s most notable extensions to C are the introduction of classses, to allow for object oriented programming, and templates, which allow for generic programming. 
+
+Like C, the design of C++ focused on system programming~\cite{CplusEssence}, and like C, it has become a common language of choice for developing HPC codes~\cite{foam}\todo{more examples here}, a fact which is helped by the close similiarity of the two langauges. Many C programs are valid C++ programs. C and C++ are also considered two of the languages which, when compiled, run fastest.
+
+The speed of C and C++ is one of their most celebrated design features. However, there are other, less positive consequences of the design of these two languages, which require programmers to use them with care. This dissertation is principally concerned with the memory safety issues of C and C++, which can cause programs to crash, or return incorrect data.
+
+Listing~\ref{lst:use-free} demonstrates one of the C and C++'s memory anti patterns, known as use after free. The code is valid C and C++. Use after free occurs when a program attemps to use a section of memory after it has been released back to the operating system.
+The freeing of \texttt{array} here means that the contents of it cannot be gaurenteed when it is printed.
+
+\begin{code}
+\begin{minted}{c}
+#include <stdio.h>
+#include <stdlib.h>
+
+int main(){
+    int* array = (int*) malloc(sizeof(int)*10);
+    for (int i=0; i<10; i++){
+        array[i] = i;
+    }
+    free(array);
+    printf("%d\n", array[1]);
+    return 1;
+}
+\end{minted}
+\captionof{listing}{C and C++: Use after free}
+\label{lst:use-free}
+\end{code}
+
+In larger programs, this can lead to calculations being made using incorrect data, which has been overwritten by the operating system, or another thread from the same program. Other common memory anti patterns in C and C++ are:
+
+\begin{itemize}
+    \item \textbf{Double Free} - Attempting to free memory which has already been freed can lead to undefined behavior.
+    \item \textbf{Dangling Pointers}
+    \item \textbf{Buffer Overrun} - Attempting to access the $n^{th}$ element of an array which is only of length $n$. This can lead to the reading incorrect data, or accidentally trashing other memory within the same program.
+    \item \textbf{Race Conditions}
+\end{itemize}
 
 \begin{itemize}
     \item Brief history of C and C++
