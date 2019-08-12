@@ -20,14 +20,14 @@ The C programming language was developed in 1972, as a `system implementation la
 
 Today, the Linux kernel, which provides the foundation for the operating systems used on the vast majority of the world's supercomputers, is 96\% written in C~\cite{LinuxKernel}. Many of the programs that are run on these supercomputers are written in C~\cite{fftw, ffs, foam}
 
-Despite C's success, only seven years after it was first developed, Bjarne Stroustrup began working on an improved version of C, which was to become C++. In 1985, the first commercial edition of C++ was released~\cite{CPPFAQS}. Two of C++'s most notable extensions to C are the introduction of classses, to allow for object oriented programming, and templates, which allow for generic programming. 
+Despite C's success, only seven years after it was first developed, Bjarne Stroustrup began working on an improved version of C, which was to become C++. In 1985, the first commercial edition of C++ was released~\cite{CPPFAQS}. Two of C++'s most notable extensions to C are the introduction of classes, to allow for object oriented programming, and templates, which allow for generic programming. 
 
-Like C, the design of C++ focused on system programming~\cite{CplusEssence}, and like C, it has become a common language of choice for developing HPC codes~\cite{foam}\todo{more examples here}, a fact which is helped by the close similiarity of the two langauges. Many C programs are valid C++ programs. C and C++ are also considered two of the languages which, when compiled, run fastest.
+Like C, the design of C++ focused on system programming~\cite{CplusEssence}, and like C, it has become a common language of choice for developing HPC codes~\cite{foam}\todo{more examples here}, a fact which is helped by the close similarity of the two languages. Many C programs are valid C++ programs. C and C++ are also considered two of the languages which, when compiled, run fastest.
 
 The speed of C and C++ is one of their most celebrated design features. However, there are other, less positive consequences of the design of these two languages, which require programmers to use them with care. This dissertation is principally concerned with the memory safety issues of C and C++, which can cause programs to crash, or return incorrect data.
 
-Listing~\ref{lst:use-free} demonstrates one of the C and C++'s memory anti patterns, known as use after free. The code is valid C and C++. Use after free occurs when a program attemps to use a section of memory after it has been released back to the operating system.
-The freeing of \texttt{array} here means that the contents of it cannot be gaurenteed when it is printed.
+Listing~\ref{lst:use-free} demonstrates one of the C and C++'s memory anti patterns, known as use after free. The code is valid C and C++. Use after free occurs when a program attempts to use a section of memory after it has been released back to the operating system.
+The freeing of \texttt{array} here means that the contents of it cannot be guaranteed when it is printed.
 
 \begin{code}
 \begin{minted}{c}
@@ -51,20 +51,17 @@ int main(){
 In larger programs, this can lead to calculations being made using incorrect data, which has been overwritten by the operating system, or another thread from the same program. Other common memory anti patterns in C and C++ are:
 
 \begin{itemize}
-    \item \textbf{Double Free} - Attempting to free memory which has already been freed can lead to undefined behavior.
-    \item \textbf{Dangling Pointers}
-    \item \textbf{Buffer Overrun} - Attempting to access the $n^{th}$ element of an array which is only of length $n$. This can lead to the reading incorrect data, or accidentally trashing other memory within the same program.
-    \item \textbf{Race Conditions}
+    \item \textbf{Double Free:} Attempting to free memory which has already been freed can lead to undefined behaviour.
+    \item \textbf{Heap Exhaustion:} The program tries to allocate more memory than the amount available. This can be the result of a memory leak, when data is not always freed after being allocated.
+    \item \textbf{Buffer Overrun:} Attempting to access the $n^{th}$ element of an array which is only of length $n$. This can lead to the reading incorrect data, or accidentally trashing other memory within the same program.
+    \item \textbf{Data Race:} This type of nondeterministic bug occurs when two or more threads need to update a variable, but the outcome of this update depends on the timing of the threads accessing the variable. 
 \end{itemize}
 
-\begin{itemize}
-    \item Brief history of C and C++
-    \item How are they used today (libraries and stuff)
-    \item Problems of C, how C++ tries and fails to fix them
-    \item Compiler choices and why
-    \item my level of knowledge
-\end{itemize}
+Whilst it is possible to write memory safe code with memory safe languages, it is hard to do so. It is impossible to know how exactly many bugs exist in HPC codes,and to know how many of those are caused by memory safety issues.
+As an indication, we can take data from Microsoft, which shows that 70\% of their Common Vulnerbilites and Exposures (CVEs) are caused by memory safety issues~\cite{MicroBugs}. If there is not a similar level of memory safety of bugs in HPC, then HPC programmers must spend a lot of time thinking about memory.
+
 \subsection{OpenMP}
+The first specification for the OpenMP C and C++ application program interface (API) was released in October 1998. Its aim was to "allow users to create and manage parallel programs while permitting portability"\cite{OpenMPSpec}.
 \begin{itemize}
     \item Brief history of  OpenMP
     \item Some indication of OpenMP as a standard

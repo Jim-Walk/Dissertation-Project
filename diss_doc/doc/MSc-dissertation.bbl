@@ -7,6 +7,12 @@ L.~N. Bhuyan, H.~Wang, and R.~Iyer.
 \newblock {\em IEEE Trans. Parallel Distrib. Syst.}, 11(3):230--246, March
   2000.
 
+\bibitem{OpenMPSpec}
+OpenMP Architecture~Review Board.
+\newblock Openmp c and c++ application program interface.
+\newblock https://www.openmp.org/wp-content/uploads/cspec10.pdf, October 1998.
+\newblock Version 1.0.
+
 \bibitem{DBLP:journals/corr/ChakrabortyND14a}
 Sanjay Chakraborty, N.~K. Nagwani, and Lopamudra Dey.
 \newblock Weather forecasting using incremental k-means clustering.
@@ -105,6 +111,13 @@ Matthew Martineau and Simon McIntosh-Smith.
   evaluating programming environments on hpc architectures.
 \newblock In {\em 2017 IEEE International Conference on Cluster Computing
   (CLUSTER)}, pages 850--857. IEEE, 2017.
+
+\bibitem{MicroBugs}
+Matt Miller.
+\newblock Trends, challenges, and strategic shifts in the software
+  vulnerability mitigation landscape.
+\newblock https://www.youtube.com/watch?v=PjbGojjnBZQ, Feburary 2019.
+\newblock Lecture given at Bluehat Conference 2019.
 
 \bibitem{foam}
 OpenFOAM.
