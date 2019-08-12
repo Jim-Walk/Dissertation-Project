@@ -13,7 +13,6 @@ This division of labour allows bigger problems to be solved more quickly.
 \end{itemize}
 
 Shared memory parallelism.
-\subsection{Development Environment?}
 
 \section{C/C++}
 The C programming language was developed in 1972, as a `system implementation language'~\cite{Ritchie:1993}. Its first purpose was to program operating systems and the utilities which were fundamental to their use, like \texttt{cat} and \texttt{rm}. Since that point, the C programming language has always been associated with low level computing. In this case, low level computing means computing which is able to be compiled to very efficient machine code, and gives the programmer fine grained memory management.
@@ -63,15 +62,37 @@ As an indication, we can take data from Microsoft, which shows that 70\% of thei
 \subsection{OpenMP}
 The first specification for the OpenMP (Open Multi-Processing) C and C++ application program interface (API) was released in October 1998. Its aim was to `allow users to create and manage parallel programs while permitting portability'~\cite{OpenMPSpec}. It acts as an extension to the C and C++ language specifications, leaving responsibility for implementing it to compiler writers, just as with C and C++. New specifications of OpenMP are periodically released, and it is now recognised as a cornerstone of HPC, as can be seen from the large number of people who sit on the its Architecture Review Board~\cite{OpenMPARB}.
 
-OpenMP is used in C and C++ programs through \texttt{\#pragma} statements, which are used by the compiler to implement the lower level parallelism necessary.
-\begin{itemize}
-    \item Brief history of  OpenMP
-    \item Some indication of OpenMP as a standard
-    \item Example OpenMP program, and evaluation
-    \item my level of knowledge
-\end{itemize}
+OpenMP's parallelism model is based around shared memory parallelism. This is done to reflect the reality of the multi-core hardware which are used in HPC. Multi-core processors share memory with each other, and each core can access any memory address on that node.  
+
+An example OpenMP program is shown in listing~\ref{lst:omp-eg}. It is valid C and C++. The \texttt{\#pragma} statements, indicates to the compiler where the parallelism needs to be implemented. In this example, we are parallelising the for loop, and setting the number of threads throught the OMP\_NUM\_THREADS environment variable. In this program, the variable \texttt{a} is set to zero, and it is then incremented in the for loop.
+
+\begin{code}
+\begin{minted}{c}
+#include <omp.h>
+#include <stdio.h>
+int main(){
+    int a = 0;
+    #pragma omp parallel for
+    for (int i=0; i<10; i++){
+        a++;
+    }
+    printf("%d\n", a);
+    return 0;
+}
+\end{minted}
+\captionof{listing}{C and C++: OpenMP Example}
+\label{lst:omp-eg}
+\end{code}
+
+However, the output of this program in non-deterministic, as it includes a data race condition. If the main thread completes first, it will print the value of \texttt{a} that currently exists, not wait until all the other threads have completed. 
+
+This race condition leads to different values being printed by the program on different executions. To solve this problem, a \texttt{\#pragma omp barrier} statment must be inserted at the end of the for loop. As with the other memory errors mentioned earlier however, these mistakes are not always found before using a program.
 
 \section{Rust}
+The Rust programming language was started life as a side project by an employee of the Mozilla foundation, before becomming adopted and launched by it in 2011~\cite{FutureTense}. Rust's design was stated to be an `Unapologetic interest in the static, structured, concurrent, large-systems language niche'~\cite{pServo}. This desire to be a systems language is something Rust shares with C and C++.
+
+Rust's initial design ideas diverge from C and C++ in its aims to provide the programmer with better memory safety, through the concepts of ownership and immutability by default.
+
 Who developed it? Why?
 
 mention borrow checker. Which rustc version am I using? rustc 1.34.2. Safe vs unsafe rust

@@ -62,10 +62,10 @@ if __name__ == '__main__':
                     marker=markers[j])
             j += 1
         ax.plot(x_axis, peak_mem, label='Theoretical Peak', ls='--')
-        ax.set(xlabel='Number of threads', ylabel='Memory Bandwidth (MB/s)')
+        ax.set(xlabel='Number of threads', ylabel='Memory Bandwidth (GB/s)')
         ax.set_xticks(x_axis)
         ax.set_xticklabels(x_axis)
-        lgd = ax.legend(bbox_to_anchor=(1.05, 1),loc=2, borderaxespad=0.)
+        lgd = ax.legend(bbox_to_anchor=(1.05, 0.6),loc=2, borderaxespad=0.)
         fig.savefig(functions[i] + '.png', bbox_extra_artists=(lgd,),
                     bbox_inches='tight')
         i += 1

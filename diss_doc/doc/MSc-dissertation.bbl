@@ -45,6 +45,13 @@ Haskell Community.
 \newblock Maybe - haskell wiki.
 \newblock https://wiki.haskell.org/Maybe.
 
+\bibitem{FutureTense}
+Brendan Eich.
+\newblock Future tense.
+\newblock https://www.slideshare.net/BrendanEich/future-tense-7782010, April
+  2011.
+\newblock Lecture given at Mozilla all-hands.
+
 \bibitem{ffs}
 EPCCed.
 \newblock ffs.
@@ -59,6 +66,12 @@ FFTW.
 Michael Hiley.
 \newblock rust-netcdf.
 \newblock https://github.com/mhiley/rust-netcdf.
+
+\bibitem{pServo}
+Graydon Hoare.
+\newblock Project servo.
+\newblock http://venge.net/graydon/talks/intro-talk-2.pdf, July 2010.
+\newblock Lecture given at Mozilla Annual Summit.
 
 \bibitem{RustClap}
 K.~Kevin and Fey Katherina.
