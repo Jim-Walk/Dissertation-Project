@@ -19,7 +19,7 @@ The C programming language was developed in 1972, as a `system implementation la
 
 Today, the Linux kernel, which provides the foundation for the operating systems used on the vast majority of the world's supercomputers, is 96\% written in C~\cite{LinuxKernel}. Many of the programs that are run on these supercomputers are written in C~\cite{fftw, ffs, foam}
 
-Despite C's success, only seven years after it was first developed, Bjarne Stroustrup began working on an improved version of C, which was to become C++. In 1985, the first commercial edition of C++ was released~\cite{CPPFAQS}. Two of C++'s most notable extensions to C are the introduction of classes, to allow for object oriented programming, and templates, which allow for generic programming. C++ also uses a stronger type system than C, which prevents bugs caused by implicit converstion.
+Despite C's success, only seven years after it was first developed, Bjarne Stroustrup began working on an improved version of C, which was to become C++. In 1985, the first commercial edition of C++ was released~\cite{CPPFAQS}. Two of C++'s most notable extensions to C are the introduction of classes, to allow for object oriented programming, and templates, which allow for generic programming. C++ also uses a stronger type system than C, which prevents bugs caused by implicit conversion.
 
 Like C, the design of C++ focused on system programming~\cite{CplusEssence}, and like C, it has become a common language of choice for developing HPC codes~\cite{foam}\todo{more examples here}, a fact which is helped by the close similarity of the two languages. Many C programs are valid C++ programs. C and C++ are also considered two of the languages which, when compiled, run fastest.
 
@@ -53,7 +53,7 @@ In larger programs, this can lead to calculations being made using incorrect dat
     \item \textbf{Double Free:} Attempting to free memory which has already been freed can lead to undefined behaviour.
     \item \textbf{Heap Exhaustion:} The program tries to allocate more memory than the amount available. This can be the result of a memory leak, when data is not always freed after being allocated.
     \item \textbf{Buffer Overrun:} Attempting to access the $n^{th}$ element of an array which is only of length $n$. This can lead to the reading incorrect data, or accidentally trashing other memory within the same program.
-    \item \textbf{Data Race:} This type of nondeterministic bug occurs when two or more threads need to update a variable, but the outcome of this update depends on the timing of the threads accessing the variable. 
+    \item \textbf{Data Race:} This type of non-deterministic bug occurs when two or more threads need to update a variable, but the outcome of this update depends on the timing of the threads accessing the variable. 
 \end{itemize}
 
 Whilst it is possible to write memory safe code with memory safe languages, it is hard to do so. It is impossible to know how exactly many bugs exist in HPC codes,and to know how many of those are caused by memory safety issues.
@@ -65,8 +65,8 @@ The first specification for the OpenMP (Open Multi-Processing) C and C++ applica
 OpenMP's parallelism model is based around shared memory parallelism. This is done to reflect the reality of the multi-core hardware which are used in HPC. Multi-core processors share memory with each other, and each core can access any memory address on that node.  
 
 An example OpenMP program is shown in listing~\ref{lst:omp-eg}. It is valid C and C++. A key feature of OpenMP are its \texttt{\#pragma} statements, which indicate to the compiler where the parallelism needs to be implemented.
-One of OpenMP's core strengths is its succint abstractions to the underlying threading API, irresepctive of the platform it's running on. Here, there \texttt{\#pragma} statement signifies the part of the code to be parallelised, and importantly, does not do so at the cost of obscuring the programs serial intent.
-The example parallelises the for loop, and sets the number of threads throught the OMP\_NUM\_THREADS environment variable. In this program, the variable \texttt{a} is set to zero, and it is then incremented in the for loop.
+One of OpenMP's core strengths is its succinct abstractions to the underlying threading API, irrespective of the platform it's running on. Here, there \texttt{\#pragma} statement signifies the part of the code to be parallelised, and importantly, does not do so at the cost of obscuring the programs serial intent.
+The example parallelises the for loop, and sets the number of threads through the OMP\_NUM\_THREADS environment variable. In this program, the variable \texttt{a} is set to zero, and it is then incremented in the for loop.
 
 \begin{code}
 \begin{minted}{c}
@@ -88,16 +88,16 @@ int main(){
 
 However, the output of this program in non-deterministic, as it includes a data race condition. If the main thread completes first, it will print the value of \texttt{a} that currently exists, not wait until all the other threads have completed. 
 
-This race condition leads to different values being printed by the program on different executions. To solve this problem, a \texttt{\#pragma omp barrier} statment must be inserted at the end of the for loop. As with the other memory errors mentioned earlier however, these mistakes are not always found before using a program.
+This race condition leads to different values being printed by the program on different executions. To solve this problem, a \texttt{\#pragma omp barrier} statement must be inserted at the end of the for loop. As with the other memory errors mentioned earlier however, these mistakes are not always found before using a program.
 
 \section{Rust}
-The Rust programming language was started life as a side project by an employee of the Mozilla foundation, before becomming adopted and launched by it in 2011~\cite{FutureTense}. Rust's design was stated to be an `Unapologetic interest in the static, structured, concurrent, large-systems language niche'~\cite{pServo}. This desire to be a systems language is something Rust shares with C and C++.
+The Rust programming language was started life as a side project by an employee of the Mozilla foundation, before becoming adopted and launched by it in 2011~\cite{FutureTense}. Rust's design was stated to be an `Unapologetic interest in the static, structured, concurrent, large-systems language niche'~\cite{pServo}. This desire to be a systems language is something Rust shares with C and C++.
 
-Rust's initial design ideas diverge from C and C++ in its aims to provide the programmer with better memory safety. Two ideas, immutability and ownership are used to acheive this improvment. 
+Rust's initial design ideas diverge from C and C++ in its aims to provide the programmer with better memory safety. Two ideas, immutability and ownership are used to achieve this improvement. 
 
-Ownership is Rust's best known feature. It `allows Rust to be completely memory-safe'~\cite{NomOwner}, and works by using the compiler's borrow checker to ensure that Rust's ownership model is satisified by a given program before compiling it.
+Ownership is Rust's best known feature. It `allows Rust to be completely memory-safe'~\cite{NomOwner}, and works by using the compiler's borrow checker to ensure that Rust's ownership model is satisfied by a given program before compiling it.
 
-In listing~\ref{lst:rust-free} we present a Rust program that does not satisfy the ownership model, and therefore does not compile. The first line of the main function heap allocates memory to a vector of 10 elements, and gives each element a value of four. This vector is labelled \texttt{vector}. It is created using a macro, which is similar to functions in Rust, execpt that they can take a variable number of arguements, formatted in different ways, like with semi-colons.
+In listing~\ref{lst:rust-free} we present a Rust program that does not satisfy the ownership model, and therefore does not compile. The first line of the main function heap allocates memory to a vector of 10 elements, and gives each element a value of four. This vector is labelled \texttt{vector}. It is created using a macro, which is similar to functions in Rust, except that they can take a variable number of arguments, formatted in different ways, like with semi-colons.
 
 \begin{code}
 \begin{minted}{rust}
@@ -132,7 +132,7 @@ error: aborting due to previous error
 
 This is rust's borrow checker complaining that the program does not follow the ownership model. When the value of \texttt{vector} is dropped, in the Rust ownership model, the ownership of \texttt{vector} is moved into the drop function, and is not returned. When the program later tries to use (borrow) the variable, it is therefore unable to, as Rust only allows for values to have one owner at a time.
 
-Allowing values to only have one owner at a time is worked around by functions borrowing mutable or immutable references to those variables. For example, if a function needs to mutate a vector, it will need to specify that type in it's function arguements, i.e. \texttt{v: \&mut Vec<i32>}, v where v is of the type of a borrowed mutable reference to a vector containing 32 bit integers.
+Allowing values to only have one owner at a time is worked around by functions borrowing mutable or immutable references to those variables. For example, if a function needs to mutate a vector, it will need to specify that type in it's function arguments, i.e. \texttt{v: \&mut Vec<i32>}, v where v is of the type of a borrowed mutable reference to a vector containing 32 bit integers.
 This requirement also highlights how Rust's borrow checker is reinforced by a strong type system, which requires the function parameter to be of a certain type, and immutability by default, which makes it explicit which functions will change values that are passed to them.
 
 Rust also makes the promise that it is free of data races, with certain caveats. Data races are defined as 
@@ -142,11 +142,11 @@ Rust also makes the promise that it is free of data races, with certain caveats.
     \item one of them is unsynchronized'~\cite{NomRace}
 \end{itemize}
 
-and are only absent from safe rust. This does not mean that Rust prevents programmers from creating deadlock situations entierly, only that a certain subsection of data races are prevented, and only in safe Rust. Unsafe Rust exists as another language within Rust, delimited within \texttt{unsafe} blocks. It exists because there a limits to such a safe Rust which do not accurately reflect the underlying hardware on which it runs. However, it is not seen as being the `\textit{true} Rust Programming Language'~\cite{NomSafe}, and therefore this dissertation will only examine safe Rust.
+and are only absent from safe rust. This does not mean that Rust prevents programmers from creating deadlock situations entirely, only that a certain subsection of data races are prevented, and only in safe Rust. Unsafe Rust exists as another language within Rust, delimited within \texttt{unsafe} blocks. It exists because there a limits to such a safe Rust which do not accurately reflect the underlying hardware on which it runs. However, it is not seen as being the `\textit{true} Rust Programming Language'~\cite{NomSafe}, and therefore this dissertation will only examine safe Rust.
 
 Unlike C and C++, Rust comes with a dependency manager, Cargo, which wraps around the Rust compiler. Cargo allows users to specify a programs dependencies, which are automatically downloaded and integrated into that program from external repositories.
 
-Some work has been done to investigate the applicablity of Rust to HPC~\todo{citations here}, but it expertise in the language is still low within the community~\todo{cite maybe?}. As such, I will gain technical support from the Rust community through the official subreddit and community discord channels when I encounter a problem particular to Rust.
+Some work has been done to investigate the applicability of Rust to HPC~\todo{citations here}, but it expertise in the language is still low within the community~\todo{cite maybe?}. As such, I will gain technical support from the Rust community through the official subreddit and community discord channels when I encounter a problem particular to Rust.
 
 \subsection{Rayon}
 Rayon is similar to OpenMP\@.

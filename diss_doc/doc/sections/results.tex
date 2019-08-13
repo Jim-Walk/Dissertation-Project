@@ -11,7 +11,7 @@ However, this difference later widens at 32 threads to 35\% with Rust at 87336 M
 \caption{Babel Stream --- Dot product bandwidth}\label{fig:babel-dot}
 \end{figure}
 
-Whilst the performance difference is not so pronounced for both the add and triad benchmarks, shown in Figure~\ref{fig:babel-add} and~\ref{fig:babel-triad} it is still quite promininent, with a performance difference of \% for add and \% for triad. It is interesting that the dot product is able to attain such a higher level of memory bandwidth. Although a deep investigation into why the dot product attains a higher bandwidth than the add or triad benchmarks, I believe likely due to the hardware's implementation of combined operationl units, like fused multiply adds, as a cursory inspection of the assembly code here did not reveal any sufficent optimisations at that level.
+Whilst the performance difference is not so pronounced for both the add and triad benchmarks, shown in Figure~\ref{fig:babel-add} and~\ref{fig:babel-triad} it is still quite prominent, with a performance difference of \% for add and \% for triad. It is interesting that the dot product is able to attain such a higher level of memory bandwidth. Although a deep investigation into why the dot product attains a higher bandwidth than the add or triad benchmarks, I believe likely due to the hardware's implementation of combined operational units, like fused multiply adds, as a cursory inspection of the assembly code here did not reveal any sufficient optimisations at that level.
 
 \begin{figure}[h]
 \centering
@@ -19,7 +19,7 @@ Whilst the performance difference is not so pronounced for both the add and tria
 \caption{Babel Stream --- Add bandwidth}\label{fig:babel-add}
 \end{figure}
 
-This increasing difference lead me to believe that an examination of assembly code would not be beneficial in this circumstance, as it seemed like the low level, assembly implementation of both of the dot product was not that different. Instead, it seemed like the threading implementation was so different that it was what was causing the problem, which is much easier to understand in its high level expression. I decided to investigate the thread scheduling implemtation.
+This increasing difference lead me to believe that an examination of assembly code would not be beneficial in this circumstance, as it seemed like the low level, assembly implementation of both of the dot product was not that different. Instead, it seemed like the threading implementation was so different that it was what was causing the problem, which is much easier to understand in its high level expression. I decided to investigate the thread scheduling implementation.
 
 \begin{figure}[h]
 \centering
@@ -27,7 +27,7 @@ This increasing difference lead me to believe that an examination of assembly co
 \caption{Babel Stream --- Triad bandwidth}\label{fig:babel-triad}
 \end{figure}
 
-The decision to investigate thread scheduling was made because it was easy to investigate. There was also the possiblity that Rayon's context switching was more costly to perfromance than OpenMPs.
+The decision to investigate thread scheduling was made because it was easy to investigate. There was also the possibility that Rayon's context switching was more costly to performance than OpenMP's.
 \section{Sparse Matrix}\label{sec:res-sparse}
 \section{K-means}
 \section{Questionnaire}
