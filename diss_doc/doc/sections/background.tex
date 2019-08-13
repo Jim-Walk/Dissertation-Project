@@ -64,7 +64,9 @@ The first specification for the OpenMP (Open Multi-Processing) C and C++ applica
 
 OpenMP's parallelism model is based around shared memory parallelism. This is done to reflect the reality of the multi-core hardware which are used in HPC. Multi-core processors share memory with each other, and each core can access any memory address on that node.  
 
-An example OpenMP program is shown in listing~\ref{lst:omp-eg}. It is valid C and C++. The \texttt{\#pragma} statements, indicates to the compiler where the parallelism needs to be implemented. In this example, we are parallelising the for loop, and setting the number of threads throught the OMP\_NUM\_THREADS environment variable. In this program, the variable \texttt{a} is set to zero, and it is then incremented in the for loop.
+An example OpenMP program is shown in listing~\ref{lst:omp-eg}. It is valid C and C++. A key feature of OpenMP are its \texttt{\#pragma} statements, which indicate to the compiler where the parallelism needs to be implemented.
+One of OpenMP's core strengths is its succint abstractions to the underlying threading API, irresepctive of the platform it's running on. Here, there \texttt{\#pragma} statement signifies the part of the code to be parallelised, and importantly, does not do so at the cost of obscuring the programs serial intent.
+The example parallelises the for loop, and sets the number of threads throught the OMP\_NUM\_THREADS environment variable. In this program, the variable \texttt{a} is set to zero, and it is then incremented in the for loop.
 
 \begin{code}
 \begin{minted}{c}
@@ -80,7 +82,7 @@ int main(){
     return 0;
 }
 \end{minted}
-\captionof{listing}{C and C++: OpenMP Example}
+\captionof{listing}{C and C++: OpenMP Race Condition}
 \label{lst:omp-eg}
 \end{code}
 
@@ -91,7 +93,48 @@ This race condition leads to different values being printed by the program on di
 \section{Rust}
 The Rust programming language was started life as a side project by an employee of the Mozilla foundation, before becomming adopted and launched by it in 2011~\cite{FutureTense}. Rust's design was stated to be an `Unapologetic interest in the static, structured, concurrent, large-systems language niche'~\cite{pServo}. This desire to be a systems language is something Rust shares with C and C++.
 
-Rust's initial design ideas diverge from C and C++ in its aims to provide the programmer with better memory safety, through the concepts of ownership and immutability by default.
+Rust's initial design ideas diverge from C and C++ in its aims to provide the programmer with better memory safety. Two ideas, immutability and ownership are used to acheive this improvment. 
+
+Ownership is Rust's best known feature. It `allows Rust to be completely memory-safe'~\cite{NomOwner}, and works by using the compiler's borrow checker to ensure that Rust's ownership model is satisified by a given program before compiling it.
+
+In listing~\ref{lst:rust-free} we present a Rust program that does not satisfy the ownership model, and therefore does not compile. The first line of the main function heap allocates memory to a vector of 10 elements, and gives each element a value of four. This vector is labelled \texttt{vector}. It is created using a macro, which is similar to functions in Rust, execpt that they can take a variable number of arguements, formatted in different ways, like with semi-colons.
+
+\begin{code}
+\begin{minted}{rust}
+fn main(){
+    let vector = vec![4;10];
+    drop(vector);
+    println!("{}", vector[2]);
+}
+\end{minted}
+\captionof{listing}{Rust: Use after free}
+\label{lst:rust-free}
+\end{code}
+
+The \texttt{drop()} function is then called on the vector, which is similar to \texttt{free()}. \texttt{drop()} is automatically called on values when they go out of scope. It is more accurate to think of \texttt{drop()} as something akin to C++'s destructors, but both those and this function do, at their core, release memory back to the operating system. However, attempting to use a variable after it has been dropped is illegal in Rust, resulting in the error message below:
+
+\begin{alltt}
+\scriptsize
+error[E0382]: borrow of moved value: `array`
+ --> src/main.rs:6:20
+  |
+2 |     let vector = vec![4;10];
+  |         ----- move occurs because `array` has type `std::vec::Vec<i32>`,
+  which does not implement the `Copy` trait
+3 |     drop(vector);
+  |          ----- value moved here
+...
+6 |     println!("{}", vector[2]);
+  |                    ^^^^^ value borrowed here after move
+
+error: aborting due to previous error
+\end{alltt}
+
+This is rust's borrow checker complaining that the program does not follow the ownership model. When the value of \texttt{vector} is dropped, in the Rust ownership model, the ownership of \texttt{vector} is moved into the drop function, and is not returned. When the program later tries to use (borrow) the variable, it is therefore unable to, as Rust only allows for values to have one owner at a time.
+
+Allowing values to only have one owner at a time is worked around by functions borrowing mutable or immutable references to those variables. For example, if a function needs to mutate a vector, it will need to specify that type in it's function arguements, i.e. \texttt{v: \&mut Vec<i32>}, v where v is of the type of a borrowed mutable reference to a vector containing 32 bit integers. This requirement also highlights
+
+In Rust, variables are always immutable by default. This means that, unless stated otherwise, a variable will never be updated for its entire lifetime
 
 Who developed it? Why?
 
@@ -103,6 +146,7 @@ Cargo, and Cargo.toml
  
 example program, which does a memory safe thing compared to previous C example.
 \subsection{Rayon}
+Rayon is similar to 
 Talk about the underlying nature of Rayon and its random scheduling. Not official library for easy parallelism but it's used a lot in the book.
 What's an iterator?
 \section{Kernels}
