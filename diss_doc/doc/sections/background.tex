@@ -19,7 +19,7 @@ The C programming language was developed in 1972, as a `system implementation la
 
 Today, the Linux kernel, which provides the foundation for the operating systems used on the vast majority of the world's supercomputers, is 96\% written in C~\cite{LinuxKernel}. Many of the programs that are run on these supercomputers are written in C~\cite{fftw, ffs, foam}
 
-Despite C's success, only seven years after it was first developed, Bjarne Stroustrup began working on an improved version of C, which was to become C++. In 1985, the first commercial edition of C++ was released~\cite{CPPFAQS}. Two of C++'s most notable extensions to C are the introduction of classes, to allow for object oriented programming, and templates, which allow for generic programming. 
+Despite C's success, only seven years after it was first developed, Bjarne Stroustrup began working on an improved version of C, which was to become C++. In 1985, the first commercial edition of C++ was released~\cite{CPPFAQS}. Two of C++'s most notable extensions to C are the introduction of classes, to allow for object oriented programming, and templates, which allow for generic programming. C++ also uses a stronger type system than C, which prevents bugs caused by implicit converstion.
 
 Like C, the design of C++ focused on system programming~\cite{CplusEssence}, and like C, it has become a common language of choice for developing HPC codes~\cite{foam}\todo{more examples here}, a fact which is helped by the close similarity of the two languages. Many C programs are valid C++ programs. C and C++ are also considered two of the languages which, when compiled, run fastest.
 
@@ -82,7 +82,7 @@ int main(){
     return 0;
 }
 \end{minted}
-\captionof{listing}{C and C++: OpenMP Race Condition}
+\captionof{listing}{C and C++: OpenMP Data Race}
 \label{lst:omp-eg}
 \end{code}
 
@@ -132,21 +132,25 @@ error: aborting due to previous error
 
 This is rust's borrow checker complaining that the program does not follow the ownership model. When the value of \texttt{vector} is dropped, in the Rust ownership model, the ownership of \texttt{vector} is moved into the drop function, and is not returned. When the program later tries to use (borrow) the variable, it is therefore unable to, as Rust only allows for values to have one owner at a time.
 
-Allowing values to only have one owner at a time is worked around by functions borrowing mutable or immutable references to those variables. For example, if a function needs to mutate a vector, it will need to specify that type in it's function arguements, i.e. \texttt{v: \&mut Vec<i32>}, v where v is of the type of a borrowed mutable reference to a vector containing 32 bit integers. This requirement also highlights
+Allowing values to only have one owner at a time is worked around by functions borrowing mutable or immutable references to those variables. For example, if a function needs to mutate a vector, it will need to specify that type in it's function arguements, i.e. \texttt{v: \&mut Vec<i32>}, v where v is of the type of a borrowed mutable reference to a vector containing 32 bit integers.
+This requirement also highlights how Rust's borrow checker is reinforced by a strong type system, which requires the function parameter to be of a certain type, and immutability by default, which makes it explicit which functions will change values that are passed to them.
 
-In Rust, variables are always immutable by default. This means that, unless stated otherwise, a variable will never be updated for its entire lifetime
+Rust also makes the promise that it is free of data races, with certain caveats. Data races are defined as 
+\begin{itemize}
+    \item `two or more threads concurrently accessing a location of memory
+    \item one of them is a write
+    \item one of them is unsynchronized'~\cite{NomRace}
+\end{itemize}
 
-Who developed it? Why?
+and are only absent from safe rust. This does not mean that Rust prevents programmers from creating deadlock situations entierly, only that a certain subsection of data races are prevented, and only in safe Rust. Unsafe Rust exists as another language within Rust, delimited within \texttt{unsafe} blocks. It exists because there a limits to such a safe Rust which do not accurately reflect the underlying hardware on which it runs. However, it is not seen as being the `\textit{true} Rust Programming Language'~\cite{NomSafe}, and therefore this dissertation will only examine safe Rust.
 
-mention borrow checker. Which rustc version am I using? rustc 1.34.2. Safe vs unsafe rust
-What's a macro?
-How do I get support for Rust?
+Unlike C and C++, Rust comes with a dependency manager, Cargo, which wraps around the Rust compiler. Cargo allows users to specify a programs dependencies, which are automatically downloaded and integrated into that program from external repositories.
 
-Cargo, and Cargo.toml
- 
-example program, which does a memory safe thing compared to previous C example.
+Some work has been done to investigate the applicablity of Rust to HPC~\todo{citations here}, but it expertise in the language is still low within the community~\todo{cite maybe?}. As such, I will gain technical support from the Rust community through the official subreddit and community discord channels when I encounter a problem particular to Rust.
+
 \subsection{Rayon}
-Rayon is similar to 
+Rayon is similar to OpenMP\@.
+
 Talk about the underlying nature of Rayon and its random scheduling. Not official library for easy parallelism but it's used a lot in the book.
 What's an iterator?
 \section{Kernels}

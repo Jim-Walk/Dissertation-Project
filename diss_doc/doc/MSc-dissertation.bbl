@@ -2,8 +2,8 @@
 
 \bibitem{Bhuyan:2000}
 L.~N. Bhuyan, H.~Wang, and R.~Iyer.
-\newblock Impact of cc-numa memory management policies on the application
-  performance of multistage switching networks.
+\newblock {Impact of CC-NUMA Memory Management Policies on the Application
+  Performance of Multistage Switching Networks}.
 \newblock {\em IEEE Trans. Parallel Distrib. Syst.}, 11(3):230--246, March
   2000.
 
@@ -14,19 +14,19 @@ OpenMP Architecture~Review Board.
 
 \bibitem{OpenMPSpec}
 OpenMP Architecture~Review Board.
-\newblock Openmp c and c++ application program interface.
+\newblock {OpenMP C and C++ Application Program Interface}.
 \newblock https://www.openmp.org/wp-content/uploads/cspec10.pdf, October 1998.
 \newblock Version 1.0.
 
 \bibitem{DBLP:journals/corr/ChakrabortyND14a}
 Sanjay Chakraborty, N.~K. Nagwani, and Lopamudra Dey.
-\newblock Weather forecasting using incremental k-means clustering.
+\newblock "weather forecasting using incremental k-means clustering".
 \newblock {\em CoRR}, abs/1406.4756, 2014.
 
 \bibitem{DBLP:journals}
 Shizhao Chen, Jianbin Fang, Donglin Chen, Chuanfu Xu, and Zheng Wang.
-\newblock Optimizing sparse matrix-vector multiplication on emerging many-core
-  architectures.
+\newblock {Optimizing Sparse Matrix-Vector Multiplication on Emerging Many-Core
+  Architectures}.
 \newblock {\em CoRR}, abs/1805.11938, 2018.
 
 \bibitem{CirrusHardware}
@@ -91,8 +91,8 @@ Justin Kruger and David Dunning.
 
 \bibitem{Yang2014}
 Yang L, Chiu SC, Thomas MA, and Liao WK.
-\newblock High performance data clustering: A comparative analysis of
-  performance for gpu, rasc, mpi, and openmp implementations.
+\newblock {High Performance Data Clustering: A Comparative Analysis of
+  Performance for GPU, RASC, MPI, and OpenMP Implementations}.
 \newblock {\em The Journal of supercomputing}, 70(1):284--300, 2014.
 
 \bibitem{langford1993}
@@ -132,8 +132,8 @@ Matthew Martineau and Simon McIntosh-Smith.
 
 \bibitem{MicroBugs}
 Matt Miller.
-\newblock Trends, challenges, and strategic shifts in the software
-  vulnerability mitigation landscape.
+\newblock {Trends, Challenges, and Strategic Shifts in the Software
+  Vulnerability Mitigation Landscape}.
 \newblock https://www.youtube.com/watch?v=PjbGojjnBZQ, Feburary 2019.
 \newblock Lecture given at Bluehat Conference 2019.
 
@@ -156,7 +156,7 @@ Dennis~M. Ritchie.
 \bibitem{Sedaghati:2015}
 Naser Sedaghati, Te~Mu, Louis-Noel Pouchet, Srinivasan Parthasarathy, and
   P.~Sadayappan.
-\newblock Automatic selection of sparse matrix representation on gpus.
+\newblock {Automatic Selection of Sparse Matrix Representation on GPUs}.
 \newblock In {\em Proceedings of the 29th ACM on International Conference on
   Supercomputing}, ICS '15, pages 99--108, New York, NY, USA, 2015. ACM.
 
@@ -192,8 +192,8 @@ Bjarne Stroustrup.
 
 \bibitem{BabelStream}
 Deakin~T T, Price J, Martineau M, and McIntosh-Smith S.
-\newblock Gpu-stream v2.0: Benchmarking the achievable memory bandwidth of
-  many-core processors across diverse parallel programming models.
+\newblock {GPU-STREAM v2.0: Benchmarking the achievable memory bandwidth of
+  many-core processors across diverse parallel programming models}.
 \newblock In {\em Paper presented at P3MA Workshop at ISC High Performance,
   Frankfurt, Germany.}, 2016.
 
@@ -208,9 +208,19 @@ The Rust~Language Team.
 \newblock
   https://doc.rust-lang.org/reference/behavior-not-considered-unsafe.html.
 
+\bibitem{NomRace}
+The Rust~Language Team.
+\newblock {The Rustonomicon - Data Races and Race Conditions}.
+\newblock https://doc.rust-lang.org/nomicon/races.html.
+
+\bibitem{NomSafe}
+The Rust~Language Team.
+\newblock {The Rustonomicon - Meet Safe and Unsafe}.
+\newblock https://doc.rust-lang.org/nomicon/meet-safe-and-unsafe.html.
+
 \bibitem{NomOwner}
 The Rust~Language Team.
-\newblock The rustonomicon - ownership.
+\newblock {The Rustonomicon - Ownership}.
 \newblock https://doc.rust-lang.org/nomicon/ownership.html.
 
 \bibitem{rust-doc-fnmut}
@@ -230,7 +240,7 @@ Linus Torvalds.
 
 \bibitem{SparseBug}
 Jim Walker.
-\newblock Openmp sparse access outside array boundaries.
+\newblock {OpenMP Sparse access outside array boundaries}.
 \newblock https://github.com/ParRes/Kernels/issues/405.
 
 \bibitem{spMVGPU}
