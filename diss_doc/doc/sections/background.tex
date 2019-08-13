@@ -144,12 +144,12 @@ Rust also makes the promise that it is free of data races, with certain caveats.
 
 and are only absent from safe rust. This does not mean that Rust prevents programmers from creating deadlock situations entirely, only that a certain subsection of data races are prevented, and only in safe Rust. Unsafe Rust exists as another language within Rust, delimited within \texttt{unsafe} blocks. It exists because there a limits to such a safe Rust which do not accurately reflect the underlying hardware on which it runs. However, it is not seen as being the `\textit{true} Rust Programming Language'~\cite{NomSafe}, and therefore this dissertation will only examine safe Rust.
 
-Unlike C and C++, Rust comes with a dependency manager, Cargo, which wraps around the Rust compiler. Cargo allows users to specify a programs dependencies, which are automatically downloaded and integrated into that program from external repositories.
+Unlike C and C++, Rust comes with a dependency manager, Cargo, which wraps around the Rust compiler. Cargo allows users to specify a programs dependencies, which are automatically downloaded and integrated into that program from external repositories. In Rust, these dependencies are called crates. In this dissertation, I make extensive use of the Rayon crate, as explained in section~\ref{sec:back-rayon}.
 
 Some work has been done to investigate the applicability of Rust to HPC~\todo{citations here}, but it expertise in the language is still low within the community~\todo{cite maybe?}. As such, I will gain technical support from the Rust community through the official subreddit and community discord channels when I encounter a problem particular to Rust.
 
-\subsection{Rayon}
-Rayon is similar to OpenMP\@.
+\subsection{Rayon}\label{sec:back-rayon}
+Rayon is the one of the most popular crates for parallelism in Rust, and features heavily in the Rust cookbook~\todo{cite}. In a fashion similar to OpenMP, it abstracts complicated underlying threading technologies. Unlike OpenMP, Rayon only concentrates on parallel iterators. It also promises data race freedom.
 
 Talk about the underlying nature of Rayon and its random scheduling. Not official library for easy parallelism but it's used a lot in the book.
 What's an iterator?
