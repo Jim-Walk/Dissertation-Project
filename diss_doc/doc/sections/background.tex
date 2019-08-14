@@ -57,7 +57,7 @@ In larger programs, this can lead to calculations being made using incorrect dat
 \end{itemize}
 
 Whilst it is possible to write memory safe code with memory safe languages, it is hard to do so. It is impossible to know how exactly many bugs exist in HPC codes,and to know how many of those are caused by memory safety issues.
-As an indication, we can take data from Microsoft, which shows that 70\% of their Common Vulnerbilites and Exposures (CVEs) are caused by memory safety issues~\cite{MicroBugs}. If there is not a similar level of memory safety of bugs in HPC, then HPC programmers must spend a lot of time thinking about memory.
+As an indication, we can take data from Microsoft, which shows that 70\% of their Common Vulnerabilities and Exposures (CVEs) are caused by memory safety issues~\cite{MicroBugs}. If there is not a similar level of memory safety of bugs in HPC, then HPC programmers must spend a lot of time thinking about memory.
 
 \subsection{OpenMP}
 The first specification for the OpenMP (Open Multi-Processing) C and C++ application program interface (API) was released in October 1998. Its aim was to `allow users to create and manage parallel programs while permitting portability'~\cite{OpenMPSpec}. It acts as an extension to the C and C++ language specifications, leaving responsibility for implementing it to compiler writers, just as with C and C++. New specifications of OpenMP are periodically released, and it is now recognised as a cornerstone of HPC, as can be seen from the large number of people who sit on the its Architecture Review Board~\cite{OpenMPARB}.
@@ -91,9 +91,9 @@ However, the output of this program in non-deterministic, as it includes a data 
 This race condition leads to different values being printed by the program on different executions. To solve this problem, a \texttt{\#pragma omp barrier} statement must be inserted at the end of the for loop. As with the other memory errors mentioned earlier however, these mistakes are not always found before using a program.
 
 \section{Rust}
-The Rust programming language was started life as a side project by an employee of the Mozilla foundation, before becoming adopted and launched by it in 2011~\cite{FutureTense}. Rust's design was stated to be an `Unapologetic interest in the static, structured, concurrent, large-systems language niche'~\cite{pServo}. This desire to be a systems language is something Rust shares with C and C++.
+The Rust programming language was started life as a side project by an employee of the Mozilla foundation, before becoming adopted and launched by it in 2011~\cite{FutureTense}. Rust's design was stated to be an `Unapologetic interest in the static, structured, concurrent, large-systems language niche'~\cite{pServo}. This desire to be a systems language is something Rust shares with C and C++. Rust like C has structs, and shares behaviours between structs through composition with traits, and not with inheritence, like C++.
 
-Rust's initial design ideas diverge from C and C++ in its aims to provide the programmer with better memory safety. Two ideas, immutability and ownership are used to achieve this improvement. 
+Rust's initial design ideas mainly diverge from C and C++ in its aims to provide the programmer with memory safety. Two ideas, immutability and ownership are used to achieve this improvement. 
 
 Ownership is Rust's best known feature. It `allows Rust to be completely memory-safe'~\cite{NomOwner}, and works by using the compiler's borrow checker to ensure that Rust's ownership model is satisfied by a given program before compiling it.
 
@@ -132,8 +132,11 @@ error: aborting due to previous error
 
 This is rust's borrow checker complaining that the program does not follow the ownership model. When the value of \texttt{vector} is dropped, in the Rust ownership model, the ownership of \texttt{vector} is moved into the drop function, and is not returned. When the program later tries to use (borrow) the variable, it is therefore unable to, as Rust only allows for values to have one owner at a time.
 
+
 Allowing values to only have one owner at a time is worked around by functions borrowing mutable or immutable references to those variables. For example, if a function needs to mutate a vector, it will need to specify that type in it's function arguments, i.e. \texttt{v: \&mut Vec<i32>}, v where v is of the type of a borrowed mutable reference to a vector containing 32 bit integers.
 This requirement also highlights how Rust's borrow checker is reinforced by a strong type system, which requires the function parameter to be of a certain type, and immutability by default, which makes it explicit which functions will change values that are passed to them.
+
+Memory safety is further improved in Rust by the absence of null pointers through the use of optional values. If a function may return something or nothing, it returns an \texttt{Option<T>}, which can either be \texttt{Some(v)} where v is a value, or \texttt{None}. Pattern matching can be used to succintely unwrap these variables.
 
 Rust also makes the promise that it is free of data races, with certain caveats. Data races are defined as 
 \begin{itemize}
@@ -142,17 +145,34 @@ Rust also makes the promise that it is free of data races, with certain caveats.
     \item one of them is unsynchronized'~\cite{NomRace}
 \end{itemize}
 
-and are only absent from safe rust. This does not mean that Rust prevents programmers from creating deadlock situations entirely, only that a certain subsection of data races are prevented, and only in safe Rust. Unsafe Rust exists as another language within Rust, delimited within \texttt{unsafe} blocks. It exists because there a limits to such a safe Rust which do not accurately reflect the underlying hardware on which it runs. However, it is not seen as being the `\textit{true} Rust Programming Language'~\cite{NomSafe}, and therefore this dissertation will only examine safe Rust.
+and are only absent from safe rust. This does not mean that Rust prevents programmers from creating deadlock situations entirely, only that a certain subsection of data races are prevented, and only in safe Rust. Unsafe Rust exists as another language within Rust, delimited within \texttt{unsafe} blocks. It exists because there a limits to such a safe Rust which do not accurately reflect the underlying hardware on which it runs. However, it is not seen as being the `\textit{true} Rust Programming Language'~\cite{NomSafe}, and therefore this dissertation will only examine safe Rust. I will also attempt to write Rust in an idiomatic style in attempt to write Rust which is as representative of Rust as possible. Idiomatic Rust tends to chain function calls and use pattern matching to achieve more succint code.
 
 Unlike C and C++, Rust comes with a dependency manager, Cargo, which wraps around the Rust compiler. Cargo allows users to specify a programs dependencies, which are automatically downloaded and integrated into that program from external repositories. In Rust, these dependencies are called crates. In this dissertation, I make extensive use of the Rayon crate, as explained in section~\ref{sec:back-rayon}.
 
 Some work has been done to investigate the applicability of Rust to HPC~\todo{citations here}, but it expertise in the language is still low within the community~\todo{cite maybe?}. As such, I will gain technical support from the Rust community through the official subreddit and community discord channels when I encounter a problem particular to Rust.
 
 \subsection{Rayon}\label{sec:back-rayon}
-Rayon is the one of the most popular crates for parallelism in Rust, and features heavily in the Rust cookbook~\todo{cite}. In a fashion similar to OpenMP, it abstracts complicated underlying threading technologies. Unlike OpenMP, Rayon only concentrates on parallel iterators. It also promises data race freedom.
+Rayon is the one of the most popular crates for parallelism in Rust, and features heavily in the Rust cookbook~\cite{RustCookPara}. In a fashion similar to OpenMP, it abstracts complicated underlying threading technologies. Unlike OpenMP, Rayon concentrates on parallel iterators, and like Rust promises data race freedom.
 
-Talk about the underlying nature of Rayon and its random scheduling. Not official library for easy parallelism but it's used a lot in the book.
-What's an iterator?
+Rayon's parallel iterators are conceptially desecnded from Rust's sequential iterators. An iterator is a function which provides access to the elements of a collection, so that an operation can be performed on a set of those elements. In Rust, iterators implement the Iterator trait, which provids access to the current item, and a \texttt{next()} function, which returns an optional value. Rayon's parallel iterators work in a similar way, except that they give sections of the iterable collection to seperate threads to calcualate. For example, in the code in listing~\ref{lst:rust-par-iter}, a vector containing ten ones is summed to a single figure, 10, stored in \texttt{s} and then printed. This code delivers the same output if we replace \texttt{par\_iter()} with \texttt{iter()}. The only difference is that \texttt{par\_iter()} uses a number of threads set by the environment variable RAYON\_NUM\_THREADS.
+
+\begin{code}
+\begin{minted}{rust}
+extern crate rayon;
+use rayon::prelude::*;
+
+fn main(){
+    let vector = vec![2;5];
+    let s: i32 = vector.par_iter().sum();
+    println!("{}", s);
+}
+\end{minted}
+\captionof{listing}{Rayon: Parallel Iterator}
+\label{lst:rust-par-iter}
+\end{code}
+
+Iterators are safer than for loops. They prevent threads trying to access data beyond array boundaries, without a performance cost. However, they do lack of flexibility compared to for loops. From within a for loop, the programmer can access the $i^{th}$ element of the collection they are iterating over, or the $i-1^{th}$ element, if they choose to through simple index arithmatic. I will investigate the costs and the benefit of this tradeoff in my dissertation.
+
 \section{Kernels}
 By Kernels I mean blah blah. I will use Kernels in a similar way to how Mini-apps have been used in research in the past.
 

@@ -45,6 +45,12 @@ Haskell Community.
 \newblock Maybe - haskell wiki.
 \newblock https://wiki.haskell.org/Maybe.
 
+\bibitem{RustCookPara}
+The~Rust Community.
+\newblock {Rust Cookbook - Data Parallelism}.
+\newblock
+  https://rust-lang-nursery.github.io/rust-cookbook/concurrency/parallel.html.
+
 \bibitem{FutureTense}
 Brendan Eich.
 \newblock Future tense.
