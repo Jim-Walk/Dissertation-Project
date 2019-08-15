@@ -1,20 +1,36 @@
 \chapter{Background}
-\section{High Performance Computing}
-High Performance Computing (HPC) is the name commonly given to computation which is performed on supercomputers. 
-Supercomputers generally have more and faster cores than personal computers. Generally, supercomputers are used for highly numerical scientific programs. The high core count on supercomputers leads to these programs using parallel computing techniques, which share the computation between the processing cores.
+\section{Parallel Programming Languages for HPC}
+HPC (High Perfomrance Computing) refers to computation performed on supercomputers. 
+Supercomputers generally have more and faster cores than personal computers. They are normally networked together with fast interconnect to allow for high data throughput, and are used for highly numerical scientific programs.
+To fully leverage the potential of these supercomputers many computing cores, programmers use parallel computing techniques, in programming languages which run as fast as possible on the hardware.
 
-The Illiac IV is generally considered to be the first supercomputer with a modern design, in that it was, for its time, massively parallel, with 64 processing cores. It's 
-This division of labour allows bigger problems to be solved more quickly.
+The three main languages used in HPC are Fortran, C and C++. They are all well established within the field, as shown by table~\ref{tab:langs}, which shows the proportion of compute time taken up by these languages on Archer, (Advanced Research Computing High End Resource), one of the UK's primary academic research supercomputers.
+Whilst Fortran takes up the majority of compute time on Archer, this dissertation will focus on C and C++, as they are more comparable to Rust (their similarities are discussed further in the next sections).
 
-\begin{itemize}
-    \item What was HPC?
-    \item What is HPC?
-    \item What are the challenges for HPC?
-\end{itemize}
+\begin{table}[h]
+  \centering
+  \begin{tabular}{|c|c|}
+    \hline
+    & \textbf{ARCHER} \\
+    \hline
+    Fortran & 69.3\% \\
+    \hline
+    C++ & 7.4\% \\
+    \hline
+    C & 6.3\% \\
+    \hline
+    Unidentified & 19.4\% \\
+    \hline
+  \end{tabular}
+  \caption{Breakdown of CPU usage by programming language~\cite{Turner2015}}
+  \label{tab:langs}
+\end{table}
 
-Shared memory parallelism.
+There are two central paradigms to parallel computing, message passing parallelism and share memory parallelism. In message passing parallelism, processes work on private data, and share data by sending and receiving messages. This form of parallelism is very scalable, and can run on geographically distributed heteregenous nodes~\cite{SETI}. Examples of message passing parallelism include the MPI (message passing interface) standard, and Go's channels.
 
-\section{C/C++}
+Shared memory parallelism, by comparison, has processes that share access to a region of memory. Whilst programs using can run on multiple nodes through technologies like PGAS (Partitioned Globabl Address Space)\todo{does this count?}, these nodes are still normally required to be homogenous. Shared memory parallelism is most effective when it runs on a single node with many processing cores. Although this paradigm has recently grown in usage through the usage of many core architures on GPUs, this dissertation will concern itself with shared memory parallelism using OpenMP, due to Rust's interesting shared memory model, which is discussed in further detail in section~\ref{sec:rust}.
+
+\section{C and C++}
 The C programming language was developed in 1972, as a `system implementation language'~\cite{Ritchie:1993}. Its first purpose was to program the UNIX operating systems and the utilities which were fundamental to its use, like \texttt{cat} and \texttt{rm}. Since that point, the C programming language has always been associated with low level computing. In this case, low level computing means computing which is able to be compiled to very efficient machine code, and gives the programmer fine grained memory management.
 
 Today, the Linux kernel, which provides the foundation for the operating systems used on the vast majority of the world's supercomputers, is 96\% written in C~\cite{LinuxKernel}. Many of the programs that are run on these supercomputers are written in C~\cite{fftw, ffs, foam}
@@ -25,7 +41,7 @@ Like C, the design of C++ focused on system programming~\cite{CplusEssence}, and
 
 The speed of C and C++ is one of their most celebrated design features. However, there are other, less positive consequences of the design of these two languages, which require programmers to use them with care. This dissertation is principally concerned with the memory safety issues of C and C++, which can cause programs to crash, or return incorrect data.
 
-Listing~\ref{lst:use-free} demonstrates one of the C and C++'s memory pitfalls, known as use after free. The code is valid C and C++. Use after free occurs when a program attempts to use a section of memory after it has been released back to the operating system.
+Listing~\ref{lst:use-free} demonstrates one of the C and C++'s memory pitfalls, known as use after free. The code rs valid C and C++. Use after free occurs when a program attempts to use a section of memory after it has been released back to the operating system.
 The freeing of \texttt{array} here means that the contents of it cannot be guaranteed when it is printed.
 
 \begin{code}
@@ -47,20 +63,20 @@ int main(){
 \label{lst:use-free}
 \end{code}
 
-In larger programs, this can lead to calculations being made using incorrect data, which has been overwritten by the operating system, or another thread from the same program. Other common memory pitfalls in C and C++ are:
+In larger programs, this can lead to calculations being made using incorrect data, which has been overwritten by the operating system, or another thread from the same program. Other common sequential memory pitfalls in C and C++ are:
 
 \begin{itemize}
     \item \textbf{Double Free:} Attempting to free memory which has already been freed can lead to undefined behaviour.
     \item \textbf{Heap Exhaustion:} The program tries to allocate more memory than the amount available. This can be the result of a memory leak, when data is not always freed after being allocated.
     \item \textbf{Buffer Overrun:} Attempting to access the $n^{th}$ element of an array which is only of length $n$. This can lead to the reading incorrect data, or accidentally trashing other memory within the same program.
-    \item \textbf{Data Race:} This type of non-deterministic bug occurs when two or more threads need to update a variable, but the outcome of this update depends on the timing of the threads accessing the variable. 
+    \item \textbf{Data Race:} This type of non-deterministic bug occurs when two or more threads need to update a variable, but the outcome of this update depends on the timing of the threads accessing the variable. An example of a data race is given in listing~\ref{lst:omp-eg}.
 \end{itemize}
 
 Whilst it is possible to write memory safe code with memory unsafe languages, it is hard to do so. It is impossible to know how exactly many bugs exist in HPC codes,and to know how many of those are caused by memory safety issues.
 As an indication, we can take data from Microsoft, which shows that 70\% of their Common Vulnerabilities and Exposures (CVEs) are caused by memory safety issues~\cite{MicroBugs}. There is no good estimate of the amount of memory safety errors that exist in C or C++ HPC programs, but if we take the Microsoft data to be indicative of general error sources, then the lack of memory safety in C and C++ should be a cause of concern for HPC programmers.
 
 \subsection{OpenMP}
-The first specification for the OpenMP (Open Multi-Processing) C and C++ application program interface (API) was released in October 1998. Its aim was to `allow users to create and manage parallel programs while permitting portability'~\cite{OpenMPSpec}. It acts as an extension to the C and C++ language specifications, leaving responsibility for implementing it to compiler writers, just as with C and C++. New specifications of OpenMP are periodically released, and it is now recognised as a cornerstone of HPC, as can be seen from the large number of people who sit on the its Architecture Review Board~\cite{OpenMPARB}.
+The first specification for the OpenMP (Open Multi-Processing) Fortran, C and C++ application program interface (API) was released in October 1998. Its aim was to `allow users to create and manage parallel programs while permitting portability'~\cite{OpenMPSpec}. It acts as an extension to the C and C++ language specifications, leaving responsibility for implementing it to compiler writers, just as with C and C++. New specifications of OpenMP are periodically released, and it is now recognised as a cornerstone of HPC, as can be seen from the large number of people who sit on the its Architecture Review Board~\cite{OpenMPARB}.
 
 OpenMP's parallelism model is based around shared memory parallelism. This is done to reflect the reality of the multi-core hardware which are used in HPC\@. Multi-core processors share memory with each other, and each core can access any memory address on that node.  
 
@@ -90,7 +106,7 @@ However, the output of this program in non-deterministic, as it includes a data 
 
 This race condition leads to different values being printed by the program on different executions. To solve this problem, a \texttt{\#pragma omp barrier} statement must be inserted at the end of the for loop. As with the other memory errors mentioned earlier however, these mistakes are not always found before using a program.
 
-\section{Rust}
+\section{Rust}\label{sec:rust}
 The Rust programming language was started life as a side project by an employee of the Mozilla foundation, before becoming adopted and launched by it in 2011~\cite{FutureTense}. Rust's design was stated to be an `Unapologetic interest in the static, structured, concurrent, large-systems language niche'~\cite{pServo}. Like C and C++, Rust's early design aims included a the goal of becoming a systems language. Rust like C has structs, and shares behaviours between structs through composition with traits, but not with inheritence, like C++.
 
 Rust's initial design ideas mainly diverge from C and C++ in its aims to provide the programmer with memory safety. Two ideas, immutability and ownership are used to achieve this improvement. 

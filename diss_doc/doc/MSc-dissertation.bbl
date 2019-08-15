@@ -73,6 +73,12 @@ Michael Hiley.
 \newblock rust-netcdf.
 \newblock https://github.com/mhiley/rust-netcdf.
 
+\bibitem{SETI}
+Ron Hipschman.
+\newblock {How SETI@home works}.
+\newblock
+  http://seticlassic.ssl.berkeley.edu/about\_seti/about\_seti\_at\_home\_1.html.
+
 \bibitem{pServo}
 Graydon Hoare.
 \newblock Project servo.
@@ -249,6 +255,14 @@ Parallel~Research Tools.
 Linus Torvalds.
 \newblock linux.
 \newblock https://github.com/torvalds/linux.
+
+\bibitem{Turner2015}
+Andy Turner.
+\newblock Parallel {S}oftware usage on {UK N}ational {HPC F}acilities
+  2009-2015: How well have applications kept up with increasingly parallel
+  hardware?
+\newblock {\em EPCC}, 2015.
+\newblock Archer White Paper.
 
 \bibitem{SparseBug}
 Jim Walker.
