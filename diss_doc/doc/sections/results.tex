@@ -2,8 +2,8 @@
 \section{Babel Stream}\label{sec:res-babel}
 Babel Stream's results show that Rust and Rayon are unable to scale as well as C++ and OpenMP\@. Figures~\ref{fig:babel-dot},~\ref{fig:babel-add} and~\ref{fig:babel-triad} all show that Rust and C++ have similar performance but that at higher thread counts, there is a great deal of difference between the threading performance of both implementations. In each figure, 1gb refers to the size of the single array in that execution run, and chunk\_xxMB refers to how large a subsection of that array the threads are assigned to.
 
-For example, both Rust and C++ having very similar memory bandwidths in the Dot product's serial execution, with Rust at 11453 MB/s and C++ at 11563 MB/s, giving a difference in bandwidth of just 1\%.\todo{replace with sig figs?}
-However, this difference later widens at 32 threads to 35\% with Rust at 87336 MB/s and C++ at 135106 MB/s
+For example, both Rust and C++ having very similar memory bandwidths in the Dot product's serial execution, with Rust at 11.5 GB/s and C++ at 11.6 GB/s, giving a difference in bandwidth of just 1\%.
+However, this difference later widens at 32 threads to 35\% with Rust at 87.3 GB/s and C++ at 135.1 GB/s.
 
 \begin{figure}[h]
 \centering

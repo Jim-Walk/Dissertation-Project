@@ -15,17 +15,17 @@ This division of labour allows bigger problems to be solved more quickly.
 Shared memory parallelism.
 
 \section{C/C++}
-The C programming language was developed in 1972, as a `system implementation language'~\cite{Ritchie:1993}. Its first purpose was to program operating systems and the utilities which were fundamental to their use, like \texttt{cat} and \texttt{rm}. Since that point, the C programming language has always been associated with low level computing. In this case, low level computing means computing which is able to be compiled to very efficient machine code, and gives the programmer fine grained memory management.
+The C programming language was developed in 1972, as a `system implementation language'~\cite{Ritchie:1993}. Its first purpose was to program the UNIX operating systems and the utilities which were fundamental to its use, like \texttt{cat} and \texttt{rm}. Since that point, the C programming language has always been associated with low level computing. In this case, low level computing means computing which is able to be compiled to very efficient machine code, and gives the programmer fine grained memory management.
 
 Today, the Linux kernel, which provides the foundation for the operating systems used on the vast majority of the world's supercomputers, is 96\% written in C~\cite{LinuxKernel}. Many of the programs that are run on these supercomputers are written in C~\cite{fftw, ffs, foam}
 
-Despite C's success, only seven years after it was first developed, Bjarne Stroustrup began working on an improved version of C, which was to become C++. In 1985, the first commercial edition of C++ was released~\cite{CPPFAQS}. Two of C++'s most notable extensions to C are the introduction of classes, to allow for object oriented programming, and templates, which allow for generic programming. C++ also uses a stronger type system than C, which prevents bugs caused by implicit conversion.
+Despite C's success, only seven years after it was first developed, Bjarne Stroustrup began working on an extended version of C, which was to become C++. In 1985, the first commercial edition of C++ was released~\cite{CPPFAQS}. Two of C++'s most notable extensions to C are the introduction of classes, to allow for object oriented programming, and templates, which allow for generic programming. C++ also uses a stronger type system than C, which prevents bugs caused by implicit conversion.
 
 Like C, the design of C++ focused on system programming~\cite{CplusEssence}, and like C, it has become a common language of choice for developing HPC codes~\cite{foam}\todo{more examples here}, a fact which is helped by the close similarity of the two languages. Many C programs are valid C++ programs. C and C++ are also considered two of the languages which, when compiled, run fastest.
 
 The speed of C and C++ is one of their most celebrated design features. However, there are other, less positive consequences of the design of these two languages, which require programmers to use them with care. This dissertation is principally concerned with the memory safety issues of C and C++, which can cause programs to crash, or return incorrect data.
 
-Listing~\ref{lst:use-free} demonstrates one of the C and C++'s memory anti patterns, known as use after free. The code is valid C and C++. Use after free occurs when a program attempts to use a section of memory after it has been released back to the operating system.
+Listing~\ref{lst:use-free} demonstrates one of the C and C++'s memory pitfalls, known as use after free. The code is valid C and C++. Use after free occurs when a program attempts to use a section of memory after it has been released back to the operating system.
 The freeing of \texttt{array} here means that the contents of it cannot be guaranteed when it is printed.
 
 \begin{code}
@@ -47,7 +47,7 @@ int main(){
 \label{lst:use-free}
 \end{code}
 
-In larger programs, this can lead to calculations being made using incorrect data, which has been overwritten by the operating system, or another thread from the same program. Other common memory anti patterns in C and C++ are:
+In larger programs, this can lead to calculations being made using incorrect data, which has been overwritten by the operating system, or another thread from the same program. Other common memory pitfalls in C and C++ are:
 
 \begin{itemize}
     \item \textbf{Double Free:} Attempting to free memory which has already been freed can lead to undefined behaviour.
@@ -56,16 +56,16 @@ In larger programs, this can lead to calculations being made using incorrect dat
     \item \textbf{Data Race:} This type of non-deterministic bug occurs when two or more threads need to update a variable, but the outcome of this update depends on the timing of the threads accessing the variable. 
 \end{itemize}
 
-Whilst it is possible to write memory safe code with memory safe languages, it is hard to do so. It is impossible to know how exactly many bugs exist in HPC codes,and to know how many of those are caused by memory safety issues.
-As an indication, we can take data from Microsoft, which shows that 70\% of their Common Vulnerabilities and Exposures (CVEs) are caused by memory safety issues~\cite{MicroBugs}. If there is not a similar level of memory safety of bugs in HPC, then HPC programmers must spend a lot of time thinking about memory.
+Whilst it is possible to write memory safe code with memory unsafe languages, it is hard to do so. It is impossible to know how exactly many bugs exist in HPC codes,and to know how many of those are caused by memory safety issues.
+As an indication, we can take data from Microsoft, which shows that 70\% of their Common Vulnerabilities and Exposures (CVEs) are caused by memory safety issues~\cite{MicroBugs}. There is no good estimate of the amount of memory safety errors that exist in C or C++ HPC programs, but if we take the Microsoft data to be indicative of general error sources, then the lack of memory safety in C and C++ should be a cause of concern for HPC programmers.
 
 \subsection{OpenMP}
 The first specification for the OpenMP (Open Multi-Processing) C and C++ application program interface (API) was released in October 1998. Its aim was to `allow users to create and manage parallel programs while permitting portability'~\cite{OpenMPSpec}. It acts as an extension to the C and C++ language specifications, leaving responsibility for implementing it to compiler writers, just as with C and C++. New specifications of OpenMP are periodically released, and it is now recognised as a cornerstone of HPC, as can be seen from the large number of people who sit on the its Architecture Review Board~\cite{OpenMPARB}.
 
-OpenMP's parallelism model is based around shared memory parallelism. This is done to reflect the reality of the multi-core hardware which are used in HPC. Multi-core processors share memory with each other, and each core can access any memory address on that node.  
+OpenMP's parallelism model is based around shared memory parallelism. This is done to reflect the reality of the multi-core hardware which are used in HPC\@. Multi-core processors share memory with each other, and each core can access any memory address on that node.  
 
-An example OpenMP program is shown in listing~\ref{lst:omp-eg}. It is valid C and C++. A key feature of OpenMP are its \texttt{\#pragma} statements, which indicate to the compiler where the parallelism needs to be implemented.
-One of OpenMP's core strengths is its succinct abstractions to the underlying threading API, irrespective of the platform it's running on. Here, there \texttt{\#pragma} statement signifies the part of the code to be parallelised, and importantly, does not do so at the cost of obscuring the programs serial intent.
+An example OpenMP program is shown in listing~\ref{lst:omp-eg}. It is valid C and C++. A key feature of OpenMP are its \texttt{\#pragma omp} statements, which issue parallelism related directives to the compiler. 
+One of OpenMP's core strengths is its succinct abstractions to the underlying threading API, irrespective of the platform it's running on. Here, there \texttt{\#pragma omp} statement signifies the part of the code to be parallelised, and importantly, does not do so at the cost of obscuring the programs serial intent.
 The example parallelises the for loop, and sets the number of threads through the OMP\_NUM\_THREADS environment variable. In this program, the variable \texttt{a} is set to zero, and it is then incremented in the for loop.
 
 \begin{code}
@@ -91,11 +91,11 @@ However, the output of this program in non-deterministic, as it includes a data 
 This race condition leads to different values being printed by the program on different executions. To solve this problem, a \texttt{\#pragma omp barrier} statement must be inserted at the end of the for loop. As with the other memory errors mentioned earlier however, these mistakes are not always found before using a program.
 
 \section{Rust}
-The Rust programming language was started life as a side project by an employee of the Mozilla foundation, before becoming adopted and launched by it in 2011~\cite{FutureTense}. Rust's design was stated to be an `Unapologetic interest in the static, structured, concurrent, large-systems language niche'~\cite{pServo}. This desire to be a systems language is something Rust shares with C and C++. Rust like C has structs, and shares behaviours between structs through composition with traits, and not with inheritence, like C++.
+The Rust programming language was started life as a side project by an employee of the Mozilla foundation, before becoming adopted and launched by it in 2011~\cite{FutureTense}. Rust's design was stated to be an `Unapologetic interest in the static, structured, concurrent, large-systems language niche'~\cite{pServo}. Like C and C++, Rust's early design aims included a the goal of becoming a systems language. Rust like C has structs, and shares behaviours between structs through composition with traits, but not with inheritence, like C++.
 
 Rust's initial design ideas mainly diverge from C and C++ in its aims to provide the programmer with memory safety. Two ideas, immutability and ownership are used to achieve this improvement. 
 
-Ownership is Rust's best known feature. It `allows Rust to be completely memory-safe'~\cite{NomOwner}, and works by using the compiler's borrow checker to ensure that Rust's ownership model is satisfied by a given program before compiling it.
+Ownership is one of Rust's best known features. It `allows Rust to be completely memory-safe'~\cite{NomOwner}, and works by using the compiler's borrow checker to ensure that Rust's ownership model is satisfied by a given program before compiling it.
 
 In listing~\ref{lst:rust-free} we present a Rust program that does not satisfy the ownership model, and therefore does not compile. The first line of the main function heap allocates memory to a vector of 10 elements, and gives each element a value of four. This vector is labelled \texttt{vector}. It is created using a macro, which is similar to functions in Rust, except that they can take a variable number of arguments, formatted in different ways, like with semi-colons.
 
@@ -136,42 +136,70 @@ This is rust's borrow checker complaining that the program does not follow the o
 Allowing values to only have one owner at a time is worked around by functions borrowing mutable or immutable references to those variables. For example, if a function needs to mutate a vector, it will need to specify that type in it's function arguments, i.e. \texttt{v: \&mut Vec<i32>}, v where v is of the type of a borrowed mutable reference to a vector containing 32 bit integers.
 This requirement also highlights how Rust's borrow checker is reinforced by a strong type system, which requires the function parameter to be of a certain type, and immutability by default, which makes it explicit which functions will change values that are passed to them.
 
-Memory safety is further improved in Rust by the absence of null pointers through the use of optional values. If a function may return something or nothing, it returns an \texttt{Option<T>}, which can either be \texttt{Some(v)} where v is a value, or \texttt{None}. Pattern matching can be used to succintely unwrap these variables.
+Memory safety is further improved in Rust by the absence of null pointers through the use of optional values. If a function may return something or nothing, it returns an \texttt{Option<T>}, which can either be \texttt{Some(v)} where \texttt{v} is a value of type \texttt{T}, or \texttt{None}. Pattern matching can be used to succinctly unwrap these variables.
 
-Rust also makes the promise that it is free of data races, with certain caveats. Data races are defined as 
+Rust also makes the promise that it is free of data races, with certain caveats. Data races are defined as:
 \begin{itemize}
     \item `two or more threads concurrently accessing a location of memory
     \item one of them is a write
-    \item one of them is unsynchronized'~\cite{NomRace}
+    \item one of them is unsynchronized'
 \end{itemize}
+\begin{flushright}
+--- The Rustonomicon: Data Races and Race Conditions~\cite{NomRace}
+\end{flushright}
 
-and are only absent from safe rust. This does not mean that Rust prevents programmers from creating deadlock situations entirely, only that a certain subsection of data races are prevented, and only in safe Rust. Unsafe Rust exists as another language within Rust, delimited within \texttt{unsafe} blocks. It exists because there a limits to such a safe Rust which do not accurately reflect the underlying hardware on which it runs. However, it is not seen as being the `\textit{true} Rust Programming Language'~\cite{NomSafe}, and therefore this dissertation will only examine safe Rust. I will also attempt to write Rust in an idiomatic style in attempt to write Rust which is as representative of Rust as possible. Idiomatic Rust tends to chain function calls and use pattern matching to achieve more succint code.
+and are only absent from safe rust. This does not mean that Rust prevents programmers from creating deadlock situations entirely, only that a certain subsection of data races are prevented, and only in safe Rust. Unsafe Rust exists as another language within Rust, delimited within \texttt{unsafe} blocks. It exists because there a limits to such a safe Rust which do not accurately reflect the underlying hardware on which it runs. However, it is not seen as being the `\textit{true} Rust Programming Language'~\cite{NomSafe}, and therefore this dissertation will only examine safe Rust. I will also attempt to write Rust in an idiomatic style in attempt to write Rust which is as representative of Rust as possible. Idiomatic Rust tends to chain function calls and use pattern matching to achieve more succinct code.
 
-Unlike C and C++, Rust comes with a dependency manager, Cargo, which wraps around the Rust compiler. Cargo allows users to specify a programs dependencies, which are automatically downloaded and integrated into that program from external repositories. In Rust, these dependencies are called crates. In this dissertation, I make extensive use of the Rayon crate, as explained in section~\ref{sec:back-rayon}.
+Unlike C and C++, Rust comes with a build tool and dependency manager, Cargo, which wraps around the Rust compiler. Cargo allows users to specify a programs dependencies, which are automatically downloaded and integrated into that program from external repositories. In Rust, these dependencies are called crates. In this dissertation, I make extensive use of the Rayon crate, as explained in section~\ref{sec:back-rayon}.
 
 Some work has been done to investigate the applicability of Rust to HPC~\todo{citations here}, but it expertise in the language is still low within the community~\todo{cite maybe?}. As such, I will gain technical support from the Rust community through the official subreddit and community discord channels when I encounter a problem particular to Rust.
 
 \subsection{Rayon}\label{sec:back-rayon}
 Rayon is the one of the most popular crates for parallelism in Rust, and features heavily in the Rust cookbook~\cite{RustCookPara}. In a fashion similar to OpenMP, it abstracts complicated underlying threading technologies. Unlike OpenMP, Rayon concentrates on parallel iterators, and like Rust promises data race freedom.
 
-Rayon's parallel iterators are conceptially desecnded from Rust's sequential iterators. An iterator is a function which provides access to the elements of a collection, so that an operation can be performed on a set of those elements. In Rust, iterators implement the Iterator trait, which provids access to the current item, and a \texttt{next()} function, which returns an optional value. Rayon's parallel iterators work in a similar way, except that they give sections of the iterable collection to seperate threads to calcualate. For example, in the code in listing~\ref{lst:rust-par-iter}, a vector containing ten ones is summed to a single figure, 10, stored in \texttt{s} and then printed. This code delivers the same output if we replace \texttt{par\_iter()} with \texttt{iter()}. The only difference is that \texttt{par\_iter()} uses a number of threads set by the environment variable RAYON\_NUM\_THREADS.
+Rayon's parallel iterators are conceptually descended from Rust's sequential iterators. An iterator is a function which provides access to the elements of a collection, so that an operation can be performed on a set of those elements. In Rust, iterators implement the Iterator trait, which provides access to the current item, and a \texttt{next()} function, which returns an optional value. An example of a sequential iterator is shown in listing~\ref{lst:rust-seq-iter}, where a vector of 5 elements, each with value 2, are first each multiplied by five in the \texttt{map()} function, using an anonymous function. In Rust, these are called closures. The \texttt{fold()} function then returns the product of all the elements in the mapped collection, which is 10000. The first argument of fold provides the identity value for the fold, which is used to begin the operation.
 
+Rayon's parallel iterators work in a similar way to Rust's sequential iterators, except that they give sections of the iterable collection to separate threads to calculate. The parallel iterator methods also have slightly different syntax, as demonstrated by listing~\ref{lst:rust-par-iter}. This listing produces the same result as~\ref{lst:rust-seq-iter}, but the \texttt{fold()} is different.
+
+\noindent\begin{minipage}{.49\textwidth}
 \begin{code}
 \begin{minted}{rust}
+fn main(){
+  let v = vec![2;5];
+  let s = v.iter()
+           .map(|x| x * 5)
+           .fold(1, |acc, x| acc * x);
+  println!("{}", s);
+}
+\end{minted}
+\captionof{listing}{Rust: sequential iterator}
+\label{lst:rust-seq-iter}
+\end{code}
+\end{minipage}\hfill
+\begin{minipage}{.49\textwidth}
+\begin{code}
+\begin{minted}[fontsize=\scriptsize]{rust}
 extern crate rayon;
 use rayon::prelude::*;
 
 fn main(){
-    let vector = vec![2;5];
-    let s: i32 = vector.par_iter().sum();
-    println!("{}", s);
+  let v = vec![2;5];
+  let s = v.par_iter()
+           .fold(|| 5, |acc, x| acc * x)
+           .reduce(|| 1, |x, y| x * y);
+  println!("{}", s);
 }
 \end{minted}
-\captionof{listing}{Rayon: Parallel Iterator}
+\captionof{listing}{Rayon: parallel iterator}
 \label{lst:rust-par-iter}
+\label{lst:iters-a}
 \end{code}
+\end{minipage}
 
-Iterators are safer than for loops. They prevent threads trying to access data beyond array boundaries, without a performance cost. However, they do lack of flexibility compared to for loops. From within a for loop, the programmer can access the $i^{th}$ element of the collection they are iterating over, or the $i-1^{th}$ element, if they choose to through simple index arithmatic. I will investigate the costs and the benefit of this tradeoff in my dissertation.
+The first argument to the parallel \texttt{fold()} is an identity closure, which generates the identity value. This is done so that the different threads can have their own copy of the identity value. The output of the fold is different too, as each thread performs a fold on its section, and therefore does not return a single value. A parallel reduction is called on the resulting collection, which delivers the product of all the values left in the collection.
+In this way, the fold reduce pattern is `roughly equivalent to map reduce'~\cite{rayonFold} in effect. It is also noteworthy that \texttt{par\_iter()} uses a number of threads set by the environment variable RAYON\_NUM\_THREADS, which is similar to OpenMP\@.
+
+Iterators are safer than for loops. They prevent threads trying to access data beyond array boundaries, without a performance cost. However, they do lack of flexibility compared to for loops. From within a for loop, the programmer can access the $i^{th}$ element of the collection they are iterating over, or the $i-1^{th}$ element, if they choose to through simple index arithmetic. I will investigate the costs and the benefit of this trade off in my dissertation.
 
 \section{Kernels}
 By Kernels I mean blah blah. I will use Kernels in a similar way to how Mini-apps have been used in research in the past.

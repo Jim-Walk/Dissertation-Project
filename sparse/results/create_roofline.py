@@ -58,12 +58,12 @@ if __name__ == '__main__':
     i = 1
     while i < len(sys.argv):
         labels += [sys.argv[i].split('.')[0]]
-        all_results += [parse_file(sys.argv[i])]
+        all_results += [parse_file(sys.argv[i])] # Gets reported MFlops/s
         i += 1
 
 
     markers = ["o", "v", "s", "^", "x", "1", "2", "3", "4"]
-    x_axis = [1,2] + list(range(4,37,4))
+    threads = [1,2] + list(range(4,37,4))
     j = 0
     fig, ax = plt.subplots()
     while j < len(all_results):
@@ -71,7 +71,7 @@ if __name__ == '__main__':
         print(labels[j])
         print('Threads, Flops,\tOperation Intensity')
         for i in range(len(all_results[j])):
-            print(x_axis[i],'\t', all_results[j][i], my_x[i])
+            print(threads[i],'\t', all_results[j][i], my_x[i])
         ax.plot(my_x,all_results[j],label=labels[j], marker=markers[j])
         j += 1
     peak_band_x, peak_band_y = abline(1351, 0)
