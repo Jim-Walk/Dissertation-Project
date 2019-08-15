@@ -84,26 +84,32 @@ Once a candidate kernel is selected, it is implemented in Rust in serial. Any di
 
 Babel Stream was in some ways one of the hardest to Kernels to port to serial Rust. This was partly due to it being the first program which I attempted to port, but also because of Rust's type system and the use of generics. The original C++ implementation of the program uses templates to allow the user to choose to use 32 or 64 bit floating numbers when running the program. To achieve the same thing in Rust, generic types have to be used, which are defined through traits.
 
-I found that using generics in Rust made reading error messages difficult, but easier to parse once the offending code was removed into a smaller example, and stripped of its generic type. Generics in Rust necessitate slightly cumbersome syntax, for example, \texttt{T::from(0).unwrap()} is used to generate a zero of type T. The first part of this expression generates an option type, which in this case is \texttt{Some(0.0)}, and is then unwrapped into simply \texttt{0.0}. Rust does this to allow programmers to deal with cases where a value of type T is impossible to generate from the input value, such as casting a value greater than $2^{32} - 1$ to a signed 32 bit value. In this circumstance, the value returned would be \texttt{None}, which the programmer would then have to deal with. As zero can always be successfully cast to a 32 or 64 bit floating point number, it is safe to simply unwrap the value here, but if it was a number that could not be cast to the type, then the program would crash at this point. A C or C++ program doing the same thing would not crash, but its result would be implementation specific undefined behaviour, or throw an exception. \todo{should I discuss the design choices made here, and their implications for Rust in HPC}
+I found that using generics in Rust made reading error messages difficult, but easier to parse once the offending code was removed into a smaller example, and stripped of its generic type. Generics in Rust necessitate slightly cumbersome syntax, for example, \texttt{T::from(0).unwrap()} is used to generate a zero of type T. The first part of this expression generates an option type, which in this case is \texttt{Some(0.0)}, and is then unwrapped into simply \texttt{0.0}. Rust does this to allow programmers to deal with cases where a value of type T is impossible to generate from the input value, such as casting a value greater than $2^{32} - 1$ to a signed 32 bit value.
+In this circumstance, the value returned would be \texttt{None}, which the programmer would then have to deal with. As zero can always be successfully cast to a 32 or 64 bit floating point number, it is safe to simply unwrap the value here, but if it was a number that could not be cast to the type, then the program would crash at this point. A C or C++ program doing the same thing would not crash, but its result would be implementation specific undefined behaviour, or throw an exception. This difference shows how Rust and C or C++ prioritise, and concieve of, safety.
 
 The Rust implementation of Babel stream, like the reference implementation, creates a stream object which calls certain functions on its own data sets. This was quite easy to implement as Rust has enough features of object oriented programming, such as allowing objects to contain data and behaviour, for these simple objects to work. However, Rust does not implement inheritance, which is considered by some to be a foundational aspect of object oriented programming~\cite{Liskov:1987}, and instead uses trait objects to share behaviours. This design choice did not interfere with any of the simple kernels which were implemented, but would certainly be interesting to translate object inheritance from a larger program, maybe a mini-app, into Rust's trait feature.
 
-Whilst the concept of borrowing did take some time to fully understand, I found that the compiler gave very helpful and accurate hints on how to make sure my program complied with the borrow checker. For example, in listing~\ref{lst:comp-help}, the programmer is informed that they `cannot borrow self.c as mutable', and is shown where the function tries to mutate the value. The stream object's triad function, which alters the objects data, but take mutable ownership of the data, through using \texttt{\&mut self}, where \texttt{\&mut} is a mutable borrow. Once the programmer implements the compiler's suggested fix, this fragment of code will compile.
+Whilst the concept of borrowing did take some time to fully understand, I found that the compiler gave very helpful and accurate hints on how to make sure my program complied with the borrow checker. For example, in listing~\ref{lst:comp-help}, the programmer is informed that they `cannot borrow self.c as mutable', and is shown where the function tries to mutate the value. 
 
-\begin{alltt}
-\scriptsize
-error[E0596]: cannot borrow `self.c` as mutable, as it is behind a
+\begin{code}
+\begin{minted}{bash}
+error[E0596]: cannot borrow 'self.c' as mutable, as it is behind a
               `&` reference
   --> src/stream.rs:20:9
    |
-18 |     pub fn triad(&self)\{
+18 |     pub fn triad(&self){
    |                  ----- help: consider changing this to be a
     mutable reference: `&mut self`
 20 |         self.c[0] = self.a[0] + self.b[0];
-   |         ^^^^^^ `self` is a `&` reference, so the data it refers
+   |         ^^^^^^ 'self' is a '&' reference, so the data it refers
     to cannot be borrowed as mutable
 error: aborting due to previous error
-\end{alltt}
+\end{minted}
+\captionof{listing}{Rustc: borrow checker in action}
+\label{lst:rustc-borrow}
+\end{code}
+
+The stream object's triad function, which alters the objects data, but take mutable ownership of the data, through using \texttt{\&mut self}, where \texttt{\&mut} is a mutable borrow. Once the programmer implements the compiler's suggested fix, this fragment of code will compile.
 
 The sparse matrix vector multiplication kernel was quite simple to port to serial Rust, as I was able to ignore parts of the small program which would not be used. As with Babel Stream, I found converting from C's data types into Rust to be a stumbling point due to Rust's safety constraints. For example, in the C implementation, the vector holding the column index of the matrix was composed of values of type \texttt{s64Int}, which a signed 64 bit int. This datatype is directly analogous to Rust's \texttt{i64} data type, except in C you may use numbers of type \texttt{s64Int} to index into arrays, where as in Rust you must only use numbers of type \texttt{usize}. Errors of this type are easily dealt with however, as they are explicitly pointed out to the programmer at compile time, and can be remedied with casts in the simple format \texttt{as usize}. I found sparse matrix vector multiplication easier to port to serial Rust than Babel Stream, but this could have been that by this point I was already more familiar with Rust's way of doing things.
 
@@ -118,18 +124,18 @@ Next, I eliminated any bugs found in my serial implementation of the code by com
 
 For example, all of the array operations in Babel Stream where originally written in a C style, and then transformed to use iterators. Listing~\ref{lst:iters-b}, shows the original, more succinct for loop form of Babel Stream's add operation. This style is rejected by Clippy, which prefers the style presented by listing~\ref{lst:iters-a}.
 
-\noindent\begin{minipage}{.45\textwidth}
+\noindent\begin{minipage}{.49\textwidth}
     \begin{code}
 \begin{minted}{rust}
 for i in 0..self.c.len() as usize {
     self.c[i] = self.b[i] + self.a[i]
 }
 \end{minted}
-\captionof{listing}{Babel Stream Add, before applying idiomatic Rust style}
+\captionof{listing}{Rust: Babel Stream add, before applying idiomatic style}
     \label{lst:iters-b}
 \end{code}
 \end{minipage}\hfill
-\begin{minipage}{.45\textwidth}
+\begin{minipage}{.49\textwidth}
     \begin{code}
 \begin{minted}[fontsize=\scriptsize]{rust}
 for ((c, b), a) in self.c.iter_mut()
@@ -138,24 +144,28 @@ for ((c, b), a) in self.c.iter_mut()
     *c = *b + *a;
 }
 \end{minted}
-\captionof{listing}{Babel Stream Add, after applying idiomatic Rust style}
+\captionof{listing}{Rust: Babel Stream add, after applying idiomatic style}
 \label{lst:iters-a}
 \end{code}
 \end{minipage}
 
 Whilst the more idiomatic rust style in listing~\ref{lst:iters-a} is less succinct than~\ref{lst:iters-b}, it does have some benefits which the C style for loop does not possess. For example, if the stream object's c array had been of greater length than its $a$ or $b$ arrays, the more C-like implementation would fail at run time with an index out of bounds error, whereas the more idiomatic code only write to as many elements of $c$ as the least elements there are of any of the arrays it is zipped with.
 
-Also note in listing~\ref{lst:iters-a} the distinction between the methods \texttt{iter()} and \texttt{iter\_mut()}, the first of which creates an iterator, and the second of which creates an iterator which may change its elements. Although an in-depth investigation was not carried out to see if the compiler made use of any optimisations here from the greater amount of information available to it, the time to run this fragment did decrease when converted to idiomatic Rust, from 0.09501 seconds to 0.09079 seconds.
+Also note in listing~\ref{lst:iters-a} the distinction between the methods \texttt{iter()} and \texttt{iter\_mut()}, the first of which creates an iterator, and the second of which creates an iterator which may change (mutate) its elements. Although an in-depth investigation was not carried out to see if the compiler made use of any optimisations here from the greater amount of information available to it, the time to run this fragment did decrease when converted to idiomatic Rust, from 0.09501 seconds to 0.09079 seconds.
 
-A bug in my SpMV implementation was found at this stage. When launched with certain parameters, the C version ran without error, whilst the Rust version would panic and fail every time, with the error message:
+A bug in my sparse matrix vector multiplication implementation was found at this stage. When launched with certain parameters, the C version ran without error. The Rust version would panic and fail every time, whilst initilising the \texttt{col\_index} with the error message:
 
-\begin{alltt}
-\scriptsize
-thread `main' panicked at `attempt to shift left with overflow', main.rs:8:13
-\end{alltt}
 
-It became apparent that this was occurring because although I had mirrored the types used by the reference implementation, the behaviour of those types differed. In the reference implementation, radius was of type \texttt{int}, which is a 32-bit integer. I therefore translated this into a \texttt{i32} type in Rust. These values are used as upper limits in an initialisation loop, where intermediate values of the same type are bit-shifted before being stored in the \texttt{col\_index} array. In C, the operation shown in the listing~\ref{lst:bit-shift} sets $foo$ to 2, when all numbers are 32 bit integers. 
+\begin{code}
+\begin{minted}{bash}
+thread 'main' panicked at 'attempt to shift left with overflow', main.rs:8:13
+\end{minted}
+\captionof{listing}{Rust Compiler: Bit shift overflow}
+\label{lst:rutsc-bit}
+\end{code}
 
+It became apparent that this was occurring because although I had mirrored the types used by the reference implementation, the behaviour of those types differed. In the reference implementation, radius was of type \texttt{int}, which is a 32-bit integer. I therefore translated this into a \texttt{i32} type in Rust. These values are used as upper limits in an initialisation loop, where intermediate values of the same type are bit-shifted before being stored in the \texttt{col\_index} array. In C, the operation shown in the listing~\ref{lst:bit-shift} sets \texttt{foo} to 2, when all numbers are 32 bit integers. 
+\pagebreak
 \begin{code}
 \begin{minted}{c}
 int foo = 1 << 33;
@@ -172,7 +182,7 @@ When this optimisation pass was applied to K-means, it showed the limits of Clip
 \begin{minted}{rust}
 for k in 1..clusters_d.len as usize {
 \end{minted}
-\captionof{listing}{Needless range loop}
+\captionof{listing}{Rust: Needless range loop}
 \label{lst:for-concise}
 \end{code}
 Clippy argues this pattern should be avoided, because `iterating the collection itself makes the intent more clear and is probably faster'~\cite{ClippyLoop}. However, its suggested replacement is much longer, and the deeply chained methods take longer to comprehend.
@@ -183,23 +193,22 @@ for (k, <item>) in old_cluster_centres.iter()
                                        .take(clusters_d.len as usize)
                                        .skip(1) {
 \end{minted}
-\captionof{listing}{Clippy's suggested iterator}
+\captionof{listing}{Rust: Clippy's suggested iterator}
 \end{code}
 It would be difficult to argue that the code suggested by Clippy is idiomatic, as idiomatic code is generally agreed to be code which uses features of the language to achieve conciseness. This code fragment is clearly not concise, and I therefore did not make Clippy's suggested correction.
 \subsection{Parallelisation}
-I then parallelised the kernel with Rayon~\cite{RustRayon}, at the same loops where the reference implementation uses OpenMP\@. Sometimes this would be a simple matter of replacing the \texttt{iter()} method with \texttt{par\_iter()}, but parallelising more complex operations like reductions and initialisation was slightly more difficult.
+I then parallelised the kernel with Rayon~\cite{RustRayon}, at the same loops where the reference implementation uses OpenMP\@. Sometimes this would little more than replacing the \texttt{iter()} method with \texttt{par\_iter()}, but parallelising more complex operations like reductions and initialisation was slightly more difficult.
 
 Parallelising Babel Stream was simple. As listing~\ref{lst:iters-p} shows, Babel Stream's add operation remains largely the same, only that the \texttt{iter()} method has been replaced by the \texttt{par\_iter()} method, and that the method for each has to be called. As the serial version of this loop had no inter loop dependencies, it coud easily be transformed from a for loop to a parallel for each loop.
 \begin{code}
-
-\label{lst:iters-p}
 \begin{minted}[fontsize=\scriptsize]{rust}
 self.c.par_iter_mut()
             .zip(self.b.par_iter())
             .zip(self.a.par_iter())
             .for_each(|((c, b), a)| *c = *a + *b);
 \end{minted}
-\captionof{listing}{Babel Stream Add, parallelised}
+\captionof{listing}{Rust: Babel Stream add, parallelised}
+\label{lst:iters-p}
 \end{code}
 
 This pattern was applicable to the copy, multiply, add, and triad methods. The dot method needed more alteration than these methods to be parallelised, as the original, Clippy compliant code was very different to the final code used. The original code in Listing~\ref{lst:dot-for} updates the sum value from within a for loop before returning it.
@@ -212,7 +221,7 @@ for (a, b) in self.a.iter()
                     }
 sum1
 \end{minted}
-\captionof{listing}{Serial Dot Product}
+\captionof{listing}{Rust: Serial dot product}
 \label{lst:dot-for}
 \end{code}
 This update pattern does not work with a Rayon parallel for each loop, as threads are not able to write to a shared variable. The Rust compiler gives the error that the closure does not implement \texttt{FnMut}, which is `The version of the call operator that takes a mutable receiver'~\cite{rust-doc-fnmut}. A mutable receiver in this case refers to a mutable variable which is created, and lives on, outside of the iterator's scope. This error demonstrates the utility of Rust's mutable and immutable variables in parallel operations.
@@ -225,7 +234,7 @@ self.a.par_iter()
     .zip(self.b.par_iter())
     .fold(|| sum1, |acc, it| acc + *it.0 * *it.1).sum()
 \end{minted}
-\captionof{listing}{Parallel dot product}
+\captionof{listing}{Rust: Parallel dot product}
 \label{lst:dot-fold}
 \end{code}
 In this listing, a zero of type T is generated, and the vectors a and b are zipped together, as before. The fold method then takes two arguments, both of which are closures, or anonymous functions. The first closure is used to create the identity value, which is the value which can be used as the initial accumulator value when the zipped vector of \texttt{a} and \texttt{b} is divided between threads. The zipped vector of \texttt{a} and \texttt{b} takes the form
@@ -245,10 +254,10 @@ Which is reduced to the a single number, through calling \texttt{sum()}
 $a_1b_1+a_2b_2+\cdots+a_{n-1}b_{n-1}$
 \end{center}
 
-Although the initial change of perspective required to use Rayon's fold was confusing, once the cognitive leap had been made the simplicity was clear. Although it was hard to use Rayon's fold method, I did not find it to be prohibitively difficult.
+Although the initial change of perspective required to use Rayon's fold was confusing, especially because it can sometimes function more like a map, once the cognitive leap had been made the simplicity was clear. Although it was hard to use Rayon's fold method, I did not find it to be prohibitively difficult.
 
 Most of the methods of Babel Stream were easy to parallelise, but this does not necessarily show us the expressiveness of the Rayon library. The parallelised methods were so simple that they were extremely unrepresentative of production HPC code. The sparse matrix vector multiplication parallelisation was more representative of the type of parallelism which is done in HPC, and was therefore more complex than babel stream. Even so, parallelising the central processing loop of SpMV was trivial.
-\noindent\begin{minipage}{.48\textwidth}
+\noindent\begin{minipage}{.49\textwidth}
 \begin{code}
 \begin{minted}[fontsize=\scriptsize]{rust}
 for row in 0..size2 as usize {
@@ -257,10 +266,10 @@ for row in 0..size2 as usize {
   result[row] += temp;
 }
 \end{minted}
-\captionof{listing}{Serial SpMV}
+\captionof{listing}{Rust: Serial SpMV}
 \end{code}
 \end{minipage}\hfill
-\begin{minipage}{.48\textwidth}
+\begin{minipage}{.49\textwidth}
 \begin{code}
 \begin{minted}[fontsize=\scriptsize]{rust}
 result.par_iter_mut()
@@ -272,7 +281,7 @@ result.par_iter_mut()
 }
 \end{minted}
 \label{lst:spmv-par}
-\captionof{listing}{Parallel SpMV}
+\captionof{listing}{Rust: Parallel SpMV}
 \end{code}
 \end{minipage}
 
@@ -282,7 +291,7 @@ The K-means kernel's Expectation stage, or E-step, was harder to parallelise. Th
 
 After some experimentation, I found the solution, a simple \texttt{map()} and then \texttt{sum()}. 
 
-\begin{minipage}{.48\textwidth}
+\begin{minipage}{.49\textwidth}
 \begin{code}
 \begin{minted}[fontsize=\scriptsize, frame=single]{rust}
 for (idx, item) in x.iter()
@@ -292,11 +301,11 @@ for (idx, item) in x.iter()
     dist_sum_new += dist_min;
 }
 \end{minted}
-\captionof{listing}{K-means Rust serial E-step}
+\captionof{listing}{Rust: K-means serial E-step}
 \label{lst:kmeansserial}
 \end{code}
 \end{minipage}\hfill
-\begin{minipage}{.48\textwidth}
+\begin{minipage}{.49\textwidth}
 \begin{code}
 \begin{minted}[fontsize=\scriptsize, frame=single]{rust}
 dist_sum_new = labels.par_iter_mut()
@@ -306,14 +315,14 @@ dist_sum_new = labels.par_iter_mut()
     dist_min
     }).sum();
 \end{minted}
-\captionof{listing}{K-means Rust parallel E-step}
+\captionof{listing}{Rust: K-means parallel E-step}
 \label{lst:kmeanspar}
 \end{code}
 \end{minipage}
 
 In Listing~\ref{lst:kmeansserial} I am creating an iterator over \texttt{x}, which is a vector of the length as the vector \texttt{labels}. I had originally chosen this vector to be the one which created the iterator merely for convenience. I had to change this vector to \texttt{labels} in the parallel implementation however, as it is the items of \texttt{labels} that need to be updated. I then used the index value to retrieve the necessary values from \texttt{x} to calculate the value of \texttt{k\_best}. The value of \texttt{dist\_min} is also calculated for that particular index value. These \texttt{dist\_min} values are left in a map structure, which is reduced by the sum and written to \texttt{dist\_sum\_new}, yielding the same result as the serial implementation. 
 
-\todo{reflection on this use pattern}
+This map and reduce operation seems to be particularly flexible, and after using the similar fold and then sum combination, was easier to conceive of. Whilst I did experience some difficulties in parallelising these programs with Rayon, it did feel like part of the difficulty was not the language's fault, but rather my lack of understanding of it.
 
 
 \subsection{Parallel Optimisation}
@@ -323,7 +332,7 @@ Parallel initialisation is an important feature of programs which run on cache c
 
 I had not yet prioritised written parallel initialisation in Rust as there was no clear way to do it. This was largely because in the C++ form of parallel initialisation, allocating the memory to be used and then initialising that memory are two distinct steps, where as in Rust they are the same step.
 
-\noindent\begin{minipage}{.48\textwidth}
+\noindent\begin{minipage}{.49\textwidth}
 \begin{code}
 \begin{minted}{c}
 #pragma omp parallel for
@@ -334,19 +343,19 @@ for (int i = 0; i < array_size; i++)
     c[i] = initC;
 }
 \end{minted}
+\captionof{listing}{C: Babel Stream parallel initialisation}
 \label{lst:serialInit}
-\captionof{listing}{Babel Stream C parallel initialisation}
 \end{code}
 \end{minipage}\hfill
-\begin{minipage}{.48\textwidth}
+\begin{minipage}{.49\textwidth}
 \begin{code}
 \begin{minted}{rust}
 vec![0.0; arr_size].par_iter()
        .map(|_| T::from(0.2).unwrap())
        .collect_into_vec(&mut self.b);
 \end{minted}
+\captionof{listing}{Rust: Babel Stream parallel initialisation}
 \label{lst:parInit}
-\captionof{listing}{Babel Stream Rust parallel initialisation}
 \end{code}
 \end{minipage}
 
@@ -357,14 +366,15 @@ These values of 0.2 are then collected into the vector held in \texttt{self.b}.
 
 The use of map here to generate values for parallel initialisation seems like it is an unlikely use case scenario, but I discovered how to use it from the rayon documentation on the map method~\cite{rayonMap}. Whilst clear documentation always helps a language to become more accepted, this use case was shown to not be as flexible as was needed by all kernels which were ported to Rust, as was found later when attempting to implement parallel initialisation for SpMV.
 
-\begin{figure}[h]
+Figure~\ref{fig:babel-dot-init} shows the use of parallel initialisation greatly improved the memory bandwidth of the Babel Stream. However, the improvement in performance still did not bring it to a parity with the C++ and OMP implementation, for reasons discussed further in section~\ref{sec:res-babel}.
+
+\begin{figure}[H]
     \centering
     \includegraphics[width=.8\linewidth]{figs/babel/dot-init.png}
     \caption{Babel Stream Memory Bandwidth initialisation comparison}
     \label{fig:babel-dot-init}
 \end{figure}
 
-Figure~\ref{fig:babel-dot-init} shows, the use of parallel initialisation greatly improved the memory bandwidth of the Babel Stream. However, the improvement in performance still did not bring it to a parity with the C++ and OMP implementation, for reasons discussed further in section~\ref{sec:res-babel}.
 
 The initialisation routine for the Sparse Matrix Vector Multiplication kernel was not as easy to implement. The difficulty was that the parallel loop used to write to elements of the vector \texttt{col\_index}, wrote to the vector in chunks of five. This made it very hard to translate into Rust, as Rayon only uses parallel iterators, and has no exact equivalent of parallel for loops.
 
@@ -443,7 +453,7 @@ For the sparse matrix vector multiplication kernel, the vectors \texttt{col\_ind
 
 K-means used a population of size 73MB, and 16 clusters. This meant that the parallelised E-step of the calculation operated on total of 147MB of data, most of which were 32-bit floats. The rest of the data was 64 bit integers of type \texttt{usize} which were used to refer to array indexes. This size of data set exceeded the L3 cache capacity, but was unable to be raised due to instability in the generating python script.
 
-I used version 6.3.0 of GNU project C  and C++ compiler, \texttt{gcc} \texttt{g++} to compile and run the reference implementations of the kernels. Version 1.34.2 of the Rust compiler, \texttt{rustc} was used.\todo{do I need to justify this choice}
+I used version 6.3.0 of GNU project C  and C++ compiler, \texttt{gcc} \texttt{g++} to compile and run the reference implementations of the kernels. Version 1.34.2 of the Rust compiler, \texttt{rustc} was used.
 \section{Questionnaire}
 To further assess the suitability of Rust for HPC, I presented staff and students at Edinburgh's Parallel Computing Centre (EPCC) with a questionnaire. The aim of this questionnaire was to examine how easily people with little to no experience of Rust could understand it. The more understandable a language is, the easier it is to learn, the more likely it is to be adopted. This questionnaire would provide valuable data on the usability of Rust as a language.
 

@@ -149,6 +149,13 @@ Matt Miller.
 \newblock https://www.youtube.com/watch?v=PjbGojjnBZQ, Feburary 2019.
 \newblock Lecture given at Bluehat Conference 2019.
 
+\bibitem{muller2014}
+Eike~H M{\"u}ller and Robert Scheichl.
+\newblock Massively parallel solvers for elliptic partial differential
+  equations in numerical weather and climate prediction.
+\newblock {\em Quarterly Journal of the Royal Meteorological Society},
+  140(685):2608--2624, 2014.
+
 \bibitem{foam}
 OpenFOAM.
 \newblock Open{FOAM}-plus.
@@ -164,6 +171,12 @@ I~Ordov{\'a}s-Pascual and J~S{\'a}nchez Almeida.
 Dennis~M. Ritchie.
 \newblock The development of the {C} language.
 \newblock {\em SIGPLAN Not.}, 28(3):201--208, March 1993.
+
+\bibitem{schippers1982}
+Harmen Schippers.
+\newblock Application of multigrid methods for integral equations to two
+  problems from fluid dynamics.
+\newblock {\em Journal of Computational Physics}, 48(3):441--461, 1982.
 
 \bibitem{Sedaghati:2015}
 Naser Sedaghati, Te~Mu, Louis-Noel Pouchet, Srinivasan Parthasarathy, and
