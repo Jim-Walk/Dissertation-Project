@@ -38,14 +38,20 @@ Work stealing is an established parallel technique, in which threads work on chu
 
 Unfortunately, a dynamic schedule will always do poorly when the workload is evenly distributed amongst threads, especially compared to static schedules. The defualt OpenMP parallalel for schedule is a static one, which evenly splits the work between threads~\cite{OpenMPSpec5}. The effect of this schedule is that data is more likely to work on data which it has initilised, which is likely to be within the same CC-NUMA region, and therefore quicker to access. In comparison, the work which threads will do in a work stealing schedule is non deterministic, and may require to be fetched from further away, at greater cost.
 
-\section{Sparse Matrix}\label{sec:res-sparse}
-\section{K-means}
+Although the results for Babel Stream do show that in this particular circumstance, OpenMP does have high performance, it does not necessarily follow that the static schedule will always be best for HPC. To investigate this further, I will now examine the SpMV results.
+\section{Sparse Matrix Vector Multiplicationmatplotlib scatter }\label{sec:res-sparse}
+\section{K-means clustering}
 \section{Questionnaire}
-The results show zero correlation between competency and score. This suggests that it is difficult to predict how easy a HPC programmer will understand Rust. Figure~\ref{fig:questions}
+Figure~\ref{fig:questions} presents the collected data from the questionnaire. Each small dot represents one answer, and a larger dot represents two. Eleven responses were collected in total.
+These results show zero correlation between competency and score. This suggests that it is difficult to predict how easy a HPC programmer will understand Rust. 
 
 \begin{figure}[h]
 \centering
 \includegraphics[width=.8\linewidth]{figs/questions/scatter.png}
 \caption{Questionnaire --- Score against Competency}\label{fig:questions}
 \end{figure}
+
+However, as these such little data was collected in this circumstance, it would be unreasonable to claim that this study contains any decisive information. The study would need to be carried out a second time, with a much larger group of participants.
+
+Interesting highlights from the data 
 \todo{include data? Didn't say I would}
