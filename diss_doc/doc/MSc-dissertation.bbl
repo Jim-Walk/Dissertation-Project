@@ -7,6 +7,11 @@ L.~N. Bhuyan, H.~Wang, and R.~Iyer.
 \newblock {\em IEEE Trans. Parallel Distrib. Syst.}, 11(3):230--246, March
   2000.
 
+\bibitem{blumofe1999}
+Robert~D Blumofe and Charles~E Leiserson.
+\newblock Scheduling multithreaded computations by work stealing.
+\newblock {\em Journal of the ACM (JACM)}, 46(5):720--748, 1999.
+
 \bibitem{OpenMPARB}
 OpenMP Architecture~Review Board.
 \newblock Openmp architecture review board members.
@@ -17,6 +22,14 @@ OpenMP Architecture~Review Board.
 \newblock {OpenMP C and C++ Application Program Interface}.
 \newblock https://www.openmp.org/wp-content/uploads/cspec10.pdf, October 1998.
 \newblock Version 1.0.
+
+\bibitem{OpenMPSpec5}
+OpenMP Architecture~Review Board.
+\newblock {OpenMP Application Program Interface}.
+\newblock
+  https://www.openmp.org/wp-content/uploads/OpenMP-API-Specification-5.0.pdf,
+  November 2018.
+\newblock Version 5.0.
 
 \bibitem{DBLP:journals/corr/ChakrabortyND14a}
 Sanjay Chakraborty, N.~K. Nagwani, and Lopamudra Dey.
@@ -142,6 +155,12 @@ Matthew Martineau and Simon McIntosh-Smith.
 \newblock In {\em 2017 IEEE International Conference on Cluster Computing
   (CLUSTER)}, pages 850--857. IEEE, 2017.
 
+\bibitem{smallCult}
+Nicholas~D. Matsakis.
+\newblock {Rayon: data parallelism in Rust}.
+\newblock
+  http://smallcultfollowing.com/babysteps/blog/2015/12/18/rayon-data-parallelism-in-rust/\#parallel-iterators.
+
 \bibitem{MicroBugs}
 Matt Miller.
 \newblock {Trends, Challenges, and Strategic Shifts in the Software
@@ -166,6 +185,12 @@ I~Ordov{\'a}s-Pascual and J~S{\'a}nchez Almeida.
 \newblock A fast version of the k-means classification algorithm for
   astronomical applications.
 \newblock {\em Astronomy \& Astrophysics}, 565:A53, 2014.
+
+\bibitem{joinSrc}
+Rayon.
+\newblock {rayon/rayon-core/src/join/mod.rs}.
+\newblock
+  https://github.com/rayon-rs/rayon/blob/83b67e27f254c5bde039fdc0ea0840f309ce5f73/rayon-core/src/join/mod.rs.
 
 \bibitem{Ritchie:1993}
 Dennis~M. Ritchie.
@@ -284,8 +309,8 @@ Jim Walker.
 
 \bibitem{spMVGPU}
 Xintian Yang, Srinivasan Parthasarathy, and Ponnuswamy Sadayappan.
-\newblock Fast sparse matrix-vector multiplication on gpus: Implications for
-  graph mining.
+\newblock {Fast Sparse Matrix-Vector Multiplication on GPUs: Implications for
+  Graph Mining}.
 \newblock {\em Proceedings of The Vldb Endowment - PVLDB}, 4, 03 2011.
 
 \bibitem{CS205}
