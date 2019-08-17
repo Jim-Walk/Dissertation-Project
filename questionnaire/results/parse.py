@@ -5,20 +5,14 @@ import matplotlib.pyplot as plt
 import scipy.stats as stats
 import sys
 
-def normal(scores):
-    scores.sort()
-    s_mean = np.mean(scores)
-    s_std = np.std(scores)
-    pdf = stats.norm.pdf(scores, s_mean, s_std)
-    plt.plot(scores, pdf, '-o')
-    plt.hist(scores, normed=True)
-    plt.show()
-
-def scatter(scores, competency):
+def scatter(d, comps, scores):
     fig, ax = plt.subplots()
-    ax.scatter(competency, scores)
-    ax.plot(np.unique(competency),
-             np.poly1d(np.polyfit(competency, scores,1))(np.unique(competency)))
+    for xe, ye in d.items():
+        xAx = [xe] * len(ye)
+        sizes = [ye.count(num)**2.5 * 30 for num in ye]
+        ax.scatter(xAx, ye, s=sizes)
+    ax.plot(np.unique(comps),
+             np.poly1d(np.polyfit(comps, scores,1))(np.unique(comps)))
     ax.set(xlabel="Competency", ylabel="Scores")
     ax.set_yticks([2,3,4,5,6])
     fig.savefig('scatter.png')
@@ -28,16 +22,22 @@ if __name__ == '__main__':
         print("Please use one file as the argument for this program")
 
     else:
-        scores = []; competency = []
         print("Parsing",sys.argv[1])
+        d = {}
+        scores = []
+        comps = []
         with open(sys.argv[1]) as csvfile:
             reader = csv.reader(csvfile)
             next(reader)
+            # Dictionary is d[competency] = scores
             for row in reader:
                 scores += [int(row[0])]
-                competency += [int(row[1])]
-        print(scores)
-        print(competency)
-        print("Generating normal distribution")
-        #normal(scores)
-        scatter(scores, competency)
+                comps += [int(row[1])]
+                score = [int(row[0])]
+                competency = int(row[1])
+                if competency in d:
+                    d[competency] += score
+                else:
+                    d[competency] = score
+        print("Generating scatter")
+        scatter(d, comps, scores)

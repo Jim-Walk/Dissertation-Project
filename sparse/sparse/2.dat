@@ -1,0 +1,10 @@
+Jim's bootleg Research Kernels version 0.17
+Rust Sparse matrix-vector multiplication
+Number of threads     =	2
+Matrix order          = 16777216
+Stencil diameter      = 31
+Sparsity              = 0.000003635883331298828
+Number of iterations  = 101
+vector 16777216 matrix 1023410176 col_index 1023410176, result 16777216
+Solution validates
+Rate (MFLops/s): 741.3148186030822 Avg time (s): 2.7610676336633664

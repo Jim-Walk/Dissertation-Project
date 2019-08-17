@@ -129,14 +129,14 @@ fn main(){
 
 The \texttt{drop()} function is then called on the vector, which is similar to \texttt{free()}. \texttt{drop()} is automatically called on values when they go out of scope. It is more accurate to think of \texttt{drop()} as something akin to C++'s destructors, but both those and this function do, at their core, release memory back to the operating system. However, attempting to use a variable after it has been dropped is illegal in Rust, resulting in the error message below:
 
-\begin{alltt}
-\scriptsize
-error[E0382]: borrow of moved value: `array`
+\begin{code}
+\begin{minted}{bash}
+error[E0382]: borrow of moved value: 'array'
  --> src/main.rs:6:20
   |
 2 |     let vector = vec![4;10];
-  |         ----- move occurs because `array` has type `std::vec::Vec<i32>`,
-  which does not implement the `Copy` trait
+  |         ----- move occurs because 'array' has type 'std::vec::Vec<i32>',
+  which does not implement the 'Copy' trait
 3 |     drop(vector);
   |          ----- value moved here
 ...
@@ -144,7 +144,10 @@ error[E0382]: borrow of moved value: `array`
   |                    ^^^^^ value borrowed here after move
 
 error: aborting due to previous error
-\end{alltt}
+\end{minted}
+\captionof{listing}{Rust Compiler: Use after free}
+\label{lst:rust-borrow-move}
+\end{code}
 
 This is rust's borrow checker complaining that the program does not follow the ownership model. When the value of \texttt{vector} is dropped, in the Rust ownership model, the ownership of \texttt{vector} is moved into the drop function, and is not returned. When the program later tries to use (borrow) the variable, it is therefore unable to, as Rust only allows for values to have one owner at a time.
 
