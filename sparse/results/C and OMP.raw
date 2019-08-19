@@ -1,0 +1,252 @@
+Running on 1 Thread
+Parallel Research Kernels version 2.17
+OpenMP Sparse matrix-vector multiplication
+Number of threads     =                1
+Matrix order          =         16777216
+Stencil diameter      =               31
+Sparsity              =     0.0000036359
+Number of iterations  =              101
+Using canonical indexing
+Solution validates
+Rate (MFlops/s): 625.793784  Avg time (s): 3.270759
+
+ Performance counter stats for './sparse 1 101 12 15':
+
+    20,583,943,866      r5301c7                                                       (66.67%)
+                 0      r5302c7                                                       (66.67%)
+   101,454,952,412      r5304c7                                                       (66.67%)
+                 0      r5308c7                                                       (66.67%)
+       431,084,067      r5310c7                                                       (66.67%)
+                 0      r5320c7                                                       (66.67%)
+
+     377.461752495 seconds time elapsed
+
+Running on 2 Threads
+Parallel Research Kernels version 2.17
+OpenMP Sparse matrix-vector multiplication
+Number of threads     =                2
+Matrix order          =         16777216
+Stencil diameter      =               31
+Sparsity              =     0.0000036359
+Number of iterations  =              101
+Using canonical indexing
+Solution validates
+Rate (MFlops/s): 1182.924587  Avg time (s): 1.730305
+
+ Performance counter stats for './sparse 2 101 12 15':
+
+    20,585,218,056      r5301c7                                                       (66.67%)
+                 0      r5302c7                                                       (66.67%)
+   101,447,727,709      r5304c7                                                       (66.67%)
+                 0      r5308c7                                                       (66.67%)
+       427,278,526      r5310c7                                                       (66.67%)
+                 0      r5320c7                                                       (66.67%)
+
+     198.526885424 seconds time elapsed
+
+Running on 4 Threads
+Parallel Research Kernels version 2.17
+OpenMP Sparse matrix-vector multiplication
+Number of threads     =                4
+Matrix order          =         16777216
+Stencil diameter      =               31
+Sparsity              =     0.0000036359
+Number of iterations  =              101
+Using canonical indexing
+Solution validates
+Rate (MFlops/s): 2346.957853  Avg time (s): 0.872116
+
+ Performance counter stats for './sparse 4 101 12 15':
+
+    20,586,198,106      r5301c7                                                       (66.67%)
+                 0      r5302c7                                                       (66.67%)
+   101,452,315,550      r5304c7                                                       (66.67%)
+                 0      r5308c7                                                       (66.67%)
+       431,345,221      r5310c7                                                       (66.67%)
+                 0      r5320c7                                                       (66.66%)
+
+     100.399986316 seconds time elapsed
+
+Running on 8 Threads
+Parallel Research Kernels version 2.17
+OpenMP Sparse matrix-vector multiplication
+Number of threads     =                8
+Matrix order          =         16777216
+Stencil diameter      =               31
+Sparsity              =     0.0000036359
+Number of iterations  =              101
+Using canonical indexing
+Solution validates
+Rate (MFlops/s): 4625.013972  Avg time (s): 0.442554
+
+ Performance counter stats for './sparse 8 101 12 15':
+
+    20,585,188,910      r5301c7                                                       (66.67%)
+                 0      r5302c7                                                       (66.67%)
+   101,458,290,173      r5304c7                                                       (66.67%)
+                 0      r5308c7                                                       (66.67%)
+       439,738,934      r5310c7                                                       (66.67%)
+                 0      r5320c7                                                       (66.67%)
+
+      50.984550544 seconds time elapsed
+
+Running on 12 Threads
+Parallel Research Kernels version 2.17
+OpenMP Sparse matrix-vector multiplication
+Number of threads     =               12
+Matrix order          =         16777216
+Stencil diameter      =               31
+Sparsity              =     0.0000036359
+Number of iterations  =              101
+Using canonical indexing
+Solution validates
+Rate (MFlops/s): 6136.436435  Avg time (s): 0.333552
+
+ Performance counter stats for './sparse 12 101 12 15':
+
+    20,585,931,486      r5301c7                                                       (66.66%)
+                 0      r5302c7                                                       (66.66%)
+   101,461,924,266      r5304c7                                                       (66.67%)
+                 0      r5308c7                                                       (66.67%)
+       449,743,424      r5310c7                                                       (66.67%)
+                 0      r5320c7                                                       (66.67%)
+
+      37.811313907 seconds time elapsed
+
+Running on 16 Threads
+Parallel Research Kernels version 2.17
+OpenMP Sparse matrix-vector multiplication
+Number of threads     =               16
+Matrix order          =         16777216
+Stencil diameter      =               31
+Sparsity              =     0.0000036359
+Number of iterations  =              101
+Using canonical indexing
+Solution validates
+Rate (MFlops/s): 6212.203452  Avg time (s): 0.329484
+
+ Performance counter stats for './sparse 16 101 12 15':
+
+    20,586,326,042      r5301c7                                                       (66.67%)
+                 0      r5302c7                                                       (66.67%)
+   101,445,376,385      r5304c7                                                       (66.67%)
+                 0      r5308c7                                                       (66.67%)
+       423,253,646      r5310c7                                                       (66.67%)
+                 0      r5320c7                                                       (66.67%)
+
+      36.623569579 seconds time elapsed
+
+Running on 20 Threads
+Parallel Research Kernels version 2.17
+OpenMP Sparse matrix-vector multiplication
+Number of threads     =               20
+Matrix order          =         16777216
+Stencil diameter      =               31
+Sparsity              =     0.0000036359
+Number of iterations  =              101
+Using canonical indexing
+Solution validates
+Rate (MFlops/s): 7392.359185  Avg time (s): 0.276883
+
+ Performance counter stats for './sparse 20 101 12 15':
+
+    20,582,797,989      r5301c7                                                       (66.67%)
+                 0      r5302c7                                                       (66.67%)
+   101,456,762,898      r5304c7                                                       (66.67%)
+                 0      r5308c7                                                       (66.67%)
+       434,527,589      r5310c7                                                       (66.67%)
+                 0      r5320c7                                                       (66.67%)
+
+      31.079726900 seconds time elapsed
+
+Running on 24 Threads
+Parallel Research Kernels version 2.17
+OpenMP Sparse matrix-vector multiplication
+Number of threads     =               24
+Matrix order          =         16777216
+Stencil diameter      =               31
+Sparsity              =     0.0000036359
+Number of iterations  =              101
+Using canonical indexing
+Solution validates
+Rate (MFlops/s): 8424.482793  Avg time (s): 0.242961
+
+ Performance counter stats for './sparse 24 101 12 15':
+
+    20,586,082,613      r5301c7                                                       (66.67%)
+                 0      r5302c7                                                       (66.67%)
+   101,450,180,074      r5304c7                                                       (66.67%)
+                 0      r5308c7                                                       (66.67%)
+       430,797,545      r5310c7                                                       (66.67%)
+                 0      r5320c7                                                       (66.67%)
+
+      27.369598953 seconds time elapsed
+
+Running on 28 Threads
+Parallel Research Kernels version 2.17
+OpenMP Sparse matrix-vector multiplication
+Number of threads     =               28
+Matrix order          =         16777216
+Stencil diameter      =               31
+Sparsity              =     0.0000036359
+Number of iterations  =              101
+Using canonical indexing
+Solution validates
+Rate (MFlops/s): 9333.603523  Avg time (s): 0.219296
+
+ Performance counter stats for './sparse 28 101 12 15':
+
+    20,585,529,647      r5301c7                                                       (66.67%)
+                 0      r5302c7                                                       (66.66%)
+   101,465,810,408      r5304c7                                                       (66.66%)
+                 0      r5308c7                                                       (66.67%)
+       432,408,634      r5310c7                                                       (66.67%)
+                 0      r5320c7                                                       (66.67%)
+
+      24.780645710 seconds time elapsed
+
+Running on 32 Threads
+Parallel Research Kernels version 2.17
+OpenMP Sparse matrix-vector multiplication
+Number of threads     =               32
+Matrix order          =         16777216
+Stencil diameter      =               31
+Sparsity              =     0.0000036359
+Number of iterations  =              101
+Using canonical indexing
+Solution validates
+Rate (MFlops/s): 6474.467550  Avg time (s): 0.316137
+
+ Performance counter stats for './sparse 32 101 12 15':
+
+    20,584,596,094      r5301c7                                                       (66.67%)
+                 0      r5302c7                                                       (66.67%)
+   101,457,836,167      r5304c7                                                       (66.67%)
+                 0      r5308c7                                                       (66.67%)
+       429,560,466      r5310c7                                                       (66.67%)
+                 0      r5320c7                                                       (66.67%)
+
+      34.564542530 seconds time elapsed
+
+Running on 36 Threads
+Parallel Research Kernels version 2.17
+OpenMP Sparse matrix-vector multiplication
+Number of threads     =               36
+Matrix order          =         16777216
+Stencil diameter      =               31
+Sparsity              =     0.0000036359
+Number of iterations  =              101
+Using canonical indexing
+Solution validates
+Rate (MFlops/s): 6033.693624  Avg time (s): 0.339232
+
+ Performance counter stats for './sparse 36 101 12 15':
+
+    20,585,045,890      r5301c7                                                       (66.67%)
+                 0      r5302c7                                                       (66.67%)
+   101,475,599,490      r5304c7                                                       (66.67%)
+                 0      r5308c7                                                       (66.66%)
+       435,386,147      r5310c7                                                       (66.67%)
+                 0      r5320c7                                                       (66.67%)
+
+      36.700669815 seconds time elapsed
