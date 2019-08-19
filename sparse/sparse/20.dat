@@ -5,7 +5,5 @@ Matrix order          = 16777216
 Stencil diameter      = 31
 Sparsity              = 0.000003635883331298828
 Number of iterations  = 101
-19: attempted to write out of bounds 912 times
-vector 16777216 matrix 1023410176 col_index 1023410176, result 16777216
 Solution validates
-Rate (MFLops/s): 6106.334325383082 Avg time (s): 0.33519624752475247
+Rate (MFLops/s): 6438.135785840751 Avg time (s): 0.31792127722772273

@@ -5,6 +5,5 @@ Matrix order          = 16777216
 Stencil diameter      = 31
 Sparsity              = 0.000003635883331298828
 Number of iterations  = 101
-vector 16777216 matrix 1023410176 col_index 1023410176, result 16777216
 Solution validates
-Rate (MFLops/s): 5408.336663744428 Avg time (s): 0.3784565346534653
+Rate (MFLops/s): 5748.200442997323 Avg time (s): 0.35608019801980195

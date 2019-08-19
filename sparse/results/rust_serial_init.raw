@@ -1,0 +1,132 @@
+ Performance counter stats for './target/release/sparse -g 12 -s 15 -n 101 -t 1':
+
+   214,952,679,681      r5301c7                                                       (66.67%)
+                 0      r5302c7                                                       (66.67%)
+     5,451,726,661      r5304c7                                                       (66.67%)
+                 0      r5308c7                                                       (66.67%)
+                 0      r5310c7                                                       (66.67%)
+                 0      r5320c7                                                       (66.67%)
+
+     527.611147174 seconds time elapsed
+
+
+ Performance counter stats for './target/release/sparse -g 12 -s 15 -n 101 -t 2':
+
+   214,950,156,226      r5301c7                                                       (66.67%)
+                 0      r5302c7                                                       (66.67%)
+     5,460,000,950      r5304c7                                                       (66.66%)
+                 0      r5308c7                                                       (66.67%)
+                 0      r5310c7                                                       (66.67%)
+                 0      r5320c7                                                       (66.67%)
+
+     281.090921425 seconds time elapsed
+
+
+ Performance counter stats for './target/release/sparse -g 12 -s 15 -n 101 -t 4':
+
+   214,956,741,739      r5301c7                                                       (66.67%)
+                 0      r5302c7                                                       (66.67%)
+     5,478,216,445      r5304c7                                                       (66.67%)
+                 0      r5308c7                                                       (66.67%)
+                 0      r5310c7                                                       (66.67%)
+                 0      r5320c7                                                       (66.67%)
+
+     146.222339662 seconds time elapsed
+
+
+ Performance counter stats for './target/release/sparse -g 12 -s 15 -n 101 -t 8':
+
+   214,939,993,662      r5301c7                                                       (66.67%)
+                 0      r5302c7                                                       (66.67%)
+     5,431,170,187      r5304c7                                                       (66.67%)
+                 0      r5308c7                                                       (66.67%)
+                 0      r5310c7                                                       (66.67%)
+                 0      r5320c7                                                       (66.66%)
+
+      81.473541295 seconds time elapsed
+
+
+ Performance counter stats for './target/release/sparse -g 12 -s 15 -n 101 -t 12':
+
+   214,967,794,487      r5301c7                                                       (66.67%)
+                 0      r5302c7                                                       (66.67%)
+     5,481,426,071      r5304c7                                                       (66.67%)
+                 0      r5308c7                                                       (66.67%)
+                 0      r5310c7                                                       (66.67%)
+                 0      r5320c7                                                       (66.67%)
+
+      60.420895955 seconds time elapsed
+
+
+ Performance counter stats for './target/release/sparse -g 12 -s 15 -n 101 -t 16':
+
+   215,018,572,463      r5301c7                                                       (66.67%)
+                 0      r5302c7                                                       (66.67%)
+     5,435,875,568      r5304c7                                                       (66.66%)
+                 0      r5308c7                                                       (66.67%)
+                 0      r5310c7                                                       (66.67%)
+                 0      r5320c7                                                       (66.67%)
+
+      50.164419751 seconds time elapsed
+
+
+ Performance counter stats for './target/release/sparse -g 12 -s 15 -n 101 -t 20':
+
+   214,948,593,988      r5301c7                                                       (66.67%)
+                 0      r5302c7                                                       (66.67%)
+     5,509,802,087      r5304c7                                                       (66.67%)
+                 0      r5308c7                                                       (66.67%)
+                 0      r5310c7                                                       (66.67%)
+                 0      r5320c7                                                       (66.67%)
+
+      46.233647721 seconds time elapsed
+
+
+ Performance counter stats for './target/release/sparse -g 12 -s 15 -n 101 -t 24':
+
+   214,969,265,734      r5301c7                                                       (66.67%)
+                 0      r5302c7                                                       (66.67%)
+     5,442,904,125      r5304c7                                                       (66.67%)
+                 0      r5308c7                                                       (66.67%)
+                 0      r5310c7                                                       (66.67%)
+                 0      r5320c7                                                       (66.67%)
+
+      45.009075307 seconds time elapsed
+
+
+ Performance counter stats for './target/release/sparse -g 12 -s 15 -n 101 -t 28':
+
+   214,980,680,133      r5301c7                                                       (66.67%)
+                 0      r5302c7                                                       (66.67%)
+     5,492,158,171      r5304c7                                                       (66.67%)
+                 0      r5308c7                                                       (66.67%)
+                 0      r5310c7                                                       (66.67%)
+                 0      r5320c7                                                       (66.67%)
+
+      44.350627453 seconds time elapsed
+
+
+ Performance counter stats for './target/release/sparse -g 12 -s 15 -n 101 -t 32':
+
+   214,951,312,733      r5301c7                                                       (66.67%)
+                 0      r5302c7                                                       (66.66%)
+     5,505,491,061      r5304c7                                                       (66.66%)
+                 0      r5308c7                                                       (66.67%)
+                 0      r5310c7                                                       (66.67%)
+                 0      r5320c7                                                       (66.67%)
+
+      45.572518083 seconds time elapsed
+
+
+ Performance counter stats for './target/release/sparse -g 12 -s 15 -n 101 -t 36':
+
+   214,954,940,130      r5301c7                                                       (66.67%)
+                 0      r5302c7                                                       (66.67%)
+     5,463,885,348      r5304c7                                                       (66.67%)
+                 0      r5308c7                                                       (66.66%)
+                 0      r5310c7                                                       (66.67%)
+                 0      r5320c7                                                       (66.67%)
+
+      43.571120649 seconds time elapsed
+
+
