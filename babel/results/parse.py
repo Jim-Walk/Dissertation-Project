@@ -59,7 +59,7 @@ if __name__ == '__main__':
         j = 0
         while j < len(all_results):
             ax.plot(x_axis, all_results[j][i], label=labels[j],
-                    marker=markers[j])
+                    marker=markers[j], linestyle='None')
             j += 1
         ax.plot(x_axis, peak_mem, label='Theoretical Peak', ls='--')
         ax.set(xlabel='Number of threads', ylabel='Memory Bandwidth (GB/s)')
