@@ -107,7 +107,9 @@ However, the output of this program is non-deterministic, as it includes a data 
 This race condition leads to different values being printed by the program on different executions. To solve this problem, a \texttt{\#pragma omp barrier} statement must be inserted at the end of the for loop. As with the other memory errors mentioned earlier however, these mistakes are not always found before using a program.
 
 \section{Rust}\label{sec:rust}
-The Rust programming language started life as a side project by an employee of the Mozilla foundation, before becoming adopted and launched by it in 2011~\cite{FutureTense}. Rust's design was stated to be an `Unapologetic interest in the static, structured, concurrent, large-systems language niche'~\cite{pServo}. Like C and C++, Rust's early design aims included the goal of becoming a systems language. Rust like C has structs, and shares behaviours between structs through composition with traits, but not with inheritence, like C++.
+The Rust programming language started life as a side project by an employee of the Mozilla foundation, before becoming adopted and launched by it in 2011~\cite{FutureTense}. Rust's design was stated to be an `Unapologetic interest in the static, structured, concurrent, large-systems language niche'~\cite{pServo}. Like C and C++, Rust's early design aims included the goal of becoming a systems language.
+Rust also uses the LLVM backend, just like the C and C++ compiler clang~\cite{rustClang}.
+Rust even has C like structs, and shares behaviours between those structs through composition with traits, not with inheritence, like C++.
 
 Rust's initial design ideas mainly diverge from C and C++ in its aims to provide the programmer with memory safety. Two ideas, immutability and ownership are used to achieve this improvement. 
 

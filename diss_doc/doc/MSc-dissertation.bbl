@@ -253,6 +253,11 @@ Deakin~T T, Price J, Martineau M, and McIntosh-Smith S.
 \newblock In {\em Paper presented at P3MA Workshop at ISC High Performance,
   Frankfurt, Germany.}, 2016.
 
+\bibitem{rustClang}
+The Rust~Language Team.
+\newblock {Guide to Rustc Development - Code Generation}.
+\newblock https://rust-lang.github.io/rustc-guide/codegen.html.
+
 \bibitem{RustClippy}
 The Rust~Language Team.
 \newblock rust-clippy.
@@ -306,6 +311,12 @@ Andy Turner.
 Jim Walker.
 \newblock {OpenMP Sparse access outside array boundaries}.
 \newblock https://github.com/ParRes/Kernels/issues/405.
+
+\bibitem{SparseArith}
+Samuel Williams and David Patterson.
+\newblock The roofline model.
+\newblock https://crd.lbl.gov/assets/pubs\_presos/parlab08-roofline-talk.pdf.
+\newblock Lecture slides from Berkeley ParLab. Page 25.
 
 \bibitem{spMVGPU}
 Xintian Yang, Srinivasan Parthasarathy, and Ponnuswamy Sadayappan.

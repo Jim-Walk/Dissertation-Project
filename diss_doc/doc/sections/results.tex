@@ -28,7 +28,7 @@ This increasing difference lead me to believe that an examination of assembly co
 \caption{Babel Stream --- Triad bandwidth}\label{fig:babel-triad}
 \end{figure}
 
-The decision to investigate thread scheduling was made because it was easy to investigate. There was also the possibility that Rayon's context switching was more costly to performance than OpenMP's. However, this would likely need to be confirmed at the level of assembly instructions, which can be difficult to parse, especially if you don't know what exactly you're looking for. Therefore, it seemed like a much better strategy to look at how thread scheduling in Rayon works  and also look out for hints of context switching costs.
+There was also the possibility that Rayon's context switching was more costly to performance than OpenMP's. However, this would likely need to be confirmed at the level of assembly instructions, which can be difficult to parse, especially if you don't know what exactly you're looking for. Therefore, it seemed like a much better strategy to look at how thread scheduling in Rayon works  and also look out for hints of context switching costs.
 
 Consulting the documentation reveals that Rayon's \texttt{par\_iter()} construct reveals that the parallel iterator API is a wrapper around Rayon's \texttt{join()} method~\cite{smallCult}. In the source code for \texttt{join()}, it is stated that the underlying implementation of join in Rayon is different to the common conception of it. 
 `The underlying technique is called ``work stealing'': the
@@ -44,12 +44,28 @@ Although the results for Babel Stream do show that in this particular circumstan
 
 The SpMV kernels showed that Rayon's work stealing scheduling does not always decrease performance. As figure~\ref{fig:roofline} shows, there was very little difference in performance between the two implemenations of the Kernal.
 
-The perf utility showed that only the C version of SpMV used instructions with the code r5310c7, which is used for packed 256 bit instructions. In this case, it was used to add four doubles together when performing the matrix vector multiplication and storing the result in \texttt{temp}\footnote{line 290 of sparse.c}.
+Using \texttt{perf} showed that only the C version of SpMV used instructions with the code r5310c7, which is used for packed 256 bit instructions. In this case, it was used to add four doubles together when performing the matrix vector multiplication and storing the result in \texttt{temp}\footnote{line 290 of sparse.c}. Both implementations used 64 bit and 128 bit instructions. 
+
 \begin{figure}[h]
 \centering
 \includegraphics[width=.9\linewidth]{figs/sparse/roofline.png}
 \caption{SpMV --- Roofline}\label{fig:roofline}
 \end{figure}
+
+Figure~\ref{fig:roofline} compares the execution of both implementations of the SpMV Kernel using the roofline modle. Operational intensity shows itself to be very low, at around 0.13 MFlops/MByte. This is equivalent to 1.04 Flops per double.
+Although this is a low amount of Flops per double, SpMV is known to not have a high operational intensity~\cite{SparseArith}. Roughly one Flop per double is to be expected from the algorithm used, and the sparsity of the matrix, as each double in the SpMV is used only once in each iteration.
+It is remarkable that the performance of both implementations is so similar. Whilst C has slightly higher performance, and Rust marginally better operational intensity, both implementations are clearly memory bandwidth bound. 
+
+Figure~\ref{fig:sparse-time} helps to clarify further the difference in performance between  the two implementations. A $\log_2 \log_2$ scale has been used here to make the difference in performance clearer. Whilst Rust is slower than C at most thread counts, it is never an order of 2 slower.
+Rust is even slightly faster than C at twenty threads. 
+\begin{figure}[h]
+\centering
+\includegraphics[width=.9\linewidth]{figs/sparse/time.png}
+\caption{SpMV --- Time}\label{fig:sparse-time}
+\end{figure}
+
+Compared to the results from Babel Stream, Rust perfroms a lot better. This could be because the work stealing schedule for Rayon is better suited to SpMV's irregular work distribution, whilst OpenMP's usage is sub optimal.
+
 
 \section{K-means clustering}
 

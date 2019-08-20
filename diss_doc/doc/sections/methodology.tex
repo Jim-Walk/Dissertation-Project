@@ -457,7 +457,10 @@ perf stat -e r5301c7 -e r5302c7 -e r5304c7 -e r5308c7 -e r5310c7
           -e r5320c7 \$kernel 
 \end{alltt}
 
-\texttt{perf} is a program performance monitor for linux systems which works at the system's kernel level, using hardware counters to track certain events. I request statistics on events with \texttt{stat}, and then specify each event after \texttt{-e}. Each of these events are floating point operations for doubles, at various levels of vectorisation. Lasty, I launch the kernel as normal, here shown by \texttt{\$kernel}
+\texttt{perf} is a program performance monitor for linux systems which works at the system's kernel level, using hardware counters to track certain events. I request statistics on events with \texttt{stat}, and then specify each event after \texttt{-e}. Each of these events are floating point operations for doubles, at various levels of vectorisation. Lasty, I launch the kernel as normal, here shown by \texttt{\$kernel}.
+I will use \texttt{perf} to monitor all of the FLOPS of the program, as nearly all of the FLOPS in the program, including initilisation, are parallelised. Some FLOPS are used for timing purposes, but there are very few of these.
+
+I will use the peak memory bandwidth recorded by the Babel Stream kernel in my Roofline Model. For the peak Flop/s, I will use the theoretical figure calculated from the processor's specification. I am making this choice because the maximum calculated Flop/s is difficult to find due to a processor's vector units.
 
 K-means used a population of size 73MB, and 16 clusters. This meant that the parallelised E-step of the calculation operated on total of 147MB of data, most of which were 32-bit floats. The rest of the data was 64 bit integers of type \texttt{usize} which were used to refer to array indexes. This size of data set exceeded the L3 cache capacity, but was unable to be raised due to instability in the generating python script.
 
