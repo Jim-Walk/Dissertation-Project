@@ -45,10 +45,23 @@ The SpMV kernel's showed that Rayon's work stealing scheduling does not always d
 The perf utility showed that only the C version of SpMV used instructions with the code r5310c7, which is used for packed 256 bit instructions. In this case, it was used to add four doubles together when performing the matrix vector multiplication and storing the result in \texttt{temp}\footnote{line 290 of sparse.c}.
 \begin{figure}[h]
 \centering
-\includegraphics[width=.8\linewidth]{figs/sparse/roofline.png}
+\includegraphics[width=.9\linewidth]{figs/sparse/roofline.png}
 \caption{SpMV --- Roofline}\label{fig:roofline}
 \end{figure}
 \section{K-means clustering}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=.9\linewidth]{figs/kmeans/speedup.png}
+\caption{K Means --- Speedup}\label{fig:kmeans-speed}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=.9\linewidth]{figs/kmeans/time.png}
+\caption{K Means --- Time}\label{fig:kmeans-time}
+
+\end{figure}
 \section{Questionnaire}
 Figure~\ref{fig:questions} presents the collected data from the questionnaire. Each small dot represents one answer, and a larger dot represents two. Eleven responses were collected in total.
 These results show zero correlation between competency and score. This suggests that it is difficult to predict how easy a HPC programmer will understand Rust. 

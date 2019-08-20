@@ -22,33 +22,18 @@ def parse_file(f):
                 flops += 2 * int(data[i+2].split()[0].translate(t)) # r5301c7
                 flops += 4 * int(data[i+4].split()[0].translate(t)) # r5310c7
                 flops = flops/1000000 # Change flops to Mflops
-                res_x += [flops/1663000] # Total data is 16630MB
+                res_x += [flops/1663000] # Total data is 16630MB, 100 times
                 flops = flops / float(data[i+7].split()[0])
                 res_y += [flops]
         i+=1
 
     return res_x, res_y
 
-# Takes a list of times and calculates speedup
-# speedup = t1/tn
-def get_speedup(res):
-    i = 0
-    t1 = res[0]
-    while i < len(res):
-        res[i] = t1/res[i]
-        i += 1
-
 def abline(slope, intercept):
     axes = plt.gca()
     x_vals = np.array(axes.get_xlim())
     y_vals = intercept + slope * x_vals
     return x_vals, y_vals
-
-def flops_per_byte(res):
-    flby = []
-    for r in res:
-        flby += [r/16630000000]
-    return flby
 
 if __name__ == '__main__':
     labels = []
@@ -72,20 +57,23 @@ if __name__ == '__main__':
         print('Threads, MFlops,\tOperation Intensity')
         for i in range(len(all_res_x[j])):
             print(threads[i],'\t', all_res_y[j][i], all_res_x[j][i])
-        ax.plot(all_res_x[j],all_res_y[j],label=labels[j], marker=markers[j])
+        ax.plot(all_res_x[j],all_res_y[j],label=labels[j], marker=markers[j],
+                linestyle='None')
         j += 1
-    ax.set_xlim(0.125,2)
+    ax.set_xlim(0.1,2)
     peak_band_x, peak_band_y = abline(135106.598, 0)
-    print(peak_band_x, peak_band_y)
-    ax.plot(peak_band_x, peak_band_y, label="Peak Bandwidth")
-    #ax.plot(peak_band_x, [33782000000 for i in peak_band_x], label="Maximum Flop/s")
+    peak_band_x1, peak_band_y1 = abline(11563.658, 0)
+    ax.plot(peak_band_x, peak_band_y, label="Peak bandwidth 32 cores")
+    ax.plot(peak_band_x1, peak_band_y1, label="Peak bandwidth 1 core")
     # Max flop/s is 168910 MFlop/s
-    ax.plot(ax.get_xlim(), [168910 for i in ax.get_xlim()], label="Maximum MFlop/s (32 cores)")
-    ax.set(xlabel='Operational Intensity (MFlops/MByte)', ylabel='Attainable MFlop/s (32 cores)')
+    ax.plot(ax.get_xlim(), [422400 for i in ax.get_xlim()], label="Peak MFlop/s 32 cores")
+    ax.plot(ax.get_xlim(), [13200 for i in ax.get_xlim()], label="Peak MFlop/s 1 core")
+    ax.set(xlabel='Operational Intensity (MFlops/MByte)', ylabel='Attained GFlop/s')
     ax.set_yscale('log', basey=10)
     ax.set_xscale('log', basex=10)
-    #ax.set_xticklabels([0,1,2,4,8,16])
-    ax.set_yticklabels([math.pow(2, i) for i in range(7,18)])
-    ax.legend()
+    #ax.set_xticklabels([1,2,0.2,3,4,5])
+    #ax.set_xticklabels([0.125,0.13,0.2,0.3,0.4,0.6,1])
+    ax.set_yticklabels([int(math.pow(10, i)) for i in range(-1,18)])
+    lgd = ax.legend(bbox_to_anchor=(1.05, 0.6),loc=2, borderaxespad=0.)
     plt.tight_layout()
-    fig.savefig('roofline2.png')
+    fig.savefig('roofline2.png', dpi=200, bbox_extra_artists=(lgd,),bbox_inches='tight')

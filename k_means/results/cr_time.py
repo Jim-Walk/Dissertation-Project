@@ -3,6 +3,7 @@
 # Generates time graph
 import sys
 import matplotlib.pyplot as plt
+import math
 
 def parse_file(f):
     print('Parsing',f)
@@ -33,18 +34,19 @@ if __name__ == '__main__':
         all_results += [parse_file(sys.argv[i])]
         i += 1
 
+    markers = ["o", "v", "s", "^", "x", "1", "2", "3", "4"]
 
     x_axis = [1,2] + list(range(4,37,4))
     j = 0
     fig, ax = plt.subplots()
     while j < len(all_results):
-        ax.plot(x_axis, all_results[j], label=labels[j], marker='.')
+        ax.plot(x_axis, all_results[j], label=labels[j], marker=markers[j], linestyle='None')
         j += 1
-    t = 'K-Means'
-    ax.set(xlabel='Number of threads', ylabel='Time (seconds)',title=t)
+    ax.set(xlabel='Number of threads', ylabel='Time (seconds)')
     ax.set_xticks(x_axis)
-    ax.set_xticklabels(x_axis)
     ax.set_yscale('log', basey=2)
     ax.set_xscale('log', basex=2)
+    ax.set_xticklabels([0,0,1,2,4,8,16,32])
+    ax.set_yticklabels([int(math.pow(2,x)) for x in range(9,17)])
     ax.legend()
     fig.savefig('time.png')

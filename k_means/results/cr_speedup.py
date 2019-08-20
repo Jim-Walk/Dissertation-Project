@@ -25,12 +25,6 @@ def get_speedup(res):
         res[i] = t1/res[i]
         i += 1
 
-def get_Gb(results):
-    i = 0
-    while i < len(results):
-        res[i] = res[i] / 1000
-        i += 1
-
 if __name__ == '__main__':
     labels = []
     all_results = []
@@ -43,14 +37,15 @@ if __name__ == '__main__':
     for res in all_results:
         get_speedup(res)
 
+    markers = ["o", "v", "s", "^", "x", "1", "2", "3", "4"]
     x_axis = [1,2] + list(range(4,37,4))
     j = 0
     fig, ax = plt.subplots()
     while j < len(all_results):
-        ax.plot(x_axis, all_results[j], label=labels[j], marker='.')
+        ax.plot(x_axis, all_results[j], label=labels[j], marker=markers[j],
+                linestyle='None')
         j += 1
-    t = 'K-Means'
-    ax.set(xlabel='Number of threads', ylabel='Speedup (t1/tn)',title=t)
+    ax.set(xlabel='Number of threads', ylabel='Speedup (t1/tn)')
     ax.set_xticks(x_axis)
     ax.set_xticklabels(x_axis)
     ax.legend()
