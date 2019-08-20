@@ -1,0 +1,163 @@
+Running on 1 Thread
+BabelStream
+Version: 3.4
+Implementation: OpenMP
+Running kernels 100 times
+Precision: double
+Array size: 1000.0 MB (=1.0 GB)
+Total size: 3000.0 MB (=3.0 GB)
+Function    MBytes/sec  Min (sec)   Max         Average     
+Copy        9767.248    0.20477     0.20794     0.20497     
+Mul         9755.296    0.20502     0.20764     0.20521     
+Add         10605.969   0.28286     0.29032     0.28308     
+Triad       10615.806   0.28260     0.28768     0.28293     
+Dot         11563.658   0.17296     0.17428     0.17309     
+Running on 2 Threads
+BabelStream
+Version: 3.4
+Implementation: OpenMP
+Running kernels 100 times
+Precision: double
+Array size: 1000.0 MB (=1.0 GB)
+Total size: 3000.0 MB (=3.0 GB)
+Function    MBytes/sec  Min (sec)   Max         Average     
+Copy        19272.574   0.10377     0.10419     0.10384     
+Mul         19294.519   0.10366     0.10434     0.10373     
+Add         20850.804   0.14388     0.14425     0.14394     
+Triad       20850.248   0.14388     0.14441     0.14397     
+Dot         22986.706   0.08701     0.08716     0.08708     
+4
+Running on 4 Threads
+BabelStream
+Version: 3.4
+Implementation: OpenMP
+Running kernels 100 times
+Precision: double
+Array size: 1000.0 MB (=1.0 GB)
+Total size: 3000.0 MB (=3.0 GB)
+Function    MBytes/sec  Min (sec)   Max         Average     
+Copy        36845.800   0.05428     0.05440     0.05435     
+Mul         36921.641   0.05417     0.05437     0.05423     
+Add         39628.832   0.07570     0.07604     0.07579     
+Triad       39646.731   0.07567     0.07600     0.07574     
+Dot         45077.484   0.04437     0.04450     0.04442     
+8
+Running on 8 Threads
+BabelStream
+Version: 3.4
+Implementation: OpenMP
+Running kernels 100 times
+Precision: double
+Array size: 1000.0 MB (=1.0 GB)
+Total size: 3000.0 MB (=3.0 GB)
+Function    MBytes/sec  Min (sec)   Max         Average     
+Copy        65666.382   0.03046     0.03394     0.03054     
+Mul         65941.684   0.03033     0.03264     0.03039     
+Add         71866.886   0.04174     0.04344     0.04181     
+Triad       72035.441   0.04165     0.04279     0.04173     
+Dot         85742.909   0.02333     0.02359     0.02338     
+12
+Running on 12 Threads
+BabelStream
+Version: 3.4
+Implementation: OpenMP
+Running kernels 100 times
+Precision: double
+Array size: 1000.0 MB (=1.0 GB)
+Total size: 3000.0 MB (=3.0 GB)
+Function    MBytes/sec  Min (sec)   Max         Average     
+Copy        78332.097   0.02553     0.02578     0.02557     
+Mul         77734.219   0.02573     0.02597     0.02576     
+Add         87130.130   0.03443     0.03464     0.03447     
+Triad       87348.079   0.03435     0.03460     0.03440     
+Dot         117733.004  0.01699     0.01724     0.01703     
+16
+Running on 16 Threads
+BabelStream
+Version: 3.4
+Implementation: OpenMP
+Running kernels 100 times
+Precision: double
+Array size: 1000.0 MB (=1.0 GB)
+Total size: 3000.0 MB (=3.0 GB)
+Function    MBytes/sec  Min (sec)   Max         Average     
+Copy        83688.623   0.02390     0.02412     0.02394     
+Mul         82310.349   0.02430     0.02457     0.02433     
+Add         93983.920   0.03192     0.03220     0.03197     
+Triad       94301.395   0.03181     0.03316     0.03187     
+Dot         131311.047  0.01523     0.01561     0.01527     
+20
+Running on 20 Threads
+BabelStream
+Version: 3.4
+Implementation: OpenMP
+Running kernels 100 times
+Precision: double
+Array size: 1000.0 MB (=1.0 GB)
+Total size: 3000.0 MB (=3.0 GB)
+Function    MBytes/sec  Min (sec)   Max         Average     
+Copy        85679.054   0.02334     0.02349     0.02337     
+Mul         84016.835   0.02380     0.02404     0.02383     
+Add         96095.170   0.03122     0.03140     0.03125     
+Triad       96538.381   0.03108     0.03121     0.03111     
+Dot         133601.364  0.01497     0.01522     0.01500     
+24
+Running on 24 Threads
+BabelStream
+Version: 3.4
+Implementation: OpenMP
+Running kernels 100 times
+Precision: double
+Array size: 1000.0 MB (=1.0 GB)
+Total size: 3000.0 MB (=3.0 GB)
+Function    MBytes/sec  Min (sec)   Max         Average     
+Copy        86476.311   0.02313     0.02398     0.02318     
+Mul         84764.134   0.02359     0.02432     0.02365     
+Add         96884.686   0.03096     0.03194     0.03102     
+Triad       97357.645   0.03081     0.03207     0.03088     
+Dot         134313.346  0.01489     0.01619     0.01494     
+28
+Running on 28 Threads
+BabelStream
+Version: 3.4
+Implementation: OpenMP
+Running kernels 100 times
+Precision: double
+Array size: 1000.0 MB (=1.0 GB)
+Total size: 3000.0 MB (=3.0 GB)
+Function    MBytes/sec  Min (sec)   Max         Average     
+Copy        86919.369   0.02301     0.02337     0.02306     
+Mul         85118.524   0.02350     0.02386     0.02354     
+Add         97290.805   0.03084     0.03139     0.03089     
+Triad       97794.356   0.03068     0.03116     0.03074     
+Dot         134723.645  0.01485     0.01514     0.01488     
+32
+Running on 32 Threads
+BabelStream
+Version: 3.4
+Implementation: OpenMP
+Running kernels 100 times
+Precision: double
+Array size: 1000.0 MB (=1.0 GB)
+Total size: 3000.0 MB (=3.0 GB)
+Function    MBytes/sec  Min (sec)   Max         Average     
+Copy        87138.243   0.02295     0.02313     0.02297     
+Mul         85356.547   0.02343     0.02373     0.02346     
+Add         97490.576   0.03077     0.03109     0.03081     
+Triad       97983.896   0.03062     0.03087     0.03066     
+Dot         135106.598  0.01480     0.01490     0.01483     
+36
+Running on 36 Threads
+BabelStream
+Version: 3.4
+Implementation: OpenMP
+Running kernels 100 times
+Precision: double
+Array size: 1000.0 MB (=1.0 GB)
+Total size: 3000.0 MB (=3.0 GB)
+Function    MBytes/sec  Min (sec)   Max         Average     
+Copy        82919.176   0.02412     0.02763     0.02519     
+Mul         79663.689   0.02511     0.02806     0.02596     
+Add         91524.351   0.03278     0.03746     0.03418     
+Triad       91939.752   0.03263     0.03723     0.03402     
+Dot         125575.678  0.01593     0.01772     0.01647     

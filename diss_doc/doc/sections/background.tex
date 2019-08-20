@@ -2,7 +2,7 @@
 \section{Parallel Programming Languages for HPC}
 HPC (High Performance Computing) refers to computation performed on supercomputers. 
 Supercomputers generally have more and faster cores than personal computers. They are normally networked together with fast interconnect to allow for high data throughput, and are used for highly numerical scientific programs.
-To fully leverage the potential of these supercomputers' many computing cores, programmers use parallel computing techniques, in programming languages which run as fast as possible on the hardware.
+To fully leverage the potential of these supercomputers' many computing cores, programmers use parallel computing techniques, in programming languages which run as fast as possible on the hardware. Parallel computing within HPC usually refers to decomposing a problem into seperate tasks, and then solving those tasks at the same time, on different pieces of hardware.
 
 The three main languages used in HPC are Fortran, C and C++. They are all well established within the field, as shown by table~\ref{tab:langs}, which shows the proportion of compute time taken up by these languages on Archer, (Advanced Research Computing High End Resource), one of the UK's primary academic research supercomputers.
 Whilst Fortran takes up the majority of compute time on Archer, this dissertation will focus on C and C++, as they are more comparable to Rust (their similarities are discussed further in the sections~\ref{sec:c} and~\ref{sec:rust}).
@@ -173,7 +173,7 @@ and are only absent from safe Rust. This does not mean that Rust prevents progra
 
 Unlike C and C++, Rust comes with a build tool and dependency manager, Cargo, which wraps around the Rust compiler. Cargo allows users to specify a program's dependencies, which are automatically downloaded and integrated into that program from external repositories. In Rust, these dependencies are called crates. In this dissertation, I make extensive use of the Rayon crate, as explained in section~\ref{sec:back-rayon}.
 
-Some work has been done to investigate the applicability of Rust to HPC~\todo{citations here}, but expertise in the language is still low within the community~\todo{cite maybe?}. As such, I will gain technical support from the Rust community through the official subreddit and community discord channels when I encounter a problem particular to Rust.
+Some work has been done to investigate the applicability of Rust to HPC~\cite{bioinformatics, blanco2016}, but expertise in the language is still low within the community~\todo{cite maybe?}. As such, I will gain technical support from the Rust community through the official subreddit and community discord channels when I encounter a problem particular to Rust.
 
 \subsection{Rayon}\label{sec:back-rayon}
 Rayon is the one of the most popular crates for parallelism in Rust, and features heavily in the Rust cookbook~\cite{RustCookPara}. In a fashion similar to OpenMP, it abstracts complicated underlying threading technologies. Unlike OpenMP, Rayon concentrates on parallel iterators, and like Rust promises data race freedom.
@@ -234,4 +234,5 @@ Through only attempting to port the core part of a program, this dissertation wi
 I will also evaluate the ease with which I am able to port a kernel into Rust. These observations will provide insight into what it is like to program in Rust, and if its strict memory model and functional idioms help or hinder translation from the imperative languages which the ported programs are written in. This qualitative, partly experiential information will hopefully provide an insight into the actual practicalities of programming in Rust. For Rust to be fully accepted by the HPC community, it is necessary that the program fulfils the functional requirements of speed and scaling, alongside non functional requirements, of usability and user experience. The first factor provides a reason for using Rust programs in HPC, the second provides an impetus for learning how to write those programs.
 
 I will use reference implementations of the kernels that have already been written by other people rather than writing my own. I will do this for two reason. Firstly, a fairer comparison between Rust and C or C++ can be made if I do not write the original implementation myself, so that my lack of knowledge in one of the programs makes it perform worse. Secondly, by selecting reference implemetations that have already been written, I can save time and not write them myself, allowing me a deeper investiagation of the Rust implementations.
-\section{Roofline} stuff makes sense here.
+\section{Roofline}
+The Roofline model~\cite{williams2009roofline} shows how a program may be constrained by memory bandwidth or peak Flop/s

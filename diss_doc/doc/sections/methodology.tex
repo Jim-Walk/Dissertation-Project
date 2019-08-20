@@ -57,7 +57,8 @@ My reference implementation for this code comes from Jaiwei Zhuang's CS205 proje
 
 After the Kernel has read in the program data, it performs the clustering process. The calculated clusters are held in the two dimensional vectors, \texttt{old\_cluster\_centres} and \texttt{new\_cluster\_centres}. The indexes at which values are stored in these cluster vectors correspond to the indexes at which the population is stored in the vector \texttt{x}.
 
-First the \texttt{old\_cluster\_centres} array is filled with random data, and then the program begins its central processing loop.\todo{add more info on variables purposes here}
+First the \texttt{old\_cluster\_centres} array is filled with random data, and then the program begins its central processing loop.
+
 \begin{itemize}
   \item \textbf{Expectation:} Assign population points to their nearest cluster centre, by looping over every member of the population, and finding the minimum distance between that point all the cluster centres. This is the stage which is parallelised.
   \item \textbf{Maximisation:} Next, the cluster centres are set to the mean, which is calculated in two steps.
@@ -78,6 +79,7 @@ Implementation of all three programs followed the same process, as outlined in F
   \caption{Flow diagram for implementation process}
   \label{fig:imp-flow}
 \end{figure}
+\todo{replace with real flow}
 
 \subsection{Porting to Serial Rust}
 Once a candidate kernel is selected, it is implemented in Rust in serial. Any differences between the  behaviour of the Rust and the original implementation are thought of as bugs, and are eradicated or minimised as far as is possible. For ease of development, the Rust crate Clap~\cite{RustClap} was used to read command line arguments for the program, leading to Rust implementations of kernels being called with slightly different syntax. This difference was deemed to be superficial enough to be allowable. Kernel output was as similar as possible to aid data-collection from both implementations.
@@ -371,7 +373,7 @@ Figure~\ref{fig:babel-dot-init} shows the use of parallel initialisation greatly
 \begin{figure}[H]
     \centering
     \includegraphics[width=.8\linewidth]{figs/babel/dot-init.png}
-    \caption{Babel Stream Memory Bandwidth initialisation comparison}
+    \caption{Babel Stream --- Dot product bandwidth initialisation comparison}
     \label{fig:babel-dot-init}
 \end{figure}
 
@@ -464,7 +466,7 @@ I will use the peak memory bandwidth recorded by the Babel Stream kernel in my R
 
 K-means used a population of size 73MB, and 16 clusters. This meant that the parallelised E-step of the calculation operated on total of 147MB of data, most of which were 32-bit floats. The rest of the data was 64 bit integers of type \texttt{usize} which were used to refer to array indexes. This size of data set exceeded the L3 cache capacity, but was unable to be raised due to instability in the generating python script.
 
-A roofline model\todo{capitalise?} of K-means clustering will not be generated, as a large portion of the kernel is not parallelised, including initilisation and both parts of the M-step. If a roofline model were used in this case, it would not be greatly illustrative of the differences between the implementation, as much of the data's useful information around the E-step would be lost in the noise of the rest of the processing time.
+A Roofline model of K-means clustering will not be generated, as a large portion of the kernel is not parallelised, including initilisation and both parts of the M-step. If a Roofline model were used in this case, it would not be greatly illustrative of the differences between the implementation, as much of the data's useful information around the E-step would be lost in the noise of the rest of the processing time.
 
 I used version 6.3.0 of GNU project C  and C++ compiler, \texttt{gcc} \texttt{g++} to compile and run the reference implementations of the kernels. Version 1.34.2 of the Rust compiler, \texttt{rustc} was used.
 \section{Questionnaire}

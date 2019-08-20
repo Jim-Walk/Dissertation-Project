@@ -7,6 +7,12 @@ L.~N. Bhuyan, H.~Wang, and R.~Iyer.
 \newblock {\em IEEE Trans. Parallel Distrib. Syst.}, 11(3):230--246, March
   2000.
 
+\bibitem{blanco2016}
+Sergi Blanco-Cuaresma and Emeline Bolmont.
+\newblock What can the programming language {R}ust do for astrophysics?
+\newblock {\em Proceedings of the International Astronomical Union},
+  12(S325):341--344, 2016.
+
 \bibitem{blumofe1999}
 Robert~D Blumofe and Charles~E Leiserson.
 \newblock Scheduling multithreaded computations by work stealing.
@@ -107,6 +113,11 @@ K.~Kevin and Fey Katherina.
 Steve Klabnik and Carol Nichols.
 \newblock The rust programming language.
 \newblock https://doc.rust-lang.org/book/.
+
+\bibitem{bioinformatics}
+Johannes Koster.
+\newblock {Rust-{B}io: a fast and safe bioinformatics library}.
+\newblock {\em Bioinformatics}, 32(3):444--446, 10 2015.
 
 \bibitem{kruger1999}
 Justin Kruger and David Dunning.
@@ -317,6 +328,13 @@ Samuel Williams and David Patterson.
 \newblock The roofline model.
 \newblock https://crd.lbl.gov/assets/pubs\_presos/parlab08-roofline-talk.pdf.
 \newblock Lecture slides from Berkeley ParLab. Page 25.
+
+\bibitem{williams2009roofline}
+Samuel Williams, Andrew Waterman, and David Patterson.
+\newblock Roofline: An insightful visual performance model for floating-point
+  programs and multicore architectures.
+\newblock Technical report, Lawrence Berkeley National Lab.(LBNL), Berkeley, CA
+  (United States), 2009.
 
 \bibitem{spMVGPU}
 Xintian Yang, Srinivasan Parthasarathy, and Ponnuswamy Sadayappan.
