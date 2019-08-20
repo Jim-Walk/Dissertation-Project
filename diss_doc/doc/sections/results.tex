@@ -64,26 +64,33 @@ Rust is even slightly faster than C at twenty threads.
 \caption{SpMV --- Time}\label{fig:sparse-time}
 \end{figure}
 
-Compared to the results from Babel Stream, Rust perfroms a lot better. This could be because the work stealing schedule for Rayon is better suited to SpMV's irregular work distribution, whilst OpenMP's usage is sub optimal.
+Compared to the results from Babel Stream, Rust perfroms a lot better. This could be because the work stealing schedule for Rayon is better suited to SpMV's irregular work distribution, whilst OpenMP's usage of static scheduling is sub optimal. However, it is impossible to conclusively make such a statement without further work, which is outlined in greater deatil in section~\ref{sec:furth}.
 
 
 \section{K-means clustering}
 
-\begin{itemize}
-    \item Rust starts faster than C and ends faster than C
-    \item However, C manages to overtake Rust at 8 threads. Why here?
-    \item Rust is then faster at the end again. Workstealing seems to work better because thread that shares core with OS can do less work.
-    \item I have a speedup graph, might include it to show C has better scaling?
-\end{itemize}
+As in the SpMV results, the time taken for the K-means clustering by both implementations does not differ greatly. Figure~\ref{fig:kmeans-time} shows that on three occasions, Rust and Rayon was faster than C and OpenMP. It is noteworthy that two of these occassions occur at the boundaries of the experiment.
+
+At one thread, Rust carries out the E-step faster than C does. This result is interesting, because it implies that if Rust could use an threading API that had the same schedule and overheads as OpenMP, then it could theoretically be faster than it. However, the difficulty of writing a threading API in Rust which is as optimised as OpenMP, a standard that's implementations have been continually optimised for more than two decades, should not be underestimated.
 
 \begin{figure}[h]
 \centering
 \includegraphics[width=.9\linewidth]{figs/kmeans/time.png}
 \caption{K Means --- Time}\label{fig:kmeans-time}
-
 \end{figure}
+
+At 36 threads, Rust is marginally faster than C. This result is interesting not because of Rust's speedup, but because of C's slowdown. The time taken for the C implementation to complete its E-step almost doubles between 32 and 36 threads, whereas the amount of time the Rust implementation takes slightly decreases. This is a similar pattern to the results shown by Babel Stream, and is most noticable in figure~\ref{fig:babel-dot}.
+In all the Babel Stream figures, the performance of the kernel's C implementation decreases between 34 and 36 threads, whilst Rust improves slightly.
+
+I hypothise that this difference in performance at 36 threads occurs because at this point, all of the processor's cores are being used. At this stage, one of the threads must share a core with operating system threads. This sharing results in one of the threads taking longer to complete its section of work, because it must share its resource with the operating system. OpenMP's default static schedule does not perform well in this circumstance, as each thread must do an equal amount of work, no matter how long individual threads take to do their portion of work.
+This results in other threads waiting for the 36$^{th}$ thread, which is sharing a core with the operating system, to finish its work.
+
+In comparison, Rayon's work stealing schedule allows threads which finish early to take work from slower threads. Therefore, instead of finished threads waiting for the slower 36$^{th}$ thread, they can take work from it, and not need to wait. To confirm this hypothosis, I would either need to implement a work stealing schedule for OpenMP, or a static schedule for Rust, and compare the results.
+\todo{Talk about crossover point at 4 and 8 threads?}
+\todo{include speedup graph?}
+
 \section{Questionnaire}
-Figure~\ref{fig:questions} presents the collected data from the questionnaire. Each small dot represents one answer, and a larger dot represents two. Eleven responses were collected in total.
+Figure~\ref{fig:questions} presents the collected data from the questionnaire. Each small dot represents one answer, and a larger dot represents two. Eleven responses were collected in total. None of the particpants claimed any level of knowledge of Rust.
 These results show zero correlation between competency and score. This suggests that it is difficult to predict how easy a HPC programmer will understand Rust. 
 
 \begin{figure}[h]
