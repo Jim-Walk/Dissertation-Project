@@ -40,7 +40,9 @@ Unfortunately, a dynamic schedule will always do poorly when the workload is eve
 
 Although the results for Babel Stream do show that in this particular circumstance, OpenMP does have high performance, it does not necessarily follow that the static schedule will always be best for HPC\@. To investigate this further, I will now examine the SpMV results.
 \section{Sparse Matrix Vector Multiplication}\label{sec:res-sparse}
-The SpMV kernel's showed that Rayon's work stealing scheduling does not always decrease performance. As figure~\ref{fig:roofline}
+The SpMV kernel's showed that Rayon's work stealing scheduling does not always decrease performance. As figure~\ref{fig:roofline} shows, there was very little difference in performance between the two implemenations of the Kernal.
+
+The perf utility showed that only the C version of SpMV used instructions with the code r5310c7, which is used for packed 256 bit instructions. In this case, it was used to add four doubles together when performing the matrix vector multiplication and storing the result in \texttt{temp}\footnote{line 290 of sparse.c}.
 \begin{figure}[h]
 \centering
 \includegraphics[width=.8\linewidth]{figs/sparse/roofline.png}
