@@ -449,7 +449,15 @@ To reduce the impact of anomalous runs, both versions of each Kernel were run fo
 
 Babel Stream's experiments were run on vectors of size of 1GB, leading to a total data size of 3GB. Each vector was filled with $1.25\times10^8$ 64-bit floating point numbers. Experiments were run multiple times with varying chunk sizes. Chunk sizes here refers to the amount of data a thread works on, in a given iteration. Varying chunk size gave greater insight into the inner workings of the Rayon library, and see the cost of context switching for threads.
 
-For the sparse matrix vector multiplication kernel, the vectors \texttt{col\_index} and \texttt{matrix} were given a size of 8.2GB, whilst the \texttt{result} and \texttt{vector} vectors had size 0.134 GB. The generated matrix had sparsity $3.63 \times 10^{-5}$. Such large vector sizes were used to ensure that a large amount of data passed through the system's L3 caches. Chunk size was not varied in this instance to allow for a clearer comparison between Rayon and OpenMP in the Roofline model.
+For the sparse matrix vector multiplication kernel, the vectors \texttt{col\_index} and \texttt{matrix} were given a size of 8.2GB, whilst the \texttt{result} and \texttt{vector} vectors had size 0.134 GB. The generated matrix had sparsity $3.63 \times 10^{-5}$. Such large vector sizes were used to ensure that a large amount of data passed through the system's L3 caches. Chunk size was not varied in this instance to allow for a clearer comparison between Rayon and OpenMP in the Roofline model. The command below was used to moniter the total number of FLOPs used by the different implementations of the kernel
+
+\begin{alltt}
+\footnotesize
+perf stat -e r5301c7 -e r5302c7 -e r5304c7 -e r5308c7 -e r5310c7 
+          -e r5320c7 \$kernel 
+\end{alltt}
+
+\texttt{perf} is a program performance monitor for linux systems which works at the system's kernel level, using hardware counters to track certain events. I request statistics on events with \texttt{stat}, and then specify each event after \texttt{-e}. Each of these events are floating point operations for doubles, at various levels of vectorisation. Lasty, I launch the kernel as normal, here shown by \texttt{\$kernel}
 
 K-means used a population of size 73MB, and 16 clusters. This meant that the parallelised E-step of the calculation operated on total of 147MB of data, most of which were 32-bit floats. The rest of the data was 64 bit integers of type \texttt{usize} which were used to refer to array indexes. This size of data set exceeded the L3 cache capacity, but was unable to be raised due to instability in the generating python script.
 

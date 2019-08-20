@@ -39,8 +39,10 @@ Work stealing is an established parallel technique, in which threads work on chu
 Unfortunately, a dynamic schedule will always do poorly when the workload is evenly distributed amongst threads, especially compared to static schedules. The defualt OpenMP parallalel for schedule is a static one, which evenly splits the work between threads~\cite{OpenMPSpec5}. The effect of this schedule is that data is more likely to work on data which it has initilised, which is likely to be within the same CC-NUMA region, and therefore quicker to access. In comparison, the work which threads will do in a work stealing schedule is non deterministic, and may require to be fetched from further away, at greater cost.
 
 Although the results for Babel Stream do show that in this particular circumstance, OpenMP does have high performance, it does not necessarily follow that the static schedule will always be best for HPC\@. To investigate this further, I will now examine the SpMV results.
+
 \section{Sparse Matrix Vector Multiplication}\label{sec:res-sparse}
-The SpMV kernel's showed that Rayon's work stealing scheduling does not always decrease performance. As figure~\ref{fig:roofline} shows, there was very little difference in performance between the two implemenations of the Kernal.
+
+The SpMV kernels showed that Rayon's work stealing scheduling does not always decrease performance. As figure~\ref{fig:roofline} shows, there was very little difference in performance between the two implemenations of the Kernal.
 
 The perf utility showed that only the C version of SpMV used instructions with the code r5310c7, which is used for packed 256 bit instructions. In this case, it was used to add four doubles together when performing the matrix vector multiplication and storing the result in \texttt{temp}\footnote{line 290 of sparse.c}.
 \begin{figure}[h]
@@ -48,13 +50,15 @@ The perf utility showed that only the C version of SpMV used instructions with t
 \includegraphics[width=.9\linewidth]{figs/sparse/roofline.png}
 \caption{SpMV --- Roofline}\label{fig:roofline}
 \end{figure}
+
 \section{K-means clustering}
 
-\begin{figure}[h]
-\centering
-\includegraphics[width=.9\linewidth]{figs/kmeans/speedup.png}
-\caption{K Means --- Speedup}\label{fig:kmeans-speed}
-\end{figure}
+\begin{itemize}
+    \item Rust starts faster than C and ends faster than C
+    \item However, C manages to overtake Rust at 8 threads. Why here?
+    \item Rust is then faster at the end again. Workstealing seems to work better because thread that shares core with OS can do less work.
+    \item I have a speedup graph, might include it to show C has better scaling?
+\end{itemize}
 
 \begin{figure}[h]
 \centering
@@ -74,5 +78,5 @@ These results show zero correlation between competency and score. This suggests 
 
 However, as these such little data was collected in this circumstance, it would be unreasonable to claim that this study contains any decisive information. The study would need to be carried out a second time, with a much larger group of participants.
 
-Interesting highlights from the data 
+Interesting highlights from the data  show that knowledge of programming languages often thought similar to Rust, like Haskell, did not necessarily predict if  particpant would score highly on their Rust questions.
 \todo{include data? Didn't say I would}

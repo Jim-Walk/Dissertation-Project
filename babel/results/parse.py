@@ -67,5 +67,5 @@ if __name__ == '__main__':
         ax.set_xticklabels(x_axis)
         lgd = ax.legend(bbox_to_anchor=(1.05, 0.6),loc=2, borderaxespad=0.)
         fig.savefig(functions[i] + '.png', bbox_extra_artists=(lgd,),
-                    bbox_inches='tight')
+                    bbox_inches='tight', dpi=200)
         i += 1
