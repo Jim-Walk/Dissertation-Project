@@ -70,6 +70,18 @@ The~Rust Community.
 \newblock
   https://rust-lang-nursery.github.io/rust-cookbook/concurrency/parallel.html.
 
+\bibitem{lammps}
+Sandia Corporation.
+\newblock {LAMMPS}.
+\newblock https://github.com/lammps/lammps.
+
+\bibitem{Babel2018}
+Tom Deakin, James Price, Matt Martineau, and Simon McIntosh-Smith.
+\newblock Evaluating attainable memory bandwidth of parallel programming models
+  via babelstream.
+\newblock {\em International Journal of Computational Science and Engineering},
+  17(3):247--262, 2018.
+
 \bibitem{FutureTense}
 Brendan Eich.
 \newblock Future tense.
@@ -86,6 +98,11 @@ EPCCed.
 FFTW.
 \newblock F{F}{T}{W}3.
 \newblock http://fftw.org/.
+
+\bibitem{gromacs}
+{GROMACS Communtiy}.
+\newblock {GROMACS}.
+\newblock https://github.com/gromacs/gromacs.
 
 \bibitem{RustNetCDF}
 Michael Hiley.
@@ -246,10 +263,10 @@ Josh Stone and Niko Matsakis.
 \newblock
   https://docs.rs/rayon/1.0.3/rayon/iter/trait.ParallelIterator.html\#method.map.
 
-\bibitem{CPPFAQS}
+\bibitem{DandE}
 Bajrne Stroustrup.
-\newblock Faqs: When was c++ invented?
-\newblock http://www.stroustrup.com/bs\_faq.html\#invention.
+\newblock {\em The Design and Evolution of C++}.
+\newblock Addison Wesley Publishing Company, 1994.
 
 \bibitem{CplusEssence}
 Bjarne Stroustrup.
@@ -299,6 +316,11 @@ The Rust~Language Team.
 The Rust~Language Team.
 \newblock Trait std::ops::fnmut.
 \newblock https://doc.rust-lang.org/std/ops/trait.FnMut.html.
+
+\bibitem{tensorflow}
+tensorflow.
+\newblock tensorflow.
+\newblock https://github.com/tensorflow/tensorflow.
 
 \bibitem{ParResSparse}
 Parallel~Research Tools.

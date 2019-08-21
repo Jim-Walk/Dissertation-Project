@@ -1,6 +1,6 @@
 \chapter{Results}
-\section{Babel Stream}\label{sec:res-babel}
-Babel Stream's results show that Rust and Rayon are unable to scale as well as C++ and OpenMP\@. Figures~\ref{fig:babel-dot},~\ref{fig:babel-add} and~\ref{fig:babel-triad} all show that Rust and C++ have similar performance but that at higher thread counts, there is a great deal of difference between the threading performance of both implementations. In each figure, 1GB refers to the size of the single array in that execution run, and chunk\_xxMB refers to how large a subsection of that array the threads are assigned to.
+\section{BabelStream}\label{sec:res-babel}
+BabelStream's results show that Rust and Rayon are unable to scale as well as C++ and OpenMP\@. Figures~\ref{fig:babel-dot},~\ref{fig:babel-add} and~\ref{fig:babel-triad} all show that Rust and C++ have similar performance but that at higher thread counts, there is a great deal of difference between the threading performance of both implementations. In each figure, 1GB refers to the size of the single array in that execution run, and chunk\_xxMB refers to how large a subsection of that array the threads are assigned to.
 
 For example, both Rust and C++ having very similar memory bandwidths in the Dot product's serial execution, with Rust at 11.5 GB/s and C++ at 11.6 GB/s, giving a difference in bandwidth of just 1\%.
 However, this difference later widens at 32 threads to 65\% with Rust at 87.3 GB/s and C++ at 135.1 GB/s.
@@ -8,7 +8,7 @@ However, this difference later widens at 32 threads to 65\% with Rust at 87.3 GB
 \begin{figure}[h]
 \centering
 \includegraphics[width=.9\linewidth]{figs/babel/Dot.png}
-\caption{Babel Stream --- Dot product bandwidth}\label{fig:babel-dot}
+\caption{BabelStream --- Dot product bandwidth}\label{fig:babel-dot}
 \end{figure}
 
 The performance difference is similar for both the add and triad benchmarks, at 66\%, implying a consistent negative performance factor for Rust and Rayon. The results for add and triad are shown in figure~\ref{fig:babel-add} and~\ref{fig:babel-triad}.
@@ -18,7 +18,7 @@ It is noteworthy that the rate of improvement in memory bandwidth decreases shar
 \begin{figure}[h]
 \centering
 \includegraphics[width=.9\linewidth]{figs/babel/Add.png}
-\caption{Babel Stream --- Add bandwidth}\label{fig:babel-add}
+\caption{BabelStream --- Add bandwidth}\label{fig:babel-add}
 \end{figure}
 
 This increasing difference lead me to believe that an examination of assembly code would not be beneficial in this circumstance, as it seemed like the low level, assembly implementation of both of the dot product was not that different. Instead, it seemed like the threading implementation was so different that it was what was causing the problem, which is much easier to understand in its high level expression. I decided to investigate the thread scheduling implementation.
@@ -26,7 +26,7 @@ This increasing difference lead me to believe that an examination of assembly co
 \begin{figure}[h]
 \centering
 \includegraphics[width=.9\linewidth]{figs/babel/Triad.png}
-\caption{Babel Stream --- Triad bandwidth}\label{fig:babel-triad}
+\caption{BabelStream --- Triad bandwidth}\label{fig:babel-triad}
 \end{figure}
 
 There was also the possibility that Rayon's context switching was more costly to performance than OpenMP's. However, this would likely need to be confirmed at the level of assembly instructions, which can be difficult to parse, especially if you don't know what exactly you're looking for. Therefore, it seemed like a much better strategy to look at how thread scheduling in Rayon works  and also look out for hints of context switching costs.
@@ -37,9 +37,9 @@ Rayon run time uses a fixed pool of worker threads and attempts to only execute 
 
 Work stealing is an established parallel technique, in which threads work on chunks of computation, and when they have finished their chunk, they steal chunks of computation from other threads~\cite{blumofe1999}. This reactive method of scheduling is very good at dealing with unanticipated work loads, when it is not known where the bulk of the computation will take place.
 
-Unfortunately, a dynamic schedule will always do poorly when the workload is evenly distributed amongst threads, especially compared to static schedules. The default OpenMP parallel for schedule is a static one, which evenly splits the work between threads~\cite{OpenMPSpec5}. The effect of this schedule is that data is more likely to work on data which it has initialised, which is likely to be within the same CC-NUMA region, and therefore quicker to access. In comparison, the work which threads will do in a work stealing schedule is non deterministic, and may require to be fetched from further away, at greater cost.
+A dynamic schedule will always do poorly when the workload is evenly distributed amongst threads, especially compared to static schedules. The default OpenMP parallel for schedule is a static one, which evenly splits the work between threads~\cite{OpenMPSpec5}. The effect of this schedule is that data is more likely to work on data which it has initialised, which is likely to be within the same CC-NUMA region, and therefore quicker to access. In comparison, the work which threads will do in a work stealing schedule is non deterministic, and may require to be fetched from further away, at greater cost.
 
-Although the results for Babel Stream do show that in this particular circumstance, OpenMP does have high performance, it does not necessarily follow that the static schedule will always be best for HPC\@. To investigate this further, I will now examine the SpMV results.
+Although the results for BabelStream do show that in this particular circumstance, OpenMP does have high performance, it does not necessarily follow that the static schedule will always be best for HPC\@. To investigate this further, I will now examine the SpMV results.
 
 \section{Sparse Matrix Vector Multiplication}\label{sec:res-sparse}
 
@@ -65,7 +65,7 @@ Rust is even slightly faster than C at twenty threads.
 \caption{SpMV --- Time}\label{fig:sparse-time}
 \end{figure}
 
-Compared to the results from Babel Stream, Rust performs a lot better. This could be because the work stealing schedule for Rayon is better suited to SpMV irregular work distribution, whilst OpenMP's usage of static scheduling is sub optimal. However, it is impossible to conclusively make such a statement without further work, which is outlined in greater detail in section~\ref{sec:furth}.
+Compared to the results from BabelStream, Rust performs a lot better. This could be because the work stealing schedule for Rayon is better suited to SpMV irregular work distribution, whilst OpenMP's usage of static scheduling is sub optimal. However, it is impossible to conclusively make such a statement without further work, which is outlined in greater detail in section~\ref{sec:furth}.
 
 
 \section{K-means clustering}
@@ -80,8 +80,8 @@ At one thread, Rust carries out the E-step faster than C does. This result is in
 \caption{K Means --- Time}\label{fig:kmeans-time}
 \end{figure}
 
-At 36 threads, Rust is marginally faster than C. This result is interesting not because of Rust's speedup, but because of C's slowdown. The time taken for the C implementation to complete its E-step almost doubles between 32 and 36 threads, whereas the amount of time the Rust implementation takes slightly decreases. This is a similar pattern to the results shown by Babel Stream, and is most noticeable in figure~\ref{fig:babel-dot}.
-In all the Babel Stream figures, the performance of the kernel's C implementation decreases between 34 and 36 threads, whilst Rust improves slightly.
+At 36 threads, Rust is marginally faster than C. This result is interesting not because of Rust's speedup, but because of C's slowdown. The time taken for the C implementation to complete its E-step almost doubles between 32 and 36 threads, whereas the amount of time the Rust implementation takes slightly decreases. This is a similar pattern to the results shown by BabelStream, and is most noticeable in figure~\ref{fig:babel-dot}.
+In all the BabelStream figures, the performance of the kernel's C implementation decreases between 34 and 36 threads, whilst Rust improves slightly.
 
 I hypothesise that this difference in performance at 36 threads occurs because at this point, all of the processor's cores are being used. At this stage, one of the threads must share a core with operating system threads. This sharing results in one of the threads taking longer to complete its section of work, because it must share its resource with the operating system. OpenMP's default static schedule does not perform well in this circumstance, as each thread must do an equal amount of work, no matter how long individual threads take to do their portion of work.
 This results in other threads waiting for the 36$^{th}$ thread, which is sharing a core with the operating system, to finish its work.
