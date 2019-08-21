@@ -10,8 +10,8 @@
 \contentsline {figure}{\numberline {5.1}{\ignorespaces BabelStream --- Dot product bandwidth\relax }}{32}
 \contentsline {figure}{\numberline {5.2}{\ignorespaces BabelStream --- Add bandwidth\relax }}{33}
 \contentsline {figure}{\numberline {5.3}{\ignorespaces BabelStream --- Triad bandwidth\relax }}{34}
-\contentsline {figure}{\numberline {5.4}{\ignorespaces SpMV --- Roofline\relax }}{35}
-\contentsline {figure}{\numberline {5.5}{\ignorespaces SpMV --- Time\relax }}{36}
+\contentsline {figure}{\numberline {5.4}{\ignorespaces SpMV --- Roofline model shows similar performance for both implementations of the kernel\relax }}{35}
+\contentsline {figure}{\numberline {5.5}{\ignorespaces SpMV --- Time performance. A $\mathop {\mathgroup \symoperators log}\nolimits _2 \mathop {\mathgroup \symoperators log}\nolimits _2$ scale has been used here to make the difference in performance clearer.\relax }}{36}
 \contentsline {figure}{\numberline {5.6}{\ignorespaces K Means --- Time\relax }}{37}
 \contentsline {figure}{\numberline {5.7}{\ignorespaces Questionnaire --- Score against Competency\relax }}{38}
 \addvspace {10\p@ }
