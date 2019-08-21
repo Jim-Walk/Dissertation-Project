@@ -28,7 +28,8 @@ Whilst Fortran takes up the majority of compute time on Archer, this dissertatio
 
 There are two central paradigms to parallel computing: message passing parallelism and share memory parallelism. In message passing parallelism, processes work on private data, and share data by sending and receiving messages. This form of parallelism is very scalable, and can run on geographically distributed heteregenous nodes~\cite{SETI}. Examples of message passing parallelism include the MPI (message passing interface) standard, and Go's channels.
 
-Shared memory parallelism, by comparison, has processes that share access to a region of memory. Whilst programs using can run on multiple nodes through technologies like PGAS (Partitioned Global Address Space)\todo{does this count?}, these nodes are still normally required to be homogenous. Shared memory parallelism is most effective when it runs on a single node with many processing cores. Although this paradigm has recently grown through the usage of many core architures on GPUs, this dissertation will concern itself with shared memory parallelism, due to Rust's interesting shared memory model. Whilst shared memory parallelism is a fast way to write and run programs, there are difficulties inherent in implementing this technique in languages like C and C++ that are not memory safe. In the next section, I will discuss these difficulties.
+Shared memory parallelism, by comparison, has processes that share access to a region of memory. Whilst programs using shared memory parallelism can run on multiple nodes through technologies like PGAS (Partitioned Global Address Space)\todo{does this count?}, these nodes are still normally required to be homogenous. Shared memory parallelism is most effective when it runs on a single node with many processing cores. Although this paradigm has recently grown through the usage of many core architures on GPUs, this dissertation will concern itself with shared memory parallelism, due to Rust's interesting shared memory model. 
+Shared memory parallelism is a fast way to write and run programs, but there are difficulties inherent in implementing this technique in languages like C and C++ that are not memory safe. In the next section, I will discuss these difficulties.
 
 \section{C and C++}\label{sec:c}
 The C programming language was developed in 1972, as a `system implementation language'~\cite{Ritchie:1993}. Its first purpose was to program the UNIX operating systems and the utilities which were fundamental to its use, like \texttt{cat} and \texttt{rm}. Since that point, the C programming language has always been associated with low level computing. In this case, low level computing means computing which is able to be compiled to very efficient machine code, and gives the programmer fine grained memory management.
@@ -235,4 +236,21 @@ I will also evaluate the ease with which I am able to port a kernel into Rust. T
 
 I will use reference implementations of the kernels that have already been written by other people rather than writing my own. I will do this for two reason. Firstly, a fairer comparison between Rust and C or C++ can be made if I do not write the original implementation myself, so that my lack of knowledge in one of the programs makes it perform worse. Secondly, by selecting reference implemetations that have already been written, I can save time and not write them myself, allowing me a deeper investiagation of the Rust implementations.
 \section{Roofline}
-The Roofline model~\cite{williams2009roofline} shows how a program may be constrained by memory bandwidth or peak Flop/s
+The Roofline model~\cite{williams2009roofline} shows how a program's performance is constrained by the processor it runs on. The model plots operational intensity against attainable work. 
+
+Operational intensity is measured in floating point operations, or Flops, per byte.
+This metric usefully relates the amount of work done to the amount of data that it is done to. If more work is done to less data, the operational intensity will be higher, and if less work is done to more data, the operational intensity will be lower.
+
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=.66\linewidth]{figs/roofline.pdf}
+\caption{Theoretical Roofline}\label{fig:roof-eg}
+\end{figure}
+
+Attainable work is measured work is measured in Flops per second, and shows the frequency that work is done at. If more work is done in less time, the Flops per second will be higher, and if less work is done in more time, the Flops per second will be lower.
+
+Figure~\ref{fig:roof-eg} shows a theoretical example of the a Roofline model, where boundaries for peak memory bandwidth and peak Flop/s have been added. Theses boundaries have the advantage of showing how close programs come to meeting the limitationts of the hardware they are running on, and give the programmer insights into potential bottlenecks which their program is suffering from. 
+For example, if the programmer wishes for program A in figure~\ref{fig:roof-eg} to achieve a greater amount of Flops, they must also increase the operational intensity of their program so that A is no longer bounded by the peak memory bandwidth.
+
+In a similar way, I will use the Roofline model to assess how different implementations of my selected kernels are able to effectively and efficiently use the hardware they run on. The Roofline model should illustrate where the different implementations of the kernel's bottlenecks lie, which in turn will give me good insight into the applicabilty of Rust to HPC.

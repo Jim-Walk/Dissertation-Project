@@ -1,17 +1,18 @@
 \addvspace {10\p@ }
 \addvspace {10\p@ }
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Theoretical Roofline\relax }}{10}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {3.1}{\ignorespaces Flow diagram for implementation process\relax }}{15}
-\contentsline {figure}{\numberline {3.2}{\ignorespaces Babel Stream --- Dot product bandwidth initialisation comparison\relax }}{25}
-\contentsline {figure}{\numberline {3.3}{\ignorespaces SpMV speed up comparison\relax }}{27}
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Flow diagram for implementation process\relax }}{16}
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Babel Stream --- Dot product bandwidth initialisation comparison\relax }}{26}
+\contentsline {figure}{\numberline {3.3}{\ignorespaces SpMV speed up comparison\relax }}{28}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {4.1}{\ignorespaces Babel Stream --- Dot product bandwidth\relax }}{31}
-\contentsline {figure}{\numberline {4.2}{\ignorespaces Babel Stream --- Add bandwidth\relax }}{32}
-\contentsline {figure}{\numberline {4.3}{\ignorespaces Babel Stream --- Triad bandwidth\relax }}{33}
-\contentsline {figure}{\numberline {4.4}{\ignorespaces SpMV --- Roofline\relax }}{34}
-\contentsline {figure}{\numberline {4.5}{\ignorespaces SpMV --- Time\relax }}{35}
-\contentsline {figure}{\numberline {4.6}{\ignorespaces K Means --- Time\relax }}{36}
-\contentsline {figure}{\numberline {4.7}{\ignorespaces Questionnaire --- Score against Competency\relax }}{37}
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Babel Stream --- Dot product bandwidth\relax }}{32}
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Babel Stream --- Add bandwidth\relax }}{33}
+\contentsline {figure}{\numberline {4.3}{\ignorespaces Babel Stream --- Triad bandwidth\relax }}{34}
+\contentsline {figure}{\numberline {4.4}{\ignorespaces SpMV --- Roofline\relax }}{35}
+\contentsline {figure}{\numberline {4.5}{\ignorespaces SpMV --- Time\relax }}{36}
+\contentsline {figure}{\numberline {4.6}{\ignorespaces K Means --- Time\relax }}{37}
+\contentsline {figure}{\numberline {4.7}{\ignorespaces Questionnaire --- Score against Competency\relax }}{38}
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
