@@ -2,7 +2,7 @@
 \section{BabelStream}\label{sec:res-babel}
 Figures~\ref{fig:babel-dot},~\ref{fig:babel-add} and~\ref{fig:babel-triad} all show that Rust and C++ have similar performance but that at higher thread counts, there is a great deal of difference between the threaded performance of both implementations. In each figure, the amount of megabytes refers to how large a subsection of the total data the threads are assigned to work on. If not stated, the library's own chunking strategy was used.
 
-For example, both Rust and C++ having very similar memory bandwidths in the Dot product's serial execution, with Rust at 11.5 GB/s and C++ at 11.6 GB/s, giving a difference in bandwidth of just 1\%.
+For example, both Rust and C++ have very similar memory bandwidths in the Dot product's serial execution, with Rust at 11.5 GB/s and C++ at 11.6 GB/s, giving a difference in bandwidth of just 1\%.
 However, this difference later widens at 32 threads to 65\% with Rust at 87.3 GB/s and C++ at 135.1 GB/s.
 
 \begin{figure}[h]
@@ -14,7 +14,7 @@ However, this difference later widens at 32 threads to 65\% with Rust at 87.3 GB
 The performance difference is similar for both the add and triad benchmarks, at 66\%, implying a consistent negative performance factor for Rust and Rayon. The results for add and triad are shown in figure~\ref{fig:babel-add} and~\ref{fig:babel-triad}.
 It is interesting that the dot product is able to attain a higher level of memory bandwidth. It is most likely because the dot product is only reading from the arrays, not writing to them, which lessens the amount of cache invalidation.
 
-It is noteworthy that the rate of improvement in memory bandwidth decreases sharply between 16 and 20 threads. This decrease is probably due to each processor only having 18 cores. Requiring data to be passed across the CC-NUMA regions adds a significant communication overhead, which slows the rate of increase in memory bandwidth.
+It is noteworthy that the rate of improvement in memory bandwidth decreases sharpely between 16 and 20 threads. This decrease is probably due to each processor only having 18 cores. Requiring data to pass across the CC-NUMA regions adds a significant communication overhead, which slows the rate of increase in memory bandwidth.
 \begin{figure}[h]
 \centering
 \includegraphics[width=.9\linewidth]{figs/babel/Add.png}

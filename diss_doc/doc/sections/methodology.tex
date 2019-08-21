@@ -19,7 +19,7 @@ So that a breadth of usage scenarios were examined, three kernels were selected 
   
   \item \textbf{The program run time should reasonably decrease as the number of threads increases, at least until the number of threads reaches 32.} It is important that any kernel considered is capable of scaling to the high core counts normally seen in HPC.I will be running the kernels on Cirrus, which supports 36 real threads.
 
-  \item \textbf{The program operate on data greater than the CPU's L3 Cache} so that we can be sure that the kernel is representative of working on large data sets. Cirrus has an L3 cache of 45MiB. As each node has 256GB of RAM, a central constraint when working with large data sets is the speed with which data is loaded into the cache. 
+  \item \textbf{The program operate on data greater than the CPU's L3 Cache} so that I can be sure that the kernel is representative of working on large data sets. Cirrus has an L3 cache of 45MiB. As each node has 256GB of RAM, a central constraint when working with large data sets is the speed with which data is loaded into the cache. 
 
   \item \textbf{The program must be written in C or C++.} This restriction allows us to choose work which is more representative of HPC programs that actually run on HPC systems, rather than python programs which call out to pre-compiled libraries. Unlike Fortran, C and C++ use array indexing and layout conventions similar to Rust, which will make porting programs from them easier.
 
@@ -31,7 +31,7 @@ I used these selection criteria to compile a long list of potential kernels to p
 \subsection{BabelStream}
 
 BabelStream is a memory bench marking tool which was developed by researchers at the university of Bristol~\cite{Babel2018}. BabelStream was written to primarily target GPUs, but it is able to target CPUs too~\cite{BabelStream}.
-It is written in C++, supports OpenMP and allows one to set the problem size when executing the program, so we can be sure we exceed the size of L3 cache. My initial tests found the kernel to scale well, and although the program as a whole is quite large, when one ignores the parallel technologies excluded by my selection criteria, the amount of code which needs to be ported to Rust falls well within my bounds. I found BabelStream easy to install and run.
+It is written in C++, supports OpenMP and allows one to set the problem size when executing the program, so I can be sure the kernel's data exceeds the size of L3 cache. My initial tests found the kernel to scale well, and although the program as a whole is quite large, when one ignores the parallel technologies excluded by my selection criteria, the amount of code which needs to be ported to Rust falls well within my bounds. I found BabelStream easy to install and run.
 
 BabelStream performs simple operations on three arrays of either 32 or 64 bit floating point numbers, \texttt{a}, \texttt{b} and \texttt{c}. The values of \texttt{a} are set to 0.1, \texttt{b}'s to 0.2, and \texttt{c}'s to 0.0. Stream performs five operations \texttt{n} times on the arrays, where \texttt{n} is a specified command line argument. The operations are listed below:
 \begin{itemize}
@@ -41,23 +41,23 @@ BabelStream performs simple operations on three arrays of either 32 or 64 bit fl
   \item \textbf{Triad:} The program then multiplies the new values in \texttt{c} by the same scalar value, adds it to \texttt{b} and stores the value in \texttt{a}
   \item \textbf{Dot:} The dot product is performed on arrays \texttt{a} and \texttt{b}. This is when every nth element of \texttt{a} is multiplied by the nth element of \texttt{b}, and summed.
 \end{itemize}
-The resulting values in the arrays are then compared against separately calculated reference values, and examined to see if their average error is greater than that number types epsilon value.
+The resulting values in the arrays are then compared against separately calculated reference values, and examined to see if their average error is greater than that number type's epsilon value.
 
 BabelStream's operations are `\textit{memory bandwidth bound}'~\cite{BabelStream}, because they are so simple. Therefore, when implemented through different technologies, BabelStream provides an insight into the memory bandwidth of that technology and hardware, and gives an indication of how the design choices of that technology influences its performance.
 
 \subsection{Sparse Matrix Vector Multiplication}
 
-The Sparse Matrix Vector Multiplication (SpMV) Kernel~\cite{ParResSparse} forms part of the Parallel Research Kernels suite, developed by the Parallel Research Tools group. Sparse matrix vector multiplication (SpMV) is a common HPC operation, used to solve a broad range of scientific problems~\cite{Sedaghati:2015, spMVGPU, DBLP:journals}.
+The Sparse Matrix Vector Multiplication (SpMV) Kernel~\cite{ParResSparse} forms part of the Parallel Research Kernels suite, developed by the Parallel Research Tools group. SpMV is a common HPC operation, used to solve a broad range of scientific problems~\cite{Sedaghati:2015, spMVGPU, DBLP:journals}.
 
-The kernel is mostly one file, sparse.c, which in total is 353 lines of code. The implementation is in C and OpenMP, and my tests found it to scale to a thread count of 36. As with BabelStream, the program allows one to set problem size through command line arguments, allowing us to ensure the program operated on data greater than the CPU's L3 cache.
+The kernel is mostly one file, sparse.c, which in total is 353 lines of code. The implementation is in C and OpenMP, and my tests found it to scale to a thread count of 36. As with BabelStream, the program allows one to set problem size through command line arguments, allowing me to ensure the program operated on data greater than the CPU's L3 cache.
 
 In the selection process, I found that the program's lack of dependencies made it easy to install and run.
 
 The program represents its sparse matrix through the compressed sparse row (CSR) format \todo{diagram?}. This format uses key information about the matrix to avoid storing all of the sparse matrix's redundant zeros in the computer's memory. The information used to do this are the number of rows and columns the matrix has, and the number of non zero values which exist in the matrix. These three values are used to build three vectors, one holding all the non zero values of the matrix, another vector of the same length holding the column indexes for all of those values, in order, and lastly a smaller vector which holds the index at which a particular row starts.
 
-For example, if we wanted the element at 24,32 within the vector, we would look in the 24\textsuperscript{th} element of the row start vector, which would give us the y index of the element. If this did not match the y index we were looking for, in this case 32, we would then look at the next element until we found it. Once we have found the element, we can get the value from the value vector using the index we construct from adding the 24\textsuperscript{th} element of the row start vector, added to however many times we needed to look at the next value to before we found the appropriate y index.
+For example, if I wanted the element at 24,32 within the vector, I would look in the 24\textsuperscript{th} element of the row start vector, which would give us the y index of the element. If this did not match the y index I was looking for, in this case 32, I would then look at the next element until I found it. Once I have found the element, I can get the value from the value vector using the index constructed by adding the 24\textsuperscript{th} element of the row start vector, added to however many times I needed to look at the next value to before I found the appropriate y index.
 
-The particular implementation of SpMV which we are porting to Rust uses a user defined grid size, over which a user defined periodic stencil is applied to find the number of non zero entries. The implementation parallelises its initialisation and the actual multiplication of the values using simple \texttt{\#pragma} statements.\todo{more info}
+The particular implementation of SpMV which I am porting to Rust uses a user defined grid size, over which a user defined periodic stencil is applied to find the number of non zero entries. The implementation parallelises its initialisation and the actual multiplication of the values using simple \texttt{\#pragma} statements.\todo{more info}
 
 This kernel will hopefully provide a realistic idea of how well Rust can perform one of the most common HPC operations.
 
@@ -122,8 +122,8 @@ The questionnaire was formed of seven multiple choice questions, designed to tes
 An eighth question was also given, which asked the participant how skilled they were at various programming languages.
 To minimise the factors of impostor syndrome~\cite{langford1993} and the Dunning-Kruger effect~\cite{kruger1999} on this question, (which were hopefully minimal due to the anonymous nature of the questionnaire), each skill level was given concrete examples of what they corresponded to. For example, basic knowledge was the ability to `write loops, [and] conditionals', whilst advanced knowledge was the ability to `effectively use the more esoteric features of this language'. Self assessment will never be as good as independent assessment, but without the ability to ask for a large amount of time from my participants, it had to suffice.
 
-This last question was used to generate a competency score, with different levels of reported competency receiving a different score. Basic competency in a programming language receives a score of one, comprehensive two, and advanced three. The sum of all these scores becomes that participants competency score.
+This last question was used to generate a competency score, with different levels of reported competency receiving a different score. Basic competency in a programming language received a score of one, comprehensive two, and advanced three. The sum of all these scores became that participants competency score.
 
-The questionnaire was left out in the lunch area at 12am. Staff and academics were notified of its presence via email at 11:30am and questionnaires were collected at 5pm. I watched the first few questionnaires be completed, but did not intervene in the process. I then returned to my desk to make sure I did not effect the data collection through my presence. As all the questionnaires were anonymous, and the people answering them all had a limited amount of time and low investment in the results, people cheating on the questionnaire was not considered a risk. 
+The questionnaire was left out in the lunch area at 12am. Staff and academics were notified of its presence via email at 11:30am and questionnaires were collected at 5pm. I watched the first few questionnaires be completed, but did not intervene in the process. I then returned to my desk to make sure I did not affect the data collection through my presence. As all the questionnaires were anonymous, and the people answering them all had a limited amount of time and low investment in the results, people cheating on the questionnaire was not considered a risk. 
 
 A full copy of the questionnaire can be found in Appendix~\ref{app:quest}.
