@@ -2,7 +2,7 @@
 \section{Parallel Programming Languages for HPC}
 High Performance Computing (HPC) refers to computation performed on supercomputers. 
 Supercomputers generally have more and faster cores than personal computers. They are normally networked together with fast interconnect to allow for high data throughput, and are used for highly numerical scientific programs.
-To fully leverage the potential of these supercomputers' many computing cores, programmers use parallel computing techniques, in programming languages which, when compiled to programs, run as fast as possible on the hardware. Parallel computing within HPC usually refers to decomposing a problem into seperate tasks, and then solving those tasks at the same time, on different pieces of hardware.
+To fully leverage the potential of these supercomputers' many computing cores, programmers use parallel computing techniques, in programming languages which, when compiled to programs, run as fast as possible on the hardware. Parallel computing within HPC usually refers to decomposing a problem into seperate tasks, and then solving those tasks at the same time, on seperate pieces of hardware.
 
 The three main languages used in HPC are Fortran, C and C++. They are all well established within the field, as shown by table~\ref{tab:langs}, which shows the proportion of compute time taken up by these languages on ARCHER, (Advanced Research Computing High End Resource), one of the UK's primary academic research supercomputers.
 Whilst Fortran takes up the majority of compute time on ARCHER, this dissertation will focus on C and C++, as they are more comparable to Rust (their similarities are discussed further in the sections~\ref{sec:c} and~\ref{sec:rust}).
@@ -246,7 +246,7 @@ This metric usefully relates the amount of work done to the amount of data that 
 \begin{figure}[h]
 \centering
 \includegraphics[width=.66\linewidth]{figs/roofline.pdf}
-\caption{Theoretical Roofline}\label{fig:roof-eg}
+\caption{Theoretical Roofline model}\label{fig:roof-eg}
 \end{figure}
 
 Attainable work is measured work is measured in Flops per second, and shows the frequency that work is done at. If more work is done in less time, the Flops per second will be higher, and if less work is done in more time, the Flops per second will be lower.

@@ -1,5 +1,9 @@
 \chapter{Conclusions}
-Got some cool results. The most interesting thing is that Rust is actually a pretty decent contender. Seems like it could do it with support, but there's no accounting for industry culture. Some industries/disciplines stick with the same technques for a very long time
+Through my implementation of Rust kernels, I found that learning Rust was not profoundly difficult. Whilst I did struggle sometimes, most profoundly with parallel initilisation, it is arguable that porting C-style programs to Rust has a steeper learning curve than writing Rust implementations from scratch. The former will not be suited to the idioms of the Rust, whereas the latter will be, and will be more likely to have documented technques. However, it is  worth noting that none of these kernels had a particularly complex structure, and that I therefore have only a basic grasp of the Rust language. Learning more complicated concepts of Rust, like box pointers or unsafe Rust may present more of a challenge.
+
+Comparing the implementations of the kernels yielded interesting results. In particular, it is noteworthy Rust's performance was often so close to the C or C++ implementation, I began comparing OpenMP with Rayon, not C and C++ with Rust. This finding implies that Rust is a suitable candidate for HPC, although it might benefit from an OpenMP extension?
+
+Lastly, the data from the questionnaire proved to be inconclusive, but provides an interesting baseline
 
 \section{Further Work}\label{sec:furth}
 It would be interesting to make another comparision between C and Rust implementations of Babel Stream, but this time with the Rust version using a static schedule similar to OpenMP's. Would also be good to do the same with k means

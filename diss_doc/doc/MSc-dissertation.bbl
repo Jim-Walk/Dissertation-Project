@@ -340,11 +340,6 @@ Andy Turner.
 \newblock {\em EPCC}, 2015.
 \newblock Archer White Paper.
 
-\bibitem{SparseBug}
-Jim Walker.
-\newblock {OpenMP Sparse access outside array boundaries}.
-\newblock https://github.com/ParRes/Kernels/issues/405.
-
 \bibitem{SparseArith}
 Samuel Williams and David Patterson.
 \newblock The roofline model.

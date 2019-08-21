@@ -1,4 +1,4 @@
-\chapter{Results}
+\chapter{Results}\label{sec:res}
 \section{BabelStream}\label{sec:res-babel}
 Figures~\ref{fig:babel-dot},~\ref{fig:babel-add} and~\ref{fig:babel-triad} all show that Rust and C++ have similar performance but that at higher thread counts, there is a great deal of difference between the threaded performance of both implementations. In each figure, the amount of megabytes refers to how large a subsection of the total data the threads are assigned to work on. If not stated, the library's own chunking strategy was used.
 
@@ -65,12 +65,12 @@ The Rust implementation is even slightly faster than C implementation at twenty 
 \caption{SpMV --- Time performance. A $\log_2 \log_2$ scale has been used here to make the difference in performance clearer.}\label{fig:sparse-time}
 \end{figure}
 
-Compared to the results from BabelStream, Rust performs a lot better. This could be because the work stealing schedule for Rayon is better suited to SpMV irregular work distribution, whilst OpenMP's usage of static scheduling is sub optimal. However, it is impossible to conclusively make such a statement without further work, which is outlined in greater detail in section~\ref{sec:furth}.
+Compared to the results from BabelStream, Rust performs a lot better. This could be because the work stealing schedule for Rayon is better suited to SpMV irregular work distribution, whilst OpenMP's usage of static scheduling is sub optimal. However, it is impossible to conclusively make such a statement without further work, which is outlined in greater detail in Section~\ref{sec:furth}.
 
 
-\section{K-means clustering}
+\section{K-means clustering}\label{sec:res-kmeans}
 
-As in the SpMV results, the time taken for the K-means clustering by both implementations does not differ greatly. Figure~\ref{fig:kmeans-time} shows that on three occasions, Rust and Rayon was faster than C and OpenMP. It is noteworthy that two of these occasions occur at the boundaries of the experiment.
+As in the SpMV results, the time taken for the K-means clustering by both implementations does not differ greatly. Figure~\ref{fig:kmeans-time} shows that on three occasions, Rust and Rayon was faster than C and OpenMP\@. It is noteworthy that two of these occasions occur at the boundaries of the experiment.
 
 At one thread, Rust carries out the E-step faster than C does. This result is interesting, because it implies that if Rust could use an threading API that had the same schedule and overheads as OpenMP, then it could theoretically be faster than it. However, the difficulty of writing a threading API in Rust which is as optimised as OpenMP, a standard that's implementations have been continually optimised for more than two decades, should not be underestimated.
 
@@ -87,17 +87,15 @@ I hypothesise that this difference in performance at 36 threads occurs because a
 This results in other threads waiting for the 36$^{th}$ thread, which is sharing a core with the operating system, to finish its work.
 
 In comparison, Rayon's work stealing schedule allows threads which finish early to take work from slower threads. Therefore, instead of finished threads waiting for the slower 36$^{th}$ thread, they can take work from it, and not need to wait. To confirm this hypothesis, I would either need to implement a work stealing schedule for OpenMP, or a static schedule for Rust, and compare the results.
-\todo{Talk about crossover point at 4 and 8 threads?}
-\todo{include speedup graph?}
 
-\section{Questionnaire}
+\section{Questionnaire}\label{sec:res-q}
 Figure~\ref{fig:questions} presents the collected data from the questionnaire. Each small dot represents one answer, and a larger dot represents two. Eleven responses were collected in total. None of the participants claimed any level of knowledge of Rust.
 These results show no correlation between competency and score. This suggests that it is difficult to predict how easy a HPC programmer will understand Rust. 
 
 \begin{figure}[h]
 \centering
 \includegraphics[width=.8\linewidth]{figs/questions/scatter.png}
-\caption{Questionnaire --- Score against Competency}\label{fig:questions}
+\caption{Questionnaire --- Score against Competency. Larger dots indicate greater frequency}\label{fig:questions}
 \end{figure}
 
 However, as these such little data was collected in this circumstance, it would be unreasonable to claim that this study contains any decisive information. The study would need to be carried out a second time, with a much larger group of participants.
@@ -105,4 +103,3 @@ However, as these such little data was collected in this circumstance, it would 
 Interesting highlights from the data show that knowledge of programming languages often thought similar to Rust, like Haskell, did not necessarily predict if the participant would score highly on their Rust questions. One particular participant rated their level of competency in Haskell as basic. The participant did answer Q4 of the questionnaire correctly, which deals with optional values and pattern matching, which are common concepts within Haskell. However, the participant was only able to answer another two of the seven questions correctly, and therefore did not do any better than most of the participants. Questions that the participant answered incorrectly included when programs should not compile due ownership and mutability violations, and the result of chaining method calls.
 
 This result, and the participant who scored themselves a fourteen in competency and yet received a score of three, suggest that Rust's range of programming paradigms require learning, and cannot simply be assumed to be known from other languages.
-\todo{include data? Didn't say I would}
