@@ -48,7 +48,7 @@ if __name__ == '__main__':
         i += 1
 
 
-    markers = ["o", "v", "s", "^", "x", "1", "2", "3", "4"]
+    markers = ["+", "x", "s", "^", "x", "1", "2", "3", "4"]
     threads = [1,2] + list(range(4,37,4))
     j = 0
     fig, ax = plt.subplots()
@@ -57,23 +57,24 @@ if __name__ == '__main__':
         print('Threads, MFlops,\tOperation Intensity')
         for i in range(len(all_res_x[j])):
             print(threads[i],'\t', all_res_y[j][i], all_res_x[j][i])
-        ax.plot(all_res_x[j],all_res_y[j],label=labels[j], marker=markers[j],
-                linestyle='None')
+
+        ax.plot(all_res_x[j][0:11:2],all_res_y[j][0:11:2],label=labels[j], marker=markers[j],
+                linestyle='None') # [0:11:2] gets every other element
         j += 1
-    ax.set_xlim(0.1,2)
+    ax.set_xlim(0.1,10)
     peak_band_x, peak_band_y = abline(135106.598, 0)
     peak_band_x1, peak_band_y1 = abline(11563.658, 0)
-    ax.plot(peak_band_x, peak_band_y, label="Peak bandwidth 32 cores")
-    ax.plot(peak_band_x1, peak_band_y1, label="Peak bandwidth 1 core")
+    ax.plot(peak_band_x, peak_band_y)#, label="Peak bandwidth 32 cores")
+    ax.plot(peak_band_x1, peak_band_y1)#, label="Peak bandwidth 1 core")
     # Max flop/s is 168910 MFlop/s
-    ax.plot(ax.get_xlim(), [422400 for i in ax.get_xlim()], label="Peak MFlop/s 32 cores")
-    ax.plot(ax.get_xlim(), [13200 for i in ax.get_xlim()], label="Peak MFlop/s 1 core")
+    ax.plot(ax.get_xlim(), [422400 for i in ax.get_xlim()])#, label="Peak MFlop/s 32 cores")
+    ax.plot(ax.get_xlim(), [13200 for i in ax.get_xlim()])#, label="Peak MFlop/s 1 core")
     ax.set(xlabel='Operational Intensity (MFlops/MByte)', ylabel='Attained GFlop/s')
     ax.set_yscale('log', basey=10)
     ax.set_xscale('log', basex=10)
-    #ax.set_xticklabels([1,2,0.2,3,4,5])
+    ax.set_xticklabels([0,0.1,1,10])
     #ax.set_xticklabels([0.125,0.13,0.2,0.3,0.4,0.6,1])
     ax.set_yticklabels([int(math.pow(10, i)) for i in range(-1,18)])
-    lgd = ax.legend(bbox_to_anchor=(1.05, 0.6),loc=2, borderaxespad=0.)
+    lgd = ax.legend()#bbox_to_anchor=(1.05, 0.6),loc=2, borderaxespad=0.)
     plt.tight_layout()
-    fig.savefig('roofline2.png', dpi=200, bbox_extra_artists=(lgd,),bbox_inches='tight')
+    fig.savefig('roofline2.png', dpi=200)#, bbox_extra_artists=(lgd,),bbox_inches='tight')
