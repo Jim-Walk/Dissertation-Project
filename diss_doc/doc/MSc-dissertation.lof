@@ -2,18 +2,19 @@
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {2.1}{\ignorespaces Theoretical Roofline model\relax }}{11}
 \addvspace {10\p@ }
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Pipeline --- Speedup}}{18}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {4.1}{\ignorespaces Flow diagram for implementation process\relax }}{21}
-\contentsline {figure}{\numberline {4.2}{\ignorespaces BabelStream --- Dot product bandwidth initialisation comparison\relax }}{30}
-\contentsline {figure}{\numberline {4.3}{\ignorespaces SpMV --- Speed up}}{32}
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Flow diagram for implementation process\relax }}{22}
+\contentsline {figure}{\numberline {4.2}{\ignorespaces BabelStream --- Dot product bandwidth initialisation comparison\relax }}{31}
+\contentsline {figure}{\numberline {4.3}{\ignorespaces SpMV --- Speed up}}{33}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {5.1}{\ignorespaces BabelStream --- Dot}}{33}
-\contentsline {figure}{\numberline {5.2}{\ignorespaces BabelStream --- Add}}{34}
-\contentsline {figure}{\numberline {5.3}{\ignorespaces BabelStream --- Triad}}{35}
-\contentsline {figure}{\numberline {5.4}{\ignorespaces SpMV --- Roofline model}}{36}
-\contentsline {figure}{\numberline {5.5}{\ignorespaces SpMV --- Time}}{37}
-\contentsline {figure}{\numberline {5.6}{\ignorespaces K-means --- Time}}{38}
-\contentsline {figure}{\numberline {5.7}{\ignorespaces Questionnaire Results}}{39}
+\contentsline {figure}{\numberline {5.1}{\ignorespaces BabelStream --- Dot}}{34}
+\contentsline {figure}{\numberline {5.2}{\ignorespaces BabelStream --- Add}}{35}
+\contentsline {figure}{\numberline {5.3}{\ignorespaces BabelStream --- Triad}}{36}
+\contentsline {figure}{\numberline {5.4}{\ignorespaces SpMV --- Roofline model}}{37}
+\contentsline {figure}{\numberline {5.5}{\ignorespaces SpMV --- Time}}{38}
+\contentsline {figure}{\numberline {5.6}{\ignorespaces K-means --- Time}}{39}
+\contentsline {figure}{\numberline {5.7}{\ignorespaces Questionnaire Results}}{40}
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }

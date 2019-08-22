@@ -256,17 +256,10 @@ Josh Stone and Niko Matsakis.
 \newblock rayon.
 \newblock https://github.com/rayon-rs/rayon.
 
-\bibitem{rayonFold}
+\bibitem{rayonIter}
 Josh Stone and Niko Matsakis.
 \newblock "trait rayon::iter::paralleliterator - fold".
-\newblock
-  https://docs.rs/rayon/1.0.3/rayon/iter/trait.ParallelIterator.html\#method.fold.
-
-\bibitem{rayonMap}
-Josh Stone and Niko Matsakis.
-\newblock {Trait rayon::iter::ParallelIterator - Map}.
-\newblock
-  https://docs.rs/rayon/1.0.3/rayon/iter/trait.ParallelIterator.html\#method.map.
+\newblock https://docs.rs/rayon/1.0.3/rayon/iter/trait.ParallelIterator.html.
 
 \bibitem{DandE}
 Bajrne Stroustrup.

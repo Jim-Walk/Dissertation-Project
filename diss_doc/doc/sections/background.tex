@@ -217,7 +217,7 @@ use rayon::prelude::*;
 fn main(){
   let v = vec![2;5];
   let s = v.par_iter()
-           .fold(|| 5, |acc, x| acc * x)
+           .fold(|| 1, |acc, x| acc * 5 * x)
            .reduce(|| 1, |x, y| x * y);
   println!("{}", s);
 }
@@ -228,8 +228,8 @@ fn main(){
 \end{code}
 \end{minipage}
 
-The first argument to the parallel \texttt{fold()} is an identity closure, which generates the identity value. This is done so that the different threads can have their own copy of the identity value. The output of the fold is different too, as each thread performs a fold on its section, and therefore does not return a single value. A parallel reduction is called on the resulting collection, which delivers the product of all the values left in the collection.\todo{see rupe's note}
-In this way, the fold reduce pattern is `roughly equivalent to map reduce'~\cite{rayonFold} in effect. It is also noteworthy that \texttt{par\_iter()} uses a number of threads set by the environment variable \texttt{RAYON\_NUM\_THREADS}, which is similar to OpenMP\@.
+The first argument to the parallel \texttt{fold()} is an identity closure, which generates the identity value. This is done so that the different threads can have their own copy of the identity value. The output of the fold is different too, as each thread performs a fold on its section, and therefore does not return a single value. A parallel reduction is called on the resulting collection, which delivers the product of all the values left in the collection.
+In this way, the fold reduce pattern is `roughly equivalent to map reduce'~\cite{rayonIter} in effect. It is also noteworthy that \texttt{par\_iter()} uses a number of threads set by the environment variable \texttt{RAYON\_NUM\_THREADS}, which is similar to OpenMP\@.
 
 Iterators are safer than for loops because they prevent threads trying to access data beyond array boundaries, without a performance cost. However, they do lack flexibility compared to for loops. From within a for loop, the programmer can access the $i^{th}$ element of the collection they are iterating over, or the $i-1^{th}$ element, if they choose to through simple index arithmetic. I will investigate the costs and the benefit of this trade off in when porting programs to Rust, in section~\ref{sec:meth}.
 
