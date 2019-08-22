@@ -5,15 +5,15 @@
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {4.1}{\ignorespaces Flow diagram for implementation process\relax }}{22}
 \contentsline {figure}{\numberline {4.2}{\ignorespaces BabelStream --- Dot product bandwidth initialisation comparison\relax }}{30}
-\contentsline {figure}{\numberline {4.3}{\ignorespaces SpMV speed up comparison\relax }}{32}
+\contentsline {figure}{\numberline {4.3}{\ignorespaces SpMV --- Speed up}}{32}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {5.1}{\ignorespaces BabelStream --- Dot product bandwidth\relax }}{33}
-\contentsline {figure}{\numberline {5.2}{\ignorespaces BabelStream --- Add bandwidth\relax }}{34}
-\contentsline {figure}{\numberline {5.3}{\ignorespaces BabelStream --- Triad bandwidth\relax }}{35}
-\contentsline {figure}{\numberline {5.4}{\ignorespaces SpMV --- Roofline model shows similar performance for both implementations of the kernel\relax }}{36}
-\contentsline {figure}{\numberline {5.5}{\ignorespaces SpMV --- Time performance. A $\mathop {\mathgroup \symoperators log}\nolimits _2 \mathop {\mathgroup \symoperators log}\nolimits _2$ scale has been used here to make the difference in performance clearer.\relax }}{37}
-\contentsline {figure}{\numberline {5.6}{\ignorespaces K Means --- Time\relax }}{38}
-\contentsline {figure}{\numberline {5.7}{\ignorespaces Questionnaire --- Score against Competency. Larger dots indicate greater frequency\relax }}{39}
+\contentsline {figure}{\numberline {5.1}{\ignorespaces BabelStream --- Dot}}{33}
+\contentsline {figure}{\numberline {5.2}{\ignorespaces BabelStream --- Add}}{34}
+\contentsline {figure}{\numberline {5.3}{\ignorespaces BabelStream --- Triad}}{35}
+\contentsline {figure}{\numberline {5.4}{\ignorespaces SpMV --- Roofline model}}{36}
+\contentsline {figure}{\numberline {5.5}{\ignorespaces SpMV --- Time}}{37}
+\contentsline {figure}{\numberline {5.6}{\ignorespaces K-means --- Time}}{38}
+\contentsline {figure}{\numberline {5.7}{\ignorespaces Questionnaire Results}}{39}
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }

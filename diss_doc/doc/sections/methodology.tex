@@ -1,19 +1,19 @@
 \chapter{Methodology}\label{sec:meth}
 This dissertation will evaluate Rust through the compared performance of  kernels, using the test data to find any weaknesses in the Rust or original implementation. The experience of learning and programming in Rust will also be documented.
 
-I am going to use Kernels rather than mini-apps because mini apps often focus on a particular scientific domain, whilst performing the same sort of calculations. For example, a meterogical mini-app and a fluid dynamics mini-app might both use the jacobi method~\cite{muller2014, schippers1982}, but only differ in their input and preconditioning of data.
+I am going to use Kernels rather than mini-apps because mini apps often focus on a particular scientific domain, whilst performing the same sort of calculations. For example, a meteorological mini-app and a fluid dynamics mini-app might both use the Jacobi method~\cite{muller2014, schippers1982}, but only differ in their input and preconditioning of data.
 Through only attempting to port the core part of a program, this dissertation will be able to examine a breadth of use case scenarios, hopefully without losing any of the depth of examining mini-apps.
 
 I will also evaluate the ease with which I am able to port a kernel into Rust. These observations will provide insight into what it is like to program in Rust, and if its strict memory model and functional idioms help or hinder translation from the imperative languages which the ported programs are written in. This qualitative, partly experiential information will hopefully provide an insight into the actual practicalities of programming in Rust. For Rust to be fully accepted by the HPC community, it is necessary that the program fulfils the functional requirements of speed and scaling, alongside non functional requirements, of usability and user experience. The first factor provides a reason for using Rust programs in HPC, the second provides an impetus for learning how to write those programs.
 
-I will use reference implementations of the kernels that have already been written by other people rather than writing my own. I will do this for two reason. Firstly, a fairer comparison between Rust and C or C++ can be made if I do not write the original implementation myself, so that my lack of knowledge in one of the programs makes it perform worse. Secondly, by selecting reference implemetations that have already been written, I can save time and not write them myself, allowing me a deeper investiagation of the Rust implementations.
+I will use reference implementations of the kernels that have already been written by other people rather than writing my own. I will do this for two reason. Firstly, a fairer comparison between Rust and C or C++ can be made if I do not write the original implementation myself, so that my lack of knowledge in one of the programs makes it perform worse. Secondly, by selecting reference implementations that have already been written, I can save time and not write them myself, allowing me a deeper investigation of the Rust implementations.
 
 \section{Kernel Selection}
-So that a breadth of usage scenarios were examined, three kernels were selected based on their conformity to a pre-defined set of criteria. The criteria was proposed in during my project preparation, and has been finalised below.
+So that a breadth of usage scenarios were examined, three kernels were selected based on their conformity to a pre-defined set of criteria. The criteria were proposed during my project preparation, and have been finalised below.
 \begin{itemize}
   \item \textbf{The part of the program responsible for more than two thirds of the processing time should not be more than 1500 lines.} To ensure that I fully implemented three ports of existing kernels, it was necessary to limit the size of the kernels that could be considered. Whilst it reduced the field of possible kernels, it helpfully excluded any overly complex mini-apps.
 
-  \item \textbf{The progrma must target the CPU}Programs which target the GPU rather than the CPU will not be considered, as the current implementations for Rust to target GPUs involve calling out to existing GPU APIs. Therefore, any analysis of a Rust program targeting a GPU would largely be an analysis of the GPU API itself.
+  \item \textbf{The program must target the CPU}Programs which target the GPU rather than the CPU will not be considered, as the current implementations for Rust to target GPUs involve calling out to existing GPU APIs. Therefore, any analysis of a Rust program targeting a GPU would largely be an analysis of the GPU API itself.
 
   \item \textbf{The program must use shared memory parallelism and target the CPU.} Rust's (supposed) zero cost memory safety features are its differentiating factor. The best way to test the true cost of Rust's memory safety features would be through shared memory parallelism, where a poor implementation of memory management will make itself evident through poor performance.
   
@@ -43,15 +43,13 @@ BabelStream performs simple operations on three arrays of either 32 or 64 bit fl
 \end{itemize}
 The resulting values in the arrays are then compared against separately calculated reference values, and examined to see if their average error is greater than that number type's epsilon value.
 
-BabelStream's operations are `\textit{memory bandwidth bound}'~\cite{BabelStream}, because they are so simple. Therefore, when implemented through different technologies, BabelStream provides an insight into the memory bandwidth of that technology and hardware, and gives an indication of how the design choices of that technology influences its performance.
+BabelStream's operations are `\textit{memory bandwidth bound}'~\cite{BabelStream}, because they are computationally simple. Therefore, when implemented through different technologies, BabelStream provides an insight into the memory bandwidth of that technology and hardware, and gives an indication of how the design choices of that technology influences its performance.
 
 \subsection{Sparse Matrix Vector Multiplication}
 
 The Sparse Matrix Vector Multiplication (SpMV) Kernel~\cite{ParResSparse} forms part of the Parallel Research Kernels suite, developed by the Parallel Research Tools group. SpMV is a common HPC operation, used to solve a broad range of scientific problems~\cite{Sedaghati:2015, spMVGPU, DBLP:journals}.
 
 The kernel is mostly one file, sparse.c, which in total is 353 lines of code. The implementation is in C and OpenMP, and my tests found it to scale to a thread count of 36. As with BabelStream, the program allows one to set problem size through command line arguments, allowing me to ensure the program operated on data greater than the CPU's L3 cache.
-
-In the selection process, I found that the program's lack of dependencies made it easy to install and run.
 
 The program represents its sparse matrix through the compressed sparse row (CSR) format \todo{diagram?}. This format uses key information about the matrix to avoid storing all of the sparse matrix's redundant zeros in the computer's memory. The information used to do this are the number of rows and columns the matrix has, and the number of non zero values which exist in the matrix. These three values are used to build three vectors, one holding all the non zero values of the matrix, another vector of the same length holding the column indexes for all of those values, in order, and lastly a smaller vector which holds the index at which a particular row starts.
 
@@ -63,9 +61,9 @@ This kernel will hopefully provide a realistic idea of how well Rust can perform
 
 \subsection{K-means clustering}
 
-K-means clustering is a `process for partitioning an $N$-dimensional population into $K$ sets'~\cite{macqueen1967}, where the number of sets is less than $N$, and each set is clustered around a local mean. K-means clustering finds many uses in HPC, particularly in data analysis~\cite{DBLP:journals/corr/ChakrabortyND14a, ordovas2014fast}, and is so ubiquitous throughout HPC that implementations of it are already used to evaluate software and hardware~\cite{Yang2014}.
+K-means clustering is a `process for partitioning an $N$-dimensional population into $K$ sets'~\cite{macqueen1967}, where the number of sets is less than $N$, and each set is clustered around a local mean. K-means clustering finds many uses in HPC, particularly in data analysis~\cite{DBLP:journals/corr/ChakrabortyND14a, ordovas2014fast},\todo{more info} and is so ubiquitous throughout HPC that implementations of it are already used to evaluate software and hardware~\cite{Yang2014}.
 
-My reference implementation for this code comes from Jaiwei Zhuang's CS205 project~\cite{CS205}. It is written in C and uses OPENMP, and is less than 200 lines long. The data processed by the program can be generated by a script, allowing me to work on an arbitrary amount of data. The kernel is written so that all processing is done by the CPU\@. It is of particular interest that the kernel reads its data from a NetCDF file, which is common in HPC\@. The code is well documented and concise.
+My reference implementation for this code comes from a Havard PhD candidate's undergraduate CS205 project~\cite{CS205}. It is written in C and uses OPENMP, and is less than 200 lines long. The data processed by the program can be generated by a script, allowing me to work on an arbitrary amount of data. The kernel is written so that all processing is done by the CPU\@. It is of particular interest that the kernel reads its data from a NetCDF file, which is common in HPC\@. The code is well documented and concise.
 
 After the kernel has read in the program data, it performs the clustering process. The calculated clusters are held in the two dimensional vectors, \texttt{old\_cluster\_centres} and \texttt{new\_cluster\_centres}. The indexes at which values are stored in these cluster vectors correspond to the indexes at which the population is stored in the vector \texttt{x}.\todo{more info}
 
@@ -75,7 +73,7 @@ First the \texttt{old\_cluster\_centres} array is filled with random data, and t
   \item \textbf{Expectation:} Assign population points to their nearest cluster centre, by looping over every member of the population, and finding the minimum distance between that point all the cluster centres. This is the stage which is parallelised.
   \item \textbf{Maximisation:} Next, the cluster centres are set to the mean, which is calculated in two steps.
   \begin{itemize}
-    \item \textbf{1:} The size of the cluster is calculated by looping over every point and finding its cluster centre, and then incrimenting that cluster centres population count. The sum of the points in that cluster is also calculated and stored in the \texttt{new\_cluster\_centres} array.
+    \item \textbf{1:} The size of the cluster is calculated by looping over every point and finding its cluster centre, and then incriminating that cluster centres population count. The sum of the points in that cluster is also calculated and stored in the \texttt{new\_cluster\_centres} array.
    \item \textbf{2:} The sum of the cluster is divided by the size of it, and stored in to the \texttt{old\_cluster\_centres} for use on the next iteration of the loop.
    \end{itemize}
 \end{itemize}
@@ -90,13 +88,13 @@ My implementation will attempt to be as faithful to the original implementation 
 
 
 \section{Experimentation}
-All experiments were run on a single node of Cirrus. No other users had access to that node whilst experiments were being run. Each node on Cirrus has 36 cores, spread across two 18 core Intel Xeon E5-2695 processors. Each processor shares a 45MiB L3 cache between its 18 cores, with smaller L1 and L2 caches for each individual core.Each processor belongs to a separate NUMA region, leading to increased latency when retrieving data from the other NUMA region~\cite{CirrusHardware}.
+All experiments were run on a single node of Cirrus, an EPCC HPC Cluster. No other users had access to that node whilst experiments were being run. Each node on Cirrus has 36 cores, spread across two 18 core Intel Xeon E5-2695 processors. Each processor shares a 45MiB L3 cache between its 18 cores, with smaller L1 and L2 caches for each individual core.Each processor belongs to a separate NUMA region, leading to increased latency when retrieving data from the other NUMA region~\cite{CirrusHardware}.
 
-To reduce the impact of anomalous runs, both versions of each Kernel were run for 100 iterations, and the average speed was taken. Experiments were submitted to cirrus through the use of Portable Batch Script (PBS) files, which returned program output to timestamped files. A sample PBS submission file can be found in Appendix~\ref{app:launch}.
+Both versions of each Kernel were run for 100 iterations, and the average speed was taken. Experiments were submitted to cirrus through the use of Portable Batch Script (PBS) files, which returned program output to timestamped files. A sample PBS submission file can be found in Appendix~\ref{app:launch}.
 
-BabelStream's experiments were run on vectors of size of 1GB, leading to a total data size of 3GB\@. Each vector was filled with $1.25\times10^8$ 64-bit floating point numbers. Experiments were run multiple times with varying chunk sizes. Chunk sizes here refers to the amount of data a thread works on, in a given iteration. Varying chunk size gave greater insight into the inner workings of the Rayon library, and see the cost of context switching for threads.
+The BabelStream experiments were run on vectors of size of 1GB, leading to a total data size of 3GB\@. Each vector was filled with $1.25\times10^8$ 64-bit floating point numbers. Experiments were run multiple times with varying chunk sizes. Chunk sizes here refers to the amount of data a thread works on, in a given iteration. Varying chunk size gave greater insight into the inner workings of the Rayon library, and see the cost of context switching for threads.
 
-For the sparse matrix vector multiplication kernel, the vectors \texttt{col\_index} and \texttt{matrix} were given a size of 8.2GB, whilst the \texttt{result} and \texttt{vector} vectors had size 0.134 GB\@. The generated matrix had sparsity $3.63 \times 10^{-5}$. Such large vector sizes were used to ensure that a large amount of data passed through the system's L3 caches. Chunk size was not varied in this instance to allow for a clearer comparison between Rayon and OpenMP in the Roofline model. The command below was used to moniter the total number of FLOPs used by the different implementations of the kernel
+For the sparse matrix vector multiplication kernel, the vectors \texttt{col\_index} and \texttt{matrix} were given a size of 8.2GB, whilst the \texttt{result} and \texttt{vector} vectors had size 0.134 GB\@. The generated matrix had sparsity $3.63 \times 10^{-5}$. Such large vector sizes were used to ensure that a large amount of data passed through the system's L3 caches. Chunk size was not varied in this instance to allow for a clearer comparison between Rayon and OpenMP in the Roofline model. The command below was used to monitor the total number of FLOPs used by the different implementations of the kernel
 
 \begin{alltt}
 \footnotesize
@@ -104,16 +102,16 @@ perf stat -e r5301c7 -e r5302c7 -e r5304c7 -e r5308c7 -e r5310c7
           -e r5320c7 \$kernel 
 \end{alltt}
 
-\texttt{perf} is a program performance monitor for linux systems which works at the system's kernel level, using hardware counters to track certain events. I request statistics on events with \texttt{stat}, and then specify each event after \texttt{-e}. Each of these events are floating point operations for doubles, at various levels of vectorisation. Lasty, I launch the kernel as normal, here shown by \texttt{\$kernel}.
-I will use \texttt{perf} to monitor all of the FLOPS of the program, as nearly all of the FLOPS in the program, including initilisation, are parallelised. Some FLOPS are used for timing purposes, but there are very few of these.
+\texttt{perf} is a program performance monitor for linux systems which works at the system's kernel level, using hardware counters to track certain events. I request statistics on events with \texttt{stat}, and then specify each event after \texttt{-e}. Each of these events are floating point operations for doubles, at various levels of vectorisation. Lastly, I launch the kernel as normal, here shown by \texttt{\$kernel}.
+I used \texttt{perf} to monitor all of the FLOPS of the program, as nearly all of the FLOPS in the program, including initialisation, are parallelised. Some FLOPS are used for timing purposes, but there are very few of these.
 
 I will use the peak memory bandwidth recorded by the BabelStream kernel in my Roofline Model. For the peak Flop/s, I will use the theoretical figure calculated from the processor's specification. I am making this choice because the maximum calculated Flop/s is difficult to find due to a processor's vector units.
 
 K-means used a population of size 73MB, and 16 clusters. This meant that the parallelised E-step of the calculation operated on total of 147MB of data, most of which were 32-bit floats. The rest of the data was 64 bit integers of type \texttt{usize} which were used to refer to array indexes. This size of data set exceeded the L3 cache capacity, but was unable to be raised due to instability in the generating python script.
 
-A Roofline model of K-means clustering will not be generated, as a large portion of the kernel is not parallelised, including initilisation and both parts of the M-step. If a Roofline model were used in this case, it would not be greatly illustrative of the differences between the implementation, as much of the data's useful information around the E-step would be lost in the noise of the rest of the processing time.
+A Roofline model of K-means clustering will not be generated, as a large portion of the kernel is not parallelised, including initialisation and both parts of the M-step. If a Roofline model were used in this case, it would not be greatly illustrative of the differences between the implementation, as much of the useful information from the data about the E-step would be lost in the noise of the rest of the processing time.
 
-I used version 6.3.0 of GNU project C and C++ compiler, \texttt{gcc} and \texttt{g++} to compile the reference implementations of the kernels. Version 1.34.2 of the Rust compiler, \texttt{rustc} was used.
+I used version 6.3.0 of GNU project C and C++ compiler, \texttt{gcc} and \texttt{g++} to compile the reference implementations of the kernels. Version 1.34.2 of the Rust compiler, \texttt{rustc} was used. Although \texttt{rustc} and the C compiler \texttt{clang} have the same LLVM backend, \texttt{clang} so that the comparison would not become about how each language's compiler best uses LLVM\@.
 \section{Questionnaire}\label{sec:meth-q}
 To further assess the suitability of Rust for HPC, I presented staff and students at EPCC with a questionnaire. The aim of this questionnaire was to examine how easily people with little to no experience of Rust could understand it. The more understandable a language is, the easier it is to learn, the more likely it is to be adopted. This questionnaire would provide valuable data on the usability of Rust as a language.
 

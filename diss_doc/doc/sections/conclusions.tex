@@ -3,7 +3,9 @@ Through my implementation of Rust kernels, I found that learning Rust was not pr
 
 Comparing the performance of the kernel implementations yielded interesting results. In particular, it is noteworthy Rust's performance was often so close to the C or C++ implementation, that I began comparing OpenMP with Rayon, not C and C++ with Rust. This finding implies that Rust is a suitable candidate for HPC, although it may need better threading APIs to become a truly competitive solution.
 
-Lastly, the data from the questionnaire showed that past programming language experience does little to predict how easily someone will be able to understand Rust. As five out of eleven participants got more than half the questions right, it is also difficult to confidently state how easy Rust is to understand. 
+The data from the questionnaire showed that past programming language experience does little to predict how easily someone will be able to understand Rust. As five out of eleven participants got more than half the questions right, it is also difficult to confidently state how easy Rust is to understand. 
+
+Lastly there is one important aspect of Rust's suitability which lay outside the scope of this dissertation, but is nonetheless important. The acceptance of any new technology within a discipline also relies upon sociological aspects, such as a groups desire or ability to change. Rust could be a faster language than C and C++, which prevents memory errors and is fast to write, but if the HPC community does not want to change, it will not change.
 
 \section{Further Work}\label{sec:furth}
 Porting a large, complex mini-app to Rust would certainly provide a more detailed experience of translating C or C++ techniques to Rust. Such a process could thoroughly inspect how well sharing behaviour between objects, like with C++ inheritance through classes maps to Rust's composition through traits. Porting a complex mini-app could potentially expose the programmer to more advanced Rust concepts, and provide better insight into how an actual Rust HPC application would be structured.

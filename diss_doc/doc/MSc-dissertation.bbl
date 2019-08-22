@@ -39,7 +39,7 @@ OpenMP Architecture~Review Board.
 
 \bibitem{DBLP:journals/corr/ChakrabortyND14a}
 Sanjay Chakraborty, N.~K. Nagwani, and Lopamudra Dey.
-\newblock "weather forecasting using incremental k-means clustering".
+\newblock {Weather Forecasting using Incremental K-means Clustering}.
 \newblock {\em CoRR}, abs/1406.4756, 2014.
 
 \bibitem{DBLP:journals}
@@ -77,10 +77,15 @@ Sandia Corporation.
 
 \bibitem{Babel2018}
 Tom Deakin, James Price, Matt Martineau, and Simon McIntosh-Smith.
-\newblock Evaluating attainable memory bandwidth of parallel programming models
-  via babelstream.
+\newblock {Evaluating attainable memory bandwidth of parallel programming
+  models via BabelStream}.
 \newblock {\em International Journal of Computational Science and Engineering},
   17(3):247--262, 2018.
+
+\bibitem{GoChan}
+Caleb Doxsey.
+\newblock {An introduction to Programming in Go: Concurrecy: Channels}.
+\newblock https://www.golang-book.com/books/intro/10\#section2.
 
 \bibitem{FutureTense}
 Brendan Eich.
@@ -90,13 +95,13 @@ Brendan Eich.
 \newblock Lecture given at Mozilla all-hands.
 
 \bibitem{ffs}
-EPCCed.
-\newblock ffs.
+EPCC.
+\newblock {Forward Flux Sampling}.
 \newblock https://github.com/EPCCed/ffs.
 
 \bibitem{fftw}
-FFTW.
-\newblock F{F}{T}{W}3.
+Matteo Frigo and Steven~G. Johnson.
+\newblock {Fastest Fourier Transform in the West 3}.
 \newblock http://fftw.org/.
 
 \bibitem{gromacs}
@@ -322,6 +327,13 @@ tensorflow.
 \newblock tensorflow.
 \newblock https://github.com/tensorflow/tensorflow.
 
+\bibitem{TheMPIForum}
+CORPORATE The MPI~Forum.
+\newblock Mpi: A message passing interface.
+\newblock In {\em Proceedings of the 1993 ACM/IEEE Conference on
+  Supercomputing}, Supercomputing '93, pages 878--883, New York, NY, USA, 1993.
+  ACM.
+
 \bibitem{ParResSparse}
 Parallel~Research Tools.
 \newblock Kernels/openmp/sparse.
@@ -329,7 +341,7 @@ Parallel~Research Tools.
 
 \bibitem{LinuxKernel}
 Linus Torvalds.
-\newblock linux.
+\newblock Linux.
 \newblock https://github.com/torvalds/linux.
 
 \bibitem{Turner2015}
@@ -342,7 +354,7 @@ Andy Turner.
 
 \bibitem{SparseArith}
 Samuel Williams and David Patterson.
-\newblock The roofline model.
+\newblock {The Roofline Model}.
 \newblock https://crd.lbl.gov/assets/pubs\_presos/parlab08-roofline-talk.pdf.
 \newblock Lecture slides from Berkeley ParLab. Page 25.
 
