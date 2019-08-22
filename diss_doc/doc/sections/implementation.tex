@@ -1,20 +1,19 @@
 \chapter{Implementation}\label{sec:impl}
-Implementation of all three programs followed the same process, as outlined in Figure~\ref{fig:imp-flow}. The full process would take between three to four weeks to complete for each kernel. I first implemented BabelStream, then the sparse matrix multiplication kernel and finally the K-means kernel, in that order.
+Implementation of all three programs followed the same process, as outlined in Figure~\ref{fig:imp-flow}. The full process would take between three to four weeks to complete for each kernel. I first implemented BabelStream, then the sparse matrix vector multiplication kernel and finally the K-means kernel, in that order.
 
-\begin{figure}
+\begin{figure}[h]
   \center
-  \includegraphics[height=8cm]{figs/ImplementationFlow.png}
+  \includegraphics[width=\linewidth]{figs/ImplementationFlow.pdf}
   \caption{Flow diagram for implementation process}
   \label{fig:imp-flow}
 \end{figure}
-\todo{replace with real flow}
 
 \section{Porting to Serial Rust}
-Once a candidate kernel is selected, it is implemented in Rust in serial. Any differences between the  behaviour of the Rust and the original implementation are thought of as bugs, and are eradicated or minimised as far as is possible. For ease of development, the Rust crate Clap~\cite{RustClap} was used to read command line arguments for the program, leading to Rust implementations of kernels being called with slightly different syntax. This difference was deemed to be superficial enough to be allowable. Kernel output was as similar as possible to aid data-collection from both implementations.
+Once a candidate kernel is selected, it is implemented in Rust in serial. Any differences between the  behaviour of the Rust and the original implementation are thought of as bugs, and are eradicated or minimised as far as is possible. For ease of development, the Rust crate Clap~\cite{RustClap} was used to read command line arguments for the program, leading to Rust implementations of kernels being called with different syntax. This difference was deemed to be superficial enough to be allowable. Kernel output was as similar as possible to aid data-collection from both implementations.
 
 BabelStream was in some ways one of the hardest kernels to port to serial Rust. This was partly due to it being the first program which I attempted to port, but also because of Rust's type system and the use of generics. The original C++ implementation of the program uses templates to allow the user to choose to use 32 or 64 bit floating numbers when running the program. To achieve the same thing in Rust, generic types have to be used, which are defined through traits.
 
-I found that using generics in Rust made reading error messages difficult, but easier to parse once the offending code was removed into a smaller example, and stripped of its generic type. Generics in Rust necessitate slightly cumbersome syntax, for example, \texttt{T::from(0).unwrap()} is used to generate a zero of type T. 
+I found that using generics in Rust made reading error messages difficult, but easier to parse once the offending code was removed into a smaller example, and stripped of its generic type. Generics in Rust necessitate verbose syntax, for example, \texttt{T::from(0).unwrap()} is used to generate a zero of type T. 
 The first part of this expression generates an option type, which in this case is \texttt{Some(0.0)}, and is then unwrapped into simply \texttt{0.0}. Rust does this to allow programmers to deal with cases where a value of type T is impossible to generate from the input value, such as casting a value greater than $2^{32} - 1$ to a signed 32 bit value.
 In this circumstance, the value returned would be \texttt{None}, which the programmer would then have to deal with. As zero can always be successfully cast to a 32 or 64 bit floating point number, it is safe to simply unwrap the value here, but if it was a number that could not be cast to the type, then the program would crash at this point. A C or C++ program doing the same thing, casting a 64 bit number to a 32 bit number would not crash, but its result would be implementation specific undefined behaviour, or throw an exception. This difference shows how Rust and C or C++ prioritise, and conceive of, safety.
 

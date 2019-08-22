@@ -3,7 +3,7 @@
 \contentsline {figure}{\numberline {2.1}{\ignorespaces Theoretical Roofline model\relax }}{11}
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {4.1}{\ignorespaces Flow diagram for implementation process\relax }}{22}
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Flow diagram for implementation process\relax }}{21}
 \contentsline {figure}{\numberline {4.2}{\ignorespaces BabelStream --- Dot product bandwidth initialisation comparison\relax }}{30}
 \contentsline {figure}{\numberline {4.3}{\ignorespaces SpMV --- Speed up}}{32}
 \addvspace {10\p@ }
